@@ -49,7 +49,7 @@ export function EbookDisplayArea() {
                 >
                   <CardContent
                     className={`flex aspect-[3/4] items-center justify-center p-0 rounded-[25px] overflow-hidden ${
-                      index === current ? 'bg-[#AFAFAF]' : 'bg-secondary'
+                      index === current ? 'bg-[#AFAFAF]' : 'bg-border'
                     }`}
                   ></CardContent>
                 </Card>
