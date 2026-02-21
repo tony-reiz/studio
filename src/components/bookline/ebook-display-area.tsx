@@ -11,6 +11,7 @@ import {
 import type { CarouselApi } from '@/components/ui/carousel';
 import { Card, CardContent } from '@/components/ui/card';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export function EbookDisplayArea() {
   const [api, setApi] = React.useState<CarouselApi>();
@@ -36,7 +37,7 @@ export function EbookDisplayArea() {
           align: 'center',
           loop: true,
         }}
-        className="w-full max-w-5xl px-12"
+        className="w-full max-w-4xl px-12 relative"
       >
         <CarouselContent className="-ml-8">
           {PlaceHolderImages.map((img, index) => (
@@ -44,7 +45,7 @@ export function EbookDisplayArea() {
               <div className="p-1">
                 <Card
                   className={`border-0 shadow-none bg-transparent transition-transform duration-500 ease-in-out ${
-                    index === current ? 'transform scale-105' : 'transform scale-75 opacity-40'
+                    index === current ? 'transform scale-100' : 'transform scale-75 opacity-40'
                   }`}
                 >
                   <CardContent
@@ -57,8 +58,12 @@ export function EbookDisplayArea() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="text-foreground/50 hover:text-foreground h-14 w-14 rounded-none" />
-        <CarouselNext className="text-foreground/50 hover:text-foreground h-14 w-14 rounded-none" />
+        <CarouselPrevious className="text-foreground h-14 w-14 rounded-none absolute left-0 top-1/2 -translate-y-1/2 z-10 border-0 bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0">
+          <ChevronLeft size={32} />
+        </CarouselPrevious>
+        <CarouselNext className="text-foreground h-14 w-14 rounded-none absolute right-0 top-1/2 -translate-y-1/2 z-10 border-0 bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0">
+          <ChevronRight size={32} />
+        </CarouselNext>
       </Carousel>
     </div>
   );
