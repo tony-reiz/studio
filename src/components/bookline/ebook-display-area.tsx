@@ -41,7 +41,7 @@ export function EbookDisplayArea() {
       >
         <CarouselContent className="-ml-8">
           {PlaceHolderImages.map((img, index) => (
-            <CarouselItem key={index} className="pl-8 md:basis-1/3 lg:basis-1/4">
+            <CarouselItem key={index} className="pl-8 basis-1/3">
               <div className="p-1">
                 <Card
                   className={`border-0 shadow-none bg-transparent transition-transform duration-500 ease-in-out ${
