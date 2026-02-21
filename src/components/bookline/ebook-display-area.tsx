@@ -48,7 +48,7 @@ export function EbookDisplayArea() {
                   }`}
                 >
                   <CardContent
-                    className={`flex aspect-[3/4] items-center justify-center p-0 rounded-[25px] overflow-hidden ${
+                    className={`flex aspect-[3/4] items-center justify-center p-0 rounded-[25px] overflow-hidden bg-contain bg-no-repeat bg-center ${
                       index === current ? 'bg-[#AFAFAF]' : 'bg-[#D4D4D4]'
                     }`}
                   ></CardContent>
@@ -57,8 +57,8 @@ export function EbookDisplayArea() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="h-10 w-10 text-foreground" />
-        <CarouselNext className="h-10 w-10 text-foreground" />
+        <CarouselPrevious className="text-foreground/50 hover:text-foreground" />
+        <CarouselNext className="text-foreground/50 hover:text-foreground" />
       </Carousel>
     </div>
   );
