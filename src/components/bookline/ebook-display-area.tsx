@@ -45,7 +45,7 @@ export function EbookDisplayArea() {
               <div className="p-1">
                 <Card
                   className={`border-0 shadow-none bg-transparent transition-transform duration-500 ease-in-out ${
-                    index === current ? 'transform scale-105' : 'transform scale-90 opacity-40'
+                    index === current ? 'transform scale-105' : 'transform scale-75 opacity-40'
                   }`}
                 >
                   <CardContent className="flex aspect-[3/4] items-center justify-center p-0 rounded-[25px] overflow-hidden bg-secondary">
