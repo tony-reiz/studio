@@ -59,13 +59,13 @@ export default function HomePage() {
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="flex items-start justify-between w-full py-6">
-          <div className="flex flex-col items-start gap-2">
-            <Button variant="ghost" size="icon" aria-label="Menu">
-              <Menu className="h-10 w-10" />
+          <div className="flex flex-col items-start">
+            <Button variant="ghost" size="icon" aria-label="Menu" className="-ml-3 mb-1">
+              <Menu className="h-8 w-8" />
             </Button>
             <div>
-              <p className="text-sm text-primary/80 font-semibold tracking-widest">BIENVENUE</p>
-              <h1 className="text-4xl font-bold text-primary">PRENOM !</h1>
+              <p className="text-base font-bold tracking-widest text-foreground">BIENVENUE</p>
+              <h1 className="text-5xl font-extrabold text-primary -mt-1">PRENOM !</h1>
             </div>
           </div>
           <div className="flex items-center gap-3">
