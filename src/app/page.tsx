@@ -17,11 +17,11 @@ export default function LandingPage() {
         {/* Background cards */}
         <div className="absolute inset-0 w-full h-full overflow-hidden -z-10 flex items-center justify-center">
             <div className="relative w-full max-w-lg h-96">
-                <div className="absolute -left-20 top-10 bg-gray-100 rounded-3xl w-48 h-72 transform -rotate-12"></div>
-                <div className="absolute -right-20 top-20 bg-gray-100 rounded-3xl w-48 h-72 transform rotate-15"></div>
-                <div className="absolute left-10 -bottom-10 bg-gray-100 rounded-3xl w-56 h-80 transform rotate-6"></div>
-                <div className="absolute right-10 -bottom-5 bg-gray-100 rounded-3xl w-40 h-64 transform -rotate-12"></div>
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-100 rounded-3xl w-64 h-96"></div>
+                <div className="absolute -left-20 top-10 bg-secondary rounded-3xl w-48 h-72 transform -rotate-12"></div>
+                <div className="absolute -right-20 top-20 bg-secondary rounded-3xl w-48 h-72 transform rotate-15"></div>
+                <div className="absolute left-10 -bottom-10 bg-secondary rounded-3xl w-56 h-80 transform rotate-6"></div>
+                <div className="absolute right-10 -bottom-5 bg-secondary rounded-3xl w-40 h-64 transform -rotate-12"></div>
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-secondary rounded-3xl w-64 h-96"></div>
             </div>
         </div>
 
