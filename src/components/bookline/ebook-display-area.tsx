@@ -36,7 +36,7 @@ export function EbookDisplayArea() {
           align: 'center',
           loop: true,
         }}
-        className="w-full max-w-5xl"
+        className="w-full max-w-5xl px-12"
       >
         <CarouselContent className="-ml-8">
           {PlaceHolderImages.map((img, index) => (
@@ -57,8 +57,8 @@ export function EbookDisplayArea() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="text-foreground/50 hover:text-foreground" />
-        <CarouselNext className="text-foreground/50 hover:text-foreground" />
+        <CarouselPrevious className="text-foreground/50 hover:text-foreground h-14 w-14 rounded-none" />
+        <CarouselNext className="text-foreground/50 hover:text-foreground h-14 w-14 rounded-none" />
       </Carousel>
     </div>
   );
