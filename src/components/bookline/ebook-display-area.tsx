@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import Image from 'next/image';
 import {
   Carousel,
   CarouselContent,
@@ -48,16 +47,11 @@ export function EbookDisplayArea() {
                     index === current ? 'transform scale-105' : 'transform scale-75 opacity-40'
                   }`}
                 >
-                  <CardContent className="flex aspect-[3/4] items-center justify-center p-0 bg-secondary rounded-[25px] overflow-hidden">
-                     <Image
-                        src={img.imageUrl}
-                        alt={img.description}
-                        width={300}
-                        height={400}
-                        data-ai-hint={img.imageHint}
-                        className="w-full h-full object-cover"
-                     />
-                  </CardContent>
+                  <CardContent
+                    className={`flex aspect-[3/4] items-center justify-center p-0 rounded-[25px] overflow-hidden ${
+                      index === current ? 'bg-[#AFAFAF]' : 'bg-secondary'
+                    }`}
+                  ></CardContent>
                 </Card>
               </div>
             </CarouselItem>
