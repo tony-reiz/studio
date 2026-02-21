@@ -59,10 +59,10 @@ export function EbookDisplayArea() {
           ))}
         </CarouselContent>
         <CarouselPrevious className="text-foreground h-14 w-14 rounded-none absolute left-0 top-1/2 -translate-y-1/2 z-10 border-0 bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0">
-          <ChevronLeft size={32} />
+          <ChevronLeft size={48} />
         </CarouselPrevious>
         <CarouselNext className="text-foreground h-14 w-14 rounded-none absolute right-0 top-1/2 -translate-y-1/2 z-10 border-0 bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0">
-          <ChevronRight size={32} />
+          <ChevronRight size={48} />
         </CarouselNext>
       </Carousel>
     </div>
