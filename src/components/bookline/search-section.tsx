@@ -53,7 +53,7 @@ export function SearchSection() {
   }, [debouncedQuery, toast]);
 
   return (
-    <div className="w-full px-4 sm:px-6 py-8">
+    <div className="w-full py-8">
       <div className="text-left mb-6">
         <p className="text-muted-foreground text-lg">Bonjour Alex,</p>
         <h1 className="text-4xl font-bold font-headline text-primary">Bookline</h1>
