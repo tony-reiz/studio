@@ -9,14 +9,14 @@ export function BottomNav() {
 
   return (
     <div className="fixed bottom-2 left-0 right-0 p-4 mb-4">
-      <div className="bg-secondary p-1 rounded-full flex items-center max-w-sm mx-auto shadow-lg">
+      <div className="bg-secondary p-1 rounded-full flex items-center max-w-md mx-auto shadow-lg">
         <Link href="/" legacyBehavior passHref>
           <a
             className={cn(
               "w-full text-center rounded-full py-3 text-base font-semibold transition-all duration-300 ease-in-out",
               pathname === '/'
-                ? "bg-primary text-primary-foreground"
-                : "text-primary bg-transparent"
+                ? "bg-foreground text-background"
+                : "text-foreground bg-transparent"
             )}
           >
             Acheter
@@ -27,11 +27,23 @@ export function BottomNav() {
             className={cn(
               "w-full text-center rounded-full py-3 text-base font-semibold transition-all duration-300 ease-in-out",
               pathname === '/sell'
-                ? "bg-primary text-primary-foreground"
-                : "text-primary bg-transparent"
+                ? "bg-foreground text-background"
+                : "text-foreground bg-transparent"
             )}
           >
             Vendre
+          </a>
+        </Link>
+        <Link href="/contact" legacyBehavior passHref>
+          <a
+            className={cn(
+              "w-full text-center rounded-full py-3 text-base font-semibold transition-all duration-300 ease-in-out",
+              pathname === '/contact'
+                ? "bg-foreground text-background"
+                : "text-foreground bg-transparent"
+            )}
+          >
+            Contact
           </a>
         </Link>
       </div>
