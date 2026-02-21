@@ -30,7 +30,7 @@ export function EbookDisplayArea() {
   }, [api]);
 
   return (
-    <div className="flex-1 w-full flex flex-col justify-center items-center py-12">
+    <div className="flex-1 w-full flex flex-col justify-center items-center">
       <Carousel
         setApi={setApi}
         opts={{
@@ -50,7 +50,7 @@ export function EbookDisplayArea() {
                 >
                   <CardContent
                     className={`flex aspect-[3/4] items-center justify-center p-0 rounded-[25px] overflow-hidden bg-contain bg-no-repeat bg-center ${
-                      index === current ? 'bg-[#AFAFAF]' : 'bg-[#D4D4D4]'
+                      index === current ? 'bg-[#AFAFAF]' : 'bg-[#CACACA]'
                     }`}
                   ></CardContent>
                 </Card>
@@ -58,10 +58,10 @@ export function EbookDisplayArea() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="text-foreground h-20 w-20 rounded-none absolute left-0 top-1/2 -translate-y-1/2 z-10 border-0 bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-10 [&_svg]:w-10">
+        <CarouselPrevious className="text-foreground h-20 w-20 rounded-none absolute left-0 top-1/2 -translate-y-1/2 z-10 border-0 bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-12 [&_svg]:w-12">
           <ChevronLeft />
         </CarouselPrevious>
-        <CarouselNext className="text-foreground h-20 w-20 rounded-none absolute right-0 top-1/2 -translate-y-1/2 z-10 border-0 bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-10 [&_svg]:w-10">
+        <CarouselNext className="text-foreground h-20 w-20 rounded-none absolute right-0 top-1/2 -translate-y-1/2 z-10 border-0 bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-12 [&_svg]:w-12">
           <ChevronRight />
         </CarouselNext>
       </Carousel>
