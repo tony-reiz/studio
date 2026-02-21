@@ -10,11 +10,11 @@ export function BottomNav() {
   return (
     <div className="fixed bottom-2 left-0 right-0 p-4 mb-4">
       <div className="bg-secondary p-1 rounded-full flex items-center max-w-md mx-auto shadow-lg">
-        <Link href="/" legacyBehavior passHref>
+        <Link href="/home" legacyBehavior passHref>
           <a
             className={cn(
               "w-full text-center rounded-full py-3 text-base font-semibold transition-all duration-300 ease-in-out",
-              pathname === '/'
+              pathname === '/home'
                 ? "bg-foreground text-background"
                 : "text-foreground bg-transparent"
             )}
