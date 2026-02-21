@@ -16,8 +16,8 @@ export function BottomNav() {
           className={cn(
             "w-full rounded-full py-3 text-base font-semibold transition-all duration-300 ease-in-out",
             activeMode === 'buy'
-              ? "bg-destructive text-destructive-foreground"
-              : "text-destructive bg-transparent"
+              ? "bg-primary text-primary-foreground"
+              : "text-primary bg-transparent"
           )}
         >
           Acheter
@@ -27,8 +27,8 @@ export function BottomNav() {
           className={cn(
             "w-full rounded-full py-3 text-base font-semibold transition-all duration-300 ease-in-out",
             activeMode === 'sell'
-              ? "bg-destructive text-destructive-foreground"
-              : "text-destructive bg-transparent"
+              ? "bg-primary text-primary-foreground"
+              : "text-primary bg-transparent"
           )}
         >
           Vendre
