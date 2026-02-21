@@ -37,7 +37,7 @@ export function EbookDisplayArea() {
           align: 'center',
           loop: true,
         }}
-        className="w-full"
+        className="w-full max-w-5xl"
       >
         <CarouselContent className="-ml-8">
           {PlaceHolderImages.map((img, index) => (
