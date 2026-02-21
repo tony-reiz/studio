@@ -34,18 +34,6 @@ export function BottomNav() {
             Vendre
           </a>
         </Link>
-        <Link href="/contact" legacyBehavior passHref>
-          <a
-            className={cn(
-              "w-full text-center rounded-full py-3 text-base font-semibold transition-all duration-300 ease-in-out",
-              pathname === '/contact'
-                ? "bg-foreground text-background"
-                : "text-foreground bg-transparent"
-            )}
-          >
-            Contact
-          </a>
-        </Link>
       </div>
     </div>
   );
