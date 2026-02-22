@@ -18,12 +18,17 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   return (
     <div
       className={cn(
-        'fixed inset-0 bg-background z-50 transform transition-transform duration-500 ease-in-out',
-        isOpen ? 'translate-y-0' : 'translate-y-full'
+        'fixed inset-0 bg-background/95 backdrop-blur-sm z-50 transition-opacity duration-300 ease-in-out',
+        isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
       )}
     >
       <div className="flex flex-col h-full p-4 pt-6">
-        <div className="flex items-center gap-2 mb-6">
+        <div
+          className={cn(
+            'flex items-center gap-2 mb-6 transition-all duration-300 ease-in-out',
+            isOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'
+          )}
+        >
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <Input
