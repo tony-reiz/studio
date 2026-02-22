@@ -56,7 +56,7 @@ export function EbookDisplayArea() {
                 >
                   <CardContent
                     className={`flex aspect-[3/4] items-center justify-center p-0 rounded-[25px] overflow-hidden relative`}
-                    style={{ backgroundColor: index === current ? '#AFAFAF' : '#DFDFDF' }}
+                    style={{ backgroundColor: '#DFDFDF' }}
                   ></CardContent>
                 </Card>
               </div>

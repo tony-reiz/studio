@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
-import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 interface SearchOverlayProps {
@@ -98,14 +97,10 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
             <div className="grid grid-cols-3 gap-8">
               {PlaceHolderImages.map((image, index) => (
                 <Card key={image.id} className="bg-transparent border-0 rounded-[25px] shadow-none">
-                  <CardContent className="aspect-[3/4] p-0 flex items-start justify-end rounded-[25px] overflow-hidden relative">
-                    <Image
-                        src={image.imageUrl}
-                        alt={image.description}
-                        fill
-                        className="object-cover"
-                        data-ai-hint={image.imageHint}
-                      />
+                  <CardContent
+                    className="aspect-[3/4] p-0 flex items-start justify-end rounded-[25px] overflow-hidden relative"
+                    style={{ backgroundColor: '#DFDFDF' }}
+                  >
                     <button
                       onClick={() => toggleFavorite(index)}
                       className="absolute top-0 right-0 m-4 p-0 z-10"
