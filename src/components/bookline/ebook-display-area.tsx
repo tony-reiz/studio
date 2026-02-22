@@ -30,7 +30,7 @@ export function EbookDisplayArea() {
   }, [api]);
 
   return (
-    <div className="flex-1 w-full flex flex-col justify-center items-center pb-10">
+    <div className="flex-1 w-full flex flex-col justify-center items-center pb-28">
       <Carousel
         setApi={setApi}
         opts={{
