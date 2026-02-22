@@ -1,6 +1,5 @@
 import { SellHeader } from '@/components/bookline/sell-header';
 import { SellForm } from '@/components/bookline/sell-form';
-import { BottomNav } from '@/components/bookline/bottom-nav';
 
 export default function SellPage() {
   return (
@@ -11,7 +10,6 @@ export default function SellPage() {
           <SellForm />
         </main>
       </div>
-      <BottomNav />
     </div>
   );
 }

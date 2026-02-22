@@ -5,7 +5,6 @@ import { Menu, User, Search, LoaderCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { EbookDisplayArea } from '@/components/bookline/ebook-display-area';
-import { BottomNav } from '@/components/bookline/bottom-nav';
 import { getEbookSearchSuggestions } from '@/ai/flows/ai-powered-search-suggestions';
 import { useToast } from '@/hooks/use-toast';
 
@@ -121,7 +120,6 @@ export default function HomePage() {
           <EbookDisplayArea />
         </main>
       </div>
-      <BottomNav />
     </div>
   );
 }
