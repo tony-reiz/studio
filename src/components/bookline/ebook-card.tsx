@@ -18,7 +18,7 @@ export function EbookCard({ className, isActive }: EbookCardProps) {
       <CardContent
         className={cn(
           'aspect-[210/297] p-0 flex items-start justify-end rounded-[25px] overflow-hidden relative',
-          isActive ? 'bg-primary' : 'bg-secondary'
+          isActive ? 'bg-[#AFAFAF]' : 'bg-[#DFDFDF]'
         )}
       >
         <button
