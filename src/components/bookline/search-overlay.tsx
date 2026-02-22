@@ -14,30 +14,40 @@ interface SearchOverlayProps {
 
 export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   const [query, setQuery] = useState('');
+  const [isContentVisible, setIsContentVisible] = useState(false);
   const [shouldRenderContent, setShouldRenderContent] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let visibilityTimer: NodeJS.Timeout;
+    let renderTimer: NodeJS.Timeout;
+
     if (query.length > 0) {
       setShouldRenderContent(true);
+      visibilityTimer = setTimeout(() => setIsContentVisible(true), 20); // Small delay for rendering
     } else {
-      timer = setTimeout(() => {
-        setShouldRenderContent(false);
-      }, 300); // Match animation duration
+      setIsContentVisible(false);
+      renderTimer = setTimeout(() => setShouldRenderContent(false), 300); // Match animation duration
     }
-    return () => clearTimeout(timer);
+    
+    return () => {
+      clearTimeout(visibilityTimer);
+      clearTimeout(renderTimer);
+    };
   }, [query]);
 
   useEffect(() => {
     if (isOpen) {
-      // Small delay to allow for the animation to start
       const timer = setTimeout(() => {
         inputRef.current?.focus();
       }, 100);
       return () => clearTimeout(timer);
+    } else {
+      // Reset query which will trigger the fade out effect
+      if (query) setQuery('');
     }
-  }, [isOpen]);
+  }, [isOpen, query]);
+
 
   return (
     <div
@@ -77,7 +87,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
           <div
             className={cn(
               'max-w-4xl mx-auto w-full transition-opacity duration-300',
-              shouldRenderContent ? 'opacity-100' : 'opacity-0'
+              isContentVisible ? 'opacity-100' : 'opacity-0'
             )}
           >
              {shouldRenderContent && (
