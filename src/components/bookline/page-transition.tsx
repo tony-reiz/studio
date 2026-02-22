@@ -20,7 +20,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
 
       const timer = setTimeout(() => {
         setPages(currentPages => currentPages.filter(p => p.path === pathname));
-      }, 2000); // Must match animation duration
+      }, 300); // Must match animation duration
 
       return () => clearTimeout(timer);
     }

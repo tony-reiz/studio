@@ -100,8 +100,8 @@ export default {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'cross-fade-in': 'cross-fade-in 2s linear forwards',
-        'cross-fade-out': 'cross-fade-out 2s linear forwards',
+        'cross-fade-in': 'cross-fade-in 0.3s linear forwards',
+        'cross-fade-out': 'cross-fade-out 0.3s linear forwards',
       },
     },
   },
