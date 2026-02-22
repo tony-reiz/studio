@@ -1,6 +1,8 @@
 'use client';
 
 import * as React from 'react';
+import Autoplay from 'embla-carousel-autoplay';
+import Image from 'next/image';
 import {
   Carousel,
   CarouselContent,
@@ -17,6 +19,10 @@ export function EbookDisplayArea() {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
 
+  const plugin = React.useRef(
+    Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
+  );
+
   React.useEffect(() => {
     if (!api) {
       return;
@@ -30,9 +36,10 @@ export function EbookDisplayArea() {
   }, [api]);
 
   return (
-    <div className="flex-1 w-full flex flex-col justify-center items-center pb-28">
+    <div className="flex-1 w-full flex flex-col justify-center items-center pb-20">
       <Carousel
         setApi={setApi}
+        plugins={[plugin.current]}
         opts={{
           align: 'center',
           loop: true,
@@ -49,10 +56,18 @@ export function EbookDisplayArea() {
                   }`}
                 >
                   <CardContent
-                    className={`flex aspect-[3/4] items-center justify-center p-0 rounded-[25px] overflow-hidden bg-contain bg-no-repeat bg-center ${
-                      index === current ? 'bg-[#AFAFAF]' : 'bg-[#CACACA]'
-                    }`}
-                  ></CardContent>
+                    className={`flex aspect-[3/4] items-center justify-center p-0 rounded-[25px] overflow-hidden relative`}
+                  >
+                    <Image
+                      src={img.imageUrl}
+                      alt={img.description}
+                      fill
+                      style={{ objectFit: 'cover' }}
+                      data-ai-hint={img.imageHint}
+                      className="rounded-[25px]"
+                      priority={index < 3}
+                    />
+                  </CardContent>
                 </Card>
               </div>
             </CarouselItem>
