@@ -21,7 +21,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       // After the transition duration, remove the old page(s)
       const timer = setTimeout(() => {
         setPages(currentPages => currentPages.filter(p => p.path === pathname));
-      }, 500); // Corresponds to duration-500
+      }, 1000); // Corresponds to duration-1000
 
       return () => clearTimeout(timer);
     }
@@ -34,7 +34,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
         <div
           key={page.key}
           className={cn(
-            'col-start-1 row-start-1 transition-opacity duration-500 ease-in-out',
+            'col-start-1 row-start-1 transition-opacity duration-1000 ease-in-out',
             {
               'opacity-100': page.path === pathname,
               'opacity-0': page.path !== pathname,
