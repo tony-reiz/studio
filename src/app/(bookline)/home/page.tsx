@@ -59,7 +59,7 @@ export default function HomePage() {
       <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="flex items-start justify-between w-full py-6">
           <div className="flex flex-col items-start">
-            <Button variant="ghost" size="icon" aria-label="Menu" className="-ml-3 hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7">
+            <Button variant="ghost" size="icon" aria-label="Menu" className="-ml-[6px] hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7">
               <Menu />
             </Button>
             <div className="-mt-1">
