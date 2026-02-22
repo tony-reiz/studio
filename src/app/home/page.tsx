@@ -64,7 +64,7 @@ export default function HomePage() {
               <Menu />
             </Button>
             <div>
-              <p className="text-base font-bold tracking-widest text-foreground">BIENVENUE</p>
+              <p className="text-[20px] font-bold tracking-widest text-foreground">BIENVENUE</p>
               <h1 className="text-5xl font-extrabold text-primary -mt-1">PRENOM !</h1>
             </div>
           </div>
