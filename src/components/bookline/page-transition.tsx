@@ -6,27 +6,25 @@ import { cn } from '@/lib/utils';
 
 export function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  // Using a unique key for each page ensures React treats them as distinct elements
   const [pages, setPages] = useState([{ node: children, path: pathname, key: 0 }]);
   const keyCounter = useRef(1);
+  const currentPathRef = useRef(pathname);
 
   useEffect(() => {
-    if (pathname !== pages[pages.length - 1].path) {
-      // Add the new page to the array
+    if (currentPathRef.current !== pathname) {
+      currentPathRef.current = pathname;
       setPages(currentPages => [
         ...currentPages,
         { node: children, path: pathname, key: keyCounter.current++ },
       ]);
 
-      // After the transition duration, remove the old page(s)
       const timer = setTimeout(() => {
         setPages(currentPages => currentPages.filter(p => p.path === pathname));
-      }, 2000); // Corresponds to duration-[2000ms]
+      }, 2000); // Must match animation duration
 
       return () => clearTimeout(timer);
     }
-  }, [pathname, children, pages]);
-
+  }, [pathname, children]);
 
   return (
     <div className="relative grid">
@@ -34,10 +32,10 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
         <div
           key={page.key}
           className={cn(
-            'col-start-1 row-start-1 transition-opacity duration-[2000ms] ease-linear',
+            'col-start-1 row-start-1',
             {
-              'opacity-100': page.path === pathname,
-              'opacity-0': page.path !== pathname,
+              'animate-cross-fade-out': page.path !== pathname,
+              'animate-cross-fade-in': page.path === pathname && pages.length > 1,
             }
           )}
         >

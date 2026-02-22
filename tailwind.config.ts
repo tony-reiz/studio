@@ -88,10 +88,20 @@ export default {
             height: '0',
           },
         },
+        'cross-fade-in': {
+          from: { opacity: '0' },
+          to: { opacity: '1' },
+        },
+        'cross-fade-out': {
+          from: { opacity: '1' },
+          to: { opacity: '0' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'cross-fade-in': 'cross-fade-in 2s linear forwards',
+        'cross-fade-out': 'cross-fade-out 2s linear forwards',
       },
     },
   },
