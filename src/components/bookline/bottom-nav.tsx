@@ -13,14 +13,14 @@ export function BottomNav() {
       <div className="bg-secondary rounded-full flex relative items-center max-w-[16rem] mx-auto shadow-lg">
         <div
           className={cn(
-            'absolute top-0 h-full w-1/2 rounded-full bg-foreground transition-all duration-300 ease-in-out',
+            'absolute top-0 h-full w-1/2 rounded-full bg-foreground transition-all duration-150 ease-in-out',
             isHome ? 'left-0' : 'left-1/2'
           )}
         />
         <Link
           href="/home"
           className={cn(
-            'relative z-10 w-1/2 py-3 text-center text-base font-semibold transition-colors duration-300',
+            'relative z-10 w-1/2 py-3 text-center text-base font-semibold transition-colors duration-150',
             isHome ? 'text-background' : 'text-foreground'
           )}
         >
@@ -29,7 +29,7 @@ export function BottomNav() {
         <Link
           href="/sell"
           className={cn(
-            'relative z-10 w-1/2 py-3 text-center text-base font-semibold transition-colors duration-300',
+            'relative z-10 w-1/2 py-3 text-center text-base font-semibold transition-colors duration-150',
             !isHome ? 'text-background' : 'text-foreground'
           )}
         >
