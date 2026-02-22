@@ -7,15 +7,19 @@ import { cn } from '@/lib/utils';
 
 interface EbookCardProps {
   className?: string;
+  isActive?: boolean;
 }
 
-export function EbookCard({ className }: EbookCardProps) {
+export function EbookCard({ className, isActive }: EbookCardProps) {
   const [isFavorited, setIsFavorited] = useState(false);
 
   return (
     <Card className={cn('bg-transparent border-0 shadow-none', className)}>
       <CardContent
-        className="aspect-[210/297] p-0 flex items-start justify-end rounded-[25px] overflow-hidden relative bg-secondary"
+        className={cn(
+          'aspect-[210/297] p-0 flex items-start justify-end rounded-[25px] overflow-hidden relative',
+          isActive ? 'bg-primary' : 'bg-secondary'
+        )}
       >
         <button
           onClick={() => setIsFavorited(prev => !prev)}

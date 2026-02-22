@@ -65,6 +65,7 @@ export function EbookDisplayArea() {
             <CarouselItem key={index} className="pl-8 basis-1/3">
               <div className="p-1">
                 <EbookCard
+                  isActive={index === current}
                   className={`transition-transform duration-500 ease-in-out ${
                     index === current
                       ? 'transform scale-100'
