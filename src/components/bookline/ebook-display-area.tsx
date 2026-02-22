@@ -15,7 +15,7 @@ import { EbookCard } from './ebook-card';
 
 export function EbookDisplayArea() {
   const [api, setApi] = React.useState<CarouselApi>();
-  const [current, setCurrent] = React.useState(0);
+  const [current, setCurrent] = React.useState(2);
 
   const plugin = React.useRef(
     Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
@@ -41,6 +41,7 @@ export function EbookDisplayArea() {
         opts={{
           align: 'center',
           loop: true,
+          startIndex: 2,
         }}
         className="w-full max-w-4xl px-14 relative"
       >
