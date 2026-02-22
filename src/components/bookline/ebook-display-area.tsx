@@ -12,14 +12,24 @@ import {
 import type { CarouselApi } from '@/components/ui/carousel';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { EbookCard } from './ebook-card';
+import { cn } from '@/lib/utils';
 
 export function EbookDisplayArea() {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(2);
+  const [isVisible, setIsVisible] = React.useState(false);
 
   const plugin = React.useRef(
     Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
   );
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   React.useEffect(() => {
     if (!api) {
@@ -34,7 +44,12 @@ export function EbookDisplayArea() {
   }, [api]);
 
   return (
-    <div className="flex-1 w-full flex flex-col justify-center items-center pb-20">
+    <div
+      className={cn(
+        'flex-1 w-full flex flex-col justify-center items-center pb-20 transition-opacity duration-300',
+        isVisible ? 'opacity-100' : 'opacity-0'
+      )}
+    >
       <Carousel
         setApi={setApi}
         plugins={[plugin.current]}
@@ -51,7 +66,9 @@ export function EbookDisplayArea() {
               <div className="p-1">
                 <EbookCard
                   className={`transition-transform duration-500 ease-in-out ${
-                    index === current ? 'transform scale-100' : 'transform scale-75 opacity-40'
+                    index === current
+                      ? 'transform scale-100'
+                      : 'transform scale-75 opacity-40'
                   }`}
                 />
               </div>
