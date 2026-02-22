@@ -70,7 +70,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
 
         <div className="flex-1 overflow-y-auto">
           {shouldRender && (
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-4xl mx-auto w-full px-14">
               <div
                 className={cn(
                   'grid grid-cols-3 gap-8',
@@ -82,7 +82,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                 {Array.from({ length: 10 }).map((_, index) => (
                   <Card key={index} className="bg-secondary border-0 rounded-[25px] shadow-none">
                     <CardContent className="aspect-[3/4] p-0 flex items-start justify-end rounded-[25px] overflow-hidden">
-                      <Heart className="h-5 w-5 text-muted-foreground/50 m-2" />
+                      <Heart className="h-5 w-5 text-white fill-white m-3" />
                     </CardContent>
                   </Card>
                 ))}
