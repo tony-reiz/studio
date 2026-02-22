@@ -6,37 +6,35 @@ import { cn } from '@/lib/utils';
 
 export function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const [displayChildren, setDisplayChildren] = useState(children);
-  const [transitionStage, setTransitionStage] = useState('fadeIn');
+  const [pages, setPages] = useState([{ node: children, path: pathname }]);
   const prevPathnameRef = useRef(pathname);
 
   useEffect(() => {
-    if (prevPathnameRef.current !== pathname) {
-      setTransitionStage('fadeOut');
-    }
-  }, [pathname]);
+    if (pathname !== prevPathnameRef.current) {
+      setPages(currentPages => [...currentPages, { node: children, path: pathname }]);
 
-  useEffect(() => {
-    if (transitionStage === 'fadeOut') {
-      // Wait for fade out animation to complete
       const timer = setTimeout(() => {
-        setDisplayChildren(children);
-        prevPathnameRef.current = pathname;
-        setTransitionStage('fadeIn');
-      }, 150); // This duration should match the CSS transition duration
+        setPages(currentPages => currentPages.filter(p => p.path === pathname));
+      }, 300); // Match this with CSS transition duration
 
+      prevPathnameRef.current = pathname;
       return () => clearTimeout(timer);
     }
-  }, [transitionStage, children, pathname]);
+  }, [pathname, children]);
 
   return (
-    <div
-      className={cn(
-        'transition-opacity duration-150 ease-in-out',
-        transitionStage === 'fadeOut' ? 'opacity-0' : 'opacity-100'
-      )}
-    >
-      {displayChildren}
+    <div className="relative grid">
+      {pages.map(page => (
+        <div
+          key={page.path}
+          className={cn(
+            'col-start-1 row-start-1 transition-opacity duration-300 ease-in-out',
+            page.path === pathname ? 'opacity-100' : 'opacity-0'
+          )}
+        >
+          {page.node}
+        </div>
+      ))}
     </div>
   );
 }
