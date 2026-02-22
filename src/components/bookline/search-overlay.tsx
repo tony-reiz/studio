@@ -42,7 +42,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
 
         <div className="flex-1 overflow-y-auto">
           {query.length > 0 && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 animate-in fade-in duration-300">
               {Array.from({ length: 10 }).map((_, index) => (
                 <Card key={index} className="bg-secondary border-0 rounded-2xl shadow-none">
                   <CardContent className="aspect-[3/4] p-2 flex items-start justify-end">
