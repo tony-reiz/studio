@@ -13,8 +13,8 @@ export function SellHeader() {
             </Button>
         </div>
         <div className="text-left mt-4">
-            <p className="text-sm text-primary/80 font-semibold tracking-widest">BIENVENUE</p>
-            <h1 className="text-4xl font-bold text-primary">PRENOM !</h1>
+            <p className="text-base text-primary/80 font-semibold tracking-widest">BIENVENUE</p>
+            <h1 className="text-5xl font-bold text-primary">PRENOM !</h1>
         </div>
     </header>
   );
