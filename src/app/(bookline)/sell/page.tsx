@@ -2,8 +2,6 @@
 
 import { Menu, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { DevPageIdentifier } from '@/components/dev/DevPageIdentifier';
-
 
 export default function SellPage() {
   return (
@@ -31,7 +29,6 @@ export default function SellPage() {
           <p className="mt-2 text-lg text-muted-foreground">La section "Vendre" est en cours de construction.</p>
         </main>
       </div>
-      <DevPageIdentifier pagePath="src/app/(bookline)/sell/page.tsx" />
     </div>
   );
 }

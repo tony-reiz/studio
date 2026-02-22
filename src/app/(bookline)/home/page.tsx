@@ -5,8 +5,6 @@ import { Menu, User, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookDisplayArea } from '@/components/bookline/ebook-display-area';
 import { SearchOverlay } from '@/components/bookline/search-overlay';
-import { DevPageIdentifier } from '@/components/dev/DevPageIdentifier';
-
 
 export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -45,7 +43,6 @@ export default function HomePage() {
         </main>
       </div>
       <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
-      <DevPageIdentifier pagePath="src/app/(bookline)/home/page.tsx" />
     </div>
   );
 }

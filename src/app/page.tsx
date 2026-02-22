@@ -1,7 +1,6 @@
 import { GraduationCap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { DevPageIdentifier } from '@/components/dev/DevPageIdentifier';
 
 export default function LandingPage() {
   return (
@@ -42,7 +41,6 @@ export default function LandingPage() {
           </Button>
         </Link>
       </footer>
-      <DevPageIdentifier pagePath="src/app/page.tsx" />
     </div>
   );
 }
