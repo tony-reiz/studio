@@ -26,7 +26,9 @@ export default function SellPage() {
           </div>
         </header>
 
-        <main className="flex flex-col w-full flex-1 pb-28">
+        <main className="flex flex-col w-full flex-1 pb-28 items-center justify-center text-center">
+          <h2 className="text-3xl font-bold text-muted-foreground">Bientôt disponible</h2>
+          <p className="mt-2 text-lg text-muted-foreground">La section "Vendre" est en cours de construction.</p>
         </main>
       </div>
       <DevPageIdentifier pagePath="src/app/(bookline)/sell/page.tsx" />
