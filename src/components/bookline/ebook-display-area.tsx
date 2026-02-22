@@ -10,8 +10,8 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import type { CarouselApi } from '@/components/ui/carousel';
-import { Card, CardContent } from '@/components/ui/card';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { EbookCard } from './ebook-card';
 
 export function EbookDisplayArea() {
   const [api, setApi] = React.useState<CarouselApi>();
@@ -45,20 +45,14 @@ export function EbookDisplayArea() {
         className="w-full max-w-4xl px-14 relative"
       >
         <CarouselContent className="-ml-8">
-          {/* This is a dummy array for placeholder. We will replace it later */}
           {Array.from({ length: 5 }).map((_, index) => (
             <CarouselItem key={index} className="pl-8 basis-1/3">
               <div className="p-1">
-                <Card
-                  className={`border-0 shadow-none bg-transparent transition-transform duration-500 ease-in-out ${
+                <EbookCard
+                  className={`transition-transform duration-500 ease-in-out ${
                     index === current ? 'transform scale-100' : 'transform scale-75 opacity-40'
                   }`}
-                >
-                  <CardContent
-                    className={`flex aspect-[3/4] items-center justify-center p-0 rounded-[25px] overflow-hidden relative`}
-                    style={{ backgroundColor: '#DFDFDF' }}
-                  ></CardContent>
-                </Card>
+                />
               </div>
             </CarouselItem>
           ))}

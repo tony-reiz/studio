@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Search, Heart } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import { Card, CardContent } from '@/components/ui/card';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { EbookCard } from './ebook-card';
 
 interface SearchOverlayProps {
   isOpen: boolean;
@@ -15,21 +15,8 @@ interface SearchOverlayProps {
 
 export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   const [query, setQuery] = useState('');
-  const [favorites, setFavorites] = useState<boolean[]>([]);
   const [shouldRenderContent, setShouldRenderContent] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    setFavorites(new Array(PlaceHolderImages.length).fill(false));
-  }, []);
-
-  const toggleFavorite = (index: number) => {
-    setFavorites(prev => {
-      const newFavorites = [...prev];
-      newFavorites[index] = !newFavorites[index];
-      return newFavorites;
-    });
-  };
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -95,28 +82,8 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
             )}
           >
             <div className="grid grid-cols-3 gap-8">
-              {PlaceHolderImages.map((image, index) => (
-                <Card key={image.id} className="bg-transparent border-0 rounded-[25px] shadow-none">
-                  <CardContent
-                    className="aspect-[3/4] p-0 flex items-start justify-end rounded-[25px] overflow-hidden relative"
-                    style={{ backgroundColor: '#DFDFDF' }}
-                  >
-                    <button
-                      onClick={() => toggleFavorite(index)}
-                      className="absolute top-0 right-0 m-4 p-0 z-10"
-                      aria-label="Ajouter aux favoris"
-                    >
-                      <Heart
-                        className={cn(
-                          'h-7 w-7 transition-colors',
-                          favorites[index]
-                            ? 'text-foreground fill-foreground'
-                            : 'text-white fill-white'
-                        )}
-                      />
-                    </button>
-                  </CardContent>
-                </Card>
+              {PlaceHolderImages.map((image) => (
+                <EbookCard key={image.id} />
               ))}
             </div>
           </div>
