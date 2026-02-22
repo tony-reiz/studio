@@ -74,7 +74,7 @@ export default function SellPage() {
               )}
             >
               {previewUrl ? (
-                <iframe src={`${previewUrl}#view=Fit&toolbar=0&navpanes=0&scrollbar=0`} className="w-full h-full border-0" title="Aperçu du PDF" />
+                <object data={`${previewUrl}#view=Fit&toolbar=0&navpanes=0&scrollbar=0`} type="application/pdf" className="w-full h-full border-0 pointer-events-none" title="Aperçu du PDF" />
               ) : (
                 <Download className="h-12 w-12 text-muted-foreground" />
               )}
