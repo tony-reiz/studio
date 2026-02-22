@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import Autoplay from 'embla-carousel-autoplay';
-import Image from 'next/image';
 import {
   Carousel,
   CarouselContent,
@@ -57,16 +56,8 @@ export function EbookDisplayArea() {
                 >
                   <CardContent
                     className={`flex aspect-[3/4] items-center justify-center p-0 rounded-[25px] overflow-hidden relative`}
+                    style={{ backgroundColor: index === current ? '#AFAFAF' : '#DFDFDF' }}
                   >
-                    <Image
-                      src={img.imageUrl}
-                      alt={img.description}
-                      fill
-                      style={{ objectFit: 'cover' }}
-                      data-ai-hint={img.imageHint}
-                      className="rounded-[25px]"
-                      priority={index < 3}
-                    />
                   </CardContent>
                 </Card>
               </div>
