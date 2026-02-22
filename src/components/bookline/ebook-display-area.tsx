@@ -11,7 +11,6 @@ import {
 } from '@/components/ui/carousel';
 import type { CarouselApi } from '@/components/ui/carousel';
 import { Card, CardContent } from '@/components/ui/card';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export function EbookDisplayArea() {
@@ -43,10 +42,11 @@ export function EbookDisplayArea() {
           align: 'center',
           loop: true,
         }}
-        className="w-full max-w-4xl px-12 relative"
+        className="w-full max-w-4xl px-14 relative"
       >
         <CarouselContent className="-ml-8">
-          {PlaceHolderImages.map((img, index) => (
+          {/* This is a dummy array for placeholder. We will replace it later */}
+          {Array.from({ length: 5 }).map((_, index) => (
             <CarouselItem key={index} className="pl-8 basis-1/3">
               <div className="p-1">
                 <Card
@@ -57,8 +57,7 @@ export function EbookDisplayArea() {
                   <CardContent
                     className={`flex aspect-[3/4] items-center justify-center p-0 rounded-[25px] overflow-hidden relative`}
                     style={{ backgroundColor: index === current ? '#AFAFAF' : '#DFDFDF' }}
-                  >
-                  </CardContent>
+                  ></CardContent>
                 </Card>
               </div>
             </CarouselItem>
