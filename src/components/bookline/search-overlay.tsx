@@ -22,20 +22,24 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   }, [query]);
 
   useEffect(() => {
-    if (hasQuery) {
-      setShouldRender(true);
+    if (isOpen) {
+      if (hasQuery) {
+        setShouldRender(true);
+      } else {
+        const timer = setTimeout(() => {
+          setShouldRender(false);
+        }, 300); // Corresponds to the animation duration
+        return () => clearTimeout(timer);
+      }
     } else {
-      const timer = setTimeout(() => {
-        setShouldRender(false);
-      }, 300); // Corresponds to the animation duration
-      return () => clearTimeout(timer);
+      setShouldRender(false);
     }
-  }, [hasQuery]);
+  }, [hasQuery, isOpen]);
 
   return (
     <div
       className={cn(
-        'fixed inset-0 bg-background/95 backdrop-blur-sm z-50 transition-opacity duration-300 ease-in-out',
+        'fixed inset-0 bg-background/95 backdrop-blur-sm z-50 transition-all duration-300 ease-in-out',
         isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
       )}
     >
@@ -66,7 +70,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
           {shouldRender && (
             <div
               className={cn(
-                'grid grid-cols-2 sm:grid-cols-3 gap-4',
+                'grid grid-cols-3 gap-6',
                 hasQuery
                   ? 'animate-in fade-in duration-300'
                   : 'animate-out fade-out duration-300'
@@ -74,8 +78,8 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
             >
               {Array.from({ length: 10 }).map((_, index) => (
                 <Card key={index} className="bg-secondary border-0 rounded-[25px] shadow-none">
-                  <CardContent className="aspect-[3/4] p-2 flex items-start justify-end">
-                    <Heart className="h-5 w-5 text-muted-foreground/50" />
+                  <CardContent className="aspect-[3/4] p-0 flex items-start justify-end rounded-[25px] overflow-hidden">
+                    <Heart className="h-5 w-5 text-muted-foreground/50 m-2" />
                   </CardContent>
                 </Card>
               ))}
