@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Search, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,6 +14,23 @@ interface SearchOverlayProps {
 
 export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   const [query, setQuery] = useState('');
+  const [hasQuery, setHasQuery] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    setHasQuery(query.length > 0);
+  }, [query]);
+
+  useEffect(() => {
+    if (hasQuery) {
+      setShouldRender(true);
+    } else {
+      const timer = setTimeout(() => {
+        setShouldRender(false);
+      }, 300); // Corresponds to the animation duration
+      return () => clearTimeout(timer);
+    }
+  }, [hasQuery]);
 
   return (
     <div
@@ -46,8 +63,15 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
         </div>
 
         <div className="flex-1 overflow-y-auto">
-          {query.length > 0 && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 animate-in fade-in duration-300">
+          {shouldRender && (
+            <div
+              className={cn(
+                'grid grid-cols-2 sm:grid-cols-3 gap-4',
+                hasQuery
+                  ? 'animate-in fade-in duration-300'
+                  : 'animate-out fade-out duration-300'
+              )}
+            >
               {Array.from({ length: 10 }).map((_, index) => (
                 <Card key={index} className="bg-secondary border-0 rounded-2xl shadow-none">
                   <CardContent className="aspect-[3/4] p-2 flex items-start justify-end">
