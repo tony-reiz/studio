@@ -74,7 +74,7 @@ export default function HomePage() {
                     <Input
                         type="search"
                         placeholder="recherchez vos ebook..."
-                        className="pl-11 pr-4 h-11 w-64 text-sm bg-secondary border-0 rounded-full focus-visible:ring-primary focus-visible:ring-2"
+                        className="pl-11 pr-4 h-11 w-64 text-sm bg-secondary border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                     />
