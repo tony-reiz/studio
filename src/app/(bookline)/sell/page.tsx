@@ -1,5 +1,6 @@
 import { SellHeader } from '@/components/bookline/sell-header';
 import { SellForm } from '@/components/bookline/sell-form';
+import { DevPageIdentifier } from '@/components/dev/DevPageIdentifier';
 
 export default function SellPage() {
   return (
@@ -10,6 +11,7 @@ export default function SellPage() {
           <SellForm />
         </main>
       </div>
+      <DevPageIdentifier pagePath="src/app/(bookline)/sell/page.tsx" />
     </div>
   );
 }
