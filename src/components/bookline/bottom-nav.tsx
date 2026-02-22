@@ -13,8 +13,8 @@ export function BottomNav() {
       <div className="bg-secondary rounded-full flex relative items-center max-w-[16rem] mx-auto shadow-lg">
         <div
           className={cn(
-            'absolute top-0 left-0 h-full w-1/2 rounded-full bg-foreground transition-transform duration-300 ease-out',
-            !isHome && 'translate-x-full'
+            'absolute top-0 h-full w-1/2 rounded-full bg-foreground transition-all duration-300 ease-in-out',
+            isHome ? 'left-0' : 'left-1/2'
           )}
         />
         <Link
