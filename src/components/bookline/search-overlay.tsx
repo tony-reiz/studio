@@ -5,7 +5,6 @@ import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { EbookCard } from './ebook-card';
 
 interface SearchOverlayProps {
@@ -69,23 +68,25 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
               onChange={(e) => setQuery(e.target.value)}
             />
           </div>
-          <Button variant="ghost" onClick={onClose} className="text-sm">
+          <Button variant="ghost" onClick={onClose} className="text-sm hover:bg-transparent">
             Annuler
           </Button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-4">
+        <div className="flex-1 overflow-y-auto px-4 pb-8">
           <div
             className={cn(
               'max-w-4xl mx-auto w-full transition-opacity duration-300',
               shouldRenderContent ? 'opacity-100' : 'opacity-0'
             )}
           >
-            <div className="grid grid-cols-3 gap-8">
-              {PlaceHolderImages.map((image) => (
-                <EbookCard key={image.id} />
-              ))}
-            </div>
+             {shouldRenderContent && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                {Array.from({ length: 9 }).map((_, index) => (
+                  <EbookCard key={index} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
