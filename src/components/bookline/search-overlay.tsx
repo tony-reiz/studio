@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { Search, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,6 +13,8 @@ interface SearchOverlayProps {
 }
 
 export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
+  const [query, setQuery] = useState('');
+
   return (
     <div
       className={cn(
@@ -28,6 +31,8 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
               placeholder="recherchez vos ebook..."
               className="pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0"
               autoFocus
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
             />
           </div>
           <Button variant="ghost" onClick={onClose} className="text-sm">
@@ -36,15 +41,17 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
         </div>
 
         <div className="flex-1 overflow-y-auto">
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            {Array.from({ length: 10 }).map((_, index) => (
-              <Card key={index} className="bg-secondary border-0 rounded-2xl shadow-none">
-                <CardContent className="aspect-[3/4] p-2 flex items-start justify-end">
-                  <Heart className="h-5 w-5 text-muted-foreground/50" />
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          {query.length > 0 && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              {Array.from({ length: 10 }).map((_, index) => (
+                <Card key={index} className="bg-secondary border-0 rounded-2xl shadow-none">
+                  <CardContent className="aspect-[3/4] p-2 flex items-start justify-end">
+                    <Heart className="h-5 w-5 text-muted-foreground/50" />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
