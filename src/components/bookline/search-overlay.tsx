@@ -22,18 +22,20 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   }, [query]);
 
   useEffect(() => {
+    let timer: NodeJS.Timeout;
     if (isOpen) {
       if (hasQuery) {
         setShouldRender(true);
       } else {
-        const timer = setTimeout(() => {
+        // Delay hiding to allow for fade-out animation
+        timer = setTimeout(() => {
           setShouldRender(false);
-        }, 300); // Corresponds to the animation duration
-        return () => clearTimeout(timer);
+        }, 300); // This should match your animation duration
       }
     } else {
       setShouldRender(false);
     }
+    return () => clearTimeout(timer);
   }, [hasQuery, isOpen]);
 
   return (
@@ -46,7 +48,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
       <div className="flex flex-col h-full p-4 pt-6">
         <div
           className={cn(
-            'flex items-center gap-2 mb-6 transition-all duration-300 ease-in-out',
+            'flex items-center gap-2 mb-6 transition-all duration-300 ease-in-out max-w-4xl mx-auto w-full',
             isOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'
           )}
         >
@@ -68,21 +70,23 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
 
         <div className="flex-1 overflow-y-auto">
           {shouldRender && (
-            <div
-              className={cn(
-                'grid grid-cols-3 gap-6',
-                hasQuery
-                  ? 'animate-in fade-in duration-300'
-                  : 'animate-out fade-out duration-300'
-              )}
-            >
-              {Array.from({ length: 10 }).map((_, index) => (
-                <Card key={index} className="bg-secondary border-0 rounded-[25px] shadow-none">
-                  <CardContent className="aspect-[3/4] p-0 flex items-start justify-end rounded-[25px] overflow-hidden">
-                    <Heart className="h-5 w-5 text-muted-foreground/50 m-2" />
-                  </CardContent>
-                </Card>
-              ))}
+            <div className="max-w-4xl mx-auto">
+              <div
+                className={cn(
+                  'grid grid-cols-3 gap-8',
+                  hasQuery
+                    ? 'animate-in fade-in duration-300'
+                    : 'animate-out fade-out duration-300'
+                )}
+              >
+                {Array.from({ length: 10 }).map((_, index) => (
+                  <Card key={index} className="bg-secondary border-0 rounded-[25px] shadow-none">
+                    <CardContent className="aspect-[3/4] p-0 flex items-start justify-end rounded-[25px] overflow-hidden">
+                      <Heart className="h-5 w-5 text-muted-foreground/50 m-2" />
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             </div>
           )}
         </div>
