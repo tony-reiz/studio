@@ -15,8 +15,7 @@ export function EbookCard({ className }: EbookCardProps) {
   return (
     <Card className={cn('bg-transparent border-0 shadow-none', className)}>
       <CardContent
-        className="aspect-[3/4] p-0 flex items-start justify-end rounded-[25px] overflow-hidden relative"
-        style={{ backgroundColor: '#DFDFDF' }}
+        className="aspect-[210/297] p-0 flex items-start justify-end rounded-[25px] overflow-hidden relative bg-secondary"
       >
         <button
           onClick={() => setIsFavorited(prev => !prev)}
