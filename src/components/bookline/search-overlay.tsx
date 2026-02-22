@@ -16,6 +16,13 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   const [query, setQuery] = useState('');
   const [hasQuery, setHasQuery] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
+  const [favorites, setFavorites] = useState(Array(10).fill(false));
+
+  const toggleFavorite = (index: number) => {
+    const newFavorites = [...favorites];
+    newFavorites[index] = !newFavorites[index];
+    setFavorites(newFavorites);
+  };
 
   useEffect(() => {
     setHasQuery(query.length > 0);
@@ -45,10 +52,10 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
         isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
       )}
     >
-      <div className="flex flex-col h-full p-4 pt-6">
+      <div className="flex flex-col h-full">
         <div
           className={cn(
-            'flex items-center gap-2 mb-6 transition-all duration-300 ease-in-out max-w-4xl mx-auto w-full',
+            'flex items-center gap-2 p-4 pt-6 mb-6 transition-all duration-300 ease-in-out max-w-4xl mx-auto w-full',
             isOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'
           )}
         >
@@ -68,18 +75,31 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
           </Button>
         </div>
 
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto px-4">
           <div
             className={cn(
-              'max-w-4xl mx-auto w-full',
-              shouldRender ? 'animate-in fade-in duration-300' : 'animate-out fade-out duration-300 fill-mode-forwards'
+              'max-w-4xl mx-auto w-full transition-opacity duration-300',
+              shouldRender ? 'opacity-100' : 'opacity-0'
             )}
           >
             <div className="grid grid-cols-3 gap-8">
               {Array.from({ length: 10 }).map((_, index) => (
                 <Card key={index} className="bg-secondary border-0 rounded-[25px] shadow-none">
-                  <CardContent className="aspect-[3/4] p-0 flex items-start justify-end rounded-[25px] overflow-hidden">
-                    <Heart className="h-6 w-6 text-white fill-white m-4" />
+                  <CardContent className="aspect-[3/4] p-0 flex items-start justify-end rounded-[25px] overflow-hidden relative">
+                    <button
+                      onClick={() => toggleFavorite(index)}
+                      className="absolute top-0 right-0 m-2 p-2 z-10"
+                      aria-label="Ajouter aux favoris"
+                    >
+                      <Heart
+                        className={cn(
+                          'h-6 w-6 transition-colors',
+                          favorites[index]
+                            ? 'text-foreground fill-foreground'
+                            : 'text-white fill-white'
+                        )}
+                      />
+                    </button>
                   </CardContent>
                 </Card>
               ))}
