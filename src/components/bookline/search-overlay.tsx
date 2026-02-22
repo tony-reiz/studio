@@ -73,7 +73,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
               )}
             >
               {Array.from({ length: 10 }).map((_, index) => (
-                <Card key={index} className="bg-secondary border-0 rounded-2xl shadow-none">
+                <Card key={index} className="bg-secondary border-0 rounded-[25px] shadow-none">
                   <CardContent className="aspect-[3/4] p-2 flex items-start justify-end">
                     <Heart className="h-5 w-5 text-muted-foreground/50" />
                   </CardContent>
