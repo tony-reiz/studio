@@ -60,8 +60,8 @@ export default function HomePage() {
       <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="flex items-start justify-between w-full py-6">
           <div className="flex flex-col items-start">
-            <Button variant="ghost" size="icon" aria-label="Menu" className="-ml-3 mb-1">
-              <Menu className="h-9 w-9" />
+            <Button variant="ghost" size="icon" aria-label="Menu" className="-ml-3 mb-1 hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-9 [&_svg]:w-9">
+              <Menu />
             </Button>
             <div>
               <p className="text-base font-bold tracking-widest text-foreground">BIENVENUE</p>
