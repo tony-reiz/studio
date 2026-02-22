@@ -64,7 +64,7 @@ export default function SellPage() {
             className="hidden"
           />
           <div
-            className="w-64 cursor-pointer group"
+            className="w-72 cursor-pointer group"
             onClick={handleUploadClick}
           >
             <div
