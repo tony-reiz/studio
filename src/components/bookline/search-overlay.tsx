@@ -69,26 +69,22 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
         </div>
 
         <div className="flex-1 overflow-y-auto">
-          {shouldRender && (
-            <div className="max-w-4xl mx-auto w-full">
-              <div
-                className={cn(
-                  'grid grid-cols-3 gap-8',
-                  hasQuery
-                    ? 'animate-in fade-in duration-300'
-                    : 'animate-out fade-out duration-300'
-                )}
-              >
-                {Array.from({ length: 10 }).map((_, index) => (
-                  <Card key={index} className="bg-secondary border-0 rounded-[25px] shadow-none">
-                    <CardContent className="aspect-[3/4] p-0 flex items-start justify-end rounded-[25px] overflow-hidden">
-                      <Heart className="h-5 w-5 text-white fill-white m-4" />
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+          <div
+            className={cn(
+              'max-w-4xl mx-auto w-full',
+              shouldRender ? 'animate-in fade-in duration-300' : 'animate-out fade-out duration-300 fill-mode-forwards'
+            )}
+          >
+            <div className="grid grid-cols-3 gap-8">
+              {Array.from({ length: 10 }).map((_, index) => (
+                <Card key={index} className="bg-secondary border-0 rounded-[25px] shadow-none">
+                  <CardContent className="aspect-[3/4] p-0 flex items-start justify-end rounded-[25px] overflow-hidden">
+                    <Heart className="h-6 w-6 text-white fill-white m-4" />
+                  </CardContent>
+                </Card>
+              ))}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>
