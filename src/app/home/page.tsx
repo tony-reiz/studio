@@ -61,7 +61,7 @@ export default function HomePage() {
         <header className="flex items-start justify-between w-full py-6">
           <div className="flex flex-col items-start">
             <Button variant="ghost" size="icon" aria-label="Menu" className="-ml-3 mb-1">
-              <Menu className="h-8 w-8" />
+              <Menu className="h-9 w-9" />
             </Button>
             <div>
               <p className="text-base font-bold tracking-widest text-foreground">BIENVENUE</p>
@@ -117,7 +117,7 @@ export default function HomePage() {
           </div>
         </header>
 
-        <main className="flex flex-col w-full flex-1 pb-28">
+        <main className="flex flex-col w-full flex-1 pb-40">
           <EbookDisplayArea />
         </main>
       </div>
