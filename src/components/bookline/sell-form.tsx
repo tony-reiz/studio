@@ -6,17 +6,22 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { ImageIcon, Download } from 'lucide-react';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
 const sellFormSchema = z.object({
-  title: z.string().min(3, { message: "Le titre doit contenir au moins 3 caractères." }),
-  description: z.string().min(10, { message: "La description doit contenir au moins 10 caractères." }),
-  price: z.coerce.number().min(0, { message: "Le prix ne peut pas être négatif." }),
+  title: z.string().min(1, { message: "Le titre est requis." }),
+  description: z.string().min(1, { message: "La description est requise." }),
+  keywords: z.string().min(1, { message: "Les mots-clés sont requis." }),
+  price: z.coerce.number().min(0, { message: "Le prix doit être positif." }),
 });
 
-export function SellForm() {
+interface SellFormProps {
+  pdfFile: File | null;
+}
+
+export function SellForm({ pdfFile }: SellFormProps) {
     const { toast } = useToast();
 
     const form = useForm<z.infer<typeof sellFormSchema>>({
@@ -24,37 +29,45 @@ export function SellForm() {
         defaultValues: {
             title: '',
             description: '',
-            price: 0,
+            keywords: '',
+            price: undefined,
         },
     });
 
     function onSubmit(values: z.infer<typeof sellFormSchema>) {
-        console.log(values);
+        if (!pdfFile) {
+            toast({
+                variant: "destructive",
+                title: "Fichier PDF manquant",
+                description: "Veuillez ajouter le fichier de votre ebook.",
+            });
+            return;
+        }
+        console.log({ ...values, pdfFileName: pdfFile.name });
         toast({
             title: "Ebook soumis !",
             description: "Votre ebook est en cours de validation.",
         });
     }
 
+    const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0";
+
   return (
     <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col items-center gap-6 mt-2 pb-8">
-            <div className="w-full max-w-xs aspect-[3/4] bg-secondary rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:bg-secondary/80 transition-colors p-4">
-                <ImageIcon className="h-10 w-10 text-primary/50" />
-                <p className="text-muted-foreground text-sm mt-2 text-center">Appuyez pour ajouter la couverture de votre ebook</p>
-            </div>
-            
-            <div className="w-full max-w-xs space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-md flex flex-col items-center gap-4">
+            <div className="w-full space-y-4">
                 <FormField
                     control={form.control}
                     name="title"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Titre de l'ebook</FormLabel>
-                        <FormControl>
-                            <Input placeholder="ex: Le guide de la méditation" {...field} className="h-12"/>
-                        </FormControl>
-                        <FormMessage />
+                        <div className="relative w-full">
+                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">T</span>
+                            <FormControl>
+                                <Input placeholder="titre de l'ebook..." {...field} className={inputClasses}/>
+                            </FormControl>
+                        </div>
+                        <FormMessage className="pl-4" />
                         </FormItem>
                     )}
                 />
@@ -64,11 +77,29 @@ export function SellForm() {
                     name="description"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Description</FormLabel>
-                        <FormControl>
-                            <Textarea placeholder="Décrivez votre ebook en quelques mots..." {...field} />
-                        </FormControl>
-                        <FormMessage />
+                        <div className="relative w-full">
+                             <span className="absolute left-4 top-5 -translate-y-1/2 text-sm font-bold text-muted-foreground">D</span>
+                            <FormControl>
+                                <Textarea placeholder="description de l'ebook..." {...field} className={cn(inputClasses, "h-28 rounded-[2rem] py-3.5 leading-snug")} />
+                            </FormControl>
+                        </div>
+                        <FormMessage className="pl-4" />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="keywords"
+                    render={({ field }) => (
+                        <FormItem>
+                         <div className="relative w-full">
+                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">M</span>
+                            <FormControl>
+                                <Input placeholder="mots clés..." {...field} className={inputClasses}/>
+                            </FormControl>
+                        </div>
+                        <FormMessage className="pl-4" />
                         </FormItem>
                     )}
                 />
@@ -78,26 +109,35 @@ export function SellForm() {
                     name="price"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Prix de vente (en €)</FormLabel>
-                        <FormControl>
-                            <Input type="number" placeholder="10" {...field} className="h-12"/>
-                        </FormControl>
-                        <FormMessage />
+                        <div className="relative w-full">
+                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">€</span>
+                            <FormControl>
+                                <Input type="number" placeholder="prix..." {...field} className={inputClasses}/>
+                            </FormControl>
+                        </div>
+                        <FormMessage className="pl-4" />
                         </FormItem>
                     )}
                 />
             </div>
 
-            <div className="w-full max-w-xs h-32 bg-secondary rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:bg-secondary/80 transition-colors p-4 mt-2">
-                <Download className="h-8 w-8 text-primary/50" />
-                <p className="text-muted-foreground text-sm mt-2 text-center">Appuyez pour ajouter le fichier de votre ebook</p>
+            <div className="w-full bg-secondary rounded-full flex items-center justify-between p-2 pr-4 my-4">
+                <div className='pl-4 text-sm text-muted-foreground space-y-1'>
+                    <p>prix de l'ebook</p>
+                    <p>votre gain net</p>
+                    <p>total de l'ebook</p>
+                </div>
+                <div className='bg-foreground text-background rounded-full px-6 py-3 space-y-1 text-sm text-right'>
+                    <p>-- €</p>
+                    <p>-- €</p>
+                    <p>-- €</p>
+                </div>
             </div>
 
-            <div className="w-full max-w-xs mt-4">
-                <Button type="submit" className="w-full h-14 text-lg font-semibold rounded-full" size="lg">
-                    Mettre en vente
-                </Button>
-            </div>
+
+            <Button type="submit" className="w-full max-w-xs h-14 text-lg font-semibold rounded-full bg-foreground text-background hover:bg-foreground/90">
+                publier
+            </Button>
         </form>
     </Form>
   );
