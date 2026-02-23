@@ -34,12 +34,19 @@ export function SellForm({ pdfFile }: SellFormProps) {
         },
     });
 
-    const price = form.watch('price');
+    const watchedPrice = form.watch('price');
+    
+    let priceAsNumber: number = NaN;
+    if (typeof watchedPrice === 'string' && watchedPrice.trim() !== '') {
+        priceAsNumber = parseFloat(watchedPrice);
+    } else if (typeof watchedPrice === 'number') {
+        priceAsNumber = watchedPrice;
+    }
 
     const SELLER_FEE = 3;
     const CUSTOMER_FEE = 3.5;
 
-    const ebookPrice = typeof price === 'number' && !isNaN(price) && price >= 0 ? price : null;
+    const ebookPrice = !isNaN(priceAsNumber) && priceAsNumber >= 0 ? priceAsNumber : null;
     const netGain = ebookPrice !== null ? ebookPrice - SELLER_FEE : null;
     const totalPriceForCustomer = ebookPrice !== null ? ebookPrice + CUSTOMER_FEE : null;
 
@@ -134,7 +141,7 @@ export function SellForm({ pdfFile }: SellFormProps) {
                         <div className="relative w-full">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">€</span>
                             <FormControl>
-                                <Input type="number" placeholder="prix..." {...field} className={inputClasses}/>
+                                <Input type="text" inputMode="decimal" placeholder="prix..." {...field} className={inputClasses}/>
                             </FormControl>
                         </div>
                         <FormMessage className="pl-4" />
