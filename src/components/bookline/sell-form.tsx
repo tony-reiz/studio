@@ -14,7 +14,7 @@ const sellFormSchema = z.object({
   title: z.string().min(1, { message: "Le titre est requis." }),
   description: z.string().min(1, { message: "La description est requise." }),
   keywords: z.string().min(1, { message: "Les mots-clés sont requis." }),
-  price: z.coerce.number().min(0, { message: "Le prix doit être positif." }),
+  price: z.coerce.number().min(10, { message: "Le prix doit être de 10€ minimum." }),
 });
 
 interface SellFormProps {
