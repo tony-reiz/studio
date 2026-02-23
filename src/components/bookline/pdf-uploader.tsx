@@ -45,7 +45,7 @@ export function PdfUploader({ pdfFile, onFileChange, className }: PdfUploaderPro
 
   return (
     <div
-      className={cn("w-full max-w-sm mx-auto cursor-pointer group", className)}
+      className={cn("w-full max-w-xs mx-auto cursor-pointer group", className)}
       onClick={handleUploadClick}
     >
        <input
@@ -57,7 +57,7 @@ export function PdfUploader({ pdfFile, onFileChange, className }: PdfUploaderPro
       />
       <div
         className={cn(
-          'aspect-[210/297] p-0 flex items-center justify-center rounded-[25px] overflow-hidden relative bg-[#DFDFDF] transition-colors',
+          'aspect-[210/297] p-0 flex items-center justify-center rounded-[25px] overflow-hidden relative bg-[#DFDFDF] transition-colors shadow-lg',
           {'group-hover:bg-[#d0d0d0]': !pdfFile}
         )}
       >
