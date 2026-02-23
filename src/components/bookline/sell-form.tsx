@@ -80,7 +80,7 @@ export function SellForm({ pdfFile }: SellFormProps) {
                         <div className="relative w-full">
                              <span className="absolute left-4 top-5 -translate-y-1/2 text-sm font-bold text-muted-foreground">D</span>
                             <FormControl>
-                                <Textarea placeholder="description de l'ebook..." {...field} className={cn(inputClasses, "h-28 py-3.5 leading-snug")} />
+                                <Textarea placeholder="description de l'ebook..." {...field} className={cn(inputClasses, "h-28 rounded-[30px] py-3.5 leading-snug")} />
                             </FormControl>
                         </div>
                         <FormMessage className="pl-4" />
