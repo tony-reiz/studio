@@ -1,48 +1,22 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Button } from '@/components/ui/button';
+import { useFormContext } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { useToast } from '@/hooks/use-toast';
+import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { cn } from '@/lib/utils';
 
-const sellFormSchema = z.object({
-  title: z.string().min(1, { message: "Le titre est requis." }),
-  description: z.string().min(1, { message: "La description est requise." }),
-  keywords: z.string().min(1, { message: "Les mots-clés sont requis." }),
-  price: z.string().min(1, { message: "Le prix est requis." })
-    .refine((val) => !isNaN(parseFloat(val.replace(',', '.'))), { message: 'Le prix doit être un nombre.'})
-    .refine((val) => parseFloat(val.replace(',', '.')) >= 10, { message: 'Le prix doit être de 10€ minimum.'}),
-});
+export function SellForm() {
+    const { control, watch } = useFormContext();
 
-interface SellFormProps {
-  pdfFile: File | null;
-}
-
-export function SellForm({ pdfFile }: SellFormProps) {
-    const { toast } = useToast();
-
-    const form = useForm<z.infer<typeof sellFormSchema>>({
-        resolver: zodResolver(sellFormSchema),
-        mode: 'onChange',
-        defaultValues: {
-            title: '',
-            description: '',
-            keywords: '',
-            price: '',
-        },
-    });
-
-    const watchedPrice = form.watch('price');
+    const watchedPrice = watch('price');
     
     let priceAsNumber: number = NaN;
-    if (watchedPrice.trim() !== '' && !isNaN(parseFloat(watchedPrice.replace(',', '.')))) {
+    if (watchedPrice && typeof watchedPrice === 'string' && watchedPrice.trim() !== '') {
         const cleanedPrice = watchedPrice.replace(',', '.');
-        priceAsNumber = parseFloat(cleanedPrice);
+        if (!/[a-zA-Z]/.test(cleanedPrice) && !isNaN(parseFloat(cleanedPrice))) {
+            priceAsNumber = parseFloat(cleanedPrice);
+        }
     }
 
     const SELLER_FEE = 3;
@@ -65,123 +39,88 @@ export function SellForm({ pdfFile }: SellFormProps) {
         return `${formatted} €`;
     };
 
-    function onSubmit(values: z.infer<typeof sellFormSchema>) {
-        if (!pdfFile) {
-            toast({
-                variant: "destructive",
-                title: "Fichier PDF manquant",
-                description: "Veuillez ajouter le fichier de votre ebook.",
-            });
-            return;
-        }
-        console.log({ ...values, pdfFileName: pdfFile.name });
-        toast({
-            title: "Ebook soumis !",
-            description: "Votre ebook est en cours de validation.",
-        });
-    }
-
     const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0";
 
-    const isButtonDisabled = !form.formState.isValid || !pdfFile;
-
   return (
-    <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-md flex flex-col items-center gap-4">
-            <div className="w-full space-y-4">
-                <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                        <FormItem>
-                        <div className="relative w-full">
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">T</span>
-                            <FormControl>
-                                <Input placeholder="titre de l'ebook..." {...field} className={inputClasses}/>
-                            </FormControl>
-                        </div>
-                        <FormMessage className="pl-4" />
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                        <FormItem>
-                        <div className="relative w-full">
-                             <span className="absolute left-4 top-[25px] -translate-y-1/2 text-sm font-bold text-muted-foreground">D</span>
-                            <FormControl>
-                                <Textarea placeholder="description de l'ebook..." {...field} className={cn(inputClasses, "h-28 rounded-[30px] py-3.5 leading-snug")} />
-                            </FormControl>
-                        </div>
-                        <FormMessage className="pl-4" />
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="keywords"
-                    render={({ field }) => (
-                        <FormItem>
-                         <div className="relative w-full">
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">M</span>
-                            <FormControl>
-                                <Input placeholder="mots clés..." {...field} className={inputClasses}/>
-                            </FormControl>
-                        </div>
-                        <FormMessage className="pl-4" />
-                        </FormItem>
-                    )}
-                />
-
-                 <FormField
-                    control={form.control}
-                    name="price"
-                    render={({ field }) => (
-                        <FormItem>
-                        <div className="relative w-full">
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">€</span>
-                            <FormControl>
-                                <Input type="text" inputMode="decimal" placeholder="prix..." {...field} className={inputClasses}/>
-                            </FormControl>
-                        </div>
-                        <FormMessage className="pl-4" />
-                        </FormItem>
-                    )}
-                />
-            </div>
-
-            <div className="w-full bg-secondary rounded-[30px] flex items-stretch my-4 overflow-hidden">
-                <div className='pl-6 py-4 text-sm text-muted-foreground space-y-1 flex flex-col justify-center flex-grow'>
-                    <p>prix de l'ebook</p>
-                    <p>votre gain net</p>
-                    <p>total de l'ebook</p>
-                </div>
-                <div className='flex-shrink-0 bg-foreground text-background rounded-l-[30px] px-16 py-4 space-y-1 text-sm flex flex-col justify-center items-end'>
-                    <p className="text-right">{formatPrice(ebookPrice)}</p>
-                    <p className="text-right">{formatPrice(netGain)}</p>
-                    <p className="text-right">{formatPrice(totalPriceForCustomer)}</p>
-                </div>
-            </div>
-
-
-            <Button 
-                type="submit"
-                disabled={isButtonDisabled}
-                className={cn(
-                    "w-full max-w-xs h-14 text-lg font-semibold rounded-full",
-                    "transition-colors duration-300",
-                    isButtonDisabled
-                        ? "bg-[#DFDFDF] text-muted-foreground cursor-not-allowed"
-                        : "bg-foreground text-background hover:bg-foreground/90"
+    <div className="w-full max-w-md flex flex-col items-center gap-4">
+        <div className="w-full space-y-4">
+            <FormField
+                control={control}
+                name="title"
+                render={({ field }) => (
+                    <FormItem>
+                    <div className="relative w-full">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">T</span>
+                        <FormControl>
+                            <Input placeholder="titre de l'ebook..." {...field} className={inputClasses}/>
+                        </FormControl>
+                    </div>
+                    <FormMessage className="pl-4" />
+                    </FormItem>
                 )}
-            >
-                publier
-            </Button>
-        </form>
-    </Form>
+            />
+
+            <FormField
+                control={control}
+                name="description"
+                render={({ field }) => (
+                    <FormItem>
+                    <div className="relative w-full">
+                         <span className="absolute left-4 top-[18px] -translate-y-1/2 text-sm font-bold text-muted-foreground">D</span>
+                        <FormControl>
+                            <Textarea placeholder="description de l'ebook..." {...field} className={cn(inputClasses, "h-28 rounded-[30px] py-3.5 leading-snug")} />
+                        </FormControl>
+                    </div>
+                    <FormMessage className="pl-4" />
+                    </FormItem>
+                )}
+            />
+
+            <FormField
+                control={control}
+                name="keywords"
+                render={({ field }) => (
+                    <FormItem>
+                     <div className="relative w-full">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">M</span>
+                        <FormControl>
+                            <Input placeholder="mots clés..." {...field} className={inputClasses}/>
+                        </FormControl>
+                    </div>
+                    <FormMessage className="pl-4" />
+                    </FormItem>
+                )}
+            />
+
+             <FormField
+                control={control}
+                name="price"
+                render={({ field }) => (
+                    <FormItem>
+                    <div className="relative w-full">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">€</span>
+                        <FormControl>
+                            <Input type="text" inputMode="decimal" placeholder="prix..." {...field} className={inputClasses}/>
+                        </FormControl>
+                    </div>
+                    <FormMessage className="pl-4" />
+                    </FormItem>
+                )}
+            />
+        </div>
+
+        <div className="w-full bg-secondary rounded-[30px] flex items-stretch my-4 overflow-hidden">
+            <div className='pl-6 py-4 text-sm text-muted-foreground space-y-1 flex flex-col justify-center flex-grow'>
+                <p>prix de l'ebook</p>
+                <p>votre gain net</p>
+                <p>total de l'ebook</p>
+            </div>
+            <div className='flex-shrink-0 bg-foreground text-background rounded-l-[30px] px-16 py-4 space-y-1 text-sm flex flex-col justify-center items-end'>
+                <p className="text-right">{formatPrice(ebookPrice)}</p>
+                <p className="text-right">{formatPrice(netGain)}</p>
+                <p className="text-right">{formatPrice(totalPriceForCustomer)}</p>
+            </div>
+        </div>
+    </div>
   );
 }

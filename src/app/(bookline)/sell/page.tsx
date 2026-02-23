@@ -1,33 +1,102 @@
 'use client';
 
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { Menu, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import { useToast } from '@/hooks/use-toast';
 import { PdfUploader } from '@/components/bookline/pdf-uploader';
 import { SellForm } from '@/components/bookline/sell-form';
+import { cn } from '@/lib/utils';
+
+const sellFormSchema = z.object({
+  title: z.string().min(1, { message: "Le titre est requis." }),
+  description: z.string().min(1, { message: "La description est requise." }),
+  keywords: z.string().min(1, { message: "Les mots-clés sont requis." }),
+  price: z.string().min(1, { message: "Le prix est requis." })
+    .refine((val) => !/[a-zA-Z]/.test(val), { message: 'Le prix ne doit pas contenir de lettres.' })
+    .refine((val) => {
+        const n = parseFloat(val.replace(',', '.'));
+        return !isNaN(n) && isFinite(n);
+    }, { message: 'Le prix doit être un nombre.' })
+    .refine((val) => parseFloat(val.replace(',', '.')) >= 10, { message: 'Le prix doit être de 10€ minimum.' }),
+});
 
 export default function SellPage() {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const { toast } = useToast();
+
+  const form = useForm<z.infer<typeof sellFormSchema>>({
+    resolver: zodResolver(sellFormSchema),
+    mode: 'onChange',
+    defaultValues: {
+      title: '',
+      description: '',
+      keywords: '',
+      price: '',
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof sellFormSchema>) {
+    if (!pdfFile) {
+      toast({
+        variant: "destructive",
+        title: "Fichier PDF manquant",
+        description: "Veuillez ajouter le fichier de votre ebook.",
+      });
+      return;
+    }
+    console.log({ ...values, pdfFileName: pdfFile.name });
+    toast({
+      title: "Ebook soumis !",
+      description: "Votre ebook est en cours de validation.",
+    });
+  }
+
+  const isButtonDisabled = !form.formState.isValid || !pdfFile;
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
-        <header className="flex items-center justify-between w-full py-6">
-           <Button variant="ghost" size="icon" aria-label="Menu" className="hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7">
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col min-h-screen bg-background text-foreground">
+        <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
+          <header className="flex items-center justify-between w-full py-6">
+            <Button variant="ghost" size="icon" aria-label="Menu" className="hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7">
               <Menu />
             </Button>
-          <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Profil Utilisateur">
-            <User className="h-6 w-6" />
-          </Button>
-        </header>
+            <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Profil Utilisateur">
+              <User className="h-6 w-6" />
+            </Button>
+          </header>
 
-        <main className="flex-1 w-full grid md:grid-cols-2 gap-10 lg:gap-20 items-start pb-28 pt-24">
-          <PdfUploader pdfFile={pdfFile} onFileChange={setPdfFile} />
-          <div className="w-full flex justify-center md:justify-start">
-             <SellForm pdfFile={pdfFile} />
+          <main className="flex-1 w-full grid md:grid-cols-2 gap-10 lg:gap-20 items-start pb-40 pt-24">
+            <PdfUploader pdfFile={pdfFile} onFileChange={setPdfFile} />
+            <div className="w-full flex justify-center md:justify-start">
+              <SellForm />
+            </div>
+          </main>
+        </div>
+
+        <div className="fixed bottom-[6.5rem] left-0 right-0 px-4 z-20 pointer-events-none">
+          <div className="max-w-[16rem] mx-auto pointer-events-auto">
+            <Button
+              type="submit"
+              disabled={isButtonDisabled}
+              className={cn(
+                "w-full h-14 text-lg font-semibold rounded-full",
+                "transition-colors duration-300",
+                isButtonDisabled
+                  ? "bg-[#DFDFDF] text-muted-foreground cursor-not-allowed"
+                  : "bg-foreground text-background hover:bg-foreground/90"
+              )}
+            >
+              publier
+            </Button>
           </div>
-        </main>
-      </div>
-    </div>
+        </div>
+      </form>
+    </Form>
   );
 }
