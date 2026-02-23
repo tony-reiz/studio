@@ -71,30 +71,34 @@ export default function SellPage() {
             </Button>
           </header>
 
-          <main className="flex-1 w-full grid md:grid-cols-2 gap-4 items-start pb-40 pt-24">
-            <PdfUploader pdfFile={pdfFile} onFileChange={setPdfFile} />
-            <div className="w-full flex justify-center md:justify-start">
-              <SellForm />
+          <main className="flex-1 w-full flex justify-center items-start pt-24 pb-40">
+            <div className="grid md:grid-cols-2 items-start gap-4">
+              <div className="flex justify-end">
+                <PdfUploader pdfFile={pdfFile} onFileChange={setPdfFile} />
+              </div>
+              <div className="flex justify-start">
+                <SellForm />
+              </div>
             </div>
           </main>
         </div>
 
         <div className="fixed bottom-[6.5rem] left-0 right-0 px-4 z-20 pointer-events-none">
-          <div className="max-w-[16rem] mx-auto pointer-events-auto">
-            <Button
-              type="submit"
-              disabled={isButtonDisabled}
-              className={cn(
-                "w-full h-12 text-lg font-semibold rounded-full",
-                "transition-colors duration-300",
-                isButtonDisabled
-                  ? "bg-[#DFDFDF] text-muted-foreground cursor-not-allowed"
-                  : "bg-foreground text-background hover:bg-foreground/90"
-              )}
-            >
-              publier
-            </Button>
-          </div>
+            <div className="max-w-[16rem] mx-auto pointer-events-auto">
+                <Button
+                type="submit"
+                disabled={isButtonDisabled}
+                className={cn(
+                    "w-full h-12 text-lg font-semibold rounded-full",
+                    "transition-colors duration-300",
+                    isButtonDisabled
+                    ? "bg-[#DFDFDF] text-muted-foreground cursor-not-allowed"
+                    : "bg-foreground text-background hover:bg-foreground/90"
+                )}
+                >
+                publier
+                </Button>
+            </div>
         </div>
       </form>
     </Form>
