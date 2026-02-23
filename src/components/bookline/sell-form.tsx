@@ -127,7 +127,7 @@ export function SellForm({ pdfFile }: SellFormProps) {
                     <p>votre gain net</p>
                     <p>total de l'ebook</p>
                 </div>
-                <div className='flex-shrink-0 bg-foreground text-background rounded-l-[30px] px-12 py-4 space-y-1 text-sm text-right flex flex-col justify-center'>
+                <div className='flex-shrink-0 bg-foreground text-background rounded-l-[30px] px-16 py-4 space-y-1 text-sm text-right flex flex-col justify-center'>
                     <p>-- €</p>
                     <p>-- €</p>
                     <p>-- €</p>
