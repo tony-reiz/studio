@@ -42,13 +42,15 @@ export function SellForm({ pdfFile }: SellFormProps) {
     let priceAsNumber: number = NaN;
     if (watchedPrice.trim() !== '') {
         const cleanedPrice = watchedPrice.replace(',', '.');
-        priceAsNumber = parseFloat(cleanedPrice);
+        if (!isNaN(parseFloat(cleanedPrice))) {
+            priceAsNumber = parseFloat(cleanedPrice);
+        }
     }
 
     const SELLER_FEE = 3;
     const CUSTOMER_FEE = 3.5;
 
-    const ebookPrice = !isNaN(priceAsNumber) && priceAsNumber >= 0 ? priceAsNumber : null;
+    const ebookPrice = !isNaN(priceAsNumber) ? priceAsNumber : null;
     const netGain = ebookPrice !== null ? ebookPrice - SELLER_FEE : null;
     const totalPriceForCustomer = ebookPrice !== null ? ebookPrice + CUSTOMER_FEE : null;
 
@@ -82,6 +84,8 @@ export function SellForm({ pdfFile }: SellFormProps) {
     }
 
     const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0";
+
+    const isButtonDisabled = !form.formState.isValid || !pdfFile;
 
   return (
     <Form {...form}>
@@ -166,7 +170,17 @@ export function SellForm({ pdfFile }: SellFormProps) {
             </div>
 
 
-            <Button type="submit" className="w-full max-w-xs h-14 text-lg font-semibold rounded-full bg-foreground text-background hover:bg-foreground/90">
+            <Button 
+                type="submit"
+                disabled={isButtonDisabled}
+                className={cn(
+                    "w-full max-w-xs h-14 text-lg font-semibold rounded-full",
+                    "transition-colors duration-300",
+                    isButtonDisabled
+                        ? "bg-[#DFDFDF] text-muted-foreground cursor-not-allowed"
+                        : "bg-foreground text-background hover:bg-foreground/90"
+                )}
+            >
                 publier
             </Button>
         </form>
