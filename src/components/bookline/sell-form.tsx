@@ -40,11 +40,9 @@ export function SellForm({ pdfFile }: SellFormProps) {
     const watchedPrice = form.watch('price');
     
     let priceAsNumber: number = NaN;
-    if (watchedPrice.trim() !== '') {
+    if (watchedPrice.trim() !== '' && !isNaN(parseFloat(watchedPrice.replace(',', '.')))) {
         const cleanedPrice = watchedPrice.replace(',', '.');
-        if (!isNaN(parseFloat(cleanedPrice))) {
-            priceAsNumber = parseFloat(cleanedPrice);
-        }
+        priceAsNumber = parseFloat(cleanedPrice);
     }
 
     const SELLER_FEE = 3;
@@ -113,7 +111,7 @@ export function SellForm({ pdfFile }: SellFormProps) {
                     render={({ field }) => (
                         <FormItem>
                         <div className="relative w-full">
-                             <span className="absolute left-4 top-5 -translate-y-1/2 text-sm font-bold text-muted-foreground">D</span>
+                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">D</span>
                             <FormControl>
                                 <Textarea placeholder="description de l'ebook..." {...field} className={cn(inputClasses, "h-28 rounded-[30px] py-3.5 leading-snug")} />
                             </FormControl>
