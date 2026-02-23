@@ -85,7 +85,7 @@ export default function SellPage() {
               type="submit"
               disabled={isButtonDisabled}
               className={cn(
-                "w-full h-14 text-lg font-semibold rounded-full",
+                "w-full h-12 text-lg font-semibold rounded-full",
                 "transition-colors duration-300",
                 isButtonDisabled
                   ? "bg-[#DFDFDF] text-muted-foreground cursor-not-allowed"
