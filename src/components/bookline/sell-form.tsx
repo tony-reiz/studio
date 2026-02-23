@@ -34,6 +34,28 @@ export function SellForm({ pdfFile }: SellFormProps) {
         },
     });
 
+    const price = form.watch('price');
+
+    const SELLER_FEE = 3;
+    const CUSTOMER_FEE = 3.5;
+
+    const ebookPrice = typeof price === 'number' && !isNaN(price) && price >= 0 ? price : null;
+    const netGain = ebookPrice !== null ? ebookPrice - SELLER_FEE : null;
+    const totalPriceForCustomer = ebookPrice !== null ? ebookPrice + CUSTOMER_FEE : null;
+
+    const formatPrice = (value: number | null): string => {
+        if (value === null || isNaN(value)) {
+          return '-- €';
+        }
+        
+        const formatted = value.toLocaleString('fr-FR', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2,
+        });
+
+        return `${formatted} €`;
+    };
+
     function onSubmit(values: z.infer<typeof sellFormSchema>) {
         if (!pdfFile) {
             toast({
@@ -128,9 +150,9 @@ export function SellForm({ pdfFile }: SellFormProps) {
                     <p>total de l'ebook</p>
                 </div>
                 <div className='flex-shrink-0 bg-foreground text-background rounded-l-[30px] px-16 py-4 space-y-1 text-sm flex flex-col justify-center items-end'>
-                    <p>-- €</p>
-                    <p>-- €</p>
-                    <p>-- €</p>
+                    <p>{formatPrice(ebookPrice)}</p>
+                    <p>{formatPrice(netGain)}</p>
+                    <p>{formatPrice(totalPriceForCustomer)}</p>
                 </div>
             </div>
 
