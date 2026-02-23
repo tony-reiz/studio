@@ -57,14 +57,14 @@ export function PdfUploader({ pdfFile, onFileChange, className }: PdfUploaderPro
       />
       <div
         className={cn(
-          'aspect-[210/297] p-0 flex items-center justify-center rounded-[25px] overflow-hidden relative bg-[#DFDFDF] transition-colors shadow-lg',
+          'aspect-[210/297] p-0 flex items-center justify-center rounded-[25px] overflow-hidden relative bg-[#DFDFDF] transition-colors',
           {'group-hover:bg-[#d0d0d0]': !pdfFile}
         )}
       >
         {previewUrl ? (
           <object data={`${previewUrl}#view=Fit&toolbar=0&navpanes=0&scrollbar=0`} type="application/pdf" className="w-full h-full border-0 pointer-events-none" title="Aperçu du PDF" />
         ) : (
-          <Download className="h-12 w-12 text-muted-foreground" />
+          <Download className="h-10 w-10 text-muted-foreground" />
         )}
       </div>
     </div>
