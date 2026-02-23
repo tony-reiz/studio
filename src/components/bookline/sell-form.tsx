@@ -31,6 +31,7 @@ export function SellForm({ pdfFile }: SellFormProps) {
 
     const form = useForm<z.infer<typeof sellFormSchema>>({
         resolver: zodResolver(sellFormSchema),
+        mode: 'onChange',
         defaultValues: {
             title: '',
             description: '',
