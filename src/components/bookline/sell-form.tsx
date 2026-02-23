@@ -42,7 +42,7 @@ export function SellForm() {
     const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0";
 
   return (
-    <div className="w-full max-w-md flex flex-col items-center gap-4">
+    <div className="w-full max-w-md flex flex-col items-center">
         <div className="w-full space-y-4">
             <FormField
                 control={control}
@@ -109,7 +109,7 @@ export function SellForm() {
             />
         </div>
 
-        <div className="w-full bg-secondary rounded-[30px] flex items-stretch my-4 overflow-hidden">
+        <div className="w-full bg-secondary rounded-[30px] flex items-stretch mt-4 overflow-hidden">
             <div className='pl-6 py-4 text-sm text-muted-foreground space-y-1 flex flex-col justify-center flex-grow'>
                 <p>prix de l'ebook</p>
                 <p>votre gain net</p>
