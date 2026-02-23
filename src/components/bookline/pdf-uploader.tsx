@@ -62,7 +62,7 @@ export function PdfUploader({ pdfFile, onFileChange, className }: PdfUploaderPro
         )}
       >
         {previewUrl ? (
-          <object data={`${previewUrl}#view=Fit&toolbar=0&navpanes=0&scrollbar=0`} type="application/pdf" className="w-full h-full border-0 pointer-events-none" title="Aperçu du PDF" />
+          <object data={`${previewUrl}#view=Fit&toolbar=0&navpanes=0&scrollbar=0`} type="application/pdf" className="absolute inset-0 w-full h-full border-0 pointer-events-none" title="Aperçu du PDF" />
         ) : (
           <Download className="h-10 w-10 text-muted-foreground" />
         )}
