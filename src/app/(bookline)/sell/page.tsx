@@ -71,7 +71,7 @@ export default function SellPage() {
             </Button>
           </header>
 
-          <main className="flex-1 w-full grid md:grid-cols-2 gap-10 lg:gap-20 items-start pb-40 pt-24">
+          <main className="flex-1 w-full grid md:grid-cols-2 gap-4 items-start pb-40 pt-24">
             <PdfUploader pdfFile={pdfFile} onFileChange={setPdfFile} />
             <div className="w-full flex justify-center md:justify-start">
               <SellForm />
