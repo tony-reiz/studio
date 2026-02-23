@@ -121,13 +121,13 @@ export function SellForm({ pdfFile }: SellFormProps) {
                 />
             </div>
 
-            <div className="w-full bg-secondary rounded-full flex items-center justify-between p-2 pr-4 my-4">
+            <div className="w-full bg-secondary rounded-[30px] flex items-center justify-between p-2 pr-4 my-4">
                 <div className='pl-4 text-sm text-muted-foreground space-y-1'>
                     <p>prix de l'ebook</p>
                     <p>votre gain net</p>
                     <p>total de l'ebook</p>
                 </div>
-                <div className='bg-foreground text-background rounded-full px-6 py-3 space-y-1 text-sm text-right'>
+                <div className='bg-foreground text-background rounded-[30px] px-6 py-3 space-y-1 text-sm text-right'>
                     <p>-- €</p>
                     <p>-- €</p>
                     <p>-- €</p>
