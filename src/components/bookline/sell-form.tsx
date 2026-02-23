@@ -14,7 +14,12 @@ const sellFormSchema = z.object({
   title: z.string().min(1, { message: "Le titre est requis." }),
   description: z.string().min(1, { message: "La description est requise." }),
   keywords: z.string().min(1, { message: "Les mots-clés sont requis." }),
-  price: z.coerce.number().min(10, { message: "Le prix doit être de 10€ minimum." }),
+  price: z.preprocess(
+    (val) => (typeof val === 'string' ? parseFloat(val.replace(',', '.')) : val),
+    z.number({
+      invalid_type_error: 'Le prix doit être un nombre.',
+    }).min(10, { message: 'Le prix doit être de 10€ minimum.' })
+  ),
 });
 
 interface SellFormProps {
@@ -38,7 +43,9 @@ export function SellForm({ pdfFile }: SellFormProps) {
     
     let priceAsNumber: number = NaN;
     if (typeof watchedPrice === 'string' && watchedPrice.trim() !== '') {
-        priceAsNumber = parseFloat(watchedPrice);
+        // Replace comma with dot for robust parsing
+        const cleanedPrice = watchedPrice.replace(',', '.');
+        priceAsNumber = parseFloat(cleanedPrice);
     } else if (typeof watchedPrice === 'number') {
         priceAsNumber = watchedPrice;
     }
@@ -56,7 +63,7 @@ export function SellForm({ pdfFile }: SellFormProps) {
         }
         
         const formatted = value.toLocaleString('fr-FR', {
-            minimumFractionDigits: 0,
+            minimumFractionDigits: 2,
             maximumFractionDigits: 2,
         });
 
@@ -157,9 +164,9 @@ export function SellForm({ pdfFile }: SellFormProps) {
                     <p>total de l'ebook</p>
                 </div>
                 <div className='flex-shrink-0 bg-foreground text-background rounded-l-[30px] px-16 py-4 space-y-1 text-sm flex flex-col justify-center items-end'>
-                    <p>{formatPrice(ebookPrice)}</p>
-                    <p>{formatPrice(netGain)}</p>
-                    <p>{formatPrice(totalPriceForCustomer)}</p>
+                    <p className="text-right">{formatPrice(ebookPrice)}</p>
+                    <p className="text-right">{formatPrice(netGain)}</p>
+                    <p className="text-right">{formatPrice(totalPriceForCustomer)}</p>
                 </div>
             </div>
 
