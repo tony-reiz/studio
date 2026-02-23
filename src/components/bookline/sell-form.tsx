@@ -14,12 +14,9 @@ const sellFormSchema = z.object({
   title: z.string().min(1, { message: "Le titre est requis." }),
   description: z.string().min(1, { message: "La description est requise." }),
   keywords: z.string().min(1, { message: "Les mots-clés sont requis." }),
-  price: z.preprocess(
-    (val) => (typeof val === 'string' ? parseFloat(val.replace(',', '.')) : val),
-    z.number({
-      invalid_type_error: 'Le prix doit être un nombre.',
-    }).min(10, { message: 'Le prix doit être de 10€ minimum.' })
-  ),
+  price: z.string().min(1, { message: "Le prix est requis." })
+    .refine((val) => !isNaN(parseFloat(val.replace(',', '.'))), { message: 'Le prix doit être un nombre.'})
+    .refine((val) => parseFloat(val.replace(',', '.')) >= 10, { message: 'Le prix doit être de 10€ minimum.'}),
 });
 
 interface SellFormProps {
@@ -36,19 +33,16 @@ export function SellForm({ pdfFile }: SellFormProps) {
             title: '',
             description: '',
             keywords: '',
-            price: undefined,
+            price: '',
         },
     });
 
     const watchedPrice = form.watch('price');
     
     let priceAsNumber: number = NaN;
-    if (typeof watchedPrice === 'string' && watchedPrice.trim() !== '') {
-        // Replace comma with dot for robust parsing
+    if (watchedPrice.trim() !== '') {
         const cleanedPrice = watchedPrice.replace(',', '.');
         priceAsNumber = parseFloat(cleanedPrice);
-    } else if (typeof watchedPrice === 'number') {
-        priceAsNumber = watchedPrice;
     }
 
     const SELLER_FEE = 3;
