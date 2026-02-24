@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { PdfUploader } from '@/components/bookline/pdf-uploader';
 import { SellForm } from '@/components/bookline/sell-form';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 const sellFormSchema = z.object({
   title: z.string().min(1, { message: "Le titre est requis." }),
@@ -64,9 +65,11 @@ export default function SellPage() {
             <Button variant="ghost" size="icon" aria-label="Menu" className="hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7">
               <Menu />
             </Button>
-            <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Profil Utilisateur">
-              <User className="h-6 w-6" />
-            </Button>
+            <Link href="/profile" passHref>
+              <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Profil Utilisateur">
+                <User className="h-6 w-6" />
+              </Button>
+            </Link>
           </header>
 
           <main className="flex-1 w-full flex justify-center items-start pt-24 pb-40">

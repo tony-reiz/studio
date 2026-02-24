@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Menu, User, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookDisplayArea } from '@/components/bookline/ebook-display-area';
@@ -32,9 +33,11 @@ export default function HomePage() {
                     <span>recherchez vos ebook...</span>
                 </button>
             </div>
-            <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Profil Utilisateur">
-              <User className="h-6 w-6" />
-            </Button>
+            <Link href="/profile" passHref>
+              <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Profil Utilisateur">
+                <User className="h-6 w-6" />
+              </Button>
+            </Link>
           </div>
         </header>
 
