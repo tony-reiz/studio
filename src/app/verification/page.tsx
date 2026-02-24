@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 
 export default function VerificationPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
+    <div className="flex flex-col h-screen overflow-hidden bg-background text-foreground">
       <main className="flex-1 flex flex-col items-center justify-center text-center p-4">
         <div className="max-w-md w-full">
           <div className="flex justify-center mb-6">
