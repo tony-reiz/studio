@@ -58,7 +58,7 @@ export function EbookDisplayArea() {
           loop: true,
           startIndex: 2,
         }}
-        className="w-full max-w-4xl px-20 sm:px-4 md:px-14 relative"
+        className="w-full max-w-4xl px-28 sm:px-4 md:px-14 relative"
       >
         <CarouselContent className="-ml-8">
           {Array.from({ length: 5 }).map((_, index) => (
