@@ -72,7 +72,7 @@ export default function SellPage() {
             </Link>
           </header>
 
-          <main className="flex-1 w-full flex justify-center items-start pt-24 pb-40">
+          <main className="flex-1 w-full flex flex-col items-center pt-24 pb-28 gap-8">
             <div className="grid md:grid-cols-2 items-start gap-4">
               <div className="flex justify-end">
                 <PdfUploader pdfFile={pdfFile} onFileChange={setPdfFile} />
@@ -81,11 +81,7 @@ export default function SellPage() {
                 <SellForm />
               </div>
             </div>
-          </main>
-        </div>
-
-        <div className="fixed bottom-[6.5rem] left-0 right-0 px-4 z-20 pointer-events-none">
-            <div className="max-w-[16rem] mx-auto pointer-events-auto">
+            <div className="max-w-[16rem] w-full">
                 <Button
                 type="submit"
                 disabled={isButtonDisabled}
@@ -100,6 +96,7 @@ export default function SellPage() {
                 publier
                 </Button>
             </div>
+          </main>
         </div>
       </form>
     </Form>
