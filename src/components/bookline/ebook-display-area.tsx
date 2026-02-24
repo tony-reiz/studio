@@ -62,7 +62,7 @@ export function EbookDisplayArea() {
       >
         <CarouselContent className="-ml-8">
           {Array.from({ length: 5 }).map((_, index) => (
-            <CarouselItem key={index} className="pl-8 basis-4/5 md:basis-1/3">
+            <CarouselItem key={index} className="pl-8 basis-1/2 md:basis-1/3">
               <div className="p-1">
                 <EbookCard
                   isActive={index === current}
