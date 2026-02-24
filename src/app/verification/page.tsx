@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button';
 
 export default function VerificationPage() {
   return (
-    <div className="flex items-center justify-center h-screen bg-background text-foreground p-4">
-      <main className="max-w-md w-full text-center">
+    <div className="flex items-center justify-center h-screen bg-background text-foreground overflow-hidden">
+      <main className="max-w-md w-full text-center p-4">
         <div className="flex justify-center mb-6">
           <div className="w-24 h-24 bg-secondary rounded-full flex items-center justify-center">
             <CheckCircle className="w-12 h-12 text-foreground" />
