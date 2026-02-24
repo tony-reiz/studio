@@ -79,7 +79,8 @@ export default function ProfilePage() {
           </div>
         </header>
 
-        <main className="flex-1 w-full flex flex-col items-center pb-8 pt-40 md:pt-0">
+        <main className="flex-1 w-full flex flex-col items-center pb-8">
+          <div className="h-64 md:hidden" />
           <div className="flex flex-col items-center">
             <Avatar className="h-28 w-28 bg-foreground">
               <AvatarFallback className="bg-transparent">
