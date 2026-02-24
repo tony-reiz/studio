@@ -58,11 +58,11 @@ export function EbookDisplayArea() {
           loop: true,
           startIndex: 2,
         }}
-        className="w-full max-w-4xl px-4 md:px-14 relative"
+        className="w-full max-w-4xl px-12 sm:px-4 md:px-14 relative"
       >
         <CarouselContent className="-ml-8">
           {Array.from({ length: 5 }).map((_, index) => (
-            <CarouselItem key={index} className="pl-8 basis-1/2 md:basis-1/3">
+            <CarouselItem key={index} className="pl-8 basis-full sm:basis-1/2 md:basis-1/3">
               <div className="p-1">
                 <EbookCard
                   isActive={index === current}
