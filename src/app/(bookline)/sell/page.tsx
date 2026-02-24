@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -28,6 +29,7 @@ const sellFormSchema = z.object({
 export default function SellPage() {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const { toast } = useToast();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof sellFormSchema>>({
     resolver: zodResolver(sellFormSchema),
@@ -49,11 +51,7 @@ export default function SellPage() {
       });
       return;
     }
-    console.log({ ...values, pdfFileName: pdfFile.name });
-    toast({
-      title: "Ebook soumis !",
-      description: "Votre ebook est en cours de validation.",
-    });
+    router.push('/verification');
   }
 
   const isButtonDisabled = !form.formState.isValid || !pdfFile;
