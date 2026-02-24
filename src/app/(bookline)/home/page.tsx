@@ -24,7 +24,7 @@ export default function HomePage() {
                 <h1 className="text-5xl sm:text-6xl font-extrabold text-primary -mt-1">BOOKLINE !</h1>
               </div>
             </div>
-            <div className="flex items-center shrink-0 gap-2 sm:gap-3">
+            <div className="flex items-start sm:items-center shrink-0 gap-2 sm:gap-3">
               <div className="relative hidden sm:block">
                   <button
                       onClick={() => setIsSearchOpen(true)}
