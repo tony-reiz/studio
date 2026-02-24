@@ -80,7 +80,7 @@ export default function ProfilePage() {
         </header>
 
         <main className="flex-1 w-full flex flex-col items-center pb-8">
-          <div className="flex flex-col items-center mt-24 md:mt-0">
+          <div className="flex flex-col items-center">
             <Avatar className="h-28 w-28 bg-foreground">
               <AvatarFallback className="bg-transparent">
                 <User className="h-16 w-16 text-background" />
