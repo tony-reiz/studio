@@ -15,7 +15,7 @@ export default function HomePage() {
       <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="w-full py-6">
           <div className="flex items-start justify-between w-full">
-            <div className="flex flex-col items-start pl-[6px]">
+            <div className="flex flex-col items-start">
               <Button variant="ghost" size="icon" aria-label="Menu" className="hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7 justify-start">
                 <Menu />
               </Button>
