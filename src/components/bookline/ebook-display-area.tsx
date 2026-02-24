@@ -58,7 +58,7 @@ export function EbookDisplayArea() {
           loop: true,
           startIndex: 2,
         }}
-        className="w-full max-w-4xl px-12 sm:px-4 md:px-14 relative"
+        className="w-full max-w-4xl px-20 sm:px-4 md:px-14 relative"
       >
         <CarouselContent className="-ml-8">
           {Array.from({ length: 5 }).map((_, index) => (
@@ -69,17 +69,17 @@ export function EbookDisplayArea() {
                   className={`transition-transform duration-500 ease-in-out ${
                     index === current
                       ? 'transform scale-100'
-                      : 'transform scale-75 opacity-40'
+                      : 'hidden sm:block sm:transform sm:scale-75 sm:opacity-40'
                   }`}
                 />
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="text-foreground h-12 w-12 md:h-20 md:w-20 rounded-none absolute left-0 top-1/2 -translate-y-1/2 z-10 border-0 bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-6 [&_svg]:w-6 md:[&_svg]:h-10 md:[&_svg]:w-10">
+        <CarouselPrevious className="hidden sm:inline-flex text-foreground h-12 w-12 md:h-20 md:w-20 rounded-none absolute left-0 top-1/2 -translate-y-1/2 z-10 border-0 bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-6 [&_svg]:w-6 md:[&_svg]:h-10 md:[&_svg]:w-10">
           <ChevronLeft />
         </CarouselPrevious>
-        <CarouselNext className="text-foreground h-12 w-12 md:h-20 md:w-20 rounded-none absolute right-0 top-1/2 -translate-y-1/2 z-10 border-0 bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-6 [&_svg]:w-6 md:[&_svg]:h-10 md:[&_svg]:w-10">
+        <CarouselNext className="hidden sm:inline-flex text-foreground h-12 w-12 md:h-20 md:w-20 rounded-none absolute right-0 top-1/2 -translate-y-1/2 z-10 border-0 bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-6 [&_svg]:w-6 md:[&_svg]:h-10 md:[&_svg]:w-10">
           <ChevronRight />
         </CarouselNext>
       </Carousel>
