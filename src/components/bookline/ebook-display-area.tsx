@@ -58,11 +58,11 @@ export function EbookDisplayArea() {
           loop: true,
           startIndex: 2,
         }}
-        className="w-full max-w-4xl px-14 relative"
+        className="w-full max-w-4xl px-4 md:px-14 relative"
       >
         <CarouselContent className="-ml-8">
           {Array.from({ length: 5 }).map((_, index) => (
-            <CarouselItem key={index} className="pl-8 basis-1/3">
+            <CarouselItem key={index} className="pl-8 basis-4/5 md:basis-1/3">
               <div className="p-1">
                 <EbookCard
                   isActive={index === current}
@@ -76,10 +76,10 @@ export function EbookDisplayArea() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="text-foreground h-20 w-20 rounded-none absolute left-0 top-1/2 -translate-y-1/2 z-10 border-0 bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-10 [&_svg]:w-10">
+        <CarouselPrevious className="text-foreground h-12 w-12 md:h-20 md:w-20 rounded-none absolute left-0 top-1/2 -translate-y-1/2 z-10 border-0 bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-6 [&_svg]:w-6 md:[&_svg]:h-10 md:[&_svg]:w-10">
           <ChevronLeft />
         </CarouselPrevious>
-        <CarouselNext className="text-foreground h-20 w-20 rounded-none absolute right-0 top-1/2 -translate-y-1/2 z-10 border-0 bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-10 [&_svg]:w-10">
+        <CarouselNext className="text-foreground h-12 w-12 md:h-20 md:w-20 rounded-none absolute right-0 top-1/2 -translate-y-1/2 z-10 border-0 bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-6 [&_svg]:w-6 md:[&_svg]:h-10 md:[&_svg]:w-10">
           <ChevronRight />
         </CarouselNext>
       </Carousel>
