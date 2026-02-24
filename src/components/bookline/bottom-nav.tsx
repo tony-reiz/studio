@@ -9,7 +9,7 @@ export function BottomNav() {
   const isHome = pathname === '/home' || pathname === '/';
 
   return (
-    <div className="fixed bottom-2 left-0 right-0 p-4 mb-4">
+    <div className="fixed bottom-0 left-0 right-0 p-4 md:bottom-2 md:mb-4">
       <div className="bg-secondary rounded-full flex relative items-center max-w-[16rem] mx-auto shadow-lg">
         <div
           className={cn(
