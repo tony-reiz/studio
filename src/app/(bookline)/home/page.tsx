@@ -19,7 +19,7 @@ export default function HomePage() {
               <Menu />
             </Button>
             <div className="-mt-1">
-              <p className="text-[24px] font-bold tracking-widest text-foreground">BIENVENUE</p>
+              <p className="text-[24px] font-bold tracking-widest text-foreground">BIENVENUE SUR</p>
               <h1 className="text-3xl sm:text-6xl font-extrabold text-primary -mt-1">BOOKLINE</h1>
             </div>
           </div>
