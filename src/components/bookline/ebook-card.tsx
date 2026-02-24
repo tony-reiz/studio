@@ -8,10 +8,11 @@ import { cn } from '@/lib/utils';
 interface EbookCardProps {
   className?: string;
   isActive?: boolean;
+  isInitiallyFavorited?: boolean;
 }
 
-export function EbookCard({ className, isActive }: EbookCardProps) {
-  const [isFavorited, setIsFavorited] = useState(false);
+export function EbookCard({ className, isActive, isInitiallyFavorited = false }: EbookCardProps) {
+  const [isFavorited, setIsFavorited] = useState(isInitiallyFavorited);
 
   return (
     <Card className={cn('bg-transparent border-0 shadow-none', className)}>

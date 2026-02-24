@@ -10,8 +10,55 @@ import Link from 'next/link';
 
 type ActiveTab = 'achats' | 'publications' | 'favoris';
 
+const userPurchases: any[] = Array.from({ length: 6 });
+const userPublications: any[] = [];
+const userFavorites: any[] = Array.from({ length: 2 });
+
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('achats');
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'achats':
+        return userPurchases.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 animate-in fade-in-50">
+            {userPurchases.map((_, index) => (
+              <EbookCard key={`achat-${index}`} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center text-muted-foreground mt-12">
+            Vous n’avez aucun achat
+          </div>
+        );
+      case 'publications':
+        return userPublications.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 animate-in fade-in-50">
+            {userPublications.map((_, index) => (
+              <EbookCard key={`pub-${index}`} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center text-muted-foreground mt-12">
+            Vous n’avez aucun ebook publié
+          </div>
+        );
+      case 'favoris':
+        return userFavorites.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 animate-in fade-in-50">
+            {userFavorites.map((_, index) => (
+              <EbookCard key={`fav-${index}`} isInitiallyFavorited={true} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center text-muted-foreground mt-12">
+            Vous n’avez aucun ebook en favoris
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
@@ -47,27 +94,7 @@ export default function ProfilePage() {
           <ProfileTabNav activeTab={activeTab} setActiveTab={setActiveTab} />
           
           <div className="w-full">
-            {activeTab === 'achats' && (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 animate-in fade-in-50">
-                {Array.from({ length: 6 }).map((_, index) => (
-                  <EbookCard key={`achat-${index}`} />
-                ))}
-              </div>
-            )}
-            {activeTab === 'publications' && (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 animate-in fade-in-50">
-                 {Array.from({ length: 4 }).map((_, index) => (
-                  <EbookCard key={`pub-${index}`} />
-                ))}
-              </div>
-            )}
-            {activeTab === 'favoris' && (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 animate-in fade-in-50">
-                 {Array.from({ length: 2 }).map((_, index) => (
-                  <EbookCard key={`fav-${index}`} />
-                ))}
-              </div>
-            )}
+            {renderContent()}
           </div>
         </main>
       </div>
