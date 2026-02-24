@@ -115,10 +115,10 @@ export function SellForm() {
                 <p>votre gain net</p>
                 <p>total de l'ebook</p>
             </div>
-            <div className='flex-shrink-0 bg-foreground text-background rounded-l-[30px] px-12 py-4 text-sm flex flex-col justify-center space-y-1'>
-                <p className="text-right">{formatPrice(ebookPrice)}</p>
-                <p className="text-right">{formatPrice(netGain)}</p>
-                <p className="text-right">{formatPrice(totalPriceForCustomer)}</p>
+            <div className='grid gap-y-1 flex-shrink-0 bg-foreground text-background rounded-l-[30px] px-12 py-4 text-sm items-center'>
+                <p className="justify-self-end">{formatPrice(ebookPrice)}</p>
+                <p className="justify-self-end">{formatPrice(netGain)}</p>
+                <p className="justify-self-end">{formatPrice(totalPriceForCustomer)}</p>
             </div>
         </div>
     </div>
