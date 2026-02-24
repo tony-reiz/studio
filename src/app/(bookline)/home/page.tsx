@@ -35,7 +35,7 @@ export default function HomePage() {
                   </button>
               </div>
               <Link href="/profile" passHref>
-                <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Profil Utilisateur">
+                <Button variant="default" size="icon" className="-mt-2 sm:mt-0 rounded-full bg-foreground text-background w-11 h-11" aria-label="Profil Utilisateur">
                   <User className="h-6 w-6" />
                 </Button>
               </Link>
