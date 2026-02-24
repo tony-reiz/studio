@@ -16,12 +16,12 @@ export default function HomePage() {
         <header className="w-full py-6">
           <div className="flex items-start justify-between w-full">
             <div className="flex flex-col items-start">
-              <Button variant="ghost" aria-label="Menu" className="p-0 h-auto hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7 justify-start">
+              <Button variant="ghost" aria-label="Menu" className="p-0 h-auto hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7">
                 <Menu />
               </Button>
               <div className="-mt-1">
                 <p className="text-[24px] font-bold tracking-widest text-foreground">BIENVENUE SUR</p>
-                <h1 className="text-5xl sm:text-6xl font-extrabold text-primary -mt-1">BOOKLINE</h1>
+                <h1 className="text-5xl sm:text-6xl font-extrabold text-primary -mt-1">BOOKLINE !</h1>
               </div>
             </div>
             <div className="flex items-center shrink-0 gap-2 sm:gap-3">
