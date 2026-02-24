@@ -42,7 +42,7 @@ export default function HomePage() {
             </div>
           </div>
           
-          <div className="relative w-full mt-4 sm:hidden">
+          <div className="relative w-full mt-2 sm:hidden">
               <button
                   onClick={() => setIsSearchOpen(true)}
                   className="relative flex items-center pl-11 pr-4 h-11 w-full text-sm bg-secondary border-0 rounded-full text-left text-muted-foreground focus:outline-none"
