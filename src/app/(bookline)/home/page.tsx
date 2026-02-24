@@ -20,7 +20,7 @@ export default function HomePage() {
             </Button>
             <div className="-mt-1">
               <p className="text-[24px] font-bold tracking-widest text-foreground">BIENVENUE</p>
-              <h1 className="text-3xl sm:text-6xl font-extrabold text-primary -mt-1">PRENOM !</h1>
+              <h1 className="text-3xl sm:text-6xl font-extrabold text-primary -mt-1">BOOKLINE</h1>
             </div>
           </div>
           <div className="flex items-center shrink-0 gap-2 sm:gap-3">
