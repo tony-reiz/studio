@@ -21,7 +21,7 @@ export default function ProfilePage() {
     switch (activeTab) {
       case 'achats':
         return userPurchases.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 animate-in fade-in-50">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 animate-in fade-in-50">
             {userPurchases.map((_, index) => (
               <EbookCard key={`achat-${index}`} />
             ))}
@@ -33,7 +33,7 @@ export default function ProfilePage() {
         );
       case 'publications':
         return userPublications.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 animate-in fade-in-50">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 animate-in fade-in-50">
             {userPublications.map((_, index) => (
               <EbookCard key={`pub-${index}`} />
             ))}
@@ -45,7 +45,7 @@ export default function ProfilePage() {
         );
       case 'favoris':
         return userFavorites.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 animate-in fade-in-50">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 animate-in fade-in-50">
             {userFavorites.map((_, index) => (
               <EbookCard key={`fav-${index}`} isInitiallyFavorited={true} />
             ))}
