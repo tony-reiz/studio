@@ -20,17 +20,17 @@ export default function HomePage() {
             </Button>
             <div className="-mt-1">
               <p className="text-[24px] font-bold tracking-widest text-foreground">BIENVENUE</p>
-              <h1 className="text-6xl font-extrabold text-primary -mt-1">PRENOM !</h1>
+              <h1 className="text-4xl sm:text-6xl font-extrabold text-primary -mt-1">PRENOM !</h1>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center shrink-0 gap-2 sm:gap-3">
             <div className="relative">
                 <button
                     onClick={() => setIsSearchOpen(true)}
-                    className="relative flex items-center pl-11 pr-4 h-11 w-64 text-sm bg-secondary border-0 rounded-full text-left text-muted-foreground focus:outline-none"
+                    className="relative flex items-center pl-11 pr-4 h-11 w-40 sm:w-64 text-sm bg-secondary border-0 rounded-full text-left text-muted-foreground focus:outline-none"
                 >
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5" />
-                    <span>recherchez vos ebook...</span>
+                    <span className="truncate">recherchez vos ebook...</span>
                 </button>
             </div>
             <Link href="/profile" passHref>
