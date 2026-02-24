@@ -72,9 +72,9 @@ export default function SellPage() {
             </Link>
           </header>
 
-          <main className="flex-1 w-full flex flex-col items-center pt-2 md:pt-24 pb-28 gap-8">
+          <main className="flex-1 w-full flex flex-col items-center pt-8 md:pt-10 pb-28 gap-8">
             <div className="grid md:grid-cols-2 items-start gap-4">
-              <div className="flex justify-end">
+              <div className="flex justify-center md:justify-end">
                 <PdfUploader pdfFile={pdfFile} onFileChange={setPdfFile} />
               </div>
               <div className="flex justify-start">
