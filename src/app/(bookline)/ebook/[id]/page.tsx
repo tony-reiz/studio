@@ -6,19 +6,31 @@ import { Share2, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState, useRef } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { Document, Page, pdfjs } from 'react-pdf';
-import 'react-pdf/dist/Page/AnnotationLayer.css';
-import 'react-pdf/dist/Page/TextLayer.css';
 import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import dynamic from 'next/dynamic';
 
-// Configure the worker for react-pdf
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+const Document = dynamic(
+  () =>
+    import('react-pdf').then((mod) => {
+      mod.pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${mod.pdfjs.version}/build/pdf.worker.min.mjs`;
+      return mod.Document;
+    }),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex justify-center items-center h-full">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    ),
+  }
+);
+const Page = dynamic(() => import('react-pdf').then((mod) => mod.Page), {
+  ssr: false,
+});
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
 
-const options = {
-  cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
-  cMapPacked: true,
-};
 
 export default function EbookViewerPage() {
   const params = useParams();
@@ -114,12 +126,7 @@ export default function EbookViewerPage() {
                         <Document
                             file={ebook.pdfDataUrl}
                             onLoadSuccess={onDocumentLoadSuccess}
-                            options={options}
-                            loading={
-                            <div className="flex justify-center items-center h-full">
-                                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                            </div>
-                            }
+                            loading={null}
                             className="flex flex-col items-center"
                         >
                             {Array.from(new Array(numPages || 0), (el, index) => (
