@@ -11,7 +11,7 @@ export default function BooklineLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  const hideBottomNav = pathname === '/profile';
+  const hideBottomNav = pathname === '/profile' || pathname.startsWith('/ebook/');
 
   return (
     <EbookProvider>
