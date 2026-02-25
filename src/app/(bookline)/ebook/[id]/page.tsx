@@ -12,10 +12,7 @@ import 'react-pdf/dist/Page/TextLayer.css';
 import { Loader2 } from 'lucide-react';
 
 // Configure the worker for react-pdf
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
-  import.meta.url,
-).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 const options = {
   cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
@@ -43,7 +40,10 @@ export default function EbookViewerPage() {
     }
   }, [params.id, publishedEbooks]);
 
-  useEffect(() => {
+  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+    setNumPages(numPages);
+    pageRefs.current = Array(numPages).fill(null);
+
     const setWidth = () => {
       if (viewerRef.current) {
         setContainerWidth(viewerRef.current.clientWidth);
@@ -51,14 +51,11 @@ export default function EbookViewerPage() {
     };
     setWidth();
     window.addEventListener('resize', setWidth);
+
+    // Cleanup resize listener on component unmount
     return () => window.removeEventListener('resize', setWidth);
-  }, [numPages]);
-
-  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
-    setNumPages(numPages);
-    pageRefs.current = Array(numPages).fill(null);
   };
-
+  
   useEffect(() => {
     const viewer = viewerRef.current;
     if (!viewer || !numPages) return;
