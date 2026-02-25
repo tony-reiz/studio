@@ -13,10 +13,10 @@ import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 // Configure the worker for react-pdf
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@4.2.67/build/pdf.worker.min.mjs`;
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 const options = {
-  cMapUrl: `https://unpkg.com/pdfjs-dist@4.2.67/cmaps/`,
+  cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
   cMapPacked: true,
 };
 
