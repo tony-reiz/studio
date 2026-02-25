@@ -15,8 +15,26 @@ interface EbookCardProps {
 export function EbookCard({ className, isActive, isInitiallyFavorited = false, pdfDataUrl }: EbookCardProps) {
   const [isFavorited, setIsFavorited] = useState(isInitiallyFavorited);
 
+  const handleCardClick = () => {
+    if (pdfDataUrl) {
+      const newWindow = window.open();
+      if (newWindow) {
+        newWindow.document.write(`<body style="margin: 0; overflow: hidden;"><iframe src="${pdfDataUrl}" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100vw; height:100vh;" allowfullscreen></iframe></body>`);
+        newWindow.document.title = "Aperçu du PDF";
+      }
+    }
+  };
+  
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsFavorited(prev => !prev);
+  };
+
   return (
-    <Card className={cn('bg-transparent border-0 shadow-none', className)}>
+    <Card 
+      className={cn('bg-transparent border-0 shadow-none', pdfDataUrl && 'cursor-pointer')}
+      onClick={handleCardClick}
+    >
       <CardContent
         className={cn(
           'aspect-[210/297] p-0 flex items-start justify-end rounded-[25px] overflow-hidden relative',
@@ -27,7 +45,7 @@ export function EbookCard({ className, isActive, isInitiallyFavorited = false, p
           <object data={`${pdfDataUrl}#toolbar=0&navpanes=0&scrollbar=0`} type="application/pdf" className="absolute inset-0 w-full h-full border-0 pointer-events-none scale-110" title="Aperçu du PDF" />
         )}
         <button
-          onClick={() => setIsFavorited(prev => !prev)}
+          onClick={handleFavoriteClick}
           className="absolute top-0 right-0 m-4 p-0 z-10"
           aria-label="Ajouter aux favoris"
         >
