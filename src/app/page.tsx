@@ -26,7 +26,7 @@ export default function LandingPage() {
         </div>
 
         <div className="max-w-lg">
-          <h2 className="text-6xl md:text-7xl font-bold tracking-tighter">
+          <h2 className="text-6xl md:text-7xl font-bold tracking-tighter whitespace-nowrap">
             La Matrice de Vente
           </h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-md mx-auto">
