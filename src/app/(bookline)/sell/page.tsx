@@ -63,7 +63,12 @@ export default function SellPage() {
       pdfFileName: pdfFile.name,
     });
 
-    router.push('/verification');
+    toast({
+      title: "Ebook soumis !",
+      description: "Votre ebook est maintenant visible dans vos publications.",
+    });
+
+    router.push('/profile');
   }
 
   const isButtonDisabled = !form.formState.isValid || !pdfFile;
