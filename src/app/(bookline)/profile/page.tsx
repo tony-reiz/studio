@@ -7,15 +7,17 @@ import { EbookCard } from '@/components/bookline/ebook-card';
 import { ProfileTabNav } from '@/components/bookline/profile-tab-nav';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import Link from 'next/link';
+import { useEbooks } from '@/context/ebook-provider';
 
 type ActiveTab = 'achats' | 'publications' | 'favoris';
 
 const userPurchases: any[] = [];
-const userPublications: any[] = [];
 const userFavorites: any[] = [];
 
 export default function ProfilePage() {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('achats');
+  const [activeTab, setActiveTab] = useState<ActiveTab>('publications');
+  const { publishedEbooks } = useEbooks();
+  const userPublications = publishedEbooks;
 
   const renderContent = () => {
     switch (activeTab) {
@@ -34,8 +36,8 @@ export default function ProfilePage() {
       case 'publications':
         return userPublications.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 animate-in fade-in-50">
-            {userPublications.map((_, index) => (
-              <EbookCard key={`pub-${index}`} />
+            {userPublications.map((ebook) => (
+              <EbookCard key={ebook.id} />
             ))}
           </div>
         ) : (
@@ -67,7 +69,7 @@ export default function ProfilePage() {
           <Button variant="ghost" size="icon" aria-label="Menu" className="hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7">
             <Menu />
           </Button>
-          <div className="flex flex-col items-center gap-3">
+          <div className="flex flex-col items-center gap-6">
             <Link href="/home" passHref>
                 <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Accueil">
                     <Home className="h-6 w-6" />
@@ -86,14 +88,14 @@ export default function ProfilePage() {
                 <User className="h-16 w-16 text-background" />
               </AvatarFallback>
             </Avatar>
-            <div className="bg-foreground text-background text-sm font-semibold rounded-full px-16 py-1.5 mt-4">
+            <div className="bg-foreground text-background text-sm font-semibold rounded-full px-24 py-1.5 mt-4">
               utilisateur
             </div>
           </div>
 
           <ProfileTabNav activeTab={activeTab} setActiveTab={setActiveTab} />
           
-          <div className="w-full max-w-4xl">
+          <div className="w-full max-w-sm mt-8">
             {renderContent()}
           </div>
         </main>

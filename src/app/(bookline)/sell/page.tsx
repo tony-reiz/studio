@@ -13,6 +13,7 @@ import { PdfUploader } from '@/components/bookline/pdf-uploader';
 import { SellForm } from '@/components/bookline/sell-form';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { useEbooks } from '@/context/ebook-provider';
 
 const sellFormSchema = z.object({
   title: z.string().min(1, { message: "Le titre est requis." }),
@@ -31,6 +32,7 @@ export default function SellPage() {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const { toast } = useToast();
   const router = useRouter();
+  const { addPublishedEbook } = useEbooks();
 
   const form = useForm<z.infer<typeof sellFormSchema>>({
     resolver: zodResolver(sellFormSchema),
@@ -52,6 +54,15 @@ export default function SellPage() {
       });
       return;
     }
+
+    addPublishedEbook({
+      title: values.title,
+      description: values.description,
+      keywords: values.keywords,
+      price: values.price,
+      pdfFileName: pdfFile.name,
+    });
+
     router.push('/verification');
   }
 
