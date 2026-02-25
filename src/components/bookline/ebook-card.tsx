@@ -17,11 +17,7 @@ export function EbookCard({ className, isActive, isInitiallyFavorited = false, p
 
   const handleCardClick = () => {
     if (pdfDataUrl) {
-      const newWindow = window.open();
-      if (newWindow) {
-        newWindow.document.write(`<body style="margin: 0; overflow: hidden;"><iframe src="${pdfDataUrl}" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100vw; height:100vh;" allowfullscreen></iframe></body>`);
-        newWindow.document.title = "Aperçu du PDF";
-      }
+      window.open(pdfDataUrl, '_blank');
     }
   };
   
