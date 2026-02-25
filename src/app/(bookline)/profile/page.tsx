@@ -10,9 +10,9 @@ import Link from 'next/link';
 
 type ActiveTab = 'achats' | 'publications' | 'favoris';
 
-const userPurchases: any[] = Array.from({ length: 6 });
+const userPurchases: any[] = [];
 const userPublications: any[] = [];
-const userFavorites: any[] = Array.from({ length: 2 });
+const userFavorites: any[] = [];
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('achats');
@@ -28,7 +28,7 @@ export default function ProfilePage() {
           </div>
         ) : (
           <div className="text-center text-muted-foreground mt-12">
-            Vous n’avez aucun achat
+            Vous n’avez aucun ebook acheté
           </div>
         );
       case 'publications':
