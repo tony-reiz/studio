@@ -29,12 +29,12 @@ export default function LandingPage() {
           <h2 className="text-6xl md:text-7xl font-bold tracking-tighter whitespace-nowrap">
             La Matrice de Vente
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-lg">
+          <p className="mt-4 text-lg text-muted-foreground">
             Libérez votre potentiel. Publiez et générez des revenus en toute simplicité.
           </p>
         </div>
       </main>
-      <footer className="px-6 pt-6 pb-28 sm:px-8 sm:pt-8 sm:pb-12 flex justify-center">
+      <footer className="px-6 pt-6 pb-64 sm:px-8 sm:pt-8 sm:pb-12 flex justify-center">
         <Link href="/home" passHref>
           <Button className="bg-foreground text-background rounded-full h-14 px-12 text-lg font-semibold hover:bg-foreground/90">
             commencer
