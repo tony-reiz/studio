@@ -9,7 +9,7 @@ export interface Ebook {
   description: string;
   keywords: string;
   price: string;
-  pdfFileName: string;
+  pdfDataUrl: string;
 }
 
 // Define the context type

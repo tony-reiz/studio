@@ -55,15 +55,19 @@ export default function SellPage() {
       return;
     }
 
-    addPublishedEbook({
-      title: values.title,
-      description: values.description,
-      keywords: values.keywords,
-      price: values.price,
-      pdfFileName: pdfFile.name,
-    });
-
-    router.push('/profile');
+    const reader = new FileReader();
+    reader.readAsDataURL(pdfFile);
+    reader.onloadend = () => {
+      const base64String = reader.result as string;
+      addPublishedEbook({
+        title: values.title,
+        description: values.description,
+        keywords: values.keywords,
+        price: values.price,
+        pdfDataUrl: base64String,
+      });
+      router.push('/profile');
+    }
   }
 
   const isButtonDisabled = !form.formState.isValid || !pdfFile;

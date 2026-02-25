@@ -9,9 +9,10 @@ interface EbookCardProps {
   className?: string;
   isActive?: boolean;
   isInitiallyFavorited?: boolean;
+  pdfDataUrl?: string;
 }
 
-export function EbookCard({ className, isActive, isInitiallyFavorited = false }: EbookCardProps) {
+export function EbookCard({ className, isActive, isInitiallyFavorited = false, pdfDataUrl }: EbookCardProps) {
   const [isFavorited, setIsFavorited] = useState(isInitiallyFavorited);
 
   return (
@@ -19,9 +20,12 @@ export function EbookCard({ className, isActive, isInitiallyFavorited = false }:
       <CardContent
         className={cn(
           'aspect-[210/297] p-0 flex items-start justify-end rounded-[25px] overflow-hidden relative',
-          isActive ? 'bg-[#AFAFAF]' : 'bg-[#DFDFDF]'
+          !pdfDataUrl && (isActive ? 'bg-[#AFAFAF]' : 'bg-[#DFDFDF]')
         )}
       >
+        {pdfDataUrl && (
+          <object data={`${pdfDataUrl}#toolbar=0&navpanes=0&scrollbar=0`} type="application/pdf" className="absolute inset-0 w-full h-full border-0 pointer-events-none scale-110" title="Aperçu du PDF" />
+        )}
         <button
           onClick={() => setIsFavorited(prev => !prev)}
           className="absolute top-0 right-0 m-4 p-0 z-10"

@@ -37,7 +37,7 @@ export default function ProfilePage() {
         return userPublications.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 animate-in fade-in-50">
             {userPublications.map((ebook) => (
-              <EbookCard key={ebook.id} />
+              <EbookCard key={ebook.id} pdfDataUrl={ebook.pdfDataUrl} />
             ))}
           </div>
         ) : (
