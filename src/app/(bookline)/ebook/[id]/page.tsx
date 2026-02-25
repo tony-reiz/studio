@@ -2,11 +2,10 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
-import { Share2, Trash2 } from 'lucide-react';
+import { Share2, Trash2, Loader2, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState, useRef } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import dynamic from 'next/dynamic';
 
@@ -120,6 +119,11 @@ export default function EbookViewerPage() {
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
       <main className="flex-1 flex w-full items-center justify-center">
         <div className="relative w-full max-w-sm">
+            <div className="absolute top-4 -left-16">
+                <Button onClick={() => router.back()} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
+                    <ChevronLeft className="h-6 w-6" />
+                </Button>
+            </div>
             <div className="h-[70vh]">
                 <div className="w-full h-full relative">
                     <div ref={viewerRef} className="w-full h-full overflow-y-auto rounded-lg bg-secondary">
@@ -152,7 +156,7 @@ export default function EbookViewerPage() {
                     )}
                 </div>
             </div>
-            <div className="absolute top-4 -left-16 flex flex-col gap-3">
+            <div className="absolute top-4 -right-16 flex flex-col gap-3">
                 <Button onClick={handleDelete} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
                     <Trash2 className="h-6 w-6" />
                 </Button>
