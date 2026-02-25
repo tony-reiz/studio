@@ -34,7 +34,7 @@ export default function LandingPage() {
           </p>
         </div>
       </main>
-      <footer className="p-6 sm:p-8 flex justify-center">
+      <footer className="px-6 pt-6 pb-12 sm:px-8 sm:pt-8 sm:pb-12 flex justify-center">
         <Link href="/home" passHref>
           <Button className="bg-foreground text-background rounded-full h-14 px-12 text-lg font-semibold hover:bg-foreground/90">
             commencer
