@@ -32,7 +32,7 @@ export function ProfileTabNav({ activeTab, setActiveTab }: ProfileTabNavProps) {
       <button
         onClick={() => setActiveTab('achats')}
         className={cn(
-          'relative z-10 w-1/3 py-3 text-center text-sm font-semibold transition-colors duration-300',
+          'relative z-10 w-1/3 py-1.5 text-center text-sm font-semibold transition-colors duration-300',
           activeTab === 'achats' ? 'text-background' : 'text-foreground'
         )}
       >
@@ -41,7 +41,7 @@ export function ProfileTabNav({ activeTab, setActiveTab }: ProfileTabNavProps) {
       <button
         onClick={() => setActiveTab('publications')}
         className={cn(
-          'relative z-10 w-1/3 py-3 text-center text-sm font-semibold transition-colors duration-300',
+          'relative z-10 w-1/3 py-1.5 text-center text-sm font-semibold transition-colors duration-300',
           activeTab === 'publications' ? 'text-background' : 'text-foreground'
         )}
       >
@@ -50,7 +50,7 @@ export function ProfileTabNav({ activeTab, setActiveTab }: ProfileTabNavProps) {
       <button
         onClick={() => setActiveTab('favoris')}
         className={cn(
-          'relative z-10 w-1/3 py-3 text-center text-sm font-semibold transition-colors duration-300',
+          'relative z-10 w-1/3 py-1.5 text-center text-sm font-semibold transition-colors duration-300',
           activeTab === 'favoris' ? 'text-background' : 'text-foreground'
         )}
       >
