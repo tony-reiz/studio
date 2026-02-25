@@ -25,11 +25,11 @@ export default function LandingPage() {
             </div>
         </div>
 
-        <div className="relative md:-left-12">
+        <div className="flex flex-col items-center">
           <h2 className="text-6xl md:text-7xl font-bold tracking-tighter whitespace-nowrap">
             La Matrice de Vente
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-lg mx-auto">
+          <p className="mt-4 text-lg text-muted-foreground max-w-lg">
             Libérez votre potentiel. Publiez et générez des revenus en toute simplicité.
           </p>
         </div>
