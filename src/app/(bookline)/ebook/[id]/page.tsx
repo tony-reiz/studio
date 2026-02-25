@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useEffect, useState, useRef } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Document, Page, pdfjs } from 'react-pdf';
-import { cMapUrl, cMapPacked } from 'pdfjs-dist/cmaps';
+import { cMapUrl } from 'pdfjs-dist';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import { Loader2 } from 'lucide-react';
@@ -20,7 +20,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 
 const options = {
   cMapUrl,
-  cMapPacked,
+  cMapPacked: true,
 };
 
 export default function EbookViewerPage() {
