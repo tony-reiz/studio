@@ -63,11 +63,6 @@ export default function SellPage() {
       pdfFileName: pdfFile.name,
     });
 
-    toast({
-      title: "Ebook soumis !",
-      description: "Votre ebook est maintenant visible dans vos publications.",
-    });
-
     router.push('/profile');
   }
 
