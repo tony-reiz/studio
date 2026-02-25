@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
+    <div className="relative flex flex-col min-h-screen bg-background text-foreground">
       <header className="flex justify-between items-center p-6 sm:p-8">
         <h1 className="text-2xl font-bold">BookLine</h1>
         <div className="bg-foreground text-background p-2 rounded-full flex items-center space-x-1">
@@ -13,7 +13,7 @@ export default function LandingPage() {
           <GraduationCap className="h-5 w-5 opacity-50" />
         </div>
       </header>
-      <main className="flex-1 flex flex-col items-center justify-center text-center relative px-4">
+      <main className="flex-1 flex flex-col items-center justify-center text-center relative px-4 pb-40 sm:pb-24">
         {/* Background cards */}
         <div className="absolute inset-0 w-full h-full overflow-hidden -z-10 flex items-center justify-center">
             <div className="relative w-full max-w-lg h-96">
@@ -26,15 +26,15 @@ export default function LandingPage() {
         </div>
 
         <div className="flex flex-col items-center">
-          <h2 className="text-6xl md:text-7xl font-bold tracking-tighter whitespace-nowrap">
+          <h2 className="text-5xl md:text-7xl font-bold tracking-tighter">
             La Matrice de Vente
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
+          <p className="mt-4 max-w-md text-lg text-muted-foreground">
             Libérez votre potentiel. Publiez et générez des revenus en toute simplicité.
           </p>
         </div>
       </main>
-      <footer className="px-6 pt-6 pb-64 sm:px-8 sm:pt-8 sm:pb-12 flex justify-center">
+      <footer className="absolute bottom-24 sm:bottom-12 left-0 right-0 px-6 flex justify-center">
         <Link href="/home" passHref>
           <Button className="bg-foreground text-background rounded-full h-14 px-12 text-lg font-semibold hover:bg-foreground/90">
             commencer
