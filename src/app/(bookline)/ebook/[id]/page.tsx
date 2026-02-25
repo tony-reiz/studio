@@ -30,7 +30,6 @@ export default function EbookViewerPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [containerWidth, setContainerWidth] = useState(0);
   
-  const mainContainerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<HTMLDivElement>(null);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -43,14 +42,14 @@ export default function EbookViewerPage() {
 
   useEffect(() => {
     const setWidth = () => {
-      if (mainContainerRef.current) {
-        setContainerWidth(mainContainerRef.current.clientWidth);
+      if (viewerRef.current) {
+        setContainerWidth(viewerRef.current.clientWidth);
       }
     };
     setWidth();
     window.addEventListener('resize', setWidth);
     return () => window.removeEventListener('resize', setWidth);
-  }, []);
+  }, [numPages]);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -115,7 +114,7 @@ export default function EbookViewerPage() {
         </Button>
       </div>
 
-      <main ref={mainContainerRef} className="w-full h-[70vh] max-w-sm flex items-center justify-center">
+      <main className="w-full h-[70vh] max-w-sm flex items-center justify-center">
          <div className="w-full h-full relative">
             <div ref={viewerRef} className="w-full h-full overflow-y-auto rounded-lg bg-secondary">
                 <Document
