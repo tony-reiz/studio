@@ -4,8 +4,24 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { Share2, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { Document, Page, pdfjs } from 'react-pdf';
+import { cMapUrl, cMapPacked } from 'pdfjs-dist/cmaps';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import 'react-pdf/dist/esm/Page/TextLayer.css';
+import { Loader2 } from 'lucide-react';
+
+// Configure the worker for react-pdf
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url,
+).toString();
+
+const options = {
+  cMapUrl,
+  cMapPacked,
+};
 
 export default function EbookViewerPage() {
   const params = useParams();
@@ -14,12 +30,68 @@ export default function EbookViewerPage() {
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
   const { toast } = useToast();
 
+  const [numPages, setNumPages] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [containerWidth, setContainerWidth] = useState(0);
+  
+  const mainContainerRef = useRef<HTMLDivElement>(null);
+  const viewerRef = useRef<HTMLDivElement>(null);
+  const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   useEffect(() => {
     if (params.id && publishedEbooks.length > 0) {
       const foundEbook = publishedEbooks.find((e) => e.id === params.id);
       setEbook(foundEbook);
     }
   }, [params.id, publishedEbooks]);
+
+  useEffect(() => {
+    const setWidth = () => {
+      if (mainContainerRef.current) {
+        setContainerWidth(mainContainerRef.current.clientWidth);
+      }
+    };
+    setWidth();
+    window.addEventListener('resize', setWidth);
+    return () => window.removeEventListener('resize', setWidth);
+  }, []);
+
+  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+    setNumPages(numPages);
+    pageRefs.current = Array(numPages).fill(null);
+  };
+
+  useEffect(() => {
+    const viewer = viewerRef.current;
+    if (!viewer || !numPages) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visiblePages = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        
+        if (visiblePages.length > 0) {
+          const topMostVisiblePage = visiblePages[0];
+          const pageIndex = parseInt(topMostVisiblePage.target.getAttribute('data-page-number') || '1', 10);
+          setCurrentPage(pageIndex);
+        }
+      },
+      { root: viewer, rootMargin: '-50% 0px -50% 0px', threshold: 0 }
+    );
+
+    const currentRefs = pageRefs.current;
+    currentRefs.forEach((pageEl) => {
+      if (pageEl) observer.observe(pageEl);
+    });
+
+    return () => {
+      currentRefs.forEach((pageEl) => {
+        if (pageEl) observer.unobserve(pageEl);
+      });
+    };
+  }, [numPages]);
+
 
   const handleDelete = () => {
     if (ebook) {
@@ -47,16 +119,40 @@ export default function EbookViewerPage() {
         </Button>
       </div>
 
-      <main className="w-full h-[70vh] max-w-sm flex items-center justify-center">
+      <main ref={mainContainerRef} className="w-full h-[70vh] max-w-sm flex items-center justify-center">
          <div className="w-full h-full relative">
-            <iframe
-                src={ebook.pdfDataUrl}
-                className="w-full h-full border-0 rounded-lg bg-secondary"
-                title={ebook.title}
-            />
-            <div className="absolute bottom-4 right-4 bg-black/70 text-white text-xs rounded-full px-3 py-1">
-                X/P
+            <div ref={viewerRef} className="w-full h-full overflow-y-auto rounded-lg bg-secondary">
+                <Document
+                    file={ebook.pdfDataUrl}
+                    onLoadSuccess={onDocumentLoadSuccess}
+                    options={options}
+                    loading={
+                      <div className="flex justify-center items-center h-full">
+                        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                      </div>
+                    }
+                    className="flex flex-col items-center"
+                >
+                    {Array.from(new Array(numPages || 0), (el, index) => (
+                         <div
+                            key={`page_${index + 1}`}
+                            ref={(el) => (pageRefs.current[index] = el)}
+                            data-page-number={index + 1}
+                            className="mb-2 last:mb-0"
+                        >
+                            <Page
+                                pageNumber={index + 1}
+                                width={containerWidth}
+                            />
+                        </div>
+                    ))}
+                </Document>
             </div>
+            {numPages && (
+                <div className="absolute bottom-4 right-4 bg-black/70 text-white text-xs rounded-full px-3 py-1 z-10">
+                    {currentPage}/{numPages}
+                </div>
+            )}
          </div>
       </main>
 
