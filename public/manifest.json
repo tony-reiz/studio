@@ -2,10 +2,6 @@
   "name": "Bookline",
   "short_name": "Bookline",
   "description": "Achetez et vendez des ebooks.",
-  "start_url": "/home",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#ffffff",
   "icons": [
     {
       "src": "/icons/icon-192.svg",
@@ -19,5 +15,9 @@
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff"
 }
