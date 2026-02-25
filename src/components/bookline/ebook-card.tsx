@@ -28,8 +28,7 @@ export function EbookCard({ className, isActive, isInitiallyFavorited = false, p
 
   return (
     <Card 
-      className={cn('bg-transparent border-0 shadow-none', pdfDataUrl && 'cursor-pointer')}
-      onClick={handleCardClick}
+      className={cn('bg-transparent border-0 shadow-none', className)}
     >
       <CardContent
         className={cn(
@@ -40,6 +39,17 @@ export function EbookCard({ className, isActive, isInitiallyFavorited = false, p
         {pdfDataUrl && (
           <object data={`${pdfDataUrl}#toolbar=0&navpanes=0&scrollbar=0`} type="application/pdf" className="absolute inset-0 w-full h-full border-0 pointer-events-none scale-110" title="Aperçu du PDF" />
         )}
+        
+        {/* This div is a clickable overlay to open the PDF */}
+        {pdfDataUrl && (
+          <div 
+            onClick={handleCardClick}
+            className="absolute inset-0 cursor-pointer"
+            role="button"
+            aria-label="Ouvrir l'ebook"
+          />
+        )}
+        
         <button
           onClick={handleFavoriteClick}
           className="absolute top-0 right-0 m-4 p-0 z-10"
