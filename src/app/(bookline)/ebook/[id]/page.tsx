@@ -10,6 +10,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import { Loader2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 // Configure the worker for react-pdf
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -104,55 +105,59 @@ export default function EbookViewerPage() {
   }
 
   return (
-    <div className="relative min-h-screen bg-background flex flex-col items-center justify-center p-4">
-      <div className="absolute top-8 left-4 flex flex-col gap-3 z-10">
-        <Button onClick={handleDelete} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
-          <Trash2 className="h-6 w-6" />
-        </Button>
-        <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
-          <Share2 className="h-6 w-6" />
-        </Button>
-      </div>
-
-      <main className="w-full h-[70vh] max-w-sm flex items-center justify-center">
-         <div className="w-full h-full relative">
-            <div ref={viewerRef} className="w-full h-full overflow-y-auto rounded-lg bg-secondary">
-                <Document
-                    file={ebook.pdfDataUrl}
-                    onLoadSuccess={onDocumentLoadSuccess}
-                    options={options}
-                    loading={
-                      <div className="flex justify-center items-center h-full">
-                        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                      </div>
-                    }
-                    className="flex flex-col items-center"
-                >
-                    {Array.from(new Array(numPages || 0), (el, index) => (
-                         <div
-                            key={`page_${index + 1}`}
-                            ref={(el) => (pageRefs.current[index] = el)}
-                            data-page-number={index + 1}
-                            className="mb-2 last:mb-0"
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+      <main className="flex-1 flex w-full items-center justify-center">
+        <div className="relative w-full max-w-sm">
+            <div className="h-[70vh]">
+                <div className="w-full h-full relative">
+                    <div ref={viewerRef} className="w-full h-full overflow-y-auto rounded-lg bg-secondary">
+                        <Document
+                            file={ebook.pdfDataUrl}
+                            onLoadSuccess={onDocumentLoadSuccess}
+                            options={options}
+                            loading={
+                            <div className="flex justify-center items-center h-full">
+                                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                            </div>
+                            }
+                            className="flex flex-col items-center"
                         >
-                            <Page
-                                pageNumber={index + 1}
-                                width={containerWidth}
-                            />
+                            {Array.from(new Array(numPages || 0), (el, index) => (
+                                <div
+                                    key={`page_${index + 1}`}
+                                    ref={(el) => (pageRefs.current[index] = el)}
+                                    data-page-number={index + 1}
+                                    className="mb-2 last:mb-0"
+                                >
+                                    <Page
+                                        pageNumber={index + 1}
+                                        width={containerWidth ? containerWidth : undefined}
+                                        className={cn(!containerWidth && 'invisible')}
+                                    />
+                                </div>
+                            ))}
+                        </Document>
+                    </div>
+                    {numPages && (
+                        <div className="absolute bottom-4 right-4 bg-black/70 text-white text-xs rounded-full px-3 py-1 z-10">
+                            {currentPage}/{numPages}
                         </div>
-                    ))}
-                </Document>
-            </div>
-            {numPages && (
-                <div className="absolute bottom-4 right-4 bg-black/70 text-white text-xs rounded-full px-3 py-1 z-10">
-                    {currentPage}/{numPages}
+                    )}
                 </div>
-            )}
-         </div>
+            </div>
+            <div className="absolute top-4 -left-16 flex flex-col gap-3">
+                <Button onClick={handleDelete} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
+                    <Trash2 className="h-6 w-6" />
+                </Button>
+                <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
+                    <Share2 className="h-6 w-6" />
+                </Button>
+            </div>
+        </div>
       </main>
 
-      <footer className="absolute bottom-16 left-1/2 -translate-x-1/2">
-        <Button className="bg-foreground text-background rounded-full h-14 px-12 text-lg font-semibold hover:bg-foreground/90">
+      <footer className="w-full max-w-[16rem] pb-8 pt-4">
+        <Button className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90">
           Détail
         </Button>
       </footer>
