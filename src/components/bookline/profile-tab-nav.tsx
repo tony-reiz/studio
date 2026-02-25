@@ -24,7 +24,7 @@ export function ProfileTabNav({ activeTab, setActiveTab }: ProfileTabNavProps) {
   };
 
   return (
-    <div className="bg-secondary rounded-full flex relative items-center w-full max-w-sm mx-auto shadow-inner my-8">
+    <div className="bg-secondary rounded-full flex relative items-center w-full max-w-sm mx-auto shadow-inner my-4">
       <div
         className="absolute top-0 h-full w-1/3 rounded-full bg-foreground transition-all duration-300 ease-in-out"
         style={{ left: getLeftPosition() }}
