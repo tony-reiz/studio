@@ -29,7 +29,7 @@ export default function LandingPage() {
           <h2 className="text-6xl md:text-7xl font-bold tracking-tighter whitespace-nowrap">
             La Matrice de Vente
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-md mx-auto">
+          <p className="mt-4 text-lg text-muted-foreground">
             Libérez votre potentiel. Publiez et générez des revenus en toute simplicité.
           </p>
         </div>
