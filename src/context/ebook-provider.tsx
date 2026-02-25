@@ -16,6 +16,7 @@ export interface Ebook {
 interface EbookContextType {
   publishedEbooks: Ebook[];
   addPublishedEbook: (ebook: Omit<Ebook, 'id'>) => void;
+  removePublishedEbook: (id: string) => void;
 }
 
 // Create the context
@@ -33,8 +34,13 @@ export function EbookProvider({ children }: { children: ReactNode }) {
     setPublishedEbooks((prev) => [...prev, newEbook]);
   };
 
+  const removePublishedEbook = (id: string) => {
+    setPublishedEbooks((prev) => prev.filter((ebook) => ebook.id !== id));
+  };
+
+
   return (
-    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook }}>
+    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook }}>
       {children}
     </EbookContext.Provider>
   );
