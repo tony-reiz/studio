@@ -3,9 +3,8 @@
 import { useParams, useRouter } from 'next/navigation';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { useEffect, useState } from 'react';
-import { ChevronLeft } from 'lucide-react';
+import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell } from "recharts";
 
@@ -50,22 +49,27 @@ export default function EbookDetailsPage() {
     return <div className="flex h-screen w-full items-center justify-center bg-background">Chargement...</div>;
   }
 
+  const numberOfSales = 0; // Hardcoded for now
+  const ebookPriceNumber = parseFloat(ebook.price.replace(',', '.')) || 0;
+  const SELLER_FEE = 3;
+  const totalRevenue = (ebookPriceNumber - SELLER_FEE) * numberOfSales;
+
   return (
     <div className="min-h-screen bg-background text-foreground">
         <div className="w-full max-w-2xl mx-auto p-4">
             <header className="w-full flex items-center relative py-4 mb-4">
-                <Button onClick={() => router.back()} variant="ghost" size="icon" className="absolute left-0 -ml-2">
-                    <ChevronLeft className="h-7 w-7" />
-                </Button>
                 <h1 className="text-xl font-bold text-center flex-grow">Détails de la publication</h1>
+                <Button onClick={() => router.back()} variant="ghost" size="icon" className="absolute right-0 -mr-2">
+                    <X className="h-7 w-7" />
+                </Button>
             </header>
             
             <main className="w-full space-y-6 pb-12">
-                <Card className="border-0 shadow-none bg-transparent">
-                    <CardHeader className="p-0 pb-4">
-                        <CardTitle>{ebook.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4 p-0">
+                <div className="border-0 shadow-none bg-transparent">
+                    <div className="p-0 pb-4">
+                        <h2 className="text-2xl font-semibold leading-none tracking-tight">{ebook.title}</h2>
+                    </div>
+                    <div className="space-y-4 p-0">
                         <div>
                             <h3 className="font-semibold text-foreground mb-1 text-sm">Description</h3>
                             <p className="text-sm leading-relaxed whitespace-pre-line">{ebook.description}</p>
@@ -74,19 +78,23 @@ export default function EbookDetailsPage() {
                             <h3 className="font-semibold text-foreground mb-1 text-sm">Mots-clés</h3>
                             <p className="text-sm">{ebook.keywords}</p>
                         </div>
-                    </CardContent>
-                </Card>
+                    </div>
+                </div>
 
-                <Card className="border-0 shadow-none bg-transparent">
-                    <CardHeader className="p-0 pb-4">
-                        <CardTitle>Statistiques</CardTitle>
-                        <CardDescription>Performance de votre ebook.</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6 p-0">
-                         <div className="grid grid-cols-2 gap-4 text-left">
+                <div className="border-0 shadow-none bg-transparent">
+                    <div className="p-0 pb-4">
+                        <h2 className="text-2xl font-semibold leading-none tracking-tight">Statistiques</h2>
+                        <p className="text-sm text-muted-foreground">Performance de votre ebook.</p>
+                    </div>
+                    <div className="space-y-6 p-0">
+                         <div className="grid grid-cols-3 gap-4 text-left">
                             <div className="bg-secondary p-4 rounded-lg">
                                 <p className="text-sm text-muted-foreground">Nombre de ventes</p>
-                                <p className="text-3xl font-bold">0</p>
+                                <p className="text-3xl font-bold">{numberOfSales}</p>
+                            </div>
+                            <div className="bg-secondary p-4 rounded-lg">
+                                <p className="text-sm text-muted-foreground">Revenus générés</p>
+                                <p className="text-3xl font-bold">{totalRevenue.toFixed(2).replace('.', ',')} €</p>
                             </div>
                             <div className="bg-secondary p-4 rounded-lg">
                                 <p className="text-sm text-muted-foreground">Prix de l'ebook</p>
@@ -122,8 +130,8 @@ export default function EbookDetailsPage() {
                                 </Bar>
                             </BarChart>
                         </ChartContainer>
-                    </CardContent>
-                </Card>
+                    </div>
+                </div>
             </main>
         </div>
     </div>
