@@ -93,8 +93,8 @@ export default function EbookDetailsPage() {
                                 <p className="text-3xl font-bold">{ebook.price} €</p>
                             </div>
                         </div>
-                        <div className="h-[200px] w-full">
-                            <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+                        <div className="h-[240px] w-full">
+                            <ChartContainer config={chartConfig} className="h-full w-full">
                                 <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
                                     <CartesianGrid vertical={false} />
                                     <XAxis
