@@ -61,11 +61,11 @@ export default function EbookDetailsPage() {
             </header>
             
             <main className="w-full space-y-6 pb-12">
-                <Card>
-                    <CardHeader>
+                <Card className="border-0 shadow-none bg-transparent">
+                    <CardHeader className="p-0 pb-4">
                         <CardTitle>{ebook.title}</CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className="space-y-4 p-0">
                         <div>
                             <h3 className="font-semibold text-muted-foreground mb-1 text-sm">Description</h3>
                             <p className="text-sm leading-relaxed whitespace-pre-line">{ebook.description}</p>
@@ -77,12 +77,12 @@ export default function EbookDetailsPage() {
                     </CardContent>
                 </Card>
 
-                <Card>
-                    <CardHeader>
+                <Card className="border-0 shadow-none bg-transparent">
+                    <CardHeader className="p-0 pb-4">
                         <CardTitle>Statistiques</CardTitle>
                         <CardDescription>Performance de votre ebook.</CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-6">
+                    <CardContent className="space-y-6 p-0">
                          <div className="grid grid-cols-2 gap-4 text-left">
                             <div className="bg-secondary p-4 rounded-lg">
                                 <p className="text-sm text-muted-foreground">Nombre de ventes</p>
@@ -93,7 +93,7 @@ export default function EbookDetailsPage() {
                                 <p className="text-3xl font-bold">{ebook.price} €</p>
                             </div>
                         </div>
-                        <ChartContainer config={chartConfig} className="w-full">
+                        <ChartContainer config={chartConfig} className="w-full h-[250px]">
                             <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
                                 <CartesianGrid vertical={false} />
                                 <XAxis
@@ -109,6 +109,7 @@ export default function EbookDetailsPage() {
                                     axisLine={false}
                                     stroke="hsl(var(--muted-foreground))"
                                     fontSize={12}
+                                    allowDecimals={false}
                                 />
                                 <ChartTooltip
                                     cursor={false}
