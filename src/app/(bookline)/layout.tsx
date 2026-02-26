@@ -44,6 +44,9 @@ export default function BooklineLayout({
 
   // Navigation handlers that fade out first
   const handleNavigate = (path: string) => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
     if (pathname === path) return;
     setIsPageVisible(false);
     setTimeout(() => {
@@ -52,6 +55,9 @@ export default function BooklineLayout({
   };
 
   const handleBack = () => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
     setIsPageVisible(false);
     setTimeout(() => {
       router.back();

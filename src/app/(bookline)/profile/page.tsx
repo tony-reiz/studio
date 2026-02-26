@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Menu, User, Home, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
@@ -16,8 +17,14 @@ const userPurchases: any[] = [];
 const userFavorites: any[] = [];
 
 export default function ProfilePage() {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('publications');
-  const [displayedTab, setDisplayedTab] = useState<ActiveTab>('publications');
+  const searchParams = useSearchParams();
+  const initialTabQuery = searchParams.get('tab');
+  const initialTab: ActiveTab = initialTabQuery === 'achats' || initialTabQuery === 'publications' || initialTabQuery === 'favoris' 
+                                    ? initialTabQuery 
+                                    : 'publications';
+
+  const [activeTab, setActiveTab] = useState<ActiveTab>(initialTab);
+  const [displayedTab, setDisplayedTab] = useState<ActiveTab>(initialTab);
   const [isContentVisible, setIsContentVisible] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const { publishedEbooks } = useEbooks();

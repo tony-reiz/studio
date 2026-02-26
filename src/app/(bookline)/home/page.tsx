@@ -35,7 +35,7 @@ export default function HomePage() {
                       <span className="truncate">recherchez vos ebook...</span>
                   </button>
               </div>
-              <Button onClick={() => handleNavigate('/profile')} variant="default" size="icon" className="-mt-2 sm:mt-0 rounded-full bg-foreground text-background w-11 h-11" aria-label="Profil Utilisateur">
+              <Button onClick={() => handleNavigate('/profile?tab=achats')} variant="default" size="icon" className="-mt-2 sm:mt-0 rounded-full bg-foreground text-background w-11 h-11" aria-label="Profil Utilisateur">
                 <User className="h-6 w-6" />
               </Button>
             </div>

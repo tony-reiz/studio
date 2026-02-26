@@ -91,7 +91,7 @@ export default function SellPage() {
             <Button variant="ghost" aria-label="Menu" className="p-0 h-auto hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7">
               <Menu />
             </Button>
-            <Button onClick={() => handleNavigate('/profile')} variant="default" size="icon" className="-mt-2 sm:mt-0 rounded-full bg-foreground text-background w-11 h-11" aria-label="Profil Utilisateur">
+            <Button onClick={() => handleNavigate('/profile?tab=achats')} variant="default" size="icon" className="-mt-2 sm:mt-0 rounded-full bg-foreground text-background w-11 h-11" aria-label="Profil Utilisateur">
               <User className="h-6 w-6" />
             </Button>
           </header>
