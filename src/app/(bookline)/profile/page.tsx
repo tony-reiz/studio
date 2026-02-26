@@ -26,24 +26,21 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<ActiveTab>(initialTab);
   const [displayedTab, setDisplayedTab] = useState<ActiveTab>(initialTab);
   const [isContentVisible, setIsContentVisible] = useState(true);
-  const [isTransitioning, setIsTransitioning] = useState(false);
   const { publishedEbooks } = useEbooks();
   const { handleNavigate } = useTransitionRouter();
   const userPublications = publishedEbooks;
 
   const handleTabChange = (newTab: ActiveTab) => {
-    if (activeTab === newTab || isTransitioning) {
+    if (activeTab === newTab) {
       return;
     }
 
-    setIsTransitioning(true);
     setActiveTab(newTab);
     setIsContentVisible(false);
 
     setTimeout(() => {
       setDisplayedTab(newTab);
       setIsContentVisible(true);
-      setIsTransitioning(false);
     }, 300);
   };
 
@@ -114,7 +111,7 @@ export default function ProfilePage() {
                 <User className="h-16 w-16 text-background" />
               </AvatarFallback>
             </Avatar>
-            <div className="bg-foreground text-background text-sm font-semibold rounded-full px-24 py-1.5 mt-4">
+            <div className="bg-foreground text-background text-sm font-semibold rounded-full px-16 py-1.5 mt-4">
               utilisateur
             </div>
           </div>
