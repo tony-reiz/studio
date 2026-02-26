@@ -7,6 +7,7 @@ import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell } from "recharts";
+import { cn } from '@/lib/utils';
 
 const chartData = [
   { metric: "Clics", value: 0, fill: "var(--color-clics)" },
@@ -37,6 +38,11 @@ export default function EbookDetailsPage() {
   const router = useRouter();
   const { publishedEbooks } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     if (params.id && publishedEbooks.length > 0) {
@@ -55,7 +61,7 @@ export default function EbookDetailsPage() {
   const totalRevenue = (ebookPriceNumber - SELLER_FEE) * numberOfSales;
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className={cn("min-h-screen bg-background text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
         <div className="w-full max-w-2xl mx-auto p-4">
             <header className="w-full flex items-center relative py-4 mb-4">
                 <h1 className="text-xl font-bold text-center flex-grow">Détails de la publication</h1>

@@ -1,10 +1,20 @@
+'use client';
+
 import { GraduationCap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { cn } from '@/lib/utils';
 
 export default function LandingPage() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
-    <div className="relative flex flex-col min-h-screen bg-background text-foreground">
+    <div className={cn("relative flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
       <header className="flex justify-between items-center p-6 sm:p-8">
         <h1 className="text-2xl font-bold">BookLine</h1>
         <div className="bg-foreground text-background p-2 rounded-full flex items-center space-x-1">

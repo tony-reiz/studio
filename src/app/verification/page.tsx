@@ -3,10 +3,18 @@
 import Link from 'next/link';
 import { CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useState, useEffect } from 'react';
+import { cn } from '@/lib/utils';
 
 export default function VerificationPage() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
-    <div className="grid h-screen place-items-center bg-background text-foreground overflow-hidden">
+    <div className={cn("grid h-screen place-items-center bg-background text-foreground overflow-hidden transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
       <main className="max-w-md w-full text-center p-4">
         <div className="flex justify-center mb-6">
           <div className="w-24 h-24 bg-secondary rounded-full flex items-center justify-center">

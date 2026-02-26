@@ -43,6 +43,11 @@ export default function EbookViewerPage() {
   
   const viewerRef = useRef<HTMLDivElement>(null);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     if (params.id && publishedEbooks.length > 0) {
@@ -115,7 +120,7 @@ export default function EbookViewerPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+    <div className={cn("min-h-screen bg-background flex flex-col items-center justify-center p-4 transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
       <main className="flex-1 flex w-full items-center justify-center">
         <div className="relative w-full max-w-sm">
             <div className="absolute top-4 -left-16">

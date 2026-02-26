@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, User, Home, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
@@ -16,12 +16,17 @@ const userPurchases: any[] = [];
 const userFavorites: any[] = [];
 
 export default function ProfilePage() {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('publications'); // For UI slider
-  const [displayedTab, setDisplayedTab] = useState<ActiveTab>('publications'); // For content
+  const [activeTab, setActiveTab] = useState<ActiveTab>('publications');
+  const [displayedTab, setDisplayedTab] = useState<ActiveTab>('publications');
   const [isContentVisible, setIsContentVisible] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const { publishedEbooks } = useEbooks();
   const userPublications = publishedEbooks;
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleTabChange = (newTab: ActiveTab) => {
     if (activeTab === newTab || isTransitioning) {
@@ -88,7 +93,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
+    <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
       <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="flex items-start justify-between w-full py-6">
           <Button variant="ghost" size="icon" aria-label="Menu" className="hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7">
