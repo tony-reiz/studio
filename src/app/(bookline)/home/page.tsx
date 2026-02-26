@@ -1,28 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { useState } from 'react';
 import { Menu, User, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookDisplayArea } from '@/components/bookline/ebook-display-area';
 import { SearchOverlay } from '@/components/bookline/search-overlay';
-import { cn } from '@/lib/utils';
+import { useTransitionRouter } from '@/app/(bookline)/layout';
 
 export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    // This is to trigger the fade-in animation on mount.
-    setIsMounted(true);
-  }, []);
+  const { handleNavigate } = useTransitionRouter();
 
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-background text-foreground">
-      <div className={cn(
-          "w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8 transition-opacity duration-300 ease-in-out",
-          isMounted ? "opacity-100" : "opacity-0"
-        )}>
+      <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="w-full py-6">
           <div className="flex items-start justify-between w-full">
             <div className="flex flex-col items-start">
@@ -44,11 +35,9 @@ export default function HomePage() {
                       <span className="truncate">recherchez vos ebook...</span>
                   </button>
               </div>
-              <Link href="/profile" passHref>
-                <Button variant="default" size="icon" className="-mt-2 sm:mt-0 rounded-full bg-foreground text-background w-11 h-11" aria-label="Profil Utilisateur">
-                  <User className="h-6 w-6" />
-                </Button>
-              </Link>
+              <Button onClick={() => handleNavigate('/profile')} variant="default" size="icon" className="-mt-2 sm:mt-0 rounded-full bg-foreground text-background w-11 h-11" aria-label="Profil Utilisateur">
+                <User className="h-6 w-6" />
+              </Button>
             </div>
           </div>
           

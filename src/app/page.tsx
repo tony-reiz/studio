@@ -2,16 +2,24 @@
 
 import { GraduationCap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 
 export default function LandingPage() {
   const [isMounted, setIsMounted] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  const handleNavigate = (path: string) => {
+    setIsMounted(false);
+    setTimeout(() => {
+      router.push(path);
+    }, 300);
+  };
 
   return (
     <div className={cn("relative flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
@@ -45,11 +53,9 @@ export default function LandingPage() {
         </div>
       </main>
       <footer className="absolute bottom-32 sm:bottom-24 left-0 right-0 px-6 flex justify-center">
-        <Link href="/home" passHref>
-          <Button className="bg-foreground text-background rounded-full h-14 px-12 text-lg font-semibold hover:bg-foreground/90">
-            commencer
-          </Button>
-        </Link>
+        <Button onClick={() => handleNavigate('/home')} className="bg-foreground text-background rounded-full h-14 px-12 text-lg font-semibold hover:bg-foreground/90">
+          commencer
+        </Button>
       </footer>
     </div>
   );

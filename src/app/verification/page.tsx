@@ -1,17 +1,25 @@
 'use client';
 
-import Link from 'next/link';
 import { CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 
 export default function VerificationPage() {
   const [isMounted, setIsMounted] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  const handleNavigate = (path: string) => {
+    setIsMounted(false);
+    setTimeout(() => {
+      router.push(path);
+    }, 300);
+  };
 
   return (
     <div className={cn("grid h-screen place-items-center bg-background text-foreground overflow-hidden transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
@@ -26,11 +34,9 @@ export default function VerificationPage() {
           Votre ebook a bien été soumis. Il est maintenant en cours de vérification par nos équipes.
         </p>
         <div className="mt-8">
-          <Link href="/home" passHref>
-            <Button className="bg-foreground text-background rounded-full h-12 px-10 text-base font-semibold hover:bg-foreground/90">
-              Retour à l'accueil
-            </Button>
-          </Link>
+          <Button onClick={() => handleNavigate('/home')} className="bg-foreground text-background rounded-full h-12 px-10 text-base font-semibold hover:bg-foreground/90">
+            Retour à l'accueil
+          </Button>
         </div>
       </main>
     </div>

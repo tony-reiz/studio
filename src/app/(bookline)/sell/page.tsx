@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -12,8 +11,8 @@ import { useToast } from '@/hooks/use-toast';
 import { PdfUploader } from '@/components/bookline/pdf-uploader';
 import { SellForm } from '@/components/bookline/sell-form';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
 import { useEbooks } from '@/context/ebook-provider';
+import { useTransitionRouter } from '@/app/(bookline)/layout';
 
 const sellFormSchema = z.object({
   title: z.string().min(1, { message: "Le titre est requis." }),
@@ -31,15 +30,9 @@ const sellFormSchema = z.object({
 export default function SellPage() {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
   const { toast } = useToast();
-  const router = useRouter();
+  const { handleNavigate } = useTransitionRouter();
   const { addPublishedEbook } = useEbooks();
-
-  useEffect(() => {
-    // This is to trigger the fade-in animation on mount.
-    setIsMounted(true);
-  }, []);
 
   const form = useForm<z.infer<typeof sellFormSchema>>({
     resolver: zodResolver(sellFormSchema),
@@ -76,7 +69,7 @@ export default function SellPage() {
         price: values.price,
         pdfDataUrl: base64String,
       });
-      router.push('/profile');
+      handleNavigate('/profile');
     }
     reader.onerror = () => {
         toast({
@@ -92,17 +85,15 @@ export default function SellPage() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col min-h-screen bg-background text-foreground">
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
           <header className="flex items-start justify-between w-full py-6">
             <Button variant="ghost" aria-label="Menu" className="p-0 h-auto hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7">
               <Menu />
             </Button>
-            <Link href="/profile" passHref>
-              <Button variant="default" size="icon" className="-mt-2 sm:mt-0 rounded-full bg-foreground text-background w-11 h-11" aria-label="Profil Utilisateur">
-                <User className="h-6 w-6" />
-              </Button>
-            </Link>
+            <Button onClick={() => handleNavigate('/profile')} variant="default" size="icon" className="-mt-2 sm:mt-0 rounded-full bg-foreground text-background w-11 h-11" aria-label="Profil Utilisateur">
+              <User className="h-6 w-6" />
+            </Button>
           </header>
 
           <main className="flex-1 w-full flex flex-col items-center pt-12 md:pt-20 pb-28 gap-8">

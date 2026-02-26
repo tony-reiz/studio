@@ -6,9 +6,9 @@ import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
 import { ProfileTabNav } from '@/components/bookline/profile-tab-nav';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import Link from 'next/link';
 import { useEbooks } from '@/context/ebook-provider';
 import { cn } from '@/lib/utils';
+import { useTransitionRouter } from '@/app/(bookline)/layout';
 
 type ActiveTab = 'achats' | 'publications' | 'favoris';
 
@@ -21,12 +21,8 @@ export default function ProfilePage() {
   const [isContentVisible, setIsContentVisible] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const { publishedEbooks } = useEbooks();
+  const { handleNavigate } = useTransitionRouter();
   const userPublications = publishedEbooks;
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   const handleTabChange = (newTab: ActiveTab) => {
     if (activeTab === newTab || isTransitioning) {
@@ -34,23 +30,18 @@ export default function ProfilePage() {
     }
 
     setIsTransitioning(true);
-    // Move the slider instantly
     setActiveTab(newTab);
-    // Start fading out the old content
     setIsContentVisible(false);
 
-    // After the fade-out animation completes...
     setTimeout(() => {
-      // ...switch the content underneath...
       setDisplayedTab(newTab);
-      // ...and fade the new content in.
       setIsContentVisible(true);
       setIsTransitioning(false);
-    }, 300); // This must match the opacity transition duration
+    }, 300);
   };
 
   const renderContent = () => {
-    switch (displayedTab) { // Render based on the displayedTab state
+    switch (displayedTab) {
       case 'achats':
         return userPurchases.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
@@ -93,18 +84,16 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
       <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="flex items-start justify-between w-full py-6">
           <Button variant="ghost" size="icon" aria-label="Menu" className="hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7">
             <Menu />
           </Button>
           <div className="flex flex-col items-center gap-6">
-            <Link href="/home" passHref>
-                <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Accueil">
-                    <Home className="h-6 w-6" />
-                </Button>
-            </Link>
+            <Button onClick={() => handleNavigate('/home')} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Accueil">
+                <Home className="h-6 w-6" />
+            </Button>
             <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Partager le profil">
               <Share2 className="h-6 w-6" />
             </Button>

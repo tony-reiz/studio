@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { type Ebook } from '@/context/ebook-provider';
+import { useTransitionRouter } from '@/app/(bookline)/layout';
 
 interface EbookCardProps {
   ebook?: Ebook;
@@ -16,16 +16,25 @@ interface EbookCardProps {
 
 export function EbookCard({ ebook, className, isActive, isInitiallyFavorited = false }: EbookCardProps) {
   const [isFavorited, setIsFavorited] = useState(isInitiallyFavorited);
+  // handleNavigate might not be available if the card is used outside BooklineLayout
+  const transitionRouter = useTransitionRouter ? useTransitionRouter() : null;
   
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIsFavorited(prev => !prev);
   };
+  
+  const handleCardClick = () => {
+    if (ebook && transitionRouter) {
+      transitionRouter.handleNavigate(`/ebook/${ebook.id}`);
+    }
+  };
 
   const cardContent = (
     <Card 
       className={cn('bg-transparent border-0 shadow-none', className)}
+      onClick={handleCardClick}
     >
       <CardContent
         className={cn(
@@ -55,13 +64,9 @@ export function EbookCard({ ebook, className, isActive, isInitiallyFavorited = f
     </Card>
   );
 
-  if (!ebook) {
-    return cardContent;
-  }
-
   return (
-    <Link href={`/ebook/${ebook.id}`} className="block">
+    <div className={cn(ebook ? 'cursor-pointer' : '')}>
       {cardContent}
-    </Link>
+    </div>
   );
 }

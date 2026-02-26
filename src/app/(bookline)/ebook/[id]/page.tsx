@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { Share2, Trash2, Loader2, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
+import { useTransitionRouter } from '@/app/(bookline)/layout';
 
 const Document = dynamic(
   () =>
@@ -32,7 +32,7 @@ const Page = dynamic(() => import('react-pdf').then((mod) => mod.Page), {
 
 export default function EbookViewerPage() {
   const params = useParams();
-  const router = useRouter();
+  const { handleNavigate, handleBack } = useTransitionRouter();
   const { publishedEbooks, removePublishedEbook } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
   const { toast } = useToast();
@@ -43,11 +43,6 @@ export default function EbookViewerPage() {
   
   const viewerRef = useRef<HTMLDivElement>(null);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   useEffect(() => {
     if (params.id && publishedEbooks.length > 0) {
@@ -111,7 +106,7 @@ export default function EbookViewerPage() {
         title: "Ebook supprimé",
         description: "Votre ebook a été supprimé de vos publications.",
       });
-      router.push('/profile');
+      handleNavigate('/profile');
     }
   };
   
@@ -120,11 +115,11 @@ export default function EbookViewerPage() {
   }
 
   return (
-    <div className={cn("min-h-screen bg-background flex flex-col items-center justify-center p-4 transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
       <main className="flex-1 flex w-full items-center justify-center">
         <div className="relative w-full max-w-sm">
             <div className="absolute top-4 -left-16">
-                <Button onClick={() => router.back()} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
+                <Button onClick={handleBack} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
                     <ChevronLeft className="h-6 w-6" />
                 </Button>
             </div>
@@ -174,8 +169,8 @@ export default function EbookViewerPage() {
       </main>
 
       <footer className="w-full max-w-[16rem] pb-8 pt-4">
-        <Button asChild className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90">
-            <Link href={`/ebook/${ebook.id}/details`}>Détail</Link>
+        <Button onClick={() => handleNavigate(`/ebook/${ebook.id}/details`)} className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90">
+            Détail
         </Button>
       </footer>
     </div>

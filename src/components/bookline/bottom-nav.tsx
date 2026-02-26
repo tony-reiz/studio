@@ -1,12 +1,13 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useState, useEffect } from 'react';
+import { useTransitionRouter } from '@/app/(bookline)/layout';
 
 export function BottomNav() {
   const pathname = usePathname();
-  const router = useRouter();
+  const { handleNavigate } = useTransitionRouter();
 
   const getCurrentTab = () => (pathname === '/sell' ? 'vendre' : 'acheter');
 
@@ -20,7 +21,6 @@ export function BottomNav() {
   const handleNavigation = (tab: 'acheter' | 'vendre') => {
     const targetPath = tab === 'acheter' ? '/home' : '/sell';
     
-    // Don't do anything if we are already on the target page
     if (pathname === targetPath || (pathname === '/' && targetPath === '/home')) {
         return;
     }
@@ -28,8 +28,8 @@ export function BottomNav() {
     // Set the visual state instantly to start the slider animation
     setActiveTab(tab);
     
-    // Then navigate to the new page. The new page will handle its own fade-in animation.
-    router.push(targetPath);
+    // Use the transition handler from the layout
+    handleNavigate(targetPath);
   };
   
   const isAcheter = activeTab === 'acheter';

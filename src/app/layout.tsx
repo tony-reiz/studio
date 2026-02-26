@@ -25,8 +25,8 @@ export default function RootLayout({
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body className="font-body antialiased">
-        {children}
-        <Toaster />
+          {children}
+          <Toaster />
       </body>
     </html>
   );
