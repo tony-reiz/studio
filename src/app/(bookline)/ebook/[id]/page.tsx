@@ -28,8 +28,6 @@ const Document = dynamic(
 const Page = dynamic(() => import('react-pdf').then((mod) => mod.Page), {
   ssr: false,
 });
-import 'react-pdf/dist/Page/AnnotationLayer.css';
-import 'react-pdf/dist/Page/TextLayer.css';
 
 
 export default function EbookViewerPage() {
@@ -145,6 +143,8 @@ export default function EbookViewerPage() {
                                         pageNumber={index + 1}
                                         width={containerWidth ? containerWidth : undefined}
                                         className={cn(!containerWidth && 'invisible')}
+                                        renderTextLayer={false}
+                                        renderAnnotationLayer={false}
                                     />
                                 </div>
                             ))}
