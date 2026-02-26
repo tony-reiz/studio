@@ -67,11 +67,11 @@ export default function EbookDetailsPage() {
                     </CardHeader>
                     <CardContent className="space-y-4 p-0">
                         <div>
-                            <h3 className="font-semibold text-muted-foreground mb-1 text-sm">Description</h3>
+                            <h3 className="font-semibold text-foreground mb-1 text-sm">Description</h3>
                             <p className="text-sm leading-relaxed whitespace-pre-line">{ebook.description}</p>
                         </div>
                         <div>
-                            <h3 className="font-semibold text-muted-foreground mb-1 text-sm">Mots-clés</h3>
+                            <h3 className="font-semibold text-foreground mb-1 text-sm">Mots-clés</h3>
                             <p className="text-sm">{ebook.keywords}</p>
                         </div>
                     </CardContent>
