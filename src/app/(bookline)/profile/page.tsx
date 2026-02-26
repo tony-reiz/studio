@@ -29,7 +29,7 @@ export default function ProfilePage() {
             ))}
           </div>
         ) : (
-          <div className="text-center text-muted-foreground mt-12">
+          <div className="text-center text-muted-foreground mt-12 animate-in fade-in-50">
             Vous n’avez aucun ebook acheté
           </div>
         );
@@ -41,7 +41,7 @@ export default function ProfilePage() {
             ))}
           </div>
         ) : (
-          <div className="text-center text-muted-foreground mt-12">
+          <div className="text-center text-muted-foreground mt-12 animate-in fade-in-50">
             Vous n’avez aucun ebook publié
           </div>
         );
@@ -53,7 +53,7 @@ export default function ProfilePage() {
             ))}
           </div>
         ) : (
-          <div className="text-center text-muted-foreground mt-12">
+          <div className="text-center text-muted-foreground mt-12 animate-in fade-in-50">
             Vous n’avez aucun ebook en favoris
           </div>
         );
@@ -95,7 +95,7 @@ export default function ProfilePage() {
 
           <ProfileTabNav activeTab={activeTab} setActiveTab={setActiveTab} />
           
-          <div className="w-full max-w-sm mt-8">
+          <div key={activeTab} className="w-full max-w-sm mt-8">
             {renderContent()}
           </div>
         </main>
