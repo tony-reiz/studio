@@ -8,6 +8,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 
 const Document = dynamic(
   () =>
@@ -168,8 +169,8 @@ export default function EbookViewerPage() {
       </main>
 
       <footer className="w-full max-w-[16rem] pb-8 pt-4">
-        <Button className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90">
-          Détail
+        <Button asChild className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90">
+            <Link href={`/ebook/${ebook.id}/details`}>Détail</Link>
         </Button>
       </footer>
     </div>
