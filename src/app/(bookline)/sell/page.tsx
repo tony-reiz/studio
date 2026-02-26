@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Menu, User } from 'lucide-react';
+import { Menu, User, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
@@ -30,6 +30,7 @@ const sellFormSchema = z.object({
 
 export default function SellPage() {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
   const { addPublishedEbook } = useEbooks();
@@ -54,6 +55,9 @@ export default function SellPage() {
       });
       return;
     }
+    
+    if (isSubmitting) return;
+    setIsSubmitting(true);
 
     const reader = new FileReader();
     reader.readAsDataURL(pdfFile);
@@ -68,9 +72,17 @@ export default function SellPage() {
       });
       router.push('/profile');
     }
+    reader.onerror = () => {
+        toast({
+            variant: "destructive",
+            title: "Erreur",
+            description: "Impossible de lire le fichier PDF.",
+        });
+        setIsSubmitting(false);
+    }
   }
 
-  const isButtonDisabled = !form.formState.isValid || !pdfFile;
+  const isButtonDisabled = !form.formState.isValid || !pdfFile || isSubmitting;
 
   return (
     <Form {...form}>
@@ -108,7 +120,14 @@ export default function SellPage() {
                     : "bg-foreground text-background hover:bg-foreground/90"
                 )}
                 >
-                publier
+                {isSubmitting ? (
+                    <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        Publication...
+                    </>
+                ) : (
+                    'publier'
+                )}
                 </Button>
             </div>
           </main>
