@@ -3,7 +3,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { useEffect, useState } from 'react';
-import { ChevronLeft, Megaphone } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
@@ -68,7 +68,7 @@ export default function EbookDetailsPage() {
                     <CardContent className="space-y-4">
                         <div>
                             <h3 className="font-semibold text-muted-foreground mb-1 text-sm">Description</h3>
-                            <p className="text-sm leading-relaxed">{ebook.description}</p>
+                            <p className="text-sm leading-relaxed whitespace-pre-line">{ebook.description}</p>
                         </div>
                         <div>
                             <h3 className="font-semibold text-muted-foreground mb-1 text-sm">Mots-clés</h3>
@@ -93,57 +93,34 @@ export default function EbookDetailsPage() {
                                 <p className="text-3xl font-bold">{ebook.price} €</p>
                             </div>
                         </div>
-                        <div className="h-[240px] w-full">
-                            <ChartContainer config={chartConfig} className="h-full w-full">
-                                <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
-                                    <CartesianGrid vertical={false} />
-                                    <XAxis
-                                        dataKey="metric"
-                                        tickLine={false}
-                                        tickMargin={10}
-                                        axisLine={false}
-                                        stroke="hsl(var(--muted-foreground))"
-                                        fontSize={12}
-                                    />
-                                    <YAxis 
-                                        tickLine={false}
-                                        axisLine={false}
-                                        allowDecimals={false}
-                                        stroke="hsl(var(--muted-foreground))"
-                                        fontSize={12}
-                                    />
-                                    <ChartTooltip
-                                        cursor={false}
-                                        content={<ChartTooltipContent indicator="dot" />}
-                                    />
-                                    <Bar dataKey="value" radius={4}>
-                                        {chartData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={entry.fill} />
-                                        ))}
-                                    </Bar>
-                                </BarChart>
-                            </ChartContainer>
-                        </div>
-                    </CardContent>
-                </Card>
-
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                            <Megaphone className="h-5 w-5"/>
-                            Promouvoir
-                        </CardTitle>
-                        <CardDescription>
-                            Mettez en avant votre ebook pour toucher plus de lecteurs.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
-                        <p className="text-sm text-muted-foreground flex-grow text-center sm:text-left">
-                        Pour <span className="font-bold text-foreground">5€</span>, boostez la visibilité de votre ebook auprès de <span className="font-bold text-foreground">1000</span> lecteurs potentiels.
-                        </p>
-                        <Button className="w-full sm:w-auto h-12 px-8 text-base font-semibold rounded-full bg-foreground text-background hover:bg-foreground/90 shrink-0">
-                            Promouvoir
-                        </Button>
+                        <ChartContainer config={chartConfig} className="w-full">
+                            <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
+                                <CartesianGrid vertical={false} />
+                                <XAxis
+                                    dataKey="metric"
+                                    tickLine={false}
+                                    tickMargin={10}
+                                    axisLine={false}
+                                    stroke="hsl(var(--muted-foreground))"
+                                    fontSize={12}
+                                />
+                                <YAxis 
+                                    tickLine={false}
+                                    axisLine={false}
+                                    stroke="hsl(var(--muted-foreground))"
+                                    fontSize={12}
+                                />
+                                <ChartTooltip
+                                    cursor={false}
+                                    content={<ChartTooltipContent indicator="dot" />}
+                                />
+                                <Bar dataKey="value" radius={4}>
+                                    {chartData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                                    ))}
+                                </Bar>
+                            </BarChart>
+                        </ChartContainer>
                     </CardContent>
                 </Card>
             </main>
