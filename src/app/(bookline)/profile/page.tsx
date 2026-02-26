@@ -18,17 +18,27 @@ const userFavorites: any[] = [];
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('publications');
   const [isContentVisible, setIsContentVisible] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const { publishedEbooks } = useEbooks();
   const userPublications = publishedEbooks;
 
   const handleTabChange = (newTab: ActiveTab) => {
-    if (activeTab !== newTab) {
-      setIsContentVisible(false);
-      setTimeout(() => {
-        setActiveTab(newTab);
-        setIsContentVisible(true);
-      }, 150);
+    if (activeTab === newTab || isTransitioning) {
+      return;
     }
+
+    setIsTransitioning(true);
+    setIsContentVisible(false); // Start fade-out
+
+    setTimeout(() => {
+      setActiveTab(newTab); // Switch content underneath
+
+      // Wait for DOM to update, then fade back in
+      setTimeout(() => {
+        setIsContentVisible(true);
+        setIsTransitioning(false);
+      }, 50);
+    }, 300); // Match CSS transition duration
   };
 
   const renderContent = () => {
@@ -107,7 +117,7 @@ export default function ProfilePage() {
 
           <ProfileTabNav activeTab={activeTab} setActiveTab={handleTabChange} />
           
-          <div className={cn("w-full max-w-sm mt-8 transition-opacity duration-150", isContentVisible ? 'opacity-100' : 'opacity-0')}>
+          <div className={cn("w-full max-w-sm mt-8 transition-opacity duration-300", isContentVisible ? 'opacity-100' : 'opacity-0')}>
             {renderContent()}
           </div>
         </main>
