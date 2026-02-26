@@ -1,18 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, User, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookDisplayArea } from '@/components/bookline/ebook-display-area';
 import { SearchOverlay } from '@/components/bookline/search-overlay';
+import { cn } from '@/lib/utils';
 
 export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    // This is to trigger the fade-in animation on mount.
+    setIsMounted(true);
+  }, []);
 
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-background text-foreground">
-      <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
+      <div className={cn(
+          "w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8 transition-opacity duration-300 ease-in-out",
+          isMounted ? "opacity-100" : "opacity-0"
+        )}>
         <header className="w-full py-6">
           <div className="flex items-start justify-between w-full">
             <div className="flex flex-col items-start">

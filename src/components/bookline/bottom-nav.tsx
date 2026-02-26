@@ -1,40 +1,66 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { useState, useEffect } from 'react';
 
 export function BottomNav() {
   const pathname = usePathname();
-  const isHome = pathname === '/home' || pathname === '/';
+  const router = useRouter();
+
+  const getCurrentTab = () => (pathname === '/sell' ? 'vendre' : 'acheter');
+
+  const [activeTab, setActiveTab] = useState(getCurrentTab());
+
+  // Update visual state if URL changes by other means (e.g. browser back/forward)
+  useEffect(() => {
+    setActiveTab(getCurrentTab());
+  }, [pathname]);
+
+  const handleNavigation = (tab: 'acheter' | 'vendre') => {
+    const targetPath = tab === 'acheter' ? '/home' : '/sell';
+    
+    // Don't do anything if we are already on the target page
+    if (pathname === targetPath || (pathname === '/' && targetPath === '/home')) {
+        return;
+    }
+
+    // Set the visual state instantly to start the slider animation
+    setActiveTab(tab);
+    
+    // Then navigate to the new page. The new page will handle its own fade-in animation.
+    router.push(targetPath);
+  };
+  
+  const isAcheter = activeTab === 'acheter';
 
   return (
     <div className="fixed bottom-8 left-0 right-0 p-4 md:bottom-2 md:mb-4">
       <div className="bg-secondary rounded-full flex relative items-center max-w-[16rem] mx-auto shadow-lg">
         <div
           className={cn(
-            'absolute top-0 h-full w-1/2 rounded-full bg-foreground transition-all duration-150 ease-in-out',
-            isHome ? 'left-0' : 'left-1/2'
+            'absolute top-0 h-full w-1/2 rounded-full bg-foreground transition-all duration-300 ease-in-out',
+            isAcheter ? 'left-0' : 'left-1/2'
           )}
         />
-        <Link
-          href="/home"
+        <button
+          onClick={() => handleNavigation('acheter')}
           className={cn(
             'relative z-10 w-1/2 py-3 text-center text-base font-semibold transition-colors duration-150',
-            isHome ? 'text-background' : 'text-foreground'
+            isAcheter ? 'text-background' : 'text-foreground'
           )}
         >
           acheter
-        </Link>
-        <Link
-          href="/sell"
+        </button>
+        <button
+          onClick={() => handleNavigation('vendre')}
           className={cn(
             'relative z-10 w-1/2 py-3 text-center text-base font-semibold transition-colors duration-150',
-            !isHome ? 'text-background' : 'text-foreground'
+            !isAcheter ? 'text-background' : 'text-foreground'
           )}
         >
           vendre
-        </Link>
+        </button>
       </div>
     </div>
   );
