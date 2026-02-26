@@ -16,7 +16,8 @@ const userPurchases: any[] = [];
 const userFavorites: any[] = [];
 
 export default function ProfilePage() {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('publications');
+  const [activeTab, setActiveTab] = useState<ActiveTab>('publications'); // For UI slider
+  const [displayedTab, setDisplayedTab] = useState<ActiveTab>('publications'); // For content
   const [isContentVisible, setIsContentVisible] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const { publishedEbooks } = useEbooks();
@@ -28,21 +29,23 @@ export default function ProfilePage() {
     }
 
     setIsTransitioning(true);
-    setIsContentVisible(false); // Start fade-out
+    // Move the slider instantly
+    setActiveTab(newTab);
+    // Start fading out the old content
+    setIsContentVisible(false);
 
+    // After the fade-out animation completes...
     setTimeout(() => {
-      setActiveTab(newTab); // Switch content underneath
-
-      // Wait for DOM to update, then fade back in
-      setTimeout(() => {
-        setIsContentVisible(true);
-        setIsTransitioning(false);
-      }, 50);
-    }, 300); // Match CSS transition duration
+      // ...switch the content underneath...
+      setDisplayedTab(newTab);
+      // ...and fade the new content in.
+      setIsContentVisible(true);
+      setIsTransitioning(false);
+    }, 300); // This must match the opacity transition duration
   };
 
   const renderContent = () => {
-    switch (activeTab) {
+    switch (displayedTab) { // Render based on the displayedTab state
       case 'achats':
         return userPurchases.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
