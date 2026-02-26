@@ -7,7 +7,7 @@ import { ChevronLeft, Megaphone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell } from "recharts";
 
 const chartData = [
   { metric: "Clics", value: 0, fill: "var(--color-clics)" },
@@ -95,7 +95,7 @@ export default function EbookDetailsPage() {
                         </div>
                         <div className="h-[200px] w-full">
                             <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-                                <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 0, bottom: 5, left: -24 }}>
+                                <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
                                     <CartesianGrid vertical={false} />
                                     <XAxis
                                         dataKey="metric"
@@ -116,7 +116,11 @@ export default function EbookDetailsPage() {
                                         cursor={false}
                                         content={<ChartTooltipContent indicator="dot" />}
                                     />
-                                    <Bar dataKey="value" radius={4} />
+                                    <Bar dataKey="value" radius={4}>
+                                        {chartData.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={entry.fill} />
+                                        ))}
+                                    </Bar>
                                 </BarChart>
                             </ChartContainer>
                         </div>
@@ -133,11 +137,11 @@ export default function EbookDetailsPage() {
                             Mettez en avant votre ebook pour toucher plus de lecteurs.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <p className="text-sm text-muted-foreground flex-1 text-center sm:text-left">
-                        Pour <span className="font-bold text-foreground">5€</span>, montrez votre ebook à <span className="font-bold text-foreground">1000</span> lecteurs supplémentaires.
+                    <CardContent className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
+                        <p className="text-sm text-muted-foreground flex-grow text-center sm:text-left">
+                        Pour <span className="font-bold text-foreground">5€</span>, boostez la visibilité de votre ebook auprès de <span className="font-bold text-foreground">1000</span> lecteurs potentiels.
                         </p>
-                        <Button className="w-full sm:w-auto h-12 text-lg font-semibold rounded-full bg-foreground text-background hover:bg-foreground/90">
+                        <Button className="w-full sm:w-auto h-12 px-8 text-base font-semibold rounded-full bg-foreground text-background hover:bg-foreground/90 shrink-0">
                             Promouvoir
                         </Button>
                     </CardContent>
