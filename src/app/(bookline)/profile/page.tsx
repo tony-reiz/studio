@@ -8,6 +8,7 @@ import { ProfileTabNav } from '@/components/bookline/profile-tab-nav';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { useEbooks } from '@/context/ebook-provider';
+import { cn } from '@/lib/utils';
 
 type ActiveTab = 'achats' | 'publications' | 'favoris';
 
@@ -16,44 +17,55 @@ const userFavorites: any[] = [];
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('publications');
+  const [isContentVisible, setIsContentVisible] = useState(true);
   const { publishedEbooks } = useEbooks();
   const userPublications = publishedEbooks;
+
+  const handleTabChange = (newTab: ActiveTab) => {
+    if (activeTab !== newTab) {
+      setIsContentVisible(false);
+      setTimeout(() => {
+        setActiveTab(newTab);
+        setIsContentVisible(true);
+      }, 150);
+    }
+  };
 
   const renderContent = () => {
     switch (activeTab) {
       case 'achats':
         return userPurchases.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 animate-in fade-in-50">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             {userPurchases.map((_, index) => (
               <EbookCard key={`achat-${index}`} />
             ))}
           </div>
         ) : (
-          <div className="text-center text-muted-foreground mt-12 animate-in fade-in-50">
+          <div className="text-center text-muted-foreground mt-12">
             Vous n’avez aucun ebook acheté
           </div>
         );
       case 'publications':
         return userPublications.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 animate-in fade-in-50">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             {userPublications.map((ebook) => (
               <EbookCard key={ebook.id} ebook={ebook} />
             ))}
           </div>
         ) : (
-          <div className="text-center text-muted-foreground mt-12 animate-in fade-in-50">
+          <div className="text-center text-muted-foreground mt-12">
             Vous n’avez aucun ebook publié
           </div>
         );
       case 'favoris':
         return userFavorites.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 animate-in fade-in-50">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             {userFavorites.map((_, index) => (
               <EbookCard key={`fav-${index}`} isInitiallyFavorited={true} />
             ))}
           </div>
         ) : (
-          <div className="text-center text-muted-foreground mt-12 animate-in fade-in-50">
+          <div className="text-center text-muted-foreground mt-12">
             Vous n’avez aucun ebook en favoris
           </div>
         );
@@ -93,9 +105,9 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <ProfileTabNav activeTab={activeTab} setActiveTab={setActiveTab} />
+          <ProfileTabNav activeTab={activeTab} setActiveTab={handleTabChange} />
           
-          <div key={activeTab} className="w-full max-w-sm mt-8">
+          <div className={cn("w-full max-w-sm mt-8 transition-opacity duration-150", isContentVisible ? 'opacity-100' : 'opacity-0')}>
             {renderContent()}
           </div>
         </main>
