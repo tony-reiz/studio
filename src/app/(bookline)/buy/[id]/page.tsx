@@ -70,6 +70,18 @@ export default function BuyEbookPage() {
             </div>
             <div className="flex justify-start">
               <div className="w-full max-w-[600px] flex flex-col items-center">
+                <div className="w-full grid grid-cols-3 gap-2 mb-4">
+                    <div className="bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center">
+                        {formatPrice(ebookPriceNumber)}
+                    </div>
+                    <div className="bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center">
+                        -- / p
+                    </div>
+                    <div className="bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center">
+                        XX/XX/XXXX
+                    </div>
+                </div>
+
                 <div className="w-full space-y-4">
                   <div className="relative w-full">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">T</span>
