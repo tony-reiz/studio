@@ -14,7 +14,6 @@ import { useTransitionRouter } from '@/app/(bookline)/layout';
 type ActiveTab = 'achats' | 'publications' | 'favoris';
 
 const userPurchases: any[] = [];
-const userFavorites: any[] = [];
 
 export default function ProfilePage() {
   const searchParams = useSearchParams();
@@ -26,7 +25,7 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<ActiveTab>(initialTab);
   const [displayedTab, setDisplayedTab] = useState<ActiveTab>(initialTab);
   const [isContentVisible, setIsContentVisible] = useState(true);
-  const { publishedEbooks } = useEbooks();
+  const { publishedEbooks, favoritedEbooks } = useEbooks();
   const { handleNavigate } = useTransitionRouter();
   const userPublications = publishedEbooks;
 
@@ -54,7 +53,7 @@ export default function ProfilePage() {
             ))}
           </div>
         ) : (
-          <div className="text-center text-muted-foreground mt-12">
+          <div className="text-center text-muted-foreground mt-8">
             Vous n’avez aucun ebook acheté
           </div>
         );
@@ -66,19 +65,19 @@ export default function ProfilePage() {
             ))}
           </div>
         ) : (
-          <div className="text-center text-muted-foreground mt-12">
+          <div className="text-center text-muted-foreground mt-8">
             Vous n’avez aucun ebook publié
           </div>
         );
       case 'favoris':
-        return userFavorites.length > 0 ? (
+        return favoritedEbooks.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-            {userFavorites.map((_, index) => (
-              <EbookCard key={`fav-${index}`} isInitiallyFavorited={true} />
+            {favoritedEbooks.map((ebook) => (
+              <EbookCard key={`fav-${ebook.id}`} ebook={ebook} />
             ))}
           </div>
         ) : (
-          <div className="text-center text-muted-foreground mt-12">
+          <div className="text-center text-muted-foreground mt-8">
             Vous n’avez aucun ebook en favoris
           </div>
         );
@@ -118,7 +117,7 @@ export default function ProfilePage() {
 
           <ProfileTabNav activeTab={activeTab} setActiveTab={handleTabChange} />
           
-          <div className={cn("w-full max-w-sm transition-opacity duration-300", isContentVisible ? 'opacity-100' : 'opacity-0')}>
+          <div className={cn("w-full max-w-sm transition-opacity duration-300 mt-4", isContentVisible ? 'opacity-100' : 'opacity-0')}>
             {renderContent()}
           </div>
         </main>
