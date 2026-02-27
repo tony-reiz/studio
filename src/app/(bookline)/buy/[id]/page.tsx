@@ -62,7 +62,7 @@ export default function BuyEbookPage() {
   };
 
   const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full flex items-center";
-  const textareaClasses = "pl-11 pr-4 h-44 w-full text-base bg-secondary border-0 rounded-[30px] py-3.5 leading-snug flex items-start overflow-y-auto";
+  const textareaClasses = "pl-11 pr-4 h-36 w-full text-base bg-secondary border-0 rounded-[30px] py-3.5 leading-snug flex items-start overflow-y-auto";
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -91,11 +91,11 @@ export default function BuyEbookPage() {
             <div className="flex justify-center md:justify-end">
               <div className="w-full max-w-[18rem] md:max-w-xs">
                 <div className="flex justify-center gap-1 mb-4">
-                    <Star className="w-8 h-8 text-foreground fill-foreground" />
-                    <Star className="w-8 h-8 text-foreground fill-foreground" />
-                    <Star className="w-8 h-8 text-foreground fill-foreground" />
-                    <Star className="w-8 h-8 text-border fill-border" />
-                    <Star className="w-8 h-8 text-border fill-border" />
+                    <Star className="w-8 h-8 text-foreground fill-foreground drop-shadow-md" />
+                    <Star className="w-8 h-8 text-foreground fill-foreground drop-shadow-md" />
+                    <Star className="w-8 h-8 text-foreground fill-foreground drop-shadow-md" />
+                    <Star className="w-8 h-8 text-white fill-white drop-shadow-md" />
+                    <Star className="w-8 h-8 text-white fill-white drop-shadow-md" />
                 </div>
                 <EbookCard ebook={ebook} onCardClick={handleCardClick} />
               </div>
