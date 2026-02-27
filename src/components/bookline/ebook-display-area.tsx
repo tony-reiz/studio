@@ -13,11 +13,13 @@ import type { CarouselApi } from '@/components/ui/carousel';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { EbookCard } from './ebook-card';
 import { cn } from '@/lib/utils';
+import { useEbooks } from '@/context/ebook-provider';
 
 export function EbookDisplayArea() {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(2);
   const [isVisible, setIsVisible] = React.useState(false);
+  const { publishedEbooks } = useEbooks();
 
   const plugin = React.useRef(
     Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
@@ -42,6 +44,9 @@ export function EbookDisplayArea() {
       setCurrent(api.selectedScrollSnap());
     });
   }, [api]);
+  
+  const displayItems = publishedEbooks.length > 0 ? publishedEbooks : Array(5).fill(null);
+  const hasRealEbooks = publishedEbooks.length > 0;
 
   return (
     <div
@@ -55,16 +60,17 @@ export function EbookDisplayArea() {
         plugins={[plugin.current]}
         opts={{
           align: 'center',
-          loop: true,
-          startIndex: 2,
+          loop: hasRealEbooks ? displayItems.length > 1 : true,
+          startIndex: hasRealEbooks ? (displayItems.length > 1 ? 1 : 0) : 2,
         }}
         className="w-full max-w-4xl px-36 sm:px-4 md:px-14 relative"
       >
         <CarouselContent className="-ml-8">
-          {Array.from({ length: 5 }).map((_, index) => (
-            <CarouselItem key={index} className="pl-8 basis-full sm:basis-1/2 md:basis-1/3">
+          {displayItems.map((ebook, index) => (
+            <CarouselItem key={ebook?.id || index} className="pl-8 basis-full sm:basis-1/2 md:basis-1/3">
               <div className="p-1">
                 <EbookCard
+                  ebook={ebook}
                   isActive={index === current}
                   className={`transition-transform duration-500 ease-in-out ${
                     index === current

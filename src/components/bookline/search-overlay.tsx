@@ -6,14 +6,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { EbookCard } from './ebook-card';
+import { type Ebook } from '@/context/ebook-provider';
 
 interface SearchOverlayProps {
   isOpen: boolean;
   onClose: () => void;
+  ebooks: Ebook[];
 }
 
-export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
+export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
   const [query, setQuery] = useState('');
+  const [filteredEbooks, setFilteredEbooks] = useState<Ebook[]>([]);
   const [isContentVisible, setIsContentVisible] = useState(false);
   const [shouldRenderContent, setShouldRenderContent] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -25,16 +28,29 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
     if (query.length > 0) {
       setShouldRenderContent(true);
       visibilityTimer = setTimeout(() => setIsContentVisible(true), 20); // Small delay for rendering
+      
+      const lowerCaseQuery = query.toLowerCase();
+      const filtered = ebooks.filter(
+        (ebook) =>
+          ebook.title.toLowerCase().includes(lowerCaseQuery) ||
+          ebook.description.toLowerCase().includes(lowerCaseQuery) ||
+          ebook.keywords.toLowerCase().includes(lowerCaseQuery)
+      );
+      setFilteredEbooks(filtered);
+
     } else {
       setIsContentVisible(false);
-      renderTimer = setTimeout(() => setShouldRenderContent(false), 300); // Match animation duration
+      renderTimer = setTimeout(() => {
+        setShouldRenderContent(false)
+        setFilteredEbooks([]);
+      }, 300); // Match animation duration
     }
     
     return () => {
       clearTimeout(visibilityTimer);
       clearTimeout(renderTimer);
     };
-  }, [query]);
+  }, [query, ebooks]);
 
   useEffect(() => {
     if (isOpen) {
@@ -91,11 +107,19 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
             )}
           >
              {shouldRenderContent && (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-                {Array.from({ length: 9 }).map((_, index) => (
-                  <EbookCard key={index} />
-                ))}
-              </div>
+              <>
+                {filteredEbooks.length > 0 ? (
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
+                    {filteredEbooks.map((ebook) => (
+                      <EbookCard key={ebook.id} ebook={ebook} />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center text-muted-foreground mt-12">
+                    Aucun résultat trouvé pour "{query}".
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

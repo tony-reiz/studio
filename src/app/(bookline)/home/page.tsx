@@ -6,10 +6,12 @@ import { Button } from '@/components/ui/button';
 import { EbookDisplayArea } from '@/components/bookline/ebook-display-area';
 import { SearchOverlay } from '@/components/bookline/search-overlay';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
+import { useEbooks } from '@/context/ebook-provider';
 
 export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { handleNavigate } = useTransitionRouter();
+  const { publishedEbooks } = useEbooks();
 
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-background text-foreground">
@@ -56,7 +58,7 @@ export default function HomePage() {
           <EbookDisplayArea />
         </main>
       </div>
-      <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+      <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} ebooks={publishedEbooks} />
     </div>
   );
 }
