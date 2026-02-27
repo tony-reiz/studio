@@ -39,6 +39,7 @@ export function EbookProvider({ children }: { children: ReactNode }) {
 
   const removePublishedEbook = (id: string) => {
     setPublishedEbooks((prev) => prev.filter((ebook) => ebook.id !== id));
+    setFavoritedEbooks((prev) => prev.filter((ebook) => ebook.id !== id));
   };
 
   const toggleFavoriteEbook = (ebookToToggle: Ebook) => {
