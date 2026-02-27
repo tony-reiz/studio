@@ -40,6 +40,7 @@ export default function EbookViewerPage() {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [containerWidth, setContainerWidth] = useState(0);
+  const [isPdfVisible, setIsPdfVisible] = useState(false);
   
   const viewerRef = useRef<HTMLDivElement>(null);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -63,8 +64,16 @@ export default function EbookViewerPage() {
     setWidth();
     window.addEventListener('resize', setWidth);
 
+    // Use a timeout to allow the object to render before starting the transition
+    const timer = setTimeout(() => {
+        setIsPdfVisible(true);
+    }, 50);
+
     // Cleanup resize listener on component unmount
-    return () => window.removeEventListener('resize', setWidth);
+    return () => {
+        window.removeEventListener('resize', setWidth)
+        clearTimeout(timer);
+    };
   };
   
   useEffect(() => {
@@ -130,7 +139,10 @@ export default function EbookViewerPage() {
                             file={ebook.pdfDataUrl}
                             onLoadSuccess={onDocumentLoadSuccess}
                             loading={null}
-                            className="flex flex-col items-center"
+                            className={cn(
+                                "flex flex-col items-center transition-opacity duration-300 ease-in-out",
+                                isPdfVisible ? "opacity-100" : "opacity-0"
+                            )}
                         >
                             {Array.from(new Array(numPages || 0), (el, index) => (
                                 <div
