@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { EbookCard } from './ebook-card';
 import { type Ebook } from '@/context/ebook-provider';
+import { useTransitionRouter } from '@/app/(bookline)/layout';
 
 interface SearchOverlayProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
   const [isContentVisible, setIsContentVisible] = useState(false);
   const [shouldRenderContent, setShouldRenderContent] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { handleNavigate } = useTransitionRouter();
 
   useEffect(() => {
     let visibilityTimer: NodeJS.Timeout;
@@ -63,6 +65,10 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
       if (query) setQuery('');
     }
   }, [isOpen, query]);
+
+  const handleEbookClick = (ebook: Ebook) => {
+    handleNavigate(`/buy/${ebook.id}`);
+  };
 
 
   return (
@@ -111,7 +117,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
                 {filteredEbooks.length > 0 ? (
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
                     {filteredEbooks.map((ebook) => (
-                      <EbookCard key={ebook.id} ebook={ebook} />
+                      <EbookCard key={ebook.id} ebook={ebook} onCardClick={handleEbookClick} />
                     ))}
                   </div>
                 ) : (

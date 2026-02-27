@@ -4,17 +4,16 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
-import { useTransitionRouter } from '@/app/(bookline)/layout';
 
 interface EbookCardProps {
   ebook?: Ebook;
   className?: string;
   isActive?: boolean;
+  onCardClick?: (ebook: Ebook) => void;
 }
 
-export function EbookCard({ ebook, className, isActive }: EbookCardProps) {
+export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCardProps) {
   const { favoritedEbooks, toggleFavoriteEbook } = useEbooks();
-  const transitionRouter = useTransitionRouter();
   
   const isFavorited = ebook ? favoritedEbooks.some(favEbook => favEbook.id === ebook.id) : false;
 
@@ -27,15 +26,14 @@ export function EbookCard({ ebook, className, isActive }: EbookCardProps) {
   };
   
   const handleCardClick = () => {
-    if (ebook && transitionRouter) {
-      transitionRouter.handleNavigate(`/ebook/${ebook.id}`);
+    if (ebook && onCardClick) {
+      onCardClick(ebook);
     }
   };
 
   const cardContent = (
     <Card 
       className={cn('bg-transparent border-0 shadow-none', className)}
-      onClick={handleCardClick}
     >
       <CardContent
         className={cn(
@@ -68,7 +66,7 @@ export function EbookCard({ ebook, className, isActive }: EbookCardProps) {
   );
 
   return (
-    <div className={cn(ebook ? 'cursor-pointer' : '')}>
+    <div className={cn(ebook && onCardClick ? 'cursor-pointer' : '')} onClick={handleCardClick}>
       {cardContent}
     </div>
   );

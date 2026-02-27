@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
 import { ProfileTabNav } from '@/components/bookline/profile-tab-nav';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { useEbooks } from '@/context/ebook-provider';
+import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { cn } from '@/lib/utils';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 
@@ -61,7 +61,7 @@ export default function ProfilePage() {
         return userPublications.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             {userPublications.map((ebook) => (
-              <EbookCard key={ebook.id} ebook={ebook} />
+              <EbookCard key={ebook.id} ebook={ebook} onCardClick={(e) => handleNavigate(`/ebook/${e.id}`)} />
             ))}
           </div>
         ) : (
@@ -73,7 +73,7 @@ export default function ProfilePage() {
         return favoritedEbooks.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             {favoritedEbooks.map((ebook) => (
-              <EbookCard key={`fav-${ebook.id}`} ebook={ebook} />
+              <EbookCard key={`fav-${ebook.id}`} ebook={ebook} onCardClick={(e) => handleNavigate(`/buy/${e.id}`)} />
             ))}
           </div>
         ) : (
@@ -117,7 +117,7 @@ export default function ProfilePage() {
 
           <ProfileTabNav activeTab={activeTab} setActiveTab={handleTabChange} />
           
-          <div className={cn("w-full max-w-sm md:max-w-4xl transition-opacity duration-300 mt-4", isContentVisible ? 'opacity-100' : 'opacity-0')}>
+          <div className={cn("w-full max-w-sm md:max-w-4xl transition-opacity duration-300 mt-8", isContentVisible ? 'opacity-100' : 'opacity-0')}>
             {renderContent()}
           </div>
         </main>
