@@ -12,6 +12,7 @@ interface PdfUploaderProps {
 
 export function PdfUploader({ pdfFile, onFileChange, className }: PdfUploaderProps) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [isPdfVisible, setIsPdfVisible] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,6 +40,19 @@ export function PdfUploader({ pdfFile, onFileChange, className }: PdfUploaderPro
     };
   }, [pdfFile]);
 
+  useEffect(() => {
+    if (previewUrl) {
+      // Use a timeout to allow the object to render before starting the transition
+      const timer = setTimeout(() => {
+        setIsPdfVisible(true);
+      }, 50); // A small delay is enough
+      return () => clearTimeout(timer);
+    } else {
+      setIsPdfVisible(false);
+    }
+  }, [previewUrl]);
+
+
   const handleUploadClick = () => {
     fileInputRef.current?.click();
   };
@@ -62,7 +76,15 @@ export function PdfUploader({ pdfFile, onFileChange, className }: PdfUploaderPro
         )}
       >
         {previewUrl ? (
-          <object data={`${previewUrl}#toolbar=0&navpanes=0&scrollbar=0`} type="application/pdf" className="absolute inset-0 w-full h-full border-0 pointer-events-none scale-110" title="Aperçu du PDF" />
+          <object 
+            data={`${previewUrl}#toolbar=0&navpanes=0&scrollbar=0`} 
+            type="application/pdf" 
+            className={cn(
+              "absolute inset-0 w-full h-full border-0 pointer-events-none scale-110 transition-opacity duration-300 ease-in-out",
+              isPdfVisible ? "opacity-100" : "opacity-0"
+            )} 
+            title="Aperçu du PDF" 
+          />
         ) : (
           <Download className="h-10 w-10 text-muted-foreground" />
         )}
