@@ -14,7 +14,7 @@ interface EbookCardProps {
 
 export function EbookCard({ ebook, className, isActive }: EbookCardProps) {
   const { favoritedEbooks, toggleFavoriteEbook } = useEbooks();
-  const transitionRouter = useTransitionRouter ? useTransitionRouter() : null;
+  const transitionRouter = useTransitionRouter();
   
   const isFavorited = ebook ? favoritedEbooks.some(favEbook => favEbook.id === ebook.id) : false;
 
@@ -27,7 +27,7 @@ export function EbookCard({ ebook, className, isActive }: EbookCardProps) {
   };
   
   const handleCardClick = () => {
-    if (ebook && transitionRouter) {
+    if (ebook) {
       transitionRouter.handleNavigate(`/ebook/${ebook.id}`);
     }
   };
