@@ -100,7 +100,7 @@ export default function BuyEbookPage() {
                         {formatPrice(totalPriceForCustomer)}
                     </div>
                     <div className="bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center">
-                        {numPages ? `${numPages} p.` : '178 p.'}
+                        {numPages ? `${numPages} p` : '178 p'}
                     </div>
                     <div className="bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center">
                         12/07/2024
