@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { useEffect, useState } from 'react';
-import { ChevronLeft, Share2, AlertCircle } from 'lucide-react';
+import { ChevronLeft, Share2, AlertCircle, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
@@ -90,6 +90,13 @@ export default function BuyEbookPage() {
           <div className="grid md:grid-cols-2 items-start gap-4 w-full max-w-5xl">
             <div className="flex justify-center md:justify-end">
               <div className="w-full max-w-[18rem] md:max-w-xs">
+                <div className="flex justify-center gap-1 mb-4">
+                    <Star className="w-8 h-8 text-foreground fill-foreground" />
+                    <Star className="w-8 h-8 text-foreground fill-foreground" />
+                    <Star className="w-8 h-8 text-foreground fill-foreground" />
+                    <Star className="w-8 h-8 text-border fill-border" />
+                    <Star className="w-8 h-8 text-border fill-border" />
+                </div>
                 <EbookCard ebook={ebook} onCardClick={handleCardClick} />
               </div>
             </div>
