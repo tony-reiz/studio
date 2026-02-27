@@ -117,7 +117,7 @@ export default function ProfilePage() {
 
           <ProfileTabNav activeTab={activeTab} setActiveTab={handleTabChange} />
           
-          <div className={cn("w-full max-w-sm transition-opacity duration-300 mt-4", isContentVisible ? 'opacity-100' : 'opacity-0')}>
+          <div className={cn("w-full max-w-sm md:max-w-4xl transition-opacity duration-300 mt-4", isContentVisible ? 'opacity-100' : 'opacity-0')}>
             {renderContent()}
           </div>
         </main>
