@@ -27,7 +27,7 @@ export function EbookCard({ ebook, className, isActive }: EbookCardProps) {
   };
   
   const handleCardClick = () => {
-    if (ebook) {
+    if (ebook && transitionRouter) {
       transitionRouter.handleNavigate(`/ebook/${ebook.id}`);
     }
   };
@@ -55,7 +55,7 @@ export function EbookCard({ ebook, className, isActive }: EbookCardProps) {
           >
             <Heart
               className={cn(
-                'h-7 w-7 transition-colors',
+                'h-7 w-7 transition-colors drop-shadow-md',
                 isFavorited
                   ? 'text-foreground fill-foreground'
                   : 'text-white fill-white'
