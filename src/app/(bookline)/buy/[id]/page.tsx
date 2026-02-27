@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { useEffect, useState } from 'react';
-import { ChevronLeft, Share2, AlertCircle, Star } from 'lucide-react';
+import { ChevronLeft, Share2, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 
 export default function BuyEbookPage() {
   const params = useParams();
-  const { handleBack, handleNavigate } = useTransitionRouter();
+  const { handleBack } = useTransitionRouter();
   const { allEbooks } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
 
@@ -22,92 +22,97 @@ export default function BuyEbookPage() {
     }
   }, [params.id, allEbooks]);
 
+  const handleCardClick = (ebook: Ebook) => {
+    // On this page, clicking the card does nothing.
+  };
+
   if (!ebook) {
     return <div className="flex h-screen w-full items-center justify-center bg-background">Chargement...</div>;
   }
 
-  // Dummy data based on image
-  const rating = 3;
-  const pageCount = 120; // Example
-  const publishDate = "01/01/2024"; // Example
+  const CUSTOMER_FEE = 3.5;
+  const ebookPriceNumber = parseFloat(ebook.price.replace(',', '.')) || 0;
+  const totalPriceForCustomer = ebookPriceNumber + CUSTOMER_FEE;
 
-  const handleCardClick = (ebook: Ebook) => {
-    const isOwnPublication = false; // On buy page, we assume we can't click to our own ebook details
-    if (isOwnPublication) {
-        handleNavigate(`/ebook/${ebook.id}`)
+  const formatPrice = (value: number | null): string => {
+    if (value === null || isNaN(value)) {
+      return '-- €';
     }
-  }
+    return `${value.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
+  };
+
+  const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full flex items-center";
+  const textareaClasses = "pl-11 pr-4 h-32 w-full text-base bg-secondary border-0 rounded-[30px] py-3.5 leading-snug flex items-start overflow-y-auto";
 
   return (
-    <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 lg:p-8">
-      <header className="relative flex items-center justify-between w-full max-w-5xl mx-auto mb-8">
-        <Button onClick={handleBack} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
-          <ChevronLeft className="h-6 w-6" />
-        </Button>
-        <div className="flex items-center gap-3">
-          <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
-            <Share2 className="h-6 w-6" />
+    <div className="min-h-screen bg-background text-foreground">
+      <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
+        <header className="flex items-center justify-between w-full py-6">
+          <Button onClick={handleBack} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
+            <ChevronLeft className="h-6 w-6" />
           </Button>
-          <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
-            <AlertCircle className="h-6 w-6" />
-          </Button>
-        </div>
-      </header>
+          <div className="flex items-center gap-3">
+            <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
+              <Share2 className="h-6 w-6" />
+            </Button>
+            <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
+              <AlertCircle className="h-6 w-6" />
+            </Button>
+          </div>
+        </header>
 
-      <main className="w-full max-w-5xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
-          {/* Left Column */}
-          <div className="flex flex-col items-center">
-            <div className="flex mb-4">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className={cn(
-                    "h-8 w-8",
-                    i < rating ? "text-foreground fill-foreground" : "text-muted-foreground"
-                  )}
-                />
-              ))}
-            </div>
-            <div className="w-full max-w-sm">
+        <main className="flex-1 w-full flex flex-col items-center pt-12 md:pt-20 pb-28 gap-8">
+          <div className="grid md:grid-cols-2 items-start gap-4 w-full max-w-5xl">
+            <div className="flex justify-center md:justify-end">
+              <div className="w-full max-w-[18rem] md:max-w-xs">
                 <EbookCard ebook={ebook} onCardClick={handleCardClick} />
+              </div>
             </div>
-            <div className="bg-foreground text-background text-sm font-semibold rounded-full px-16 py-1.5 mt-4">
-              @utilisateur
+            <div className="flex justify-start">
+              <div className="w-full max-w-[600px] flex flex-col items-center">
+                <div className="w-full space-y-4">
+                  <div className="relative w-full">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">T</span>
+                    <div className={cn(inputClasses, "truncate")}>
+                      <p className="text-foreground">{ebook.title}</p>
+                    </div>
+                  </div>
+                  <div className="relative w-full">
+                    <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-muted-foreground">D</span>
+                    <div className={cn(textareaClasses, 'whitespace-pre-wrap')}>
+                      <p className="text-foreground">{ebook.description}</p>
+                    </div>
+                  </div>
+                  <div className="relative w-full">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">M</span>
+                    <div className={cn(inputClasses, "truncate")}>
+                      <p className="text-foreground">{ebook.keywords}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="w-full bg-secondary rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden">
+                  <div className='pl-6 py-4 text-sm text-muted-foreground space-y-1 flex flex-col justify-center'>
+                    <p>prix de l'ebook</p>
+                    <p>frais de service</p>
+                    <p>total de l'ebook</p>
+                  </div>
+                  <div className='bg-foreground text-background rounded-l-[30px] px-12 py-4 text-sm flex flex-col justify-center text-right space-y-1'>
+                    <p>{formatPrice(ebookPriceNumber)}</p>
+                    <p>{formatPrice(CUSTOMER_FEE)}</p>
+                    <p>{formatPrice(totalPriceForCustomer)}</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-
-          {/* Right Column */}
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-wrap gap-2">
-              <div className="bg-foreground text-background rounded-full px-6 py-2 text-sm font-semibold">{ebook.price} €</div>
-              <div className="bg-foreground text-background rounded-full px-6 py-2 text-sm font-semibold">{pageCount} p</div>
-              <div className="bg-foreground text-background rounded-full px-6 py-2 text-sm font-semibold">{publishDate}</div>
-            </div>
-
-            <div className="space-y-3 mt-4">
-              <div className="bg-secondary rounded-2xl p-4 flex items-center">
-                <span className="font-bold text-muted-foreground mr-4">T</span>
-                <p className="text-foreground">{ebook.title}</p>
-              </div>
-              <div className="bg-secondary rounded-2xl p-4 flex items-start">
-                <span className="font-bold text-muted-foreground mr-4">D</span>
-                <p className="text-foreground leading-relaxed">{ebook.description}</p>
-              </div>
-              <div className="bg-secondary rounded-2xl p-4 flex items-center">
-                <span className="font-bold text-muted-foreground mr-4">M</span>
-                <p className="text-foreground">{ebook.keywords}</p>
-              </div>
-            </div>
+          <div className="max-w-[16rem] w-full">
+            <Button className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90">
+              payer
+            </Button>
           </div>
-        </div>
-      </main>
-
-      <footer className="w-full flex justify-center mt-12 pb-8">
-        <Button className="bg-foreground text-background rounded-full h-14 px-20 text-lg font-semibold hover:bg-foreground/90">
-          payer
-        </Button>
-      </footer>
+        </main>
+      </div>
     </div>
   );
 }
