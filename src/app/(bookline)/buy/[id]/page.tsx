@@ -62,7 +62,7 @@ export default function BuyEbookPage() {
   };
 
   const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full flex items-center";
-  const textareaClasses = "pl-11 pr-4 h-32 w-full text-base bg-secondary border-0 rounded-[30px] py-3.5 leading-snug flex items-start overflow-y-auto";
+  const textareaClasses = "pl-11 pr-4 h-44 w-full text-base bg-secondary border-0 rounded-[30px] py-3.5 leading-snug flex items-start overflow-y-auto";
 
   return (
     <div className="min-h-screen bg-background text-foreground">
