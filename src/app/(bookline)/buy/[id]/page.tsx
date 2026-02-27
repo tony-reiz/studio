@@ -8,12 +8,28 @@ import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { cn } from '@/lib/utils';
+import dynamic from 'next/dynamic';
+
+const Document = dynamic(
+  () =>
+    import('react-pdf').then((mod) => {
+      mod.pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${mod.pdfjs.version}/build/pdf.worker.min.mjs`;
+      return mod.Document;
+    }),
+  {
+    ssr: false,
+    loading: () => null,
+  }
+);
+
 
 export default function BuyEbookPage() {
   const params = useParams();
   const { handleBack } = useTransitionRouter();
   const { allEbooks } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
+  const [numPages, setNumPages] = useState<number | null>(null);
+
 
   useEffect(() => {
     if (params.id && allEbooks.length > 0) {
@@ -21,6 +37,10 @@ export default function BuyEbookPage() {
       setEbook(foundEbook);
     }
   }, [params.id, allEbooks]);
+
+  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+    setNumPages(numPages);
+  };
 
   const handleCardClick = (ebook: Ebook) => {
     // On this page, clicking the card does nothing.
@@ -46,6 +66,11 @@ export default function BuyEbookPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+       {ebook.pdfDataUrl.startsWith('data:application/pdf') && (
+        <div className="hidden">
+          <Document file={ebook.pdfDataUrl} onLoadSuccess={onDocumentLoadSuccess} />
+        </div>
+      )}
       <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="flex items-center justify-between w-full py-6">
           <Button onClick={handleBack} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
@@ -72,10 +97,10 @@ export default function BuyEbookPage() {
               <div className="w-full max-w-[600px] flex flex-col items-center">
                 <div className="w-full grid grid-cols-3 gap-2 mb-4">
                     <div className="bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center">
-                        {formatPrice(ebookPriceNumber)}
+                        {formatPrice(totalPriceForCustomer)}
                     </div>
                     <div className="bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center">
-                        -- / p
+                        {numPages ? `${numPages} p.` : '-- / p'}
                     </div>
                     <div className="bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center">
                         XX/XX/XXXX
