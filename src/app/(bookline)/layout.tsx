@@ -33,7 +33,7 @@ export default function BooklineLayout({
 }>) {
   const pathname = usePathname();
   const router = useRouter();
-  const hideBottomNav = pathname === '/profile' || pathname.startsWith('/ebook/');
+  const hideBottomNav = pathname === '/profile' || pathname.startsWith('/ebook/') || pathname.startsWith('/buy/');
 
   const [isPageVisible, setIsPageVisible] = useState(false);
 
