@@ -61,7 +61,7 @@ export default function EbookDetailsPage() {
         <div className="w-full max-w-2xl mx-auto p-4">
             <header className="w-full flex items-center relative py-4 mb-4">
                 <h1 className="text-xl font-bold text-center flex-grow">Détails de la publication</h1>
-                <Button onClick={handleBack} variant="ghost" size="icon" className="absolute right-0 -mr-2 hover:bg-transparent [&_svg]:h-9 [&_svg]:w-9">
+                <Button onClick={handleBack} variant="ghost" size="icon" className="absolute right-0 -mr-2 hover:bg-transparent [&_svg]:h-8 [&_svg]:w-8">
                     <X />
                 </Button>
             </header>
