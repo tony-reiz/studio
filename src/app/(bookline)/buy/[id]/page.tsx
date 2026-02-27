@@ -12,15 +12,15 @@ import { cn } from '@/lib/utils';
 export default function BuyEbookPage() {
   const params = useParams();
   const { handleBack, handleNavigate } = useTransitionRouter();
-  const { publishedEbooks } = useEbooks();
+  const { allEbooks } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
 
   useEffect(() => {
-    if (params.id && publishedEbooks.length > 0) {
-      const foundEbook = publishedEbooks.find((e) => e.id === params.id);
+    if (params.id && allEbooks.length > 0) {
+      const foundEbook = allEbooks.find((e) => e.id === params.id);
       setEbook(foundEbook);
     }
-  }, [params.id, publishedEbooks]);
+  }, [params.id, allEbooks]);
 
   if (!ebook) {
     return <div className="flex h-screen w-full items-center justify-center bg-background">Chargement...</div>;
@@ -32,7 +32,10 @@ export default function BuyEbookPage() {
   const publishDate = "01/01/2024"; // Example
 
   const handleCardClick = (ebook: Ebook) => {
-    handleNavigate(`/ebook/${ebook.id}`)
+    const isOwnPublication = false; // On buy page, we assume we can't click to our own ebook details
+    if (isOwnPublication) {
+        handleNavigate(`/ebook/${ebook.id}`)
+    }
   }
 
   return (

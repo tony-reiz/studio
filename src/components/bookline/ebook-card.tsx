@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
+import Image from 'next/image';
 
 interface EbookCardProps {
   ebook?: Ebook;
@@ -31,6 +32,8 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
     }
   };
 
+  const isPdf = ebook?.pdfDataUrl.startsWith('data:application/pdf');
+
   const cardContent = (
     <Card 
       className={cn('bg-transparent border-0 shadow-none', className)}
@@ -42,7 +45,11 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
         )}
       >
         {ebook?.pdfDataUrl && (
-          <object data={`${ebook.pdfDataUrl}#toolbar=0&navpanes=0&scrollbar=0`} type="application/pdf" className="absolute inset-0 w-full h-full border-0 pointer-events-none scale-110" title="Aperçu du PDF" />
+          isPdf ? (
+            <object data={`${ebook.pdfDataUrl}#toolbar=0&navpanes=0&scrollbar=0`} type="application/pdf" className="absolute inset-0 w-full h-full border-0 pointer-events-none scale-110" title="Aperçu du PDF" />
+          ) : (
+            <Image src={ebook.pdfDataUrl} alt={ebook.title || 'Ebook cover'} fill style={{ objectFit: 'cover' }} />
+          )
         )}
         
         {ebook && (

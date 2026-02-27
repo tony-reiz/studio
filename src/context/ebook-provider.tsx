@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, ReactNode } from 'react';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 // Define the shape of an ebook
 export interface Ebook {
@@ -12,6 +13,15 @@ export interface Ebook {
   pdfDataUrl: string;
 }
 
+const placeholderEbooks: Ebook[] = PlaceHolderImages.map((img, index) => ({
+    id: img.id,
+    title: `Ebook ${img.imageHint.charAt(0).toUpperCase() + img.imageHint.slice(1)} ${index + 1}`,
+    description: `Une exploration fascinante sur le thème de "${img.imageHint}".`,
+    keywords: img.imageHint,
+    price: `${(10 + index * 3.5).toFixed(2).replace('.', ',')}`,
+    pdfDataUrl: img.imageUrl,
+}));
+
 // Define the context type
 interface EbookContextType {
   publishedEbooks: Ebook[];
@@ -19,6 +29,7 @@ interface EbookContextType {
   removePublishedEbook: (id: string) => void;
   favoritedEbooks: Ebook[];
   toggleFavoriteEbook: (ebook: Ebook) => void;
+  allEbooks: Ebook[];
 }
 
 // Create the context
@@ -53,9 +64,16 @@ export function EbookProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const allEbooksMap = new Map<string, Ebook>();
+  // Add placeholder ebooks first
+  placeholderEbooks.forEach(ebook => allEbooksMap.set(ebook.id, ebook));
+  // Then add user's published ebooks, potentially overwriting placeholders if IDs match (unlikely with UUID)
+  publishedEbooks.forEach(ebook => allEbooksMap.set(ebook.id, ebook));
+  const allEbooks = Array.from(allEbooksMap.values());
+
 
   return (
-    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook, favoritedEbooks, toggleFavoriteEbook }}>
+    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook, favoritedEbooks, toggleFavoriteEbook, allEbooks }}>
       {children}
     </EbookContext.Provider>
   );

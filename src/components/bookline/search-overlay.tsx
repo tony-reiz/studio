@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { EbookCard } from './ebook-card';
-import { type Ebook } from '@/context/ebook-provider';
+import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 
 interface SearchOverlayProps {
@@ -22,6 +22,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
   const [shouldRenderContent, setShouldRenderContent] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { handleNavigate } = useTransitionRouter();
+  const { publishedEbooks } = useEbooks();
 
   useEffect(() => {
     let visibilityTimer: NodeJS.Timeout;
@@ -67,7 +68,12 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
   }, [isOpen, query]);
 
   const handleEbookClick = (ebook: Ebook) => {
-    handleNavigate(`/buy/${ebook.id}`);
+    const isOwnPublication = publishedEbooks.some(p => p.id === ebook.id);
+    if (isOwnPublication) {
+        handleNavigate(`/ebook/${ebook.id}`);
+    } else {
+        handleNavigate(`/buy/${ebook.id}`);
+    }
   };
 
 
