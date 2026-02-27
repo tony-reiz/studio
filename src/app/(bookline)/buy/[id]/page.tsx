@@ -95,6 +95,9 @@ export default function BuyEbookPage() {
             </div>
             <div className="flex justify-center md:justify-start">
               <div className="w-full max-w-[18rem] md:max-w-xs flex flex-col items-center">
+                <div className="w-full bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center mb-4">
+                    vendeur
+                </div>
                 <div className="w-full grid grid-cols-3 gap-2 mb-4">
                     <div className="bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center">
                         {formatPrice(totalPriceForCustomer)}
