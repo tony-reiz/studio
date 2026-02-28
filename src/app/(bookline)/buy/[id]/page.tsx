@@ -76,7 +76,7 @@ export default function BuyEbookPage() {
           <Button onClick={handleBack} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
             <ChevronLeft className="h-6 w-6" />
           </Button>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col items-center gap-3">
             <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
               <Share2 className="h-6 w-6" />
             </Button>
