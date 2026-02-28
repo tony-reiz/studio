@@ -21,13 +21,7 @@ export default function CreateProfilePage() {
 
   useEffect(() => {
     setIsMounted(true);
-    // Clean up the object URL on unmount
-    return () => {
-      if (avatarUrl) {
-        URL.revokeObjectURL(avatarUrl);
-      }
-    };
-  }, [avatarUrl]);
+  }, []);
 
   const handleNavigate = (path: string) => {
     setIsMounted(false);
@@ -44,10 +38,11 @@ export default function CreateProfilePage() {
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (avatarUrl) {
-        URL.revokeObjectURL(avatarUrl);
-      }
-      setAvatarUrl(URL.createObjectURL(file));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatarUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
