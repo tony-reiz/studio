@@ -62,7 +62,7 @@ export default function LandingPage() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative flex flex-col items-center justify-center text-center min-h-[85vh] pt-20 pb-20 px-4 overflow-hidden">
+        <section className="relative flex flex-col items-center justify-center text-center min-h-[85vh] pt-40 pb-20 px-4 overflow-hidden">
           <div className="absolute inset-0 bg-secondary/30 [mask-image:radial-gradient(ellipse_at_center,white_20%,transparent_80%)] -z-10"></div>
           
           <h2 className={cn(
