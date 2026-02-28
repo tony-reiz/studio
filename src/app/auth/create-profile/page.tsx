@@ -14,7 +14,7 @@ export default function CreateProfilePage() {
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [bio, setBio] = useState('');
-  const [avatarUrl, setAvatarUrl] = useState('https://picsum.photos/seed/new-user-profile/200');
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -50,7 +50,7 @@ export default function CreateProfilePage() {
             
             <div className="relative mb-6">
               <Avatar className="h-32 w-32 bg-foreground">
-                <AvatarImage src={avatarUrl} alt="Photo de profil de l'utilisateur" />
+                <AvatarImage src={avatarUrl ?? undefined} alt="Photo de profil de l'utilisateur" />
                 <AvatarFallback className="bg-transparent">
                   <User className="h-20 w-20 text-background" />
                 </AvatarFallback>
