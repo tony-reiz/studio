@@ -80,7 +80,7 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
 
   const cardContent = (
     <Card 
-      className={cn('bg-transparent border-0 shadow-lg', className)}
+      className={cn('bg-transparent border-0 shadow-lg rounded-[25px]', className)}
     >
       <CardContent
         ref={containerRef}
