@@ -18,7 +18,7 @@ export default function SettingsPage() {
           </Button>
         </header>
 
-        <main className="flex-1 w-full flex flex-col items-center pt-8 pb-28 gap-2">
+        <main className="flex-1 w-full flex flex-col items-center pt-16 pb-28 gap-2">
           <div className="w-full">
             <SettingsList />
           </div>
