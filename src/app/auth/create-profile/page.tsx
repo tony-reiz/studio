@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { User, Camera } from 'lucide-react';
+import { User, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -56,7 +56,7 @@ export default function CreateProfilePage() {
                 </AvatarFallback>
               </Avatar>
               <Button onClick={handleAvatarChange} size="icon" className="absolute bottom-0 right-0 rounded-full bg-primary text-primary-foreground w-10 h-10 border-4 border-background hover:bg-primary/90">
-                <Camera className="h-5 w-5" />
+                <Plus className="h-6 w-6" />
               </Button>
             </div>
 
