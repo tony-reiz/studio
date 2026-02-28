@@ -94,11 +94,11 @@ export default function ProfilePage() {
             <Menu />
           </Button>
           <div className="flex flex-col items-center gap-3">
-            <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Partager le profil">
-              <Share2 className="h-6 w-6" />
-            </Button>
             <Button onClick={() => handleNavigate('/home')} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Accueil">
                 <Home className="h-6 w-6" />
+            </Button>
+            <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Partager le profil">
+              <Share2 className="h-6 w-6" />
             </Button>
           </div>
         </header>
