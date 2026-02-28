@@ -54,6 +54,13 @@ export default function CreateProfilePage() {
     fileInputRef.current?.click();
   };
 
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const valueWithoutSpaces = value.replace(/\s/g, '');
+    const truncatedValue = valueWithoutSpaces.slice(0, 8);
+    setUsername(truncatedValue);
+  };
+
   const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0";
 
   return (
@@ -91,7 +98,7 @@ export default function CreateProfilePage() {
                   type="text"
                   placeholder="Nom d'utilisateur"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={handleUsernameChange}
                   className={inputClasses}
                 />
               </div>
