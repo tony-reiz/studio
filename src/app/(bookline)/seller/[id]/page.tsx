@@ -41,7 +41,7 @@ export default function SellerProfilePage() {
               {userProfile.username}
             </div>
              {userProfile.bio && (
-              <p className="text-center text-muted-foreground mt-4 max-w-sm">{userProfile.bio}</p>
+              <p className="text-center text-muted-foreground mt-4 max-w-sm break-words">{userProfile.bio}</p>
             )}
           </div>
           
