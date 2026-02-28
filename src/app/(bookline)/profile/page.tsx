@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Menu, User, Home, Share2 } from 'lucide-react';
+import { Home, User, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
 import { ProfileTabNav } from '@/components/bookline/profile-tab-nav';
@@ -90,8 +90,8 @@ export default function ProfilePage() {
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="flex items-start justify-between w-full py-6">
-          <Button variant="ghost" size="icon" aria-label="Menu" className="hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7">
-            <Menu />
+          <Button variant="ghost" size="icon" aria-label="Menu" className="p-0 h-auto invisible">
+            <Share2 />
           </Button>
           <div className="flex flex-col items-center gap-3">
             <Button onClick={() => handleNavigate('/home')} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Accueil">
@@ -111,14 +111,14 @@ export default function ProfilePage() {
                 <User className="h-16 w-16 text-background" />
               </AvatarFallback>
             </Avatar>
-            <div className="bg-foreground text-background text-sm font-semibold rounded-full px-10 py-2 mt-4">
+            <div className="bg-foreground text-background text-sm font-semibold rounded-full px-10 mt-4 h-9 flex items-center justify-center">
               utilisateur
             </div>
           </div>
 
           <ProfileTabNav activeTab={activeTab} setActiveTab={handleTabChange} />
           
-          <div className={cn("w-full max-w-sm md:max-w-4xl transition-opacity duration-300", isContentVisible ? 'opacity-100' : 'opacity-0')}>
+          <div className={cn("w-full max-w-sm md:max-w-4xl mt-4 transition-opacity duration-300", isContentVisible ? 'opacity-100' : 'opacity-0')}>
             {renderContent()}
           </div>
         </main>
