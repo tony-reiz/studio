@@ -109,6 +109,11 @@ export default function CreateProfilePage() {
                     placeholder="Biographie (optionnel)"
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                      }
+                    }}
                     className={cn(inputClasses, "h-24 rounded-[30px] py-3.5 leading-snug resize-none")}
                     maxLength={160}
                   />
