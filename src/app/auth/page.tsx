@@ -85,10 +85,10 @@ export default function AuthPage() {
         <div className="max-w-sm w-full space-y-8">
             <div className='overflow-hidden pb-2'>
                 <h1 className={cn(
-                    "text-4xl md:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 transition-transform duration-700 ease-out",
+                    "text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 transition-transform duration-700 ease-out",
                     isMounted ? "translate-y-0" : "translate-y-full"
                 )}>
-                    Rejoignez la Matrice
+                    Rejoignez Bookline
                 </h1>
             </div>
             
