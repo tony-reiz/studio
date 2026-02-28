@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronLeft } from 'lucide-react';
+import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { SettingsList } from '@/components/bookline/settings-list';
@@ -11,12 +11,11 @@ export default function SettingsPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="w-full max-w-screen-md mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
-        <header className="flex items-center justify-between w-full py-6">
-          <Button onClick={handleBack} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
-            <ChevronLeft className="h-6 w-6" />
+        <header className="flex items-center justify-center w-full py-6 relative">
+          <h1 className="text-2xl font-bold invisible sm:visible">Paramètres</h1>
+          <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full w-11 h-11 hover:bg-transparent text-foreground absolute top-1/2 right-0 -translate-y-1/2">
+            <X className="h-[25px] w-[25px]" />
           </Button>
-           <h1 className="text-2xl font-bold invisible sm:visible">Paramètres</h1>
-          <div className="w-11"></div> {/* Placeholder for spacing */}
         </header>
 
         <main className="flex-1 w-full flex flex-col items-center pt-8 pb-28 gap-2">
