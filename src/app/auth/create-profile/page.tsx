@@ -42,7 +42,7 @@ export default function CreateProfilePage() {
 
   return (
     <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
-       <main className="flex-1 w-full flex flex-col items-center justify-center pb-8 px-4">
+       <main className="flex-1 w-full flex flex-col items-center justify-center px-4">
           <div className="flex flex-col items-center w-full max-w-sm">
             <h1 className="text-3xl font-bold mb-8 text-center whitespace-nowrap">Finalisez votre inscription</h1>
             
@@ -73,16 +73,17 @@ export default function CreateProfilePage() {
                 className="h-24 text-base bg-secondary border-0 rounded-3xl text-center py-3.5 resize-none focus-visible:ring-primary"
               />
             </div>
-            
-            <Button 
-                onClick={handleSaveProfile}
-                disabled={!username.trim()}
-                className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90 disabled:bg-[#DFDFDF] disabled:text-muted-foreground"
-            >
-              Enregistrer et continuer
-            </Button>
           </div>
         </main>
+        <footer className="w-full max-w-[16rem] mx-auto pb-8 pt-4">
+          <Button 
+              onClick={handleSaveProfile}
+              disabled={!username.trim()}
+              className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90 disabled:bg-[#DFDFDF] disabled:text-muted-foreground"
+          >
+            Enregistrer
+          </Button>
+        </footer>
     </div>
   );
 }
