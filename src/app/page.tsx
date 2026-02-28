@@ -27,7 +27,7 @@ export default function LandingPage() {
   };
 
   return (
-    <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-500 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
+    <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
       <header className="absolute top-0 left-0 right-0 z-10">
         <div className="container mx-auto flex justify-between items-center p-6">
             <h1 className="text-2xl font-bold">BookLine</h1>
@@ -41,15 +41,31 @@ export default function LandingPage() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative flex flex-col items-center justify-center text-center min-h-[85vh] pt-20 pb-20 px-4">
+        <section className="relative flex flex-col items-center justify-center text-center min-h-[85vh] pt-20 pb-20 px-4 overflow-hidden">
           <div className="absolute inset-0 bg-secondary/30 [mask-image:radial-gradient(ellipse_at_center,white_20%,transparent_80%)] -z-10"></div>
-          <h2 className="text-5xl md:text-7xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70">
+          
+          <h2 className={cn(
+            "text-5xl md:text-7xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 transition-all duration-700 ease-out",
+            isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          )}>
             La Matrice de Vente
           </h2>
-          <p className="mt-6 max-w-xl text-lg text-muted-foreground">
+
+          <p className={cn(
+            "mt-6 max-w-xl text-lg text-muted-foreground transition-all duration-700 ease-out delay-200",
+            isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          )}>
             Libérez votre potentiel. Publiez vos ebooks, partagez votre savoir et générez des revenus en toute simplicité.
           </p>
-          <Button onClick={() => handleNavigate('/home')} className="mt-10 bg-foreground text-background rounded-full h-14 px-12 text-lg font-semibold hover:bg-foreground/90 transform hover:scale-105 transition-transform">
+
+          <Button 
+            onClick={() => handleNavigate('/home')} 
+            className={cn(
+                "mt-10 bg-foreground text-background rounded-full h-14 px-12 text-lg font-semibold transform transition-all duration-700 ease-out delay-300",
+                "hover:bg-foreground/90 hover:scale-105",
+                isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
+            )}
+          >
             Commencer
           </Button>
         </section>
@@ -58,22 +74,34 @@ export default function LandingPage() {
         <section className="py-24">
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-3 gap-12 text-center">
-              <div className="flex flex-col items-center">
-                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-background mb-6 shadow-md">
+              
+              <div className={cn(
+                "flex flex-col items-center transition-all duration-700 ease-out delay-[400ms]",
+                isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              )}>
+                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-background mb-6 shadow-md transition-transform duration-300 hover:scale-110">
                     <Feather className="w-8 h-8 text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Publication Facile</h3>
                 <p className="text-muted-foreground">Mettez en ligne vos ebooks en quelques clics grâce à notre interface intuitive.</p>
               </div>
-              <div className="flex flex-col items-center">
-                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-background mb-6 shadow-md">
+
+              <div className={cn(
+                "flex flex-col items-center transition-all duration-700 ease-out delay-[550ms]",
+                isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              )}>
+                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-background mb-6 shadow-md transition-transform duration-300 hover:scale-110">
                     <DollarSign className="w-8 h-8 text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Monétisation Simple</h3>
                 <p className="text-muted-foreground">Fixez votre prix et suivez vos revenus directement depuis votre tableau de bord.</p>
               </div>
-              <div className="flex flex-col items-center">
-                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-background mb-6 shadow-md">
+
+              <div className={cn(
+                "flex flex-col items-center transition-all duration-700 ease-out delay-[700ms]",
+                isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              )}>
+                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-background mb-6 shadow-md transition-transform duration-300 hover:scale-110">
                     <ShieldCheck className="w-8 h-8 text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Paiements Sécurisés</h3>
@@ -85,11 +113,24 @@ export default function LandingPage() {
 
         {/* Final CTA Section */}
          <section className="py-24 text-center px-4">
-            <h2 className="text-4xl font-bold tracking-tight">Prêt à vous lancer ?</h2>
-            <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+            <h2 className={cn(
+                "text-4xl font-bold tracking-tight transition-all duration-700 ease-out",
+                isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            )}>Prêt à vous lancer ?</h2>
+            <p className={cn(
+                "mt-4 max-w-2xl mx-auto text-lg text-muted-foreground transition-all duration-700 ease-out delay-200",
+                isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            )}>
                 Rejoignez des milliers de créateurs et commencez à vendre vos ebooks dès aujourd'hui.
             </p>
-            <Button onClick={() => handleNavigate('/home')} className="mt-8 bg-foreground text-background rounded-full h-14 px-12 text-lg font-semibold hover:bg-foreground/90 transform hover:scale-105 transition-transform">
+            <Button 
+                onClick={() => handleNavigate('/home')} 
+                className={cn(
+                    "mt-8 bg-foreground text-background rounded-full h-14 px-12 text-lg font-semibold transform transition-all duration-700 ease-out delay-300",
+                    "hover:bg-foreground/90 hover:scale-105",
+                    isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
+                )}
+            >
                 Publier mon premier ebook
             </Button>
         </section>
