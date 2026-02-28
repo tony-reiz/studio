@@ -32,7 +32,7 @@ export default function SellerProfilePage() {
         </header>
 
         <main className="flex-1 w-full flex flex-col items-center pb-8">
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center pt-16">
             <Avatar className="h-28 w-28 bg-foreground">
               <AvatarFallback className="bg-transparent">
                 <User className="h-16 w-16 text-background" />
@@ -43,7 +43,7 @@ export default function SellerProfilePage() {
             </div>
           </div>
           
-          <div className="w-full max-w-sm md:max-w-4xl mt-24">
+          <div className="w-full max-w-sm md:max-w-4xl mt-20">
             {sellerPublications.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
                 {sellerPublications.map((ebook) => (
