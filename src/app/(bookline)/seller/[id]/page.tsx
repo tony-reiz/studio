@@ -43,7 +43,7 @@ export default function SellerProfilePage() {
             </div>
           </div>
           
-          <div className="w-full max-w-sm md:max-w-4xl mt-20">
+          <div className="w-full max-w-sm md:max-w-4xl mt-8">
             {sellerPublications.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
                 {sellerPublications.map((ebook) => (
