@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Download } from 'lucide-react';
+import { CloudUpload } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface PdfUploaderProps {
@@ -86,7 +86,7 @@ export function PdfUploader({ pdfFile, onFileChange, className }: PdfUploaderPro
             title="Aperçu du PDF" 
           />
         ) : (
-          <Download className="h-10 w-10 text-muted-foreground" />
+          <CloudUpload className="h-10 w-10 text-muted-foreground" />
         )}
       </div>
     </div>
