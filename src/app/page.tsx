@@ -59,7 +59,7 @@ export default function LandingPage() {
           </p>
 
           <Button 
-            onClick={() => handleNavigate('/home')} 
+            onClick={() => handleNavigate('/auth')} 
             className={cn(
                 "mt-10 bg-foreground text-background rounded-full h-14 px-12 text-lg font-semibold transform transition-all duration-700 ease-out delay-300",
                 "hover:bg-foreground/90 hover:scale-105",
@@ -124,7 +124,7 @@ export default function LandingPage() {
                 Rejoignez des milliers de créateurs et commencez à vendre vos ebooks dès aujourd'hui.
             </p>
             <Button 
-                onClick={() => handleNavigate('/home')} 
+                onClick={() => handleNavigate('/auth')} 
                 className={cn(
                     "mt-8 bg-foreground text-background rounded-full h-14 px-12 text-lg font-semibold transform transition-all duration-700 ease-out delay-300",
                     "hover:bg-foreground/90 hover:scale-105",
