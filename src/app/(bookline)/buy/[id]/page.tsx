@@ -86,7 +86,7 @@ export default function BuyEbookPage() {
           </div>
         </header>
 
-        <main className="flex-1 w-full flex flex-col items-center pt-8 md:pt-16 pb-28 gap-8">
+        <main className="flex-1 w-full flex flex-col items-center pt-4 md:pt-12 pb-28 gap-8">
           <div className="grid md:grid-cols-2 items-start gap-4 w-full max-w-5xl">
             <div className="flex justify-center md:justify-end">
               <div className="w-full max-w-[18rem] md:max-w-xs">
