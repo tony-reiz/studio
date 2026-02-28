@@ -72,7 +72,7 @@ export default function BuyEbookPage() {
         </div>
       )}
       <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
-        <header className="flex items-center justify-between w-full py-6">
+        <header className="flex items-start justify-between w-full py-6">
           <Button onClick={handleBack} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
             <ChevronLeft className="h-6 w-6" />
           </Button>
@@ -86,7 +86,7 @@ export default function BuyEbookPage() {
           </div>
         </header>
 
-        <main className="flex-1 w-full flex flex-col items-center pt-4 md:pt-12 pb-28 gap-8">
+        <main className="flex-1 w-full flex flex-col items-center pt-2 pb-28 gap-8">
           <div className="grid md:grid-cols-2 items-start gap-4 w-full max-w-5xl">
             <div className="flex justify-center md:justify-end">
               <div className="w-full max-w-[18rem] md:max-w-xs">
