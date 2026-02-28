@@ -13,8 +13,8 @@ export default function SettingsPage() {
       <div className="w-full max-w-screen-md mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="flex items-center justify-center w-full py-6 relative">
           <h1 className="text-2xl font-bold invisible sm:visible">Paramètres</h1>
-          <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full w-11 h-11 hover:bg-transparent text-foreground absolute top-1/2 right-0 -translate-y-1/2">
-            <X className="h-[25px] w-[25px]" />
+          <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full w-11 h-11 hover:bg-transparent text-foreground absolute top-1/2 right-0 -translate-y-1/2 [&_svg]:h-8 [&_svg]:w-8">
+            <X />
           </Button>
         </header>
 
