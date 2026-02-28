@@ -1,6 +1,6 @@
 'use client';
 
-import { User, Share2, ChevronLeft } from 'lucide-react';
+import { User, Share2, ChevronLeft, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -24,14 +24,17 @@ export default function SellerProfilePage() {
           <Button onClick={handleBack} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Retour">
             <ChevronLeft className="h-6 w-6" />
           </Button>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-col items-center gap-3">
             <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Partager le profil">
               <Share2 className="h-6 w-6" />
+            </Button>
+            <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Signaler le profil">
+              <AlertCircle className="h-6 w-6" />
             </Button>
           </div>
         </header>
 
-        <main className="flex-1 w-full flex flex-col items-center pb-8 pt-16">
+        <main className="flex-1 w-full flex flex-col items-center pt-16 pb-8">
           <div className="flex flex-col items-center">
             <Avatar className="h-28 w-28 bg-foreground">
               <AvatarImage src="https://picsum.photos/seed/seller-profile/200" alt="Photo de profil du vendeur" />
@@ -44,7 +47,7 @@ export default function SellerProfilePage() {
             </div>
           </div>
           
-          <div className="w-full max-w-sm md:max-w-4xl mt-8">
+          <div className="w-full max-w-sm md:max-w-4xl mt-4">
             {sellerPublications.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
                 {sellerPublications.map((ebook) => (
