@@ -52,7 +52,7 @@ export default function CreateProfilePage() {
               <Avatar className="h-32 w-32 bg-foreground">
                 <AvatarImage src={avatarUrl ?? undefined} alt="Photo de profil de l'utilisateur" />
                 <AvatarFallback className="bg-transparent">
-                  <User className="h-16 w-16 text-background" />
+                  <User className="h-12 w-12 text-background" />
                 </AvatarFallback>
               </Avatar>
               <Button onClick={handleAvatarChange} size="icon" className="absolute bottom-0 right-0 rounded-full bg-primary text-primary-foreground w-10 h-10 border-4 border-background hover:bg-primary/90">
