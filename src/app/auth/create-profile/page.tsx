@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { User, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -15,10 +15,17 @@ export default function CreateProfilePage() {
   const [username, setUsername] = useState('');
   const [bio, setBio] = useState('');
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setIsMounted(true);
-  }, []);
+    // Clean up the object URL on unmount
+    return () => {
+      if (avatarUrl) {
+        URL.revokeObjectURL(avatarUrl);
+      }
+    };
+  }, [avatarUrl]);
 
   const handleNavigate = (path: string) => {
     setIsMounted(false);
@@ -33,12 +40,19 @@ export default function CreateProfilePage() {
     handleNavigate('/home');
   };
   
-  const handleAvatarChange = () => {
-    // In a real app, this would open a file picker
-    console.log("Change avatar clicked");
-    // For demo, let's just change the picture
-    setAvatarUrl(`https://picsum.photos/seed/${Math.random()}/200`)
-  }
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (avatarUrl) {
+        URL.revokeObjectURL(avatarUrl);
+      }
+      setAvatarUrl(URL.createObjectURL(file));
+    }
+  };
+
+  const handlePlusClick = () => {
+    fileInputRef.current?.click();
+  };
 
   const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0";
 
@@ -49,13 +63,20 @@ export default function CreateProfilePage() {
             <h1 className="text-3xl font-bold mb-8 text-center whitespace-nowrap">Finalisez votre inscription</h1>
             
             <div className="relative mb-6">
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleAvatarChange}
+                accept="image/*"
+                className="hidden"
+              />
               <Avatar className="h-32 w-32 bg-foreground">
-                <AvatarImage src={avatarUrl ?? undefined} alt="Photo de profil de l'utilisateur" />
+                {avatarUrl && <AvatarImage src={avatarUrl} alt="Photo de profil de l'utilisateur" />}
                 <AvatarFallback className="bg-transparent">
                   <User className="h-12 w-12 text-background" />
                 </AvatarFallback>
               </Avatar>
-              <Button onClick={handleAvatarChange} size="icon" className="absolute bottom-0 right-0 rounded-full bg-primary text-primary-foreground w-10 h-10 border-4 border-background hover:bg-primary/90">
+              <Button onClick={handlePlusClick} size="icon" className="absolute bottom-0 right-0 rounded-full bg-primary text-primary-foreground w-10 h-10 border-4 border-background hover:bg-primary/90">
                 <Plus className="h-6 w-6" />
               </Button>
             </div>
