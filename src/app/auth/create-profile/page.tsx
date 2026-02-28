@@ -102,14 +102,20 @@ export default function CreateProfilePage() {
                   className={inputClasses}
                 />
               </div>
-              <div className="relative w-full">
-                <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-muted-foreground">B</span>
-                <Textarea
-                  placeholder="Biographie (optionnel)"
-                  value={bio}
-                  onChange={(e) => setBio(e.target.value)}
-                  className={cn(inputClasses, "h-24 rounded-[30px] py-3.5 leading-snug resize-none")}
-                />
+              <div>
+                <div className="relative w-full">
+                  <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-muted-foreground">B</span>
+                  <Textarea
+                    placeholder="Biographie (optionnel)"
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    className={cn(inputClasses, "h-24 rounded-[30px] py-3.5 leading-snug resize-none")}
+                    maxLength={160}
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground text-right w-full pr-4 pt-1">
+                  {bio.length} / 160
+                </p>
               </div>
             </div>
           </div>
