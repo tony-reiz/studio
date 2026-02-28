@@ -212,7 +212,7 @@ export default function LandingPage() {
         <div className="container mx-auto text-center text-muted-foreground py-6 text-sm">
           <p>&copy; {new Date().getFullYear()} BookLine. Tous droits réservés.</p>
           <div className="mt-2">
-            <a href="#" className="hover:text-foreground mx-2">Conditions d'utilisation</a>
+            <a href="/terms" className="hover:text-foreground mx-2">Conditions d'utilisation</a>
             <span className="mx-2">|</span>
             <a href="#" className="hover:text-foreground mx-2">Politique de confidentialité</a>
           </div>

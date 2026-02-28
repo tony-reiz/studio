@@ -96,7 +96,7 @@ export default function AuthPage() {
                 style={{ transitionDelay: '400ms' }}
             >
               <p className="text-xs text-muted-foreground">
-                En continuant, vous acceptez nos <a href="#" className="underline hover:text-foreground">Conditions d'utilisation</a> et notre <a href="#" className="underline hover:text-foreground">Politique de confidentialité</a>.
+                En continuant, vous acceptez nos <a href="/terms" className="underline hover:text-foreground">Conditions d'utilisation</a> et notre <a href="#" className="underline hover:text-foreground">Politique de confidentialité</a>.
               </p>
             </div>
 
