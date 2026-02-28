@@ -5,6 +5,27 @@ import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartConfig } from '@/components/ui/chart';
+
+
+// Chart data and config
+const chartData = [
+  { month: "Janvier", sales: 186 },
+  { month: "Février", sales: 305 },
+  { month: "Mars", sales: 237 },
+  { month: "Avril", sales: 273 },
+  { month: "Mai", sales: 409 },
+  { month: "Juin", sales: 520 },
+];
+
+const chartConfig = {
+  sales: {
+    label: "Ventes",
+    color: "hsl(var(--primary))",
+  },
+} satisfies ChartConfig;
+
 
 export default function LandingPage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -111,14 +132,65 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* Animated Chart Section */}
+        <section className="py-24">
+            <div className="container mx-auto px-4 text-center">
+                <h2 className={cn(
+                    "text-4xl font-bold tracking-tight transition-all duration-700 ease-out delay-[800ms]",
+                    isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                )}>
+                    Visualisez Votre Succès
+                </h2>
+                <p className={cn(
+                    "mt-4 max-w-2xl mx-auto text-lg text-muted-foreground transition-all duration-700 ease-out delay-[900ms]",
+                    isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                )}>
+                    Notre tableau de bord intuitif vous permet de suivre vos ventes, revenus et engagement en temps réel.
+                </p>
+                <div className={cn(
+                    "mt-12 max-w-4xl mx-auto h-[24rem] transition-all duration-1000 ease-out delay-[1000ms]",
+                    isMounted ? "opacity-100 scale-100" : "opacity-0 scale-90"
+                )}>
+                    <ChartContainer config={chartConfig} className="w-full h-full">
+                        <BarChart accessibilityLayer data={chartData}>
+                            <CartesianGrid vertical={false} />
+                            <XAxis
+                                dataKey="month"
+                                tickLine={false}
+                                tickMargin={10}
+                                axisLine={false}
+                                stroke="hsl(var(--muted-foreground))"
+                            />
+                            <YAxis
+                                tickLine={false}
+                                axisLine={false}
+                                stroke="hsl(var(--muted-foreground))"
+                                tickFormatter={(value) => `${value}`}
+                            />
+                            <ChartTooltip
+                                cursor={false}
+                                content={<ChartTooltipContent indicator="dot" />}
+                            />
+                            <Bar 
+                                dataKey="sales" 
+                                fill="var(--color-sales)" 
+                                radius={8} 
+                                animationDuration={1500}
+                            />
+                        </BarChart>
+                    </ChartContainer>
+                </div>
+            </div>
+        </section>
+
         {/* Final CTA Section */}
          <section className="py-24 text-center px-4">
             <h2 className={cn(
-                "text-4xl font-bold tracking-tight transition-all duration-700 ease-out",
+                "text-4xl font-bold tracking-tight transition-all duration-700 ease-out delay-300",
                 isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
             )}>Prêt à vous lancer ?</h2>
             <p className={cn(
-                "mt-4 max-w-2xl mx-auto text-lg text-muted-foreground transition-all duration-700 ease-out delay-200",
+                "mt-4 max-w-2xl mx-auto text-lg text-muted-foreground transition-all duration-700 ease-out delay-500",
                 isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
             )}>
                 Rejoignez des milliers de créateurs et commencez à vendre vos ebooks dès aujourd'hui.
@@ -126,7 +198,7 @@ export default function LandingPage() {
             <Button 
                 onClick={() => handleNavigate('/auth')} 
                 className={cn(
-                    "mt-8 bg-foreground text-background rounded-full h-14 px-12 text-lg font-semibold transform transition-all duration-700 ease-out delay-300",
+                    "mt-8 bg-foreground text-background rounded-full h-14 px-12 text-lg font-semibold transform transition-all duration-700 ease-out delay-700",
                     "hover:bg-foreground/90 hover:scale-105",
                     isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
                 )}
