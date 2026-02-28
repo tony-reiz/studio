@@ -116,11 +116,11 @@ export default function CreateProfilePage() {
                       }
                     }}
                     className={cn(inputClasses, "h-24 rounded-[30px] py-3.5 leading-snug resize-none")}
-                    maxLength={160}
+                    maxLength={80}
                   />
                 </div>
                 <p className="text-xs text-muted-foreground text-right w-full pr-4 pt-1">
-                  {bio.length} / 160
+                  {bio.length} / 80
                 </p>
               </div>
             </div>
