@@ -71,13 +71,16 @@ export default function CreateProfilePage() {
                 className="hidden"
               />
               <Avatar className="h-32 w-32 bg-foreground">
-                {avatarUrl && <AvatarImage src={avatarUrl} alt="Photo de profil de l'utilisateur" />}
-                <AvatarFallback className="bg-transparent">
-                  <User className="h-12 w-12 text-background" />
-                </AvatarFallback>
+                {avatarUrl ? (
+                  <AvatarImage src={avatarUrl} alt="Photo de profil de l'utilisateur" />
+                ) : (
+                  <AvatarFallback className="bg-transparent">
+                    <User className="h-12 w-12 text-background" />
+                  </AvatarFallback>
+                )}
               </Avatar>
               <Button onClick={handlePlusClick} size="icon" className="absolute bottom-0 right-0 rounded-full bg-primary text-primary-foreground w-10 h-10 border-4 border-background hover:bg-primary/90">
-                <Plus className="h-6 w-6" />
+                <Plus className="h-6 w-6" strokeWidth={3} />
               </Button>
             </div>
 
