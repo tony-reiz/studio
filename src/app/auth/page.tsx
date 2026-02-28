@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Mail } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { TermsSheet } from '@/components/bookline/terms-sheet';
 
 // SVG for Google Icon
 const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -38,9 +40,12 @@ const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
 export default function AuthPage() {
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
+  const isMobile = useIsMobile();
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
+    setIsClient(true);
   }, []);
   
   const handleNavigate = (path: string) => {
@@ -96,7 +101,16 @@ export default function AuthPage() {
                 style={{ transitionDelay: '400ms' }}
             >
               <p className="text-xs text-muted-foreground">
-                En continuant, vous acceptez nos <a href="/terms" className="underline hover:text-foreground">Conditions d'utilisation</a> et notre <a href="#" className="underline hover:text-foreground">Politique de confidentialité</a>.
+                En continuant, vous acceptez nos{' '}
+                {isClient && isMobile ? (
+                  <TermsSheet>
+                    <button className="underline hover:text-foreground">Conditions d'utilisation</button>
+                  </TermsSheet>
+                ) : (
+                  <a href="/terms" className="underline hover:text-foreground">Conditions d'utilisation</a>
+                )}
+                {' '}et notre{' '}
+                <a href="#" className="underline hover:text-foreground">Politique de confidentialité</a>.
               </p>
             </div>
 

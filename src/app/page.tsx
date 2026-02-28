@@ -7,6 +7,8 @@ import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartConfig } from '@/components/ui/chart';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { TermsSheet } from '@/components/bookline/terms-sheet';
 
 
 // Chart data and config
@@ -30,9 +32,12 @@ const chartConfig = {
 export default function LandingPage() {
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
+  const isMobile = useIsMobile();
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
+    setIsClient(true);
   }, []);
 
   const handleNavigate = (path: string) => {
@@ -212,7 +217,13 @@ export default function LandingPage() {
         <div className="container mx-auto text-center text-muted-foreground py-6 text-sm">
           <p>&copy; {new Date().getFullYear()} BookLine. Tous droits réservés.</p>
           <div className="mt-2">
-            <a href="/terms" className="hover:text-foreground mx-2">Conditions d'utilisation</a>
+            {isClient && isMobile ? (
+              <TermsSheet>
+                <button className="underline hover:text-foreground mx-2">Conditions d'utilisation</button>
+              </TermsSheet>
+            ) : (
+              <a href="/terms" className="hover:text-foreground mx-2">Conditions d'utilisation</a>
+            )}
             <span className="mx-2">|</span>
             <a href="#" className="hover:text-foreground mx-2">Politique de confidentialité</a>
           </div>
