@@ -34,18 +34,6 @@ const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-// SVG for Apple Icon
-const AppleIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg 
-        {...props}
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="currentColor"
-    >
-        <path d="M19.39,14.89a5.3,5.3,0,0,1-2.18,4.3,5.09,5.09,0,0,1-3.23,1.3,4.38,4.38,0,0,1-1.6-.29,4.64,4.64,0,0,1-1.63-1,5.6,5.6,0,0,1-1.28-1.54,20.06,20.06,0,0,1-2-5.73,7.5,7.5,0,0,1,3.44-6.43,4.62,4.62,0,0,1,3-1.12,4.4,4.4,0,0,1,2.52.82,1.37,1.37,0,0,0,1.82-.16,1.4,1.4,0,0,0,.28-1.87,8.8,8.8,0,0,0-2-.89,7.1,7.1,0,0,0-3.32-.47,7.84,7.84,0,0,0-5.83,2.69,9.45,9.45,0,0,0-3.1,7.74c0,3.33,1.38,6.4,3.13,8.42a5.77,5.77,0,0,0,4.29,2,5.2,5.2,0,0,0,1.7-.27,4.84,4.84,0,0,0,1.86-1.1,1.36,1.36,0,0,0-.11-1.89,1.3,1.3,0,0,0-1.78.1,3.32,3.32,0,0,1-2.92,1.25,3.32,3.32,0,0,1-2.31-4.08,1.41,1.41,0,0,0,0-2,1.35,1.35,0,0,0,1.87-.27,11.3,11.3,0,0,0,1.52,1.8,4.8,4.8,0,0,0,3,1.61,4.55,4.55,0,0,0,1.64-.29,2.52,2.52,0,0,0-1.07-4.63,1.36,1.36,0,0,0-1.39,1.33h-2.1a3.15,3.15,0,0,1,1.4-2.82,2.94,2.94,0,0,1,2.15-.65,2.83,2.83,0,0,1,2.27,1,3.15,3.15,0,0,1,1,2.3,4.63,4.63,0,0,1-1.89,3.71M15.4,4.84A4.3,4.3,0,0,1,14.65,3a4.5,4.5,0,0,1-1.88-1.17,4.71,4.71,0,0,0-3.2,1.49,4.43,4.43,0,0,0-1.42,3.23,4.21,4.21,0,0,0,1.22,3,4.32,4.32,0,0,0,3.22,1.41,4.3,4.3,0,0,0,3.23-1.49,1.38,1.38,0,0,0,.08-1.9,1.4,1.4,0,0,0-1.88-.07Z"/>
-    </svg>
-);
-
 
 export default function AuthPage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -97,8 +85,7 @@ export default function AuthPage() {
                 isMounted ? "opacity-100" : "opacity-0"
             )}>
               <AuthButton delay={200} icon={<GoogleIcon className="w-6 h-6" />}>Continuer avec Google</AuthButton>
-              <AuthButton delay={300} icon={<AppleIcon className="w-6 h-6" />}>Continuer avec Apple</AuthButton>
-              <AuthButton delay={400} icon={<Mail className="w-6 h-6" />}>Continuer avec l'email</AuthButton>
+              <AuthButton delay={300} icon={<Mail className="w-6 h-6" />}>Continuer avec l'email</AuthButton>
             </div>
           
             <div 
@@ -106,7 +93,7 @@ export default function AuthPage() {
                     "transition-all duration-700 ease-out",
                     isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
                 )}
-                style={{ transitionDelay: '500ms' }}
+                style={{ transitionDelay: '400ms' }}
             >
               <p className="text-xs text-muted-foreground">
                 En continuant, vous acceptez nos <a href="#" className="underline hover:text-foreground">Conditions d'utilisation</a> et notre <a href="#" className="underline hover:text-foreground">Politique de confidentialité</a>.
@@ -119,7 +106,7 @@ export default function AuthPage() {
                     "text-muted-foreground transition-all duration-700 ease-out hover:text-foreground",
                     isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
                 )}
-                style={{ transitionDelay: '600ms' }}
+                style={{ transitionDelay: '500ms' }}
                 onClick={() => handleNavigate('/home')}
             >
                 Continuer sans compte <ArrowRight className="ml-2 h-4 w-4" />
