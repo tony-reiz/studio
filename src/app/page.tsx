@@ -1,6 +1,6 @@
 'use client';
 
-import { GraduationCap, Feather, DollarSign, ShieldCheck } from 'lucide-react';
+import { Feather, DollarSign, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
@@ -31,10 +31,10 @@ export default function LandingPage() {
       <header className="absolute top-0 left-0 right-0 z-10">
         <div className="container mx-auto flex justify-between items-center p-6">
             <h1 className="text-2xl font-bold">BookLine</h1>
-            <div className="bg-foreground text-background p-2 rounded-full flex items-center space-x-1">
-                <GraduationCap className="h-5 w-5" />
-                <GraduationCap className="h-5 w-5 opacity-70" />
-                <GraduationCap className="h-5 w-5 opacity-50" />
+            <div className="flex items-end gap-1.5 h-8 p-2">
+              <span className={cn("w-2 bg-primary/40 rounded-full transition-all ease-out duration-500", isMounted ? "h-1/3" : "h-0")}></span>
+              <span className={cn("w-2 bg-primary/70 rounded-full transition-all ease-out duration-500 delay-100", isMounted ? "h-full" : "h-0")}></span>
+              <span className={cn("w-2 bg-primary rounded-full transition-all ease-out duration-500 delay-200", isMounted ? "h-2/3" : "h-0")}></span>
             </div>
         </div>
       </header>
@@ -46,14 +46,14 @@ export default function LandingPage() {
           
           <h2 className={cn(
             "text-5xl md:text-7xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 transition-all duration-700 ease-out",
-            isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
           )}>
             La Matrice de Vente
           </h2>
 
           <p className={cn(
             "mt-6 max-w-xl text-lg text-muted-foreground transition-all duration-700 ease-out delay-200",
-            isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
           )}>
             Libérez votre potentiel. Publiez vos ebooks, partagez votre savoir et générez des revenus en toute simplicité.
           </p>
@@ -77,7 +77,7 @@ export default function LandingPage() {
               
               <div className={cn(
                 "flex flex-col items-center transition-all duration-700 ease-out delay-[400ms]",
-                isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"
               )}>
                 <div className="flex items-center justify-center w-16 h-16 rounded-full bg-background mb-6 shadow-md transition-transform duration-300 hover:scale-110">
                     <Feather className="w-8 h-8 text-primary" />
@@ -88,7 +88,7 @@ export default function LandingPage() {
 
               <div className={cn(
                 "flex flex-col items-center transition-all duration-700 ease-out delay-[550ms]",
-                isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"
               )}>
                 <div className="flex items-center justify-center w-16 h-16 rounded-full bg-background mb-6 shadow-md transition-transform duration-300 hover:scale-110">
                     <DollarSign className="w-8 h-8 text-primary" />
@@ -99,7 +99,7 @@ export default function LandingPage() {
 
               <div className={cn(
                 "flex flex-col items-center transition-all duration-700 ease-out delay-[700ms]",
-                isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"
               )}>
                 <div className="flex items-center justify-center w-16 h-16 rounded-full bg-background mb-6 shadow-md transition-transform duration-300 hover:scale-110">
                     <ShieldCheck className="w-8 h-8 text-primary" />
@@ -115,11 +115,11 @@ export default function LandingPage() {
          <section className="py-24 text-center px-4">
             <h2 className={cn(
                 "text-4xl font-bold tracking-tight transition-all duration-700 ease-out",
-                isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
             )}>Prêt à vous lancer ?</h2>
             <p className={cn(
                 "mt-4 max-w-2xl mx-auto text-lg text-muted-foreground transition-all duration-700 ease-out delay-200",
-                isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
             )}>
                 Rejoignez des milliers de créateurs et commencez à vendre vos ebooks dès aujourd'hui.
             </p>
