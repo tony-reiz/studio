@@ -111,7 +111,7 @@ export default function ProfilePage() {
                 <User className="h-16 w-16 text-background" />
               </AvatarFallback>
             </Avatar>
-            <div className="bg-foreground text-background text-sm font-semibold rounded-full px-16 py-1.5 mt-4">
+            <div className="bg-foreground text-background text-sm font-semibold rounded-full px-16 py-2 mt-4">
               utilisateur
             </div>
           </div>
