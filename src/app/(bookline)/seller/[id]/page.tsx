@@ -9,8 +9,13 @@ import { useTransitionRouter } from '@/app/(bookline)/layout';
 
 export default function SellerProfilePage() {
   const { handleNavigate, handleBack } = useTransitionRouter();
-  const { publishedEbooks } = useEbooks(); // In a real app, this would be filtered by seller ID
-  const sellerPublications = publishedEbooks;
+  const { allEbooks, publishedEbooks } = useEbooks(); // In a real app, this would be filtered by seller ID
+  
+  // The seller's publications are all ebooks that are NOT published by the current user.
+  // In this app's context, this means the placeholder ebooks.
+  const publishedEbookIds = new Set(publishedEbooks.map(ebook => ebook.id));
+  const sellerPublications = allEbooks.filter(ebook => !publishedEbookIds.has(ebook.id));
+
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
