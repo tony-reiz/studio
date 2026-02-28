@@ -111,14 +111,14 @@ export default function ProfilePage() {
                 <User className="h-16 w-16 text-background" />
               </AvatarFallback>
             </Avatar>
-            <div className="bg-foreground text-background text-sm font-semibold rounded-full px-16 py-2 mt-4">
+            <div className="bg-foreground text-background text-sm font-semibold rounded-full px-10 py-1 mt-4">
               utilisateur
             </div>
           </div>
 
           <ProfileTabNav activeTab={activeTab} setActiveTab={handleTabChange} />
           
-          <div className={cn("w-full max-w-sm md:max-w-4xl transition-opacity duration-300 mt-4", isContentVisible ? 'opacity-100' : 'opacity-0')}>
+          <div className={cn("w-full max-w-sm md:max-w-4xl transition-opacity duration-300", isContentVisible ? 'opacity-100' : 'opacity-0')}>
             {renderContent()}
           </div>
         </main>
