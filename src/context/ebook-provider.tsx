@@ -13,6 +13,13 @@ export interface Ebook {
   pdfDataUrl: string;
 }
 
+// Define the shape of a user profile
+export interface UserProfile {
+  username: string;
+  bio: string;
+  avatarUrl: string | null;
+}
+
 const placeholderEbooks: Ebook[] = PlaceHolderImages.map((img, index) => ({
     id: img.id,
     title: `Ebook ${img.imageHint.charAt(0).toUpperCase() + img.imageHint.slice(1)} ${index + 1}`,
@@ -30,6 +37,8 @@ interface EbookContextType {
   favoritedEbooks: Ebook[];
   toggleFavoriteEbook: (ebook: Ebook) => void;
   allEbooks: Ebook[];
+  userProfile: UserProfile;
+  updateUserProfile: (profile: Partial<UserProfile>) => void;
 }
 
 // Create the context
@@ -39,6 +48,16 @@ const EbookContext = createContext<EbookContextType | undefined>(undefined);
 export function EbookProvider({ children }: { children: ReactNode }) {
   const [publishedEbooks, setPublishedEbooks] = useState<Ebook[]>([]);
   const [favoritedEbooks, setFavoritedEbooks] = useState<Ebook[]>([]);
+  const [userProfile, setUserProfile] = useState<UserProfile>({
+    username: 'utilisateur',
+    bio: '',
+    avatarUrl: null,
+  });
+
+  const updateUserProfile = (profileUpdate: Partial<UserProfile>) => {
+    setUserProfile((prev) => ({ ...prev, ...profileUpdate }));
+  };
+
 
   const addPublishedEbook = (ebookData: Omit<Ebook, 'id'>) => {
     const newEbook: Ebook = {
@@ -73,7 +92,7 @@ export function EbookProvider({ children }: { children: ReactNode }) {
 
 
   return (
-    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook, favoritedEbooks, toggleFavoriteEbook, allEbooks }}>
+    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook, favoritedEbooks, toggleFavoriteEbook, allEbooks, userProfile, updateUserProfile }}>
       {children}
     </EbookContext.Provider>
   );

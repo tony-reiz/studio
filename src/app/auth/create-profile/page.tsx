@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
+import { useEbooks } from '@/context/ebook-provider';
 
 export default function CreateProfilePage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -16,6 +17,7 @@ export default function CreateProfilePage() {
   const [bio, setBio] = useState('');
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { updateUserProfile } = useEbooks();
 
   useEffect(() => {
     setIsMounted(true);
@@ -35,9 +37,8 @@ export default function CreateProfilePage() {
   };
 
   const handleSaveProfile = () => {
-    // In a real app, this would save the profile data
-    console.log({ username, bio, avatarUrl });
-    handleNavigate('/home');
+    updateUserProfile({ username: username.trim(), bio, avatarUrl });
+    handleNavigate('/profile');
   };
   
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {

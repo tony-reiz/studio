@@ -9,12 +9,7 @@ import { useTransitionRouter } from '@/app/(bookline)/layout';
 
 export default function SellerProfilePage() {
   const { handleNavigate, handleBack } = useTransitionRouter();
-  const { allEbooks, publishedEbooks } = useEbooks(); // In a real app, this would be filtered by seller ID
-  
-  // The seller's publications are all ebooks that are NOT published by the current user.
-  // In this app's context, this means the placeholder ebooks.
-  const publishedEbookIds = new Set(publishedEbooks.map(ebook => ebook.id));
-  const sellerPublications = allEbooks.filter(ebook => !publishedEbookIds.has(ebook.id));
+  const { publishedEbooks, userProfile } = useEbooks();
 
 
   return (
@@ -37,21 +32,24 @@ export default function SellerProfilePage() {
         <main className="flex-1 w-full flex flex-col items-center pt-16 pb-8">
           <div className="flex flex-col items-center">
             <Avatar className="h-28 w-28 bg-foreground">
-              <AvatarImage src="https://picsum.photos/seed/seller-profile/200" alt="Photo de profil du vendeur" />
+              <AvatarImage src={userProfile.avatarUrl || ''} alt="Photo de profil du vendeur" />
               <AvatarFallback className="bg-transparent">
-                <User className="h-16 w-16 text-background" />
+                <User className="h-12 w-12 text-background" />
               </AvatarFallback>
             </Avatar>
             <div className="bg-foreground text-background text-sm font-semibold rounded-full px-16 py-1.5 mt-4">
-              Book-Lover
+              {userProfile.username}
             </div>
+             {userProfile.bio && (
+              <p className="text-center text-muted-foreground mt-4 max-w-sm">{userProfile.bio}</p>
+            )}
           </div>
           
           <div className="w-full max-w-sm md:max-w-4xl mt-4">
-            {sellerPublications.length > 0 ? (
+            {publishedEbooks.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-                {sellerPublications.map((ebook) => (
-                  <EbookCard key={ebook.id} ebook={ebook} onCardClick={(e) => handleNavigate(`/buy/${e.id}`)} />
+                {publishedEbooks.map((ebook) => (
+                  <EbookCard key={ebook.id} ebook={ebook} onCardClick={(e) => handleNavigate(`/ebook/${e.id}`)} />
                 ))}
               </div>
             ) : (

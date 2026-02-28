@@ -1,6 +1,7 @@
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
+import { EbookProvider } from '@/context/ebook-provider';
 
 export const metadata: Metadata = {
   title: 'Bookline',
@@ -25,8 +26,10 @@ export default function RootLayout({
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body className="font-body antialiased">
-          {children}
-          <Toaster />
+          <EbookProvider>
+            {children}
+            <Toaster />
+          </EbookProvider>
       </body>
     </html>
   );

@@ -1,7 +1,6 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { EbookProvider } from '@/context/ebook-provider';
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { BottomNav } from '@/components/bookline/bottom-nav';
@@ -67,13 +66,11 @@ export default function BooklineLayout({
   const transitionContextValue = { handleNavigate, handleBack };
 
   return (
-    <EbookProvider>
       <TransitionContext.Provider value={transitionContextValue}>
         <div className={cn("transition-opacity duration-300 ease-in-out", isPageVisible ? "opacity-100" : "opacity-0")}>
           {children}
         </div>
         {showBottomNav && <BottomNav />}
       </TransitionContext.Provider>
-    </EbookProvider>
   );
 }

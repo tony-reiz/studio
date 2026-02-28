@@ -25,7 +25,7 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<ActiveTab>(initialTab);
   const [displayedTab, setDisplayedTab] = useState<ActiveTab>(initialTab);
   const [isContentVisible, setIsContentVisible] = useState(true);
-  const { publishedEbooks, favoritedEbooks } = useEbooks();
+  const { publishedEbooks, favoritedEbooks, userProfile } = useEbooks();
   const { handleNavigate } = useTransitionRouter();
   const userPublications = publishedEbooks;
 
@@ -106,14 +106,17 @@ export default function ProfilePage() {
         <main className="flex-1 w-full flex flex-col items-center pb-8">
           <div className="flex flex-col items-center">
             <Avatar className="h-28 w-28 bg-foreground">
-              <AvatarImage src="https://picsum.photos/seed/user-profile/200" alt="Photo de profil de l'utilisateur" />
+              <AvatarImage src={userProfile.avatarUrl || ''} alt="Photo de profil de l'utilisateur" />
               <AvatarFallback className="bg-transparent">
-                <User className="h-16 w-16 text-background" />
+                <User className="h-12 w-12 text-background" />
               </AvatarFallback>
             </Avatar>
             <div className="bg-foreground text-background text-sm font-semibold rounded-full px-12 mt-4 h-9 flex items-center justify-center">
-              utilisateur
+              {userProfile.username}
             </div>
+            {userProfile.bio && (
+              <p className="text-center text-muted-foreground mt-4 max-w-sm">{userProfile.bio}</p>
+            )}
           </div>
 
           <ProfileTabNav activeTab={activeTab} setActiveTab={handleTabChange} />
