@@ -40,7 +40,7 @@ export default function SellerProfilePage() {
               </AvatarFallback>
             </Avatar>
             <div className="bg-foreground text-background text-sm font-semibold rounded-full px-16 py-1.5 mt-4">
-              vendeur
+              Book-Lover
             </div>
           </div>
           
