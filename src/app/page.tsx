@@ -55,7 +55,7 @@ export default function LandingPage() {
         </section>
 
         {/* Features Section */}
-        <section className="py-24 bg-secondary">
+        <section className="py-24">
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-3 gap-12 text-center">
               <div className="flex flex-col items-center">
