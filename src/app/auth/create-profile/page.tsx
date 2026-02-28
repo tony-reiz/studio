@@ -40,6 +40,8 @@ export default function CreateProfilePage() {
     setAvatarUrl(`https://picsum.photos/seed/${Math.random()}/200`)
   }
 
+  const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0";
+
   return (
     <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
        <main className="flex-1 w-full flex flex-col items-center justify-center px-4">
@@ -59,19 +61,25 @@ export default function CreateProfilePage() {
             </div>
 
             <div className="w-full space-y-4 mb-8">
-              <Input
-                type="text"
-                placeholder="Nom d'utilisateur"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="h-12 text-base bg-secondary border-0 rounded-full text-center focus-visible:ring-primary"
-              />
-              <Textarea
-                placeholder="Biographie (optionnel)"
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
-                className="h-24 text-base bg-secondary border-0 rounded-3xl text-center py-3.5 resize-none focus-visible:ring-primary"
-              />
+              <div className="relative w-full">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">N</span>
+                <Input
+                  type="text"
+                  placeholder="Nom d'utilisateur"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className={inputClasses}
+                />
+              </div>
+              <div className="relative w-full">
+                <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-muted-foreground">B</span>
+                <Textarea
+                  placeholder="Biographie (optionnel)"
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
+                  className={cn(inputClasses, "h-24 rounded-[30px] py-3.5 leading-snug resize-none")}
+                />
+              </div>
             </div>
           </div>
         </main>
