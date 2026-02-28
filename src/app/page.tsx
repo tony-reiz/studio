@@ -9,6 +9,7 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartConfig } from '@/components/ui/chart';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { TermsSheet } from '@/components/bookline/terms-sheet';
+import { PrivacySheet } from '@/components/bookline/privacy-sheet';
 
 
 // Chart data and config
@@ -222,10 +223,16 @@ export default function LandingPage() {
                 <button className="underline hover:text-foreground mx-2">Conditions d'utilisation</button>
               </TermsSheet>
             ) : (
-              <a href="/terms" className="hover:text-foreground mx-2">Conditions d'utilisation</a>
+              <a href="/terms" className="underline hover:text-foreground mx-2">Conditions d'utilisation</a>
             )}
             <span className="mx-2">|</span>
-            <a href="#" className="hover:text-foreground mx-2">Politique de confidentialité</a>
+            {isClient && isMobile ? (
+              <PrivacySheet>
+                <button className="underline hover:text-foreground mx-2">Politique de confidentialité</button>
+              </PrivacySheet>
+            ) : (
+              <a href="/privacy" className="hover:text-foreground mx-2">Politique de confidentialité</a>
+            )}
           </div>
         </div>
       </footer>

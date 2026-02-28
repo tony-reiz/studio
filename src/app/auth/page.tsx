@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Mail } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { TermsSheet } from '@/components/bookline/terms-sheet';
+import { PrivacySheet } from '@/components/bookline/privacy-sheet';
 
 // SVG for Google Icon
 const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -110,7 +111,13 @@ export default function AuthPage() {
                   <a href="/terms" className="underline hover:text-foreground">Conditions d'utilisation</a>
                 )}
                 {' '}et notre{' '}
-                <a href="#" className="underline hover:text-foreground">Politique de confidentialité</a>.
+                {isClient && isMobile ? (
+                  <PrivacySheet>
+                    <button className="underline hover:text-foreground">Politique de confidentialité</button>
+                  </PrivacySheet>
+                ) : (
+                  <a href="/privacy" className="underline hover:text-foreground">Politique de confidentialité</a>
+                )}.
               </p>
             </div>
 
