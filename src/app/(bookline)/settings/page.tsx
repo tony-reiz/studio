@@ -15,7 +15,7 @@ export default function SettingsPage() {
           <Button onClick={handleBack} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
             <ChevronLeft className="h-6 w-6" />
           </Button>
-           <h1 className="text-2xl font-bold">Paramètres</h1>
+           <h1 className="text-2xl font-bold invisible sm:visible">Paramètres</h1>
           <div className="w-11"></div> {/* Placeholder for spacing */}
         </header>
 
