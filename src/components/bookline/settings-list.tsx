@@ -11,6 +11,7 @@ import {
   ChevronRight,
   Bell,
   ShieldCheck,
+  Trash2,
 } from 'lucide-react';
 
 const settingsItems = [
@@ -22,6 +23,7 @@ const settingsItems = [
   { icon: Landmark, label: 'Virement' },
   { icon: Receipt, label: 'Factures' },
   { icon: HelpCircle, label: 'Aide' },
+  { icon: Trash2, label: 'Supprimer mon compte', isDestructive: true },
   { icon: LogOut, label: 'Déconnexion', isDestructive: true },
 ];
 
