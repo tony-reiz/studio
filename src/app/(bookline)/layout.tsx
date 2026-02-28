@@ -4,6 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { EbookProvider } from '@/context/ebook-provider';
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+import { BottomNav } from '@/components/bookline/bottom-nav';
 
 
 // --- Transition Context (checkpoint 653da77) ---
@@ -34,6 +35,7 @@ export default function BooklineLayout({
   const router = useRouter();
 
   const [isPageVisible, setIsPageVisible] = useState(false);
+  const showBottomNav = pathname === '/home' || pathname === '/sell';
 
   // Fade in on route change
   useEffect(() => {
@@ -70,6 +72,7 @@ export default function BooklineLayout({
         <div className={cn("transition-opacity duration-300 ease-in-out", isPageVisible ? "opacity-100" : "opacity-0")}>
           {children}
         </div>
+        {showBottomNav && <BottomNav />}
       </TransitionContext.Provider>
     </EbookProvider>
   );
