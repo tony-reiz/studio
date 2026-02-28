@@ -58,7 +58,7 @@ export default function CreateProfilePage() {
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const valueWithoutSpaces = value.replace(/\s/g, '');
-    const truncatedValue = valueWithoutSpaces.slice(0, 8);
+    const truncatedValue = valueWithoutSpaces.slice(0, 10);
     setUsername(truncatedValue);
   };
 
