@@ -32,7 +32,7 @@ export function SettingsList() {
     <ul className="w-full space-y-2">
       {settingsItems.map((item) => (
         <li key={item.label}>
-          <button className="w-full border rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors">
+          <button className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors">
             <div className="flex items-center gap-4">
               <item.icon className={`h-6 w-6 ${item.isDestructive ? 'text-destructive' : 'text-muted-foreground'}`} />
               <span className={`font-semibold ${item.isDestructive ? 'text-destructive' : 'text-foreground'}`}>
