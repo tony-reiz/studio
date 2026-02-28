@@ -20,7 +20,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       <SheetTrigger asChild>
         {children}
       </SheetTrigger>
-      <SheetContent side="bottom" className="rounded-t-3xl max-h-[80vh] flex flex-col bg-background p-4">
+      <SheetContent side="bottom" className="rounded-t-[50px] max-h-[80vh] flex flex-col bg-background p-4">
         <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/50 mb-4" />
         <SheetHeader className="text-center pb-4">
           <SheetTitle>Paramètres</SheetTitle>
