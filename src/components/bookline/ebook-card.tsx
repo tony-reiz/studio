@@ -1,10 +1,32 @@
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
-import { Heart } from 'lucide-react';
+import { Heart, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
+import { useState, useRef, useEffect } from 'react';
+
+const Document = dynamic(
+  () =>
+    import('react-pdf').then((mod) => {
+      mod.pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${mod.pdfjs.version}/build/pdf.worker.min.mjs`;
+      return mod.Document;
+    }),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex justify-center items-center h-full bg-secondary">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    ),
+  }
+);
+const Page = dynamic(() => import('react-pdf').then((mod) => mod.Page), {
+  ssr: false,
+});
+
 
 interface EbookCardProps {
   ebook?: Ebook;
@@ -15,6 +37,8 @@ interface EbookCardProps {
 
 export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCardProps) {
   const { favoritedEbooks, toggleFavoriteEbook } = useEbooks();
+  const [containerWidth, setContainerWidth] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
   
   const isFavorited = ebook ? favoritedEbooks.some(favEbook => favEbook.id === ebook.id) : false;
 
@@ -32,6 +56,26 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
     }
   };
 
+  useEffect(() => {
+    const setWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.clientWidth);
+      }
+    };
+
+    const element = containerRef.current;
+    if (!element) return;
+    
+    setWidth();
+    
+    const resizeObserver = new ResizeObserver(setWidth);
+    resizeObserver.observe(element);
+
+    return () => {
+        resizeObserver.unobserve(element);
+    };
+  }, []);
+
   const isPdf = ebook?.pdfDataUrl.startsWith('data:application/pdf');
 
   const cardContent = (
@@ -39,6 +83,7 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
       className={cn('bg-transparent border-0 shadow-none', className)}
     >
       <CardContent
+        ref={containerRef}
         className={cn(
           'aspect-[210/297] p-0 flex items-start justify-end rounded-[25px] overflow-hidden relative',
           !ebook && (isActive ? 'bg-[#AFAFAF]' : 'bg-[#DFDFDF]')
@@ -46,7 +91,21 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
       >
         {ebook?.pdfDataUrl && (
           isPdf ? (
-            <object data={`${ebook.pdfDataUrl}#toolbar=0&navpanes=0&scrollbar=0`} type="application/pdf" className="absolute inset-0 w-full h-full border-0 pointer-events-none scale-110" title="Aperçu du PDF" />
+            <div className="absolute inset-0 w-full h-full pointer-events-none flex items-center justify-center">
+              <Document
+                  file={ebook.pdfDataUrl}
+                  loading={null}
+                  className="flex items-center justify-center overflow-hidden w-full h-full"
+              >
+                  <Page
+                      pageNumber={1}
+                      width={containerWidth ? containerWidth * 1.1 : undefined} // Mimic scale-110
+                      className={cn(!containerWidth && 'invisible', 'drop-shadow-lg')}
+                      renderTextLayer={false}
+                      renderAnnotationLayer={false}
+                  />
+              </Document>
+            </div>
           ) : (
             <Image src={ebook.pdfDataUrl} alt={ebook.title || 'Ebook cover'} fill style={{ objectFit: 'cover' }} />
           )
