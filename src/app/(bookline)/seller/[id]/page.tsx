@@ -3,7 +3,7 @@
 import { User, Share2, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 
@@ -31,9 +31,10 @@ export default function SellerProfilePage() {
           </div>
         </header>
 
-        <main className="flex-1 w-full flex flex-col items-center pb-8">
-          <div className="flex flex-col items-center pt-16">
+        <main className="flex-1 w-full flex flex-col items-center pb-8 pt-16">
+          <div className="flex flex-col items-center">
             <Avatar className="h-28 w-28 bg-foreground">
+              <AvatarImage src="https://picsum.photos/seed/seller-profile/200" alt="Photo de profil du vendeur" />
               <AvatarFallback className="bg-transparent">
                 <User className="h-16 w-16 text-background" />
               </AvatarFallback>

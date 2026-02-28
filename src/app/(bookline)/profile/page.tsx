@@ -6,7 +6,7 @@ import { Menu, User, Home, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
 import { ProfileTabNav } from '@/components/bookline/profile-tab-nav';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { cn } from '@/lib/utils';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
@@ -106,6 +106,7 @@ export default function ProfilePage() {
         <main className="flex-1 w-full flex flex-col items-center pb-8">
           <div className="flex flex-col items-center">
             <Avatar className="h-28 w-28 bg-foreground">
+              <AvatarImage src="https://picsum.photos/seed/user-profile/200" alt="Photo de profil de l'utilisateur" />
               <AvatarFallback className="bg-transparent">
                 <User className="h-16 w-16 text-background" />
               </AvatarFallback>
