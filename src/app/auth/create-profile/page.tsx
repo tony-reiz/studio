@@ -44,7 +44,7 @@ export default function CreateProfilePage() {
     <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
        <main className="flex-1 w-full flex flex-col items-center justify-center pb-8 px-4">
           <div className="flex flex-col items-center w-full max-w-sm">
-            <h1 className="text-3xl font-bold mb-8 text-center">Finalisez votre inscription</h1>
+            <h1 className="text-3xl font-bold mb-8 text-center whitespace-nowrap">Finalisez votre inscription</h1>
             
             <div className="relative mb-6">
               <Avatar className="h-32 w-32 bg-foreground">
