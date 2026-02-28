@@ -1,7 +1,6 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { BottomNav } from '@/components/bookline/bottom-nav';
 import { EbookProvider } from '@/context/ebook-provider';
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
@@ -33,7 +32,6 @@ export default function BooklineLayout({
 }>) {
   const pathname = usePathname();
   const router = useRouter();
-  const hideBottomNav = pathname === '/profile' || pathname.startsWith('/ebook/') || pathname.startsWith('/buy/');
 
   const [isPageVisible, setIsPageVisible] = useState(false);
 
@@ -72,7 +70,6 @@ export default function BooklineLayout({
         <div className={cn("transition-opacity duration-300 ease-in-out", isPageVisible ? "opacity-100" : "opacity-0")}>
           {children}
         </div>
-        {!hideBottomNav && <BottomNav />}
       </TransitionContext.Provider>
     </EbookProvider>
   );
