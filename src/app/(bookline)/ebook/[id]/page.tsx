@@ -9,6 +9,8 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import dynamic from 'next/dynamic';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { EbookDetailsSheet } from '@/components/bookline/ebook-details-sheet';
 
 const Document = dynamic(
   () =>
@@ -44,6 +46,12 @@ export default function EbookViewerPage() {
   
   const viewerRef = useRef<HTMLDivElement>(null);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const isMobile = useIsMobile();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     if (params.id && publishedEbooks.length > 0) {
@@ -181,9 +189,13 @@ export default function EbookViewerPage() {
       </main>
 
       <footer className="w-full max-w-[16rem] pb-8 pt-4">
-        <Button onClick={() => handleNavigate(`/ebook/${ebook.id}/details`)} className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90">
-            Détail
-        </Button>
+        {isClient && isMobile && ebook ? (
+            <EbookDetailsSheet ebook={ebook} />
+          ) : (
+            <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90">
+                Détail
+            </Button>
+        )}
       </footer>
     </div>
   );
