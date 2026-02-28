@@ -56,8 +56,9 @@ export default function AuthPage() {
     }, 500); // Match animation duration
   };
 
-  const AuthButton = ({ icon, children, delay }: { icon: React.ReactNode, children: React.ReactNode, delay: number }) => (
+  const AuthButton = ({ icon, children, delay, onClick }: { icon: React.ReactNode, children: React.ReactNode, delay: number, onClick?: () => void }) => (
     <Button
+      onClick={onClick}
       variant="outline"
       className={cn(
         "w-full h-14 rounded-full bg-background/50 backdrop-blur-sm border-foreground/20 text-lg font-semibold flex items-center justify-center gap-3 transition-all duration-700 ease-out hover:bg-foreground/10 hover:border-foreground/50",
@@ -90,8 +91,8 @@ export default function AuthPage() {
                 "w-full space-y-4 transition-all duration-700 ease-out",
                 isMounted ? "opacity-100" : "opacity-0"
             )}>
-              <AuthButton delay={200} icon={<GoogleIcon className="w-6 h-6" />}>Continuer avec Google</AuthButton>
-              <AuthButton delay={300} icon={<Mail className="w-6 h-6" />}>Continuer avec l'email</AuthButton>
+              <AuthButton delay={200} icon={<GoogleIcon className="w-6 h-6" />} onClick={() => handleNavigate('/auth/create-profile')}>Continuer avec Google</AuthButton>
+              <AuthButton delay={300} icon={<Mail className="w-6 h-6" />} onClick={() => handleNavigate('/auth/create-profile')}>Continuer avec l'email</AuthButton>
             </div>
           
             <div 
