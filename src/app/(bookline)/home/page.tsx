@@ -7,11 +7,25 @@ import { EbookDisplayArea } from '@/components/bookline/ebook-display-area';
 import { SearchOverlay } from '@/components/bookline/search-overlay';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useEbooks } from '@/context/ebook-provider';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
 
 export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { handleNavigate } = useTransitionRouter();
   const { allEbooks } = useEbooks();
+  const isMobile = useIsMobile();
+
+  const menuButton = (
+    <Button
+      onClick={!isMobile ? () => handleNavigate('/settings') : undefined}
+      variant="ghost"
+      aria-label="Menu"
+      className="p-0 h-auto hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7"
+    >
+      <Menu />
+    </Button>
+  );
 
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-background text-foreground">
@@ -19,9 +33,7 @@ export default function HomePage() {
         <header className="w-full py-6">
           <div className="flex items-start justify-between w-full">
             <div className="flex flex-col items-start">
-              <Button onClick={() => handleNavigate('/settings')} variant="ghost" aria-label="Menu" className="p-0 h-auto hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7">
-                <Menu />
-              </Button>
+              {isMobile ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
               <div className="-mt-1">
                 <p className="text-[24px] font-bold tracking-widest text-foreground">BIENVENUE SUR</p>
                 <h1 className="text-5xl sm:text-6xl font-extrabold text-primary -mt-1">BOOKLINE !</h1>

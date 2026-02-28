@@ -13,6 +13,8 @@ import { SellForm } from '@/components/bookline/sell-form';
 import { cn } from '@/lib/utils';
 import { useEbooks } from '@/context/ebook-provider';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
 
 const sellFormSchema = z.object({
   title: z.string().min(1, { message: "Le titre est requis." }),
@@ -33,6 +35,7 @@ export default function SellPage() {
   const { toast } = useToast();
   const { handleNavigate } = useTransitionRouter();
   const { addPublishedEbook } = useEbooks();
+  const isMobile = useIsMobile();
 
   const form = useForm<z.infer<typeof sellFormSchema>>({
     resolver: zodResolver(sellFormSchema),
@@ -83,14 +86,24 @@ export default function SellPage() {
 
   const isButtonDisabled = !form.formState.isValid || !pdfFile || isSubmitting;
 
+  const menuButton = (
+    <Button
+      type="button"
+      onClick={!isMobile ? () => handleNavigate('/settings') : undefined}
+      variant="ghost"
+      aria-label="Menu"
+      className="p-0 h-auto hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7"
+    >
+      <Menu />
+    </Button>
+  );
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col min-h-screen bg-background text-foreground">
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
           <header className="flex items-start justify-between w-full py-6">
-            <Button type="button" onClick={() => handleNavigate('/settings')} variant="ghost" aria-label="Menu" className="p-0 h-auto hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7">
-              <Menu />
-            </Button>
+            {isMobile ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
             <Button type="button" onClick={() => handleNavigate('/profile?tab=achats')} variant="default" size="icon" className="-mt-2 sm:mt-0 rounded-full bg-foreground text-background w-11 h-11" aria-label="Profil Utilisateur">
               <User className="h-6 w-6" />
             </Button>
