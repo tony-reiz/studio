@@ -12,10 +12,10 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartConfig } from '
 // Chart data and config
 const chartData = [
   { month: "Janvier", sales: 186 },
-  { month: "Février", sales: 305 },
-  { month: "Mars", sales: 237 },
-  { month: "Avril", sales: 273 },
-  { month: "Mai", sales: 409 },
+  { month: "Février", sales: 250 },
+  { month: "Mars", sales: 310 },
+  { month: "Avril", sales: 390 },
+  { month: "Mai", sales: 460 },
   { month: "Juin", sales: 520 },
 ];
 
