@@ -13,7 +13,7 @@ import { PrivacySheet } from '@/components/bookline/privacy-sheet';
 
 
 // Chart data and config
-const chartData = [
+const initialChartData = [
   { month: "Janvier", sales: 186 },
   { month: "Février", sales: 250 },
   { month: "Mars", sales: 310 },
@@ -35,10 +35,22 @@ export default function LandingPage() {
   const router = useRouter();
   const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
+  const [chartData, setChartData] = useState(initialChartData);
 
   useEffect(() => {
     setIsMounted(true);
     setIsClient(true);
+
+    const interval = setInterval(() => {
+      setChartData(
+        initialChartData.map((item) => ({
+          ...item,
+          sales: Math.floor(Math.random() * 500) + 100,
+        }))
+      );
+    }, 2000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const handleNavigate = (path: string) => {
@@ -181,7 +193,7 @@ export default function LandingPage() {
                                 dataKey="sales" 
                                 fill="var(--color-sales)" 
                                 radius={8} 
-                                animationDuration={1500}
+                                animationDuration={500}
                             />
                         </BarChart>
                     </ChartContainer>
