@@ -1,7 +1,7 @@
 'use client';
 
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
-import { Share2, Trash2, Loader2, ChevronLeft } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState, useRef, type TouchEvent } from 'react';
 import { useParams } from 'next/navigation';
@@ -39,7 +39,7 @@ const Page = dynamic(() => import('react-pdf').then((mod) => mod.Page), {
 export default function EbookViewerPage() {
   const params = useParams();
   const id = params.id as string;
-  const { handleNavigate, handleBack } = useTransitionRouter();
+  const { handleNavigate } = useTransitionRouter();
   const { publishedEbooks, removePublishedEbook } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
   const { toast } = useToast();
@@ -59,6 +59,7 @@ export default function EbookViewerPage() {
   const [scale, setScale] = useState(1);
   const [isZooming, setIsZooming] = useState(false);
   const initialDistance = useRef(0);
+  const initialScale = useRef(1);
 
   useEffect(() => {
     setIsClient(true);
@@ -150,6 +151,7 @@ export default function EbookViewerPage() {
       e.preventDefault();
       setIsZooming(true);
       initialDistance.current = getDistance(e.touches);
+      initialScale.current = scale;
     }
   };
 
@@ -157,13 +159,12 @@ export default function EbookViewerPage() {
     if (isZooming && e.touches.length === 2) {
       e.preventDefault();
       const newDistance = getDistance(e.touches);
-      const newScale = scale * (newDistance / initialDistance.current);
+      const newScale = initialScale.current * (newDistance / initialDistance.current);
       setScale(Math.min(Math.max(1, newScale), 4)); // Clamp scale
-      initialDistance.current = newDistance;
     }
   };
 
-  const handleTouchEnd = (e: TouchEvent<HTMLDivElement>) => {
+  const handleTouchEnd = () => {
     if (isZooming) {
       setIsZooming(false);
       initialDistance.current = 0;
@@ -196,7 +197,7 @@ export default function EbookViewerPage() {
                     onTouchStart={handleTouchStart}
                     onTouchMove={handleTouchMove}
                     onTouchEnd={handleTouchEnd}
-                    style={{touchAction: 'pan-y'}}
+                    style={{touchAction: 'pan-x pan-y'}}
                   >
                     <div 
                       onClick={handleViewerClick}
