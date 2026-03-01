@@ -188,22 +188,24 @@ export default function EbookViewerPage() {
     <>
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
         <main className="flex-1 flex w-full items-center justify-center">
-          <div className="relative w-full max-w-sm">
-              <div className="absolute top-4 -left-16">
+          <div className="relative w-full max-w-[14rem]">
+              <div className="absolute top-4 -left-10">
                   <Button onClick={handleBack} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
                       <ChevronLeft className="h-6 w-6" />
                   </Button>
               </div>
               <div className="h-[70vh]">
-                  <div className="w-full h-full relative">
-                      <div 
-                        ref={viewerRef} 
-                        className="w-full h-full overflow-auto rounded-lg bg-secondary"
-                        onClick={handleViewerClick}
-                        onTouchStart={handleTouchStart}
-                        onTouchMove={handleTouchMove}
-                        onTouchEnd={handleTouchEnd}
-                      >
+                  <div 
+                    ref={viewerRef} 
+                    className="w-full h-full overflow-auto rounded-lg bg-secondary"
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
+                  >
+                    <div 
+                      onClick={handleViewerClick}
+                      className="w-full h-full"
+                    >
                           <Document
                               file={ebook.pdfDataUrl}
                               onLoadSuccess={onDocumentLoadSuccess}
@@ -215,7 +217,8 @@ export default function EbookViewerPage() {
                               style={{ 
                                 transform: `scale(${scale})`,
                                 transformOrigin: 'center center',
-                                transition: isZooming ? 'none' : 'transform 0.2s ease-out'
+                                transition: isZooming ? 'none' : 'transform 0.2s ease-out',
+                                cursor: 'grab'
                              }}
                           >
                               {Array.from(new Array(numPages || 0), (el, index) => (
@@ -236,14 +239,14 @@ export default function EbookViewerPage() {
                               ))}
                           </Document>
                       </div>
-                      {numPages && (
-                          <div className="absolute bottom-4 right-4 bg-black/70 text-white text-xs rounded-full px-3 py-1 z-10">
-                              {currentPage}/{numPages}
-                          </div>
-                      )}
                   </div>
+                  {numPages && (
+                      <div className="absolute bottom-4 right-4 bg-black/70 text-white text-xs rounded-full px-3 py-1 z-10">
+                          {currentPage}/{numPages}
+                      </div>
+                  )}
               </div>
-              <div className="absolute top-4 -right-16 flex flex-col gap-3">
+              <div className="absolute top-4 -right-10 flex flex-col gap-3">
                   <Button onClick={handleDelete} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
                       <Trash2 className="h-6 w-6" />
                   </Button>
