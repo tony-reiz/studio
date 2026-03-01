@@ -14,8 +14,6 @@ import { useToast } from '@/hooks/use-toast';
 
 type ActiveTab = 'achats' | 'publications' | 'favoris';
 
-const userPurchases: any[] = [];
-
 export default function ProfilePage() {
   const searchParams = useSearchParams();
   const initialTabQuery = searchParams.get('tab');
@@ -26,7 +24,7 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<ActiveTab>(initialTab);
   const [displayedTab, setDisplayedTab] = useState<ActiveTab>(initialTab);
   const [isContentVisible, setIsContentVisible] = useState(true);
-  const { publishedEbooks, favoritedEbooks, userProfile } = useEbooks();
+  const { publishedEbooks, favoritedEbooks, userProfile, purchasedEbooks } = useEbooks();
   const { handleNavigate } = useTransitionRouter();
   const userPublications = publishedEbooks;
   const { toast } = useToast();
@@ -65,10 +63,10 @@ export default function ProfilePage() {
   const renderContent = () => {
     switch (displayedTab) {
       case 'achats':
-        return userPurchases.length > 0 ? (
+        return purchasedEbooks.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-            {userPurchases.map((_, index) => (
-              <EbookCard key={`achat-${index}`} />
+            {purchasedEbooks.map((ebook) => (
+              <EbookCard key={`achat-${ebook.id}`} ebook={ebook} onCardClick={(e) => handleNavigate(`/ebook/${e.id}`)} />
             ))}
           </div>
         ) : (

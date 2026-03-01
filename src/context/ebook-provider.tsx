@@ -41,6 +41,8 @@ interface EbookContextType {
   updateUserProfile: (profile: Partial<UserProfile>) => void;
   selectedInterests: string[];
   updateSelectedInterests: (interests: string[]) => void;
+  purchasedEbooks: Ebook[];
+  purchaseEbook: (ebook: Ebook) => void;
 }
 
 // Create the context
@@ -50,6 +52,7 @@ const EbookContext = createContext<EbookContextType | undefined>(undefined);
 export function EbookProvider({ children }: { children: ReactNode }) {
   const [publishedEbooks, setPublishedEbooks] = useState<Ebook[]>([]);
   const [favoritedEbooks, setFavoritedEbooks] = useState<Ebook[]>([]);
+  const [purchasedEbooks, setPurchasedEbooks] = useState<Ebook[]>([]);
   const [userProfile, setUserProfile] = useState<UserProfile>({
     username: 'utilisateur',
     bio: '',
@@ -95,6 +98,15 @@ export function EbookProvider({ children }: { children: ReactNode }) {
       }
     });
   };
+  
+  const purchaseEbook = (ebookToPurchase: Ebook) => {
+    setPurchasedEbooks((prev) => {
+      if (prev.some(ebook => ebook.id === ebookToPurchase.id)) {
+        return prev;
+      }
+      return [...prev, ebookToPurchase];
+    });
+  };
 
   const allEbooksMap = new Map<string, Ebook>();
   // Add placeholder ebooks first
@@ -105,7 +117,7 @@ export function EbookProvider({ children }: { children: ReactNode }) {
 
 
   return (
-    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook, favoritedEbooks, toggleFavoriteEbook, allEbooks, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests }}>
+    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook, favoritedEbooks, toggleFavoriteEbook, allEbooks, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, purchasedEbooks, purchaseEbook }}>
       {children}
     </EbookContext.Provider>
   );

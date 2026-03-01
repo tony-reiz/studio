@@ -10,6 +10,7 @@ import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { cn } from '@/lib/utils';
 import dynamic from 'next/dynamic';
 import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
 
 const Document = dynamic(
   () =>
@@ -27,9 +28,10 @@ const Document = dynamic(
 export default function BuyEbookPage() {
   const params = useParams();
   const { handleBack, handleNavigate } = useTransitionRouter();
-  const { allEbooks } = useEbooks();
+  const { allEbooks, purchasedEbooks, purchaseEbook } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
   const [numPages, setNumPages] = useState<number | null>(null);
+  const { toast } = useToast();
 
 
   useEffect(() => {
@@ -45,6 +47,22 @@ export default function BuyEbookPage() {
 
   const handleCardClick = (ebook: Ebook) => {
     // On this page, clicking the card does nothing.
+  };
+
+  const isPurchased = ebook ? purchasedEbooks.some(p => p.id === ebook.id) : false;
+
+  const handlePayment = () => {
+    if (!ebook) return;
+
+    if (isPurchased) {
+      handleNavigate(`/ebook/${ebook.id}`);
+    } else {
+      purchaseEbook(ebook);
+      toast({
+        title: "Achat réussi !",
+        description: `Vous pouvez maintenant lire "${ebook.title}".`,
+      });
+    }
   };
 
   if (!ebook) {
@@ -163,8 +181,16 @@ export default function BuyEbookPage() {
             </div>
           </div>
           <div className="max-w-[16rem] w-full">
-            <Button className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90">
-              payer
+            <Button
+              onClick={handlePayment}
+              className={cn(
+                "rounded-full w-full h-12 text-lg font-semibold",
+                isPurchased 
+                    ? "bg-green-600 text-white hover:bg-green-700"
+                    : "bg-foreground text-background hover:bg-foreground/90"
+              )}
+            >
+              {isPurchased ? 'Voir' : 'Payer'}
             </Button>
           </div>
         </main>
