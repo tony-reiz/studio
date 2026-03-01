@@ -32,7 +32,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
 
     if (isOpen) {
       setShouldRenderContent(true);
-      visibilityTimer = setTimeout(() => setIsContentVisible(true), 20);
+      visibilityTimer = setTimeout(() => setIsContentVisible(true), 100);
 
       if (query.length > 0) {
         setRecommendedEbooks([]);
@@ -76,7 +76,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
         setOtherEbooks([]);
         setSearchResults([]);
         if (query) setQuery('');
-      }, 300); // Match animation duration
+      }, 500); // Match animation duration
     }
     
     return () => {
@@ -89,18 +89,21 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
     if (isOpen) {
       const timer = setTimeout(() => {
         inputRef.current?.focus();
-      }, 100);
+      }, 300);
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
 
   const handleEbookClick = (ebook: Ebook) => {
-    const isOwnPublication = publishedEbooks.some(p => p.id === ebook.id);
-    if (isOwnPublication) {
-        handleNavigate(`/ebook/${ebook.id}`);
-    } else {
-        handleNavigate(`/buy/${ebook.id}`);
-    }
+    onClose();
+    setTimeout(() => {
+        const isOwnPublication = publishedEbooks.some(p => p.id === ebook.id);
+        if (isOwnPublication) {
+            handleNavigate(`/ebook/${ebook.id}`);
+        } else {
+            handleNavigate(`/buy/${ebook.id}`);
+        }
+    }, 300) // allow overlay to close
   };
 
   const getEmptyStateMessage = () => {
@@ -118,7 +121,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
   return (
     <div
       className={cn(
-        'fixed inset-0 bg-background/95 backdrop-blur-sm z-50 transition-all duration-300 ease-in-out',
+        'fixed inset-0 bg-background/95 backdrop-blur-sm z-50 transition-opacity duration-300 ease-in-out',
         isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
       )}
       onClick={onClose}
@@ -129,8 +132,8 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
       >
         <div
           className={cn(
-            'flex items-center gap-2 p-4 pt-6 mb-2 transition-all duration-300 ease-in-out max-w-4xl mx-auto w-full',
-            isOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'
+            'flex items-center gap-2 p-4 pt-6 mb-2 transition-all duration-500 ease-out max-w-4xl mx-auto w-full',
+            isContentVisible ? 'translate-y-0 opacity-100' : '-translate-y-6 opacity-0'
           )}
         >
           <div className="relative flex-1">
@@ -151,10 +154,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
 
         <div className="flex-1 overflow-y-auto px-4 pb-8">
           <div
-            className={cn(
-              'max-w-4xl mx-auto w-full transition-opacity duration-300',
-              isContentVisible ? 'opacity-100' : 'opacity-0'
-            )}
+            className='max-w-4xl mx-auto w-full'
           >
              {shouldRenderContent && (
               <>
@@ -162,12 +162,21 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
                   <>
                     {searchResults.length > 0 ? (
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-                        {searchResults.map((ebook) => (
-                          <EbookCard key={ebook.id} ebook={ebook} onCardClick={handleEbookClick} />
+                        {searchResults.map((ebook, index) => (
+                           <div
+                            key={`search-${ebook.id}`}
+                            className={cn(
+                                "transition-all duration-500 ease-out",
+                                isContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                            )}
+                            style={{ transitionDelay: `${index * 75}ms` }}
+                           >
+                            <EbookCard ebook={ebook} onCardClick={() => handleEbookClick(ebook)} />
+                           </div>
                         ))}
                       </div>
                     ) : (
-                      <div className="text-center text-muted-foreground mt-12">
+                      <div className={cn("text-center text-muted-foreground mt-12 transition-all duration-500 ease-out", isContentVisible ? 'opacity-100' : 'opacity-0')}>
                         {`Aucun résultat trouvé pour "${query}".`}
                       </div>
                     )}
@@ -176,10 +185,19 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
                   <>
                     {recommendedEbooks.length > 0 && (
                       <div className="mb-8">
-                        <h3 className="text-sm font-semibold text-muted-foreground mb-4">Suggestions pour vous</h3>
+                        <h3 className={cn("text-sm font-semibold text-muted-foreground mb-4 transition-all duration-500 ease-out", isContentVisible ? 'opacity-100' : 'opacity-0' )} style={{transitionDelay: '100ms'}}>Suggestions pour vous</h3>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-                          {recommendedEbooks.map((ebook) => (
-                            <EbookCard key={ebook.id} ebook={ebook} onCardClick={handleEbookClick} />
+                          {recommendedEbooks.map((ebook, index) => (
+                            <div
+                                key={`rec-${ebook.id}`}
+                                className={cn(
+                                    "transition-all duration-500 ease-out",
+                                    isContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                                )}
+                                style={{ transitionDelay: `${150 + index * 75}ms` }}
+                            >
+                                <EbookCard ebook={ebook} onCardClick={() => handleEbookClick(ebook)} />
+                            </div>
                           ))}
                         </div>
                       </div>
@@ -188,18 +206,27 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
                     {otherEbooks.length > 0 && (
                       <div>
                         {recommendedEbooks.length > 0 && (
-                          <h3 className="text-sm font-semibold text-muted-foreground mb-4">Autres ebooks</h3>
+                          <h3 className={cn("text-sm font-semibold text-muted-foreground mb-4 transition-all duration-500 ease-out", isContentVisible ? 'opacity-100' : 'opacity-0' )} style={{transitionDelay: `${150 + recommendedEbooks.length * 75}ms`}}>Autres ebooks</h3>
                         )}
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-                          {otherEbooks.map((ebook) => (
-                            <EbookCard key={ebook.id} ebook={ebook} onCardClick={handleEbookClick} />
+                          {otherEbooks.map((ebook, index) => (
+                            <div
+                                key={`other-${ebook.id}`}
+                                className={cn(
+                                    "transition-all duration-500 ease-out",
+                                    isContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                                )}
+                                style={{ transitionDelay: `${200 + recommendedEbooks.length * 75 + index * 75}ms` }}
+                            >
+                                <EbookCard ebook={ebook} onCardClick={() => handleEbookClick(ebook)} />
+                            </div>
                           ))}
                         </div>
                       </div>
                     )}
 
                     {showEmptyState && (
-                        <div className="text-center text-muted-foreground mt-12">
+                        <div className={cn("text-center text-muted-foreground mt-12 transition-all duration-500 ease-out", isContentVisible ? 'opacity-100' : 'opacity-0' )}>
                             {getEmptyStateMessage()}
                         </div>
                     )}
