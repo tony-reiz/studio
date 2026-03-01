@@ -61,13 +61,13 @@ export default function InterestsPage() {
         </header>
 
         <main className="flex-1 w-full flex flex-col items-center pt-8 pb-28">
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
             {interests.map((interest) => (
               <Button
                 key={interest}
                 variant={selectedInterests.includes(interest) ? 'default' : 'secondary'}
                 onClick={() => toggleInterest(interest)}
-                className="rounded-full h-10 px-5 text-sm font-semibold transition-all duration-200 transform hover:scale-105"
+                className="rounded-full h-9 px-4 text-xs sm:h-10 sm:px-5 sm:text-sm font-semibold transition-all duration-200 transform hover:scale-105"
               >
                 {interest}
               </Button>
