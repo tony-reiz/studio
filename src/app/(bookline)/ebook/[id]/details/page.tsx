@@ -1,7 +1,7 @@
 'use client';
 
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
-import { useEffect, useState } from 'react';
+import { useEffect, useState }from 'react';
 import { useParams } from 'next/navigation';
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,7 @@ import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell } from "recharts";
 import { cn } from '@/lib/utils';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
+import { Badge } from '@/components/ui/badge';
 
 const chartData = [
   { metric: "Clics", value: 0, fill: "var(--color-clics)" },
@@ -77,8 +78,14 @@ export default function EbookDetailsPage() {
                             <p className="text-sm leading-relaxed whitespace-pre-line">{ebook.description}</p>
                         </div>
                         <div>
-                            <h3 className="font-semibold text-foreground mb-1 text-sm">Mots-clés</h3>
-                            <p className="text-sm">{ebook.keywords}</p>
+                            <h3 className="font-semibold text-foreground mb-2 text-sm">Mots-clés</h3>
+                            <div className="flex flex-wrap gap-2">
+                                {ebook.keywords.split(',').map((keyword, index) => (
+                                    <Badge key={index} variant="default" className="rounded-full py-1 px-3">
+                                        {keyword.trim()}
+                                    </Badge>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
