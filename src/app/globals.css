@@ -85,7 +85,7 @@
 
 @layer components {
   [data-vaul-drawer] {
-    transition-duration: 1.2s !important;
+    transition: transform 1.2s cubic-bezier(0.32, 0.72, 0, 1) !important;
   }
 }
 
