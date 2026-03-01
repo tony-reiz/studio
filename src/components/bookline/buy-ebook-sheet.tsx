@@ -79,7 +79,7 @@ export function BuyEbookSheet({ ebook, open, onOpenChange }: BuyEbookSheetProps)
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className="rounded-t-[50px] max-h-[90vh] flex flex-col bg-background p-0 border-0">
+      <DrawerContent className="rounded-t-[50px] max-h-[85vh] flex flex-col bg-background p-0 border-0">
         {ebook.pdfDataUrl.startsWith('data:application/pdf') && (
             <div className="hidden">
                 <Document file={ebook.pdfDataUrl} onLoadSuccess={onDocumentLoadSuccess} />
