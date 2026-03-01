@@ -10,6 +10,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { useEbooks } from '@/context/ebook-provider';
 import { useToast } from '@/hooks/use-toast';
+import { ImageCropper } from '@/components/bookline/image-cropper';
 
 export default function CreateProfilePage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -17,7 +18,7 @@ export default function CreateProfilePage() {
   const [username, setUsername] = useState('');
   const [bio, setBio] = useState('');
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [imageToCrop, setImageToCrop] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { updateUserProfile, userProfile } = useEbooks();
   const { toast } = useToast();
@@ -57,29 +58,21 @@ export default function CreateProfilePage() {
       return;
     }
 
-    if (avatarFile) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            const newAvatarUrl = reader.result as string;
-            updateUserProfile({ username: newUsername, bio, avatarUrl: newAvatarUrl });
-            handleNavigate('/profile');
-        };
-        reader.readAsDataURL(avatarFile);
-    } else {
-        updateUserProfile({ username: newUsername, bio, avatarUrl });
-        handleNavigate('/profile');
-    }
+    updateUserProfile({ username: newUsername, bio, avatarUrl });
+    handleNavigate('/profile');
   };
   
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setAvatarFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setAvatarUrl(reader.result as string);
+        setImageToCrop(reader.result as string);
       };
       reader.readAsDataURL(file);
+    }
+    if (e.target) {
+        e.target.value = "";
     }
   };
 
@@ -93,12 +86,21 @@ export default function CreateProfilePage() {
     const truncatedValue = valueWithoutSpaces.slice(0, 10);
     setUsername(truncatedValue);
   };
+  
+  const onCropComplete = (croppedImageUrl: string) => {
+    setAvatarUrl(croppedImageUrl);
+  };
 
   const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0";
   const isSaveDisabled = !username.trim();
 
   return (
     <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
+       <ImageCropper 
+         imageSrc={imageToCrop}
+         onCropComplete={onCropComplete}
+         onClose={() => setImageToCrop(null)}
+       />
        <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="w-full py-6">
             <div className="flex flex-col items-start">
@@ -121,7 +123,7 @@ export default function CreateProfilePage() {
               />
               <Avatar className="h-32 w-32 bg-foreground">
                 {avatarUrl ? (
-                  <AvatarImage src={avatarUrl} alt="Photo de profil de l'utilisateur" />
+                  <AvatarImage src={avatarUrl} alt="Photo de profil de l'utilisateur" style={{ objectFit: 'cover' }} />
                 ) : (
                   <AvatarFallback className="bg-transparent">
                     <User className="h-12 w-12 text-background" />
