@@ -55,6 +55,11 @@ export default function EbookViewerPage() {
   const [isClient, setIsClient] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
+  // For pinch-to-zoom
+  const [scale, setScale] = useState(1);
+  const [isZooming, setIsZooming] = useState(false);
+  const initialDistance = useRef(0);
+
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -133,6 +138,48 @@ export default function EbookViewerPage() {
     }
   };
   
+  const getDistance = (touches: React.TouchList) => {
+    return Math.hypot(
+      touches[0].pageX - touches[1].pageX,
+      touches[0].pageY - touches[1].pageY
+    );
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      setIsZooming(true);
+      initialDistance.current = getDistance(e.touches);
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (isZooming && e.touches.length === 2) {
+      e.preventDefault();
+      const newDistance = getDistance(e.touches);
+      const newScale = scale * (newDistance / initialDistance.current);
+      setScale(Math.min(Math.max(1, newScale), 4)); // Clamp scale
+      initialDistance.current = newDistance;
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (isZooming) {
+      setIsZooming(false);
+      initialDistance.current = 0;
+    }
+    // Snap back if zoom is very small
+    if (scale < 1.05) {
+        setScale(1);
+    }
+  };
+
+  const handleViewerClick = () => {
+      if (isMobile && scale <= 1) {
+          setIsSheetOpen(true);
+      }
+  };
+
   if (!ebook) {
     return <div className="flex h-screen w-full items-center justify-center bg-background">Chargement...</div>;
   }
@@ -147,9 +194,15 @@ export default function EbookViewerPage() {
                       <ChevronLeft className="h-6 w-6" />
                   </Button>
               </div>
-              <div className="h-[70vh]" onClick={() => isMobile && setIsSheetOpen(true)}>
+              <div 
+                className="h-[70vh]" 
+                onClick={handleViewerClick}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+              >
                   <div className="w-full h-full relative">
-                      <div ref={viewerRef} className="w-full h-full overflow-y-auto rounded-lg bg-secondary">
+                      <div ref={viewerRef} className="w-full h-full overflow-auto rounded-lg bg-secondary">
                           <Document
                               file={ebook.pdfDataUrl}
                               onLoadSuccess={onDocumentLoadSuccess}
@@ -158,6 +211,11 @@ export default function EbookViewerPage() {
                                   "flex flex-col items-center transition-opacity duration-300 ease-in-out",
                                   isPdfVisible ? "opacity-100" : "opacity-0"
                               )}
+                              style={{ 
+                                transform: `scale(${scale})`,
+                                transformOrigin: 'center center',
+                                transition: isZooming ? 'none' : 'transform 0.2s ease-out'
+                             }}
                           >
                               {Array.from(new Array(numPages || 0), (el, index) => (
                                   <div
