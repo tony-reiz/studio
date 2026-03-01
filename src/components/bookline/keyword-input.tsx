@@ -55,7 +55,9 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
   const updateParent = (newKeywords: Keyword[]) => {
     const newValue = newKeywords.filter(k => k.state !== 'removing').map(k => k.text).join(', ');
     internalValueRef.current = newValue;
-    onChange(newValue);
+    setTimeout(() => {
+      onChange(newValue);
+    }, 0);
   };
 
   useEffect(() => {
@@ -72,8 +74,7 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
     if (newKeywordText && !keywords.some(k => k.text === newKeywordText)) {
       const newKeywords = [...keywords, { id: crypto.randomUUID(), text: newKeywordText, state: 'entering' }];
       setKeywords(newKeywords);
-      // Defer parent update to avoid calling it during render cycle
-      setTimeout(() => updateParent(newKeywords), 0);
+      updateParent(newKeywords);
     }
     setInputValue('');
   };
