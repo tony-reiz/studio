@@ -2,33 +2,33 @@
   "placeholderImages": [
     {
       "id": "ebook-1",
-      "description": "Placeholder for first ebook",
+      "description": "Un guide sur le business moderne.",
       "imageUrl": "https://images.unsplash.com/photo-1528459105426-b9548367069b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxib29rJTIwY292ZXJ8ZW58MHx8fHwxNzcxNjY4NTMwfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "book cover"
+      "imageHint": "business"
     },
     {
       "id": "ebook-2",
-      "description": "Placeholder for second ebook",
+      "description": "L'histoire du sport à travers les âges.",
       "imageUrl": "https://images.unsplash.com/photo-1487147264018-f937fba0c817?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxib29rJTIwY292ZXIlMjBkZXNpZ258ZW58MHx8fHwxNzcxNzE0NjU0fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "book cover design"
+      "imageHint": "sport, histoire"
     },
     {
       "id": "ebook-3",
-      "description": "Placeholder for third ebook",
+      "description": "Aventures dans des mondes de science-fiction.",
       "imageUrl": "https://images.unsplash.com/photo-1633981014915-5cdb8d20eab1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGJvb2t8ZW58MHx8fHwxNzcxNzAyNjczfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "abstract book"
+      "imageHint": "science-fiction"
     },
     {
       "id": "ebook-4",
-      "description": "Placeholder for fourth ebook",
+      "description": "Recettes de cuisine pour tous les jours.",
       "imageUrl": "https://images.unsplash.com/photo-1640270712193-8a2770afcdad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtaW5pbWFsaXN0JTIwY292ZXJ8ZW58MHx8fHwxNzcxNzE0NjU0fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "minimalist cover"
+      "imageHint": "cuisine"
     },
     {
       "id": "ebook-5",
-      "description": "Placeholder for fifth ebook",
+      "description": "Conseils pour votre carrière et développement personnel.",
       "imageUrl": "https://images.unsplash.com/photo-1562859176-8cc1200999b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx2aW50YWdlJTIwYm9va3xlbnwwfHx8fDE3NzE2MjE3MzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "vintage book"
+      "imageHint": "carrière, développement personnel"
     }
   ]
 }

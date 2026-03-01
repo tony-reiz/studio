@@ -62,9 +62,12 @@ export function EbookProvider({ children }: { children: ReactNode }) {
   };
 
   const updateSelectedInterests = (interests: string[]) => {
-    const cleanedInterests = interests.map(interest => 
-        interest.split(' ')[0].toLowerCase()
-    );
+    const cleanedInterests = interests.map(interest => {
+        // The emoji is always the last char, separated by a space.
+        const lastSpaceIndex = interest.lastIndexOf(' ');
+        if (lastSpaceIndex === -1) return interest.toLowerCase();
+        return interest.substring(0, lastSpaceIndex).trim().toLowerCase();
+    });
     setSelectedInterests(cleanedInterests);
   };
 
