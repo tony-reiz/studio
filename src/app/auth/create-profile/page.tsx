@@ -95,6 +95,7 @@ export default function CreateProfilePage() {
   };
 
   const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0";
+  const isSaveDisabled = !username.trim();
 
   return (
     <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
@@ -102,15 +103,15 @@ export default function CreateProfilePage() {
         <header className="w-full py-6">
             <div className="flex flex-col items-start">
               <div>
-                <p className="text-[24px] font-bold tracking-widest text-foreground">FINALISEZ</p>
-                <h1 className="text-[46px] sm:text-[58px] font-extrabold text-primary -mt-4">L’INSCRIPTION !</h1>
+                <p className="text-[24px] font-bold tracking-widest bg-gradient-to-r from-muted-foreground via-foreground to-muted-foreground bg-clip-text text-transparent bg-[200%_auto] animate-shimmer">FINALISEZ</p>
+                <h1 className="text-[46px] sm:text-[58px] font-extrabold -mt-4 bg-gradient-to-r from-primary via-foreground to-primary bg-clip-text text-transparent bg-[200%_auto] animate-shimmer">L’INSCRIPTION !</h1>
               </div>
             </div>
         </header>
 
        <main className="flex-1 w-full flex flex-col items-center pt-8 md:pt-12 pb-8">
           <div className="flex flex-col items-center w-full max-w-sm">
-            <div className="relative mb-6">
+            <div className="relative mb-6 animate-float">
               <input
                 type="file"
                 ref={fileInputRef}
@@ -127,7 +128,7 @@ export default function CreateProfilePage() {
                   </AvatarFallback>
                 )}
               </Avatar>
-              <Button onClick={handlePlusClick} size="icon" className="absolute bottom-0 right-0 rounded-full bg-primary text-primary-foreground w-10 h-10 border-4 border-background hover:bg-primary/90">
+              <Button onClick={handlePlusClick} size="icon" className="absolute bottom-0 right-0 rounded-full bg-primary text-primary-foreground w-10 h-10 border-4 border-background hover:bg-primary/90 animate-pulse-strong">
                 <Plus className="h-6 w-6" strokeWidth={3} />
               </Button>
             </div>
@@ -168,8 +169,11 @@ export default function CreateProfilePage() {
             <div className="w-full max-w-[16rem]">
               <Button 
                   onClick={handleSaveProfile}
-                  disabled={!username.trim()}
-                  className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90 disabled:bg-[#DFDFDF] disabled:text-muted-foreground"
+                  disabled={isSaveDisabled}
+                  className={cn(
+                    "bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90 disabled:bg-[#DFDFDF] disabled:text-muted-foreground",
+                    !isSaveDisabled && "animate-pulse-subtle"
+                )}
               >
                 Enregistrer
               </Button>
