@@ -29,19 +29,19 @@ interface BuyEbookSheetProps {
 }
 
 export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
-  const { handleNavigate } = useTransitionRouter();
-  const { purchasedEbooks, purchaseEbook } = useEbooks();
-  const [numPages, setNumPages] = useState<number | null>(null);
-  const { toast } = useToast();
-  
   const sheetRef = useRef<HTMLDivElement>(null);
   const [isComponentOpen, setIsComponentOpen] = useState(!!ebook);
   const [isSheetMounted, setIsSheetMounted] = useState(!!ebook);
   const [isAnimationOpen, setIsAnimationOpen] = useState(false);
-  
+
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartY, setDragStartY] = useState(0);
   const [translateY, setTranslateY] = useState(0);
+
+  const { handleNavigate } = useTransitionRouter();
+  const { purchasedEbooks, purchaseEbook } = useEbooks();
+  const [numPages, setNumPages] = useState<number | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     setIsComponentOpen(!!ebook);
@@ -66,15 +66,15 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
     }
   }, [isComponentOpen]);
 
-
   const closeSheet = () => {
     onOpenChange(false);
   };
   
   const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
+    if (!sheetRef.current) return;
     setIsDragging(true);
     setDragStartY(e.touches[0].clientY);
-    const style = window.getComputedStyle(e.currentTarget);
+    const style = window.getComputedStyle(sheetRef.current);
     const matrix = new DOMMatrix(style.transform);
     setTranslateY(matrix.m42);
   };
@@ -82,11 +82,13 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
     if (!isDragging) return;
     const currentY = e.touches[0].clientY;
-    const deltaY = currentY - dragStartY;
+    let deltaY = currentY - dragStartY;
+    
     // Only allow dragging down
-    if (deltaY > 0) {
-      setTranslateY(deltaY);
+    if (deltaY < 0) {
+      deltaY = 0;
     }
+    setTranslateY(deltaY);
   };
 
   const handleTouchEnd = () => {
@@ -164,7 +166,6 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
         )}
       </div>
       
-      {/* Overlay */}
       <div
         className={cn(
           "fixed inset-0 bg-black/60 transition-opacity duration-500",
@@ -178,7 +179,6 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-        onClick={(e) => e.stopPropagation()}
         className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none"
         style={{
           transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
@@ -190,7 +190,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
             className="mx-auto w-20 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/50 my-3"
         />
 
-        <div className="overflow-y-auto">
+        <div className="overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             {ebook && (
                 <main className="w-full flex flex-col items-center pt-2 pb-16 gap-8 px-4">
                 <div className="w-full max-w-5xl flex flex-col md:flex-row md:items-start md:justify-center md:gap-4">
