@@ -1,7 +1,7 @@
 'use client';
 
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Share2, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'next/navigation';
@@ -146,7 +146,15 @@ export default function EbookViewerPage() {
   return (
     <>
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
-        <main className="flex-1 flex w-full items-center justify-center">
+        <main className="flex-1 flex flex-col w-full items-center justify-center">
+          <div className="flex items-center justify-center gap-4 mb-4">
+              <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
+                  <Share2 className="h-6 w-6" />
+              </Button>
+              <Button onClick={handleDelete} variant="destructive" size="icon" className="rounded-full w-11 h-11">
+                  <Trash2 className="h-6 w-6" />
+              </Button>
+          </div>
           <div className="relative w-full max-w-sm">
               <div className="aspect-[210/297]">
                   <div 
