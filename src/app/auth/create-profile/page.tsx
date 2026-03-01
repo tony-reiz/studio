@@ -76,7 +76,7 @@ export default function CreateProfilePage() {
             </div>
         </header>
 
-       <main className="flex-1 w-full flex flex-col items-center justify-center -mt-16 md:-mt-24">
+       <main className="flex-1 w-full flex flex-col items-center pt-8 md:pt-12">
           <div className="flex flex-col items-center w-full max-w-sm">
             <div className="relative mb-6">
               <input
