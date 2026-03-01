@@ -188,7 +188,7 @@ export default function EbookViewerPage() {
     <>
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
         <main className="flex-1 flex w-full items-center justify-center">
-          <div className="relative w-full max-w-xs">
+          <div className="relative w-full max-w-sm">
               <div className="aspect-[210/297]">
                   <div 
                     ref={viewerRef} 
@@ -196,11 +196,11 @@ export default function EbookViewerPage() {
                     onTouchStart={handleTouchStart}
                     onTouchMove={handleTouchMove}
                     onTouchEnd={handleTouchEnd}
-                    style={{touchAction: 'none'}}
+                    style={{touchAction: 'pan-y'}}
                   >
                     <div 
                       onClick={handleViewerClick}
-                      className="w-full h-full"
+                      className="w-full"
                       style={{ 
                         transform: `scale(${scale})`,
                         transformOrigin: 'center center',
