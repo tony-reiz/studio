@@ -123,8 +123,8 @@ export default function BuyEbookPage() {
                 <div className="w-full space-y-4">
                   <div className="relative w-full">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">T</span>
-                    <div className={cn(inputClasses, "truncate")}>
-                      <p className="text-foreground">{ebook.title}</p>
+                    <div className={cn(inputClasses, "overflow-x-auto scrollbar-hide")}>
+                      <p className="text-foreground whitespace-nowrap">{ebook.title}</p>
                     </div>
                   </div>
                   <div className="relative w-full">
