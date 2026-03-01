@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Home, User, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -30,10 +30,10 @@ export default function ProfilePage() {
   const { handleNavigate } = useTransitionRouter();
   const userPublications = publishedEbooks;
   const { toast } = useToast();
-  const longPressTimer = useRef<NodeJS.Timeout | null>(null);
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopyUsername = () => {
+    if (isCopied) return;
     if (!userProfile.username) return;
     navigator.clipboard.writeText(userProfile.username).then(() => {
       setIsCopied(true);
@@ -46,17 +46,6 @@ export default function ProfilePage() {
         description: "Impossible de copier le nom d'utilisateur.",
       });
     });
-  };
-
-  const handlePressStart = () => {
-    longPressTimer.current = setTimeout(handleCopyUsername, 500); // 500ms for a long press
-  };
-
-  const handlePressEnd = () => {
-    if (longPressTimer.current) {
-      clearTimeout(longPressTimer.current);
-      longPressTimer.current = null;
-    }
   };
 
   const handleTabChange = (newTab: ActiveTab) => {
@@ -146,11 +135,7 @@ export default function ProfilePage() {
                 "text-sm font-semibold rounded-full px-12 mt-4 h-9 flex items-center justify-center cursor-pointer select-none transition-colors duration-300",
                 isCopied ? 'bg-green-500 text-white' : 'bg-foreground text-background'
               )}
-              onMouseDown={handlePressStart}
-              onMouseUp={handlePressEnd}
-              onMouseLeave={handlePressEnd}
-              onTouchStart={handlePressStart}
-              onTouchEnd={handlePressEnd}
+              onClick={handleCopyUsername}
               onContextMenu={(e) => e.preventDefault()}
             >
               {userProfile.username}
