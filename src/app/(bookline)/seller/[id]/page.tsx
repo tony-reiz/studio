@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, use } from 'react';
+import { useState } from 'react';
+import { useParams } from 'next/navigation';
 import { User, Share2, ChevronLeft, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
@@ -12,8 +13,9 @@ import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { BuyEbookSheet } from '@/components/bookline/buy-ebook-sheet';
 
-export default function SellerProfilePage({ params }: { params: { id: string } }) {
-  const { id } = use(params);
+export default function SellerProfilePage() {
+  const params = useParams();
+  const id = params.id as string;
   const { handleNavigate, handleBack } = useTransitionRouter();
   const { publishedEbooks, allEbooks, userProfile } = useEbooks();
   const { toast } = useToast();
