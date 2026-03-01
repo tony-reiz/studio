@@ -27,8 +27,12 @@ export default function CreateProfilePage() {
     if (userProfile.username !== 'utilisateur') {
       setUsername(userProfile.username);
     }
-    setBio(userProfile.bio);
-    setAvatarUrl(userProfile.avatarUrl);
+    if (userProfile.bio) {
+        setBio(userProfile.bio);
+    }
+    if (userProfile.avatarUrl) {
+        setAvatarUrl(userProfile.avatarUrl);
+    }
   }, [userProfile]);
 
   const handleNavigate = (path: string) => {
@@ -39,7 +43,6 @@ export default function CreateProfilePage() {
   };
 
   const handleSaveProfile = () => {
-    // NOTE: This is a temporary check. A real implementation requires a database.
     const existingUsernames = ['admin', 'bookline', 'kaizer'];
     const newUsername = username.trim();
 
@@ -99,7 +102,7 @@ export default function CreateProfilePage() {
         <header className="w-full py-6">
             <div className="flex flex-col items-start">
               <div className="-mt-1">
-                <p className="text-[24px] font-bold tracking-widest text-foreground">FINALISEZ VOTRE</p>
+                <p className="text-[24px] font-bold tracking-widest text-foreground">FINALISEZ</p>
                 <h1 className="text-5xl sm:text-6xl font-extrabold text-primary -mt-1">INSCRIPTION !</h1>
               </div>
             </div>
