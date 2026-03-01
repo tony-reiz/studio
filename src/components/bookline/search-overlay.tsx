@@ -32,7 +32,8 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
 
     if (isOpen) {
       setShouldRenderContent(true);
-      visibilityTimer = setTimeout(() => setIsContentVisible(true), 100);
+      // Wait a moment for the content structure to render before starting the animation
+      visibilityTimer = setTimeout(() => setIsContentVisible(true), 50);
 
       if (query.length > 0) {
         setRecommendedEbooks([]);
@@ -70,13 +71,11 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
       }
     } else {
       setIsContentVisible(false);
+      // Wait for exit animation to complete before unmounting content
       renderTimer = setTimeout(() => {
         setShouldRenderContent(false);
-        setRecommendedEbooks([]);
-        setOtherEbooks([]);
-        setSearchResults([]);
         if (query) setQuery('');
-      }, 500); // Match animation duration
+      }, 300); // Match animation duration
     }
     
     return () => {
@@ -116,7 +115,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
     return "Saisissez une recherche pour trouver des ebooks."
   }
 
-  const showEmptyState = query.length === 0 && recommendedEbooks.length === 0 && otherEbooks.length === 0;
+  const showEmptyState = !query && recommendedEbooks.length === 0 && otherEbooks.length === 0;
 
   return (
     <div
@@ -132,7 +131,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
       >
         <div
           className={cn(
-            'flex items-center gap-2 p-4 pt-6 mb-2 transition-all duration-500 ease-out max-w-4xl mx-auto w-full',
+            'flex items-center gap-2 p-4 pt-6 mb-2 transition-all duration-300 ease-out max-w-4xl mx-auto w-full',
             isContentVisible ? 'translate-y-0 opacity-100' : '-translate-y-6 opacity-0'
           )}
         >
@@ -166,7 +165,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
                            <div
                             key={`search-${ebook.id}`}
                             className={cn(
-                                "transition-all duration-500 ease-out",
+                                "transition-all duration-300 ease-out",
                                 isContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                             )}
                             style={{ transitionDelay: `${index * 75}ms` }}
@@ -176,7 +175,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
                         ))}
                       </div>
                     ) : (
-                      <div className={cn("text-center text-muted-foreground mt-12 transition-all duration-500 ease-out", isContentVisible ? 'opacity-100' : 'opacity-0')}>
+                      <div className={cn("text-center text-muted-foreground mt-12 transition-all duration-300 ease-out", isContentVisible ? 'opacity-100' : 'opacity-0')}>
                         {`Aucun résultat trouvé pour "${query}".`}
                       </div>
                     )}
@@ -185,13 +184,13 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
                   <>
                     {recommendedEbooks.length > 0 && (
                       <div className="mb-8">
-                        <h3 className={cn("text-sm font-semibold text-muted-foreground mb-4 transition-all duration-500 ease-out", isContentVisible ? 'opacity-100' : 'opacity-0' )} style={{transitionDelay: '100ms'}}>Suggestions pour vous</h3>
+                        <h3 className={cn("text-sm font-semibold text-muted-foreground mb-4 transition-all duration-300 ease-out", isContentVisible ? 'opacity-100' : 'opacity-0' )} style={{transitionDelay: '100ms'}}>Suggestions pour vous</h3>
                         <div className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 scrollbar-hide">
                           {recommendedEbooks.map((ebook, index) => (
                             <div
                                 key={`rec-${ebook.id}`}
                                 className={cn(
-                                    "transition-all duration-500 ease-out flex-shrink-0 w-[45%] sm:w-1/3",
+                                    "transition-all duration-300 ease-out flex-shrink-0 w-[45%] sm:w-1/3",
                                     isContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                                 )}
                                 style={{ transitionDelay: `${150 + index * 75}ms` }}
@@ -206,14 +205,14 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
                     {otherEbooks.length > 0 && (
                       <div>
                         {recommendedEbooks.length > 0 && (
-                          <h3 className={cn("text-sm font-semibold text-muted-foreground mb-4 transition-all duration-500 ease-out", isContentVisible ? 'opacity-100' : 'opacity-0' )} style={{transitionDelay: `${150 + recommendedEbooks.length * 75}ms`}}>Autres ebooks</h3>
+                          <h3 className={cn("text-sm font-semibold text-muted-foreground mb-4 transition-all duration-300 ease-out", isContentVisible ? 'opacity-100' : 'opacity-0' )} style={{transitionDelay: `${150 + recommendedEbooks.length * 75}ms`}}>Autres ebooks</h3>
                         )}
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
                           {otherEbooks.map((ebook, index) => (
                             <div
                                 key={`other-${ebook.id}`}
                                 className={cn(
-                                    "transition-all duration-500 ease-out",
+                                    "transition-all duration-300 ease-out",
                                     isContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                                 )}
                                 style={{ transitionDelay: `${200 + recommendedEbooks.length * 75 + index * 75}ms` }}
@@ -226,7 +225,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
                     )}
 
                     {showEmptyState && (
-                        <div className={cn("text-center text-muted-foreground mt-12 transition-all duration-500 ease-out", isContentVisible ? 'opacity-100' : 'opacity-0' )}>
+                        <div className={cn("text-center text-muted-foreground mt-12 transition-all duration-300 ease-out", isContentVisible ? 'opacity-100' : 'opacity-0' )}>
                             {getEmptyStateMessage()}
                         </div>
                     )}
