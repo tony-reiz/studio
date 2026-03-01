@@ -103,7 +103,7 @@ export default function CreateProfilePage() {
         <header className="w-full py-6">
             <div className="flex flex-col items-start">
               <div>
-                <p className="text-[24px] font-bold tracking-widest bg-gradient-to-r from-muted-foreground via-foreground to-muted-foreground bg-clip-text text-transparent bg-[200%_auto] animate-shimmer">FINALISEZ</p>
+                <p className="text-[24px] font-bold tracking-widest text-foreground">FINALISEZ</p>
                 <h1 className="text-[46px] sm:text-[58px] font-extrabold -mt-4 bg-gradient-to-r from-primary via-foreground to-primary bg-clip-text text-transparent bg-[200%_auto] animate-shimmer">L’INSCRIPTION !</h1>
               </div>
             </div>
