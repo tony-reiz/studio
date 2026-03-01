@@ -59,10 +59,9 @@ export default function AuthPage() {
   const AuthButton = ({ icon, children, delay, onClick }: { icon: React.ReactNode, children: React.ReactNode, delay: number, onClick?: () => void }) => (
     <Button
       onClick={onClick}
-      variant="outline"
       className={cn(
-        "w-full h-14 rounded-full bg-background/50 backdrop-blur-sm border-foreground/20 text-lg font-semibold flex items-center justify-center gap-3 transition-all duration-700 ease-out hover:bg-foreground/10 hover:border-foreground/50",
-        isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6",
+        "w-full h-14 rounded-full bg-secondary border-0 text-foreground text-lg font-semibold flex items-center justify-center gap-3 transition-all duration-700 ease-out hover:bg-secondary/80",
+        isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
       )}
       style={{ transitionDelay: `${delay}ms` }}
     >
