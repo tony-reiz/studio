@@ -95,8 +95,8 @@ export default function BuyEbookPage() {
                     <Star className="w-8 h-8 text-foreground fill-foreground" />
                     <Star className="w-8 h-8 text-foreground fill-foreground" />
                     <Star className="w-8 h-8 text-foreground fill-foreground" />
-                    <Star className="w-8 h-8 text-[#AFAFAF] fill-[#AFAFAF]" />
-                    <Star className="w-8 h-8 text-[#AFAFAF] fill-[#AFAFAF]" />
+                    <Star className="w-8 h-8 text-[#DFDFDF] fill-[#DFDFDF]" />
+                    <Star className="w-8 h-8 text-[#DFDFDF] fill-[#DFDFDF]" />
                 </div>
                 <EbookCard ebook={ebook} onCardClick={handleCardClick} />
               </div>
