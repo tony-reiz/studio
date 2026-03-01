@@ -26,7 +26,8 @@ const sellFormSchema = z.object({
         const n = parseFloat(val.replace(',', '.'));
         return !isNaN(n) && isFinite(n);
     }, { message: 'Le prix doit être un nombre.' })
-    .refine((val) => parseFloat(val.replace(',', '.')) >= 10, { message: 'Le prix doit être de 10€ minimum.' }),
+    .refine((val) => parseFloat(val.replace(',', '.')) >= 10, { message: 'Le prix doit être de 10€ minimum.' })
+    .refine((val) => parseFloat(val.replace(',', '.')) <= 1000, { message: 'Le prix ne doit pas dépasser 1000€.' }),
 });
 
 export default function SellPage() {
