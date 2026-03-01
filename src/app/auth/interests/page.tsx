@@ -6,11 +6,11 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 const interests = [
-  'Business', 'Histoires Fictives', 'Biographies', 'Cours & Révisions', 
-  'Carrière', 'Sport', 'Motivation', 'Code de la route', 'Cours Prépa',
-  'Développement Personnel', 'Science-Fiction', 'Technologie', 
-  'Santé & Bien-être', 'Cuisine', 'Art & Photographie', 'Voyage',
-  'Histoire', 'Psychologie', 'Finance', 'Marketing'
+  'Business 💼', 'Histoires Fictives 📖', 'Biographies ✍️', 'Cours & Révisions 📚', 
+  'Carrière 🚀', 'Sport ⚽️', 'Motivation 🔥', 'Code de la route 🚗', 'Cours Prépa 🎓',
+  'Développement Personnel 🌱', 'Science-Fiction 👽', 'Technologie 💻', 
+  'Santé & Bien-être 🧘', 'Cuisine 🍳', 'Art & Photographie 🎨', 'Voyage ✈️',
+  'Histoire 🏛️', 'Psychologie 🧠', 'Finance 💰', 'Marketing 📈'
 ];
 
 export default function InterestsPage() {
