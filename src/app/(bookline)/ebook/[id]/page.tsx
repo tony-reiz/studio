@@ -188,12 +188,7 @@ export default function EbookViewerPage() {
     <>
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
         <main className="flex-1 flex w-full items-center justify-center">
-          <div className="relative w-full max-w-[14rem]">
-              <div className="absolute top-4 -left-10">
-                  <Button onClick={handleBack} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
-                      <ChevronLeft className="h-6 w-6" />
-                  </Button>
-              </div>
+          <div className="relative w-full max-w-xs">
               <div className="aspect-[210/297]">
                   <div 
                     ref={viewerRef} 
@@ -246,14 +241,6 @@ export default function EbookViewerPage() {
                           {currentPage}/{numPages}
                       </div>
                   )}
-              </div>
-              <div className="absolute top-4 -right-10 flex flex-col gap-3">
-                  <Button onClick={handleDelete} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
-                      <Trash2 className="h-6 w-6" />
-                  </Button>
-                  <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
-                      <Share2 className="h-6 w-6" />
-                  </Button>
               </div>
           </div>
         </main>
