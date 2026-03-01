@@ -11,7 +11,7 @@ const interests = [
   'Carrière 🚀', 'Sport ⚽️', 'Motivation 🔥', 'Code de la route 🚗', 'Cours Prépa 🎓',
   'Développement Personnel 🌱', 'Science-Fiction 👽', 'Technologie 💻', 
   'Santé & Bien-être 🧘', 'Cuisine 🍳', 'Art & Photographie 🎨', 'Voyage ✈️',
-  'Histoire 🏛️', 'Psychologie 🧠', 'Finance 💰', 'Marketing 📈'
+  'Histoire 🏛️', 'Psychologie 🧠', 'Finance 💰', 'Marketing 📈', 'Autre 🤔'
 ];
 
 export default function InterestsPage() {
