@@ -26,8 +26,7 @@ const Document = dynamic(
 
 
 export default function BuyEbookPage() {
-  const params = useParams();
-  const id = params.id as string;
+  const { id } = useParams() as { id: string };
   const { handleBack, handleNavigate } = useTransitionRouter();
   const { allEbooks, purchasedEbooks, purchaseEbook } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);

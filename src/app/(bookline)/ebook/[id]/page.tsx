@@ -37,8 +37,7 @@ const Page = dynamic(() => import('react-pdf').then((mod) => mod.Page), {
 
 
 export default function EbookViewerPage() {
-  const params = useParams();
-  const id = params.id as string;
+  const { id } = useParams() as { id: string };
   const { handleNavigate, handleBack } = useTransitionRouter();
   const { publishedEbooks, removePublishedEbook } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);

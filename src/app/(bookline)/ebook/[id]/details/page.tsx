@@ -35,8 +35,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function EbookDetailsPage() {
-  const params = useParams();
-  const id = params.id as string;
+  const { id } = useParams() as { id: string };
   const { handleBack } = useTransitionRouter();
   const { publishedEbooks } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
