@@ -114,7 +114,7 @@ export default function SellPage() {
               <div className="flex justify-center md:justify-end">
                 <PdfUploader pdfFile={pdfFile} onFileChange={setPdfFile} />
               </div>
-              <div className="flex justify-start">
+              <div className="flex justify-center md:justify-start">
                 <SellForm />
               </div>
             </div>
