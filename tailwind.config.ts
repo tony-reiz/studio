@@ -103,6 +103,10 @@ export default {
         'pulse-subtle': {
             '0%, 100%': { transform: 'scale(1)' },
             '50%': { transform: 'scale(1.03)' },
+        },
+        'loader-bounce': {
+          '0%, 80%, 100%': { transform: 'scale(0.5)', opacity: '0.5' },
+          '40%': { transform: 'scale(1.0)', opacity: '1' },
         }
       },
       animation: {
@@ -111,7 +115,8 @@ export default {
         float: 'float 5s ease-in-out infinite',
         'pulse-strong': 'pulse-strong 2s ease-in-out infinite',
         shimmer: 'shimmer 5s linear infinite',
-        'pulse-subtle': 'pulse-subtle 3s ease-in-out infinite'
+        'pulse-subtle': 'pulse-subtle 3s ease-in-out infinite',
+        'loader-bounce': 'loader-bounce 1.4s infinite ease-in-out both',
       },
     },
   },

@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
-import { Heart, Loader2 } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import Image from 'next/image';
@@ -102,7 +102,11 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
                     "absolute inset-0 flex items-center justify-center bg-secondary transition-opacity duration-300 z-10",
                     isLoaded ? "opacity-0 pointer-events-none" : "opacity-100"
                 )}>
-                    <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                    <div className="flex items-center justify-center space-x-2">
+                        <div className="w-3 h-3 bg-muted-foreground rounded-full animate-loader-bounce" style={{ animationDelay: '-0.32s' }}></div>
+                        <div className="w-3 h-3 bg-muted-foreground rounded-full animate-loader-bounce" style={{ animationDelay: '-0.16s' }}></div>
+                        <div className="w-3 h-3 bg-muted-foreground rounded-full animate-loader-bounce"></div>
+                    </div>
                 </div>
                 
                 {/* Content that fades in */}
