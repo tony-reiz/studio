@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Home, User, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { cn } from '@/lib/utils';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
+import { useToast } from '@/hooks/use-toast';
 
 type ActiveTab = 'achats' | 'publications' | 'favoris';
 
@@ -28,6 +29,36 @@ export default function ProfilePage() {
   const { publishedEbooks, favoritedEbooks, userProfile } = useEbooks();
   const { handleNavigate } = useTransitionRouter();
   const userPublications = publishedEbooks;
+  const { toast } = useToast();
+  const longPressTimer = useRef<NodeJS.Timeout | null>(null);
+
+  const handleCopyUsername = () => {
+    if (!userProfile.username) return;
+    navigator.clipboard.writeText(userProfile.username).then(() => {
+      toast({
+        title: "Copié !",
+        description: `Le nom d'utilisateur "${userProfile.username}" a été copié.`,
+      });
+    }).catch(err => {
+      console.error("Failed to copy username: ", err);
+      toast({
+        variant: "destructive",
+        title: "Erreur",
+        description: "Impossible de copier le nom d'utilisateur.",
+      });
+    });
+  };
+
+  const handlePressStart = () => {
+    longPressTimer.current = setTimeout(handleCopyUsername, 500); // 500ms for a long press
+  };
+
+  const handlePressEnd = () => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+  };
 
   const handleTabChange = (newTab: ActiveTab) => {
     if (activeTab === newTab) {
@@ -111,7 +142,15 @@ export default function ProfilePage() {
                 <User className="h-12 w-12 text-background" />
               </AvatarFallback>
             </Avatar>
-            <div className="bg-foreground text-background text-sm font-semibold rounded-full px-12 mt-4 h-9 flex items-center justify-center">
+            <div 
+              className="bg-foreground text-background text-sm font-semibold rounded-full px-12 mt-4 h-9 flex items-center justify-center cursor-pointer select-none"
+              onMouseDown={handlePressStart}
+              onMouseUp={handlePressEnd}
+              onMouseLeave={handlePressEnd}
+              onTouchStart={handlePressStart}
+              onTouchEnd={handlePressEnd}
+              onContextMenu={(e) => e.preventDefault()}
+            >
               {userProfile.username}
             </div>
             {userProfile.bio && (

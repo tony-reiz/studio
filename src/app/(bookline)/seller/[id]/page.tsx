@@ -1,15 +1,47 @@
 'use client';
 
+import { useRef } from 'react';
 import { User, Share2, ChevronLeft, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
+import { useToast } from '@/hooks/use-toast';
 
 export default function SellerProfilePage() {
   const { handleNavigate, handleBack } = useTransitionRouter();
   const { publishedEbooks, userProfile } = useEbooks();
+  const { toast } = useToast();
+  const longPressTimer = useRef<NodeJS.Timeout | null>(null);
+
+  const handleCopyUsername = () => {
+    if (!userProfile.username) return;
+    navigator.clipboard.writeText(userProfile.username).then(() => {
+      toast({
+        title: "Copié !",
+        description: `Le nom d'utilisateur "${userProfile.username}" a été copié.`,
+      });
+    }).catch(err => {
+      console.error("Failed to copy username: ", err);
+      toast({
+        variant: "destructive",
+        title: "Erreur",
+        description: "Impossible de copier le nom d'utilisateur.",
+      });
+    });
+  };
+
+  const handlePressStart = () => {
+    longPressTimer.current = setTimeout(handleCopyUsername, 500); // 500ms for a long press
+  };
+
+  const handlePressEnd = () => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+  };
 
 
   return (
@@ -37,7 +69,15 @@ export default function SellerProfilePage() {
                 <User className="h-12 w-12 text-background" />
               </AvatarFallback>
             </Avatar>
-            <div className="bg-foreground text-background text-sm font-semibold rounded-full px-16 py-1.5 mt-4">
+            <div 
+              className="bg-foreground text-background text-sm font-semibold rounded-full px-16 py-1.5 mt-4 cursor-pointer select-none"
+              onMouseDown={handlePressStart}
+              onMouseUp={handlePressEnd}
+              onMouseLeave={handlePressEnd}
+              onTouchStart={handlePressStart}
+              onTouchEnd={handlePressEnd}
+              onContextMenu={(e) => e.preventDefault()}
+            >
               {userProfile.username}
             </div>
              {userProfile.bio && (
