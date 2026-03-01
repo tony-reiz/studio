@@ -109,7 +109,7 @@ export default function CreateProfilePage() {
             </div>
         </header>
 
-       <main className="flex-1 w-full flex flex-col items-center pt-8 md:pt-12 pb-8">
+       <main className="flex-1 w-full flex flex-col items-center pt-8 md:pt-12 pb-28">
           <div className="flex flex-col items-center w-full max-w-sm">
             <div className="relative mb-6 animate-float">
               <input
@@ -165,22 +165,23 @@ export default function CreateProfilePage() {
                 </p>
               </div>
             </div>
-            
-            <div className="w-full max-w-[16rem]">
-              <Button 
-                  onClick={handleSaveProfile}
-                  disabled={isSaveDisabled}
-                  className={cn(
-                    "bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90 disabled:bg-[#DFDFDF] disabled:text-muted-foreground",
-                    !isSaveDisabled && "animate-pulse-subtle"
-                )}
-              >
-                Enregistrer
-              </Button>
-            </div>
           </div>
         </main>
        </div>
+       <div className="fixed bottom-8 left-0 right-0 p-4 md:bottom-2 md:mb-4">
+        <div className="w-full max-w-[16rem] mx-auto">
+            <Button 
+                onClick={handleSaveProfile}
+                disabled={isSaveDisabled}
+                className={cn(
+                    "bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90 disabled:bg-[#DFDFDF] disabled:text-muted-foreground",
+                    !isSaveDisabled && "animate-pulse-subtle"
+                )}
+            >
+                Enregistrer
+            </Button>
+        </div>
+      </div>
     </div>
   );
 }
