@@ -3,7 +3,7 @@
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useEffect, useState, useRef, type TouchEvent } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -54,13 +54,6 @@ export default function EbookViewerPage() {
   const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-
-  // For pinch-to-zoom
-  const [scale, setScale] = useState(1);
-  const [isZooming, setIsZooming] = useState(false);
-  const initialDistance = useRef(0);
-  const initialScale = useRef(1);
-  const [transformOrigin, setTransformOrigin] = useState('center center');
 
   useEffect(() => {
     setIsClient(true);
@@ -140,51 +133,8 @@ export default function EbookViewerPage() {
     }
   };
   
-  const getDistance = (touches: TouchList) => {
-    return Math.hypot(
-      touches[0].pageX - touches[1].pageX,
-      touches[0].pageY - touches[1].pageY
-    );
-  };
-
-  const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
-    if (e.touches.length === 2) {
-      e.preventDefault();
-
-      const rect = e.currentTarget.getBoundingClientRect();
-      const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
-      const centerY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
-      setTransformOrigin(`${centerX}px ${centerY}px`);
-
-      setIsZooming(true);
-      initialDistance.current = getDistance(e.touches);
-      initialScale.current = scale;
-    }
-  };
-
-  const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
-    if (isZooming && e.touches.length === 2) {
-      e.preventDefault();
-      const newDistance = getDistance(e.touches);
-      const newScale = initialScale.current * (newDistance / initialDistance.current);
-      setScale(Math.min(Math.max(1, newScale), 4)); // Clamp scale
-    }
-  };
-
-  const handleTouchEnd = () => {
-    if (isZooming) {
-      setIsZooming(false);
-      initialDistance.current = 0;
-    }
-    // Snap back if zoom is very small
-    if (scale < 1.05) {
-        setScale(1);
-        setTransformOrigin('center center');
-    }
-  };
-
   const handleViewerClick = () => {
-      if (isMobile && scale <= 1) {
+      if (isMobile) {
           setIsSheetOpen(true);
       }
   };
@@ -202,19 +152,10 @@ export default function EbookViewerPage() {
                   <div 
                     ref={viewerRef} 
                     className="w-full h-full overflow-auto rounded-lg bg-secondary"
-                    style={{touchAction: 'pan-x pan-y'}}
                   >
                     <div 
                       onClick={handleViewerClick}
-                      onTouchStart={handleTouchStart}
-                      onTouchMove={handleTouchMove}
-                      onTouchEnd={handleTouchEnd}
                       className="w-full"
-                      style={{ 
-                        transform: `scale(${scale})`,
-                        transformOrigin: transformOrigin,
-                        transition: isZooming ? 'none' : 'transform 0.2s ease-out',
-                     }}
                     >
                           <Document
                               file={ebook.pdfDataUrl}
