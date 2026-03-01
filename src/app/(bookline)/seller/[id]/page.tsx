@@ -12,14 +12,25 @@ import { cn } from '@/lib/utils';
 
 export default function SellerProfilePage() {
   const { handleNavigate, handleBack } = useTransitionRouter();
-  const { publishedEbooks, userProfile } = useEbooks();
+  const { publishedEbooks, allEbooks } = useEbooks();
   const { toast } = useToast();
   const [isCopied, setIsCopied] = useState(false);
 
+  // The seller's ebooks are all ebooks that are not the current user's published ebooks.
+  const publishedEbookIds = new Set(publishedEbooks.map(e => e.id));
+  const sellerEbooks = allEbooks.filter(ebook => !publishedEbookIds.has(ebook.id));
+  
+  // For now, the seller profile is static.
+  const sellerProfile = {
+      username: 'bookline',
+      bio: 'Découvrez notre collection d\'ebooks exclusifs sur des sujets variés.',
+      avatarUrl: null
+  };
+
   const handleCopyUsername = () => {
     if (isCopied) return;
-    if (!userProfile.username) return;
-    navigator.clipboard.writeText(userProfile.username).then(() => {
+    if (!sellerProfile.username) return;
+    navigator.clipboard.writeText(sellerProfile.username).then(() => {
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 1000);
     }).catch(err => {
@@ -53,7 +64,7 @@ export default function SellerProfilePage() {
         <main className="flex-1 w-full flex flex-col items-center pt-16 pb-8">
           <div className="flex flex-col items-center">
             <Avatar className="h-28 w-28 bg-foreground">
-              <AvatarImage src={userProfile.avatarUrl || ''} alt="Photo de profil du vendeur" />
+              <AvatarImage src={sellerProfile.avatarUrl || ''} alt="Photo de profil du vendeur" />
               <AvatarFallback className="bg-transparent">
                 <User className="h-12 w-12 text-background" />
               </AvatarFallback>
@@ -66,18 +77,18 @@ export default function SellerProfilePage() {
               onClick={handleCopyUsername}
               onContextMenu={(e) => e.preventDefault()}
             >
-              {userProfile.username}
+              {sellerProfile.username}
             </div>
-             {userProfile.bio && (
-              <p className="text-center text-muted-foreground mt-4 max-w-sm break-words">{userProfile.bio}</p>
+             {sellerProfile.bio && (
+              <p className="text-center text-muted-foreground mt-4 max-w-sm break-words">{sellerProfile.bio}</p>
             )}
           </div>
           
           <div className="w-full max-w-sm md:max-w-4xl mt-4">
-            {publishedEbooks.length > 0 ? (
+            {sellerEbooks.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-                {publishedEbooks.map((ebook) => (
-                  <EbookCard key={ebook.id} ebook={ebook} onCardClick={(e) => handleNavigate(`/ebook/${e.id}`)} />
+                {sellerEbooks.map((ebook) => (
+                  <EbookCard key={ebook.id} ebook={ebook} onCardClick={(e) => handleNavigate(`/buy/${e.id}`)} />
                 ))}
               </div>
             ) : (
