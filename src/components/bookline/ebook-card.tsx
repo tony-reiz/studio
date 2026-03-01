@@ -91,71 +91,77 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
       <CardContent
         ref={containerRef}
         className={cn(
-          'aspect-[210/297] p-0 flex items-center justify-center rounded-[25px] overflow-hidden relative',
-          !ebook && (isActive ? 'bg-[#AFAFAF]' : 'bg-[#DFDFDF]'),
-          ebook && 'bg-secondary' // Use secondary as the grey placeholder background
+          'aspect-[210/297] p-0 flex items-center justify-center rounded-[25px] overflow-hidden relative bg-transparent',
+          !ebook && (isActive ? 'bg-[#AFAFAF]' : 'bg-[#DFDFDF]')
         )}
       >
-        {ebook && !isLoaded && (
-          <div className="absolute inset-0 flex items-center justify-center z-10">
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-          </div>
-        )}
-        
-        {ebook?.pdfDataUrl && (
-          <div className={cn(
-              "absolute inset-0 w-full h-full transition-opacity duration-300",
-              isLoaded ? "opacity-100" : "opacity-0"
-            )}
-          >
-            {isPdf ? (
-              <div className="absolute inset-0 w-full h-full pointer-events-none flex items-center justify-center">
-                <Document
-                    file={ebook.pdfDataUrl}
-                    loading={null}
-                    className="flex items-center justify-center overflow-hidden w-full h-full"
+        {ebook ? (
+            <>
+                {/* Gray placeholder that fades out */}
+                <div className={cn(
+                    "absolute inset-0 flex items-center justify-center bg-secondary transition-opacity duration-300 z-10",
+                    isLoaded ? "opacity-0 pointer-events-none" : "opacity-100"
+                )}>
+                    <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                </div>
+                
+                {/* Content that fades in */}
+                {ebook.pdfDataUrl && (
+                  <div className={cn(
+                      "absolute inset-0 w-full h-full transition-opacity duration-300",
+                      isLoaded ? "opacity-100" : "opacity-0"
+                    )}
+                  >
+                    {isPdf ? (
+                      <div className="absolute inset-0 w-full h-full pointer-events-none flex items-center justify-center">
+                        <Document
+                            file={ebook.pdfDataUrl}
+                            loading={null}
+                            className="flex items-center justify-center overflow-hidden w-full h-full"
+                        >
+                            <Page
+                                pageNumber={1}
+                                width={containerWidth ? containerWidth * 1.1 : undefined} // Mimic scale-110
+                                className={cn(!containerWidth && 'invisible', 'drop-shadow-lg')}
+                                renderTextLayer={false}
+                                renderAnnotationLayer={false}
+                                onRenderSuccess={handleLoad}
+                            />
+                        </Document>
+                      </div>
+                    ) : (
+                      <Image 
+                        src={ebook.pdfDataUrl} 
+                        alt={ebook.title || 'Ebook cover'} 
+                        fill 
+                        style={{ objectFit: 'cover' }}
+                        onLoad={handleLoad}
+                        unoptimized
+                      />
+                    )}
+                  </div>
+                )}
+                
+                {/* Heart button */}
+                <button
+                    onClick={handleFavoriteClick}
+                    className={cn(
+                        "absolute top-0 right-0 m-4 p-0 z-20 transition-opacity duration-300",
+                        isLoaded ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                    )}
+                    aria-label="Ajouter aux favoris"
                 >
-                    <Page
-                        pageNumber={1}
-                        width={containerWidth ? containerWidth * 1.1 : undefined} // Mimic scale-110
-                        className={cn(!containerWidth && 'invisible', 'drop-shadow-lg')}
-                        renderTextLayer={false}
-                        renderAnnotationLayer={false}
-                        onRenderSuccess={handleLoad}
+                    <Heart
+                      className={cn(
+                        'h-7 w-7 transition-colors drop-shadow-md',
+                        isFavorited
+                          ? 'text-foreground fill-foreground'
+                          : 'text-white fill-white'
+                      )}
                     />
-                </Document>
-              </div>
-            ) : (
-              <Image 
-                src={ebook.pdfDataUrl} 
-                alt={ebook.title || 'Ebook cover'} 
-                fill 
-                style={{ objectFit: 'cover' }}
-                onLoad={handleLoad}
-              />
-            )}
-          </div>
-        )}
-        
-        {ebook && (
-          <button
-            onClick={handleFavoriteClick}
-            className={cn(
-                "absolute top-0 right-0 m-4 p-0 z-20 transition-opacity duration-300",
-                isLoaded ? 'opacity-100' : 'opacity-0'
-            )}
-            aria-label="Ajouter aux favoris"
-          >
-            <Heart
-              className={cn(
-                'h-7 w-7 transition-colors drop-shadow-md',
-                isFavorited
-                  ? 'text-foreground fill-foreground'
-                  : 'text-white fill-white'
-              )}
-            />
-          </button>
-        )}
+                </button>
+            </>
+        ) : null}
       </CardContent>
     </Card>
   );
