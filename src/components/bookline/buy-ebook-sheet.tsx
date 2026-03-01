@@ -54,7 +54,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
     } else {
       setIsOpen(false);
       // Unmount after the close animation completes
-      const timer = setTimeout(() => setIsMounted(false), 1000);
+      const timer = setTimeout(() => setIsMounted(false), 500);
       return () => clearTimeout(timer);
     }
   }, [ebook]);
@@ -162,7 +162,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
       {/* Overlay */}
       <div
         className={cn(
-          "fixed inset-0 bg-black/60 transition-opacity duration-1000",
+          "fixed inset-0 bg-black/60 transition-opacity duration-500",
           isOpen ? 'opacity-100' : 'opacity-0'
         )}
         onClick={closeSheet}
@@ -176,7 +176,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
         onClick={(e) => e.stopPropagation()}
         className={cn(
             "absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none",
-            isDragging ? 'transition-none' : 'transition-transform duration-1000 ease-in-out'
+            isDragging ? 'transition-none' : 'transition-transform duration-500 ease-in-out'
         )}
         style={{ transform: `translateY(${isOpen ? translateY : window.innerHeight}px)` }}
       >
