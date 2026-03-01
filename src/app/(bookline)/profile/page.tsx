@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Home, User, Share2 } from 'lucide-react';
+import { ChevronLeft, User, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
 import { ProfileTabNav } from '@/components/bookline/profile-tab-nav';
@@ -25,7 +25,7 @@ export default function ProfilePage() {
   const [displayedTab, setDisplayedTab] = useState<ActiveTab>(initialTab);
   const [isContentVisible, setIsContentVisible] = useState(true);
   const { publishedEbooks, favoritedEbooks, userProfile, purchasedEbooks } = useEbooks();
-  const { handleNavigate } = useTransitionRouter();
+  const { handleNavigate, handleBack } = useTransitionRouter();
   const userPublications = publishedEbooks;
   const { toast } = useToast();
   const [isCopied, setIsCopied] = useState(false);
@@ -107,13 +107,10 @@ export default function ProfilePage() {
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="flex items-start justify-between w-full py-6">
-          <Button variant="ghost" size="icon" aria-label="Menu" className="p-0 h-auto invisible">
-            <Share2 />
+          <Button onClick={handleBack} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Retour">
+              <ChevronLeft className="h-6 w-6" />
           </Button>
           <div className="flex flex-col items-center gap-3">
-            <Button onClick={() => handleNavigate('/home')} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Accueil">
-                <Home className="h-6 w-6" />
-            </Button>
             <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Partager le profil">
               <Share2 className="h-6 w-6" />
             </Button>
