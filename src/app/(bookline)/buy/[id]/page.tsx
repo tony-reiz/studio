@@ -1,7 +1,7 @@
 'use client';
 
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import { ChevronLeft, Share2, AlertCircle, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
@@ -25,7 +25,7 @@ const Document = dynamic(
 
 
 export default function BuyEbookPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+  const { id } = use(params);
   const { handleBack, handleNavigate } = useTransitionRouter();
   const { allEbooks, purchasedEbooks, purchaseEbook } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);

@@ -3,7 +3,7 @@
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { Share2, Trash2, Loader2, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, use } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import dynamic from 'next/dynamic';
@@ -36,7 +36,7 @@ const Page = dynamic(() => import('react-pdf').then((mod) => mod.Page), {
 
 
 export default function EbookViewerPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+  const { id } = use(params);
   const { handleNavigate, handleBack } = useTransitionRouter();
   const { publishedEbooks, removePublishedEbook } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);

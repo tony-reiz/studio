@@ -1,7 +1,7 @@
 'use client';
 
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
@@ -34,7 +34,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function EbookDetailsPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+  const { id } = use(params);
   const { handleBack } = useTransitionRouter();
   const { publishedEbooks } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
