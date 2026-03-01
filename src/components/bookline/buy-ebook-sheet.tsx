@@ -3,11 +3,10 @@
 import {
   Drawer,
   DrawerContent,
-  DrawerTrigger,
 } from "@/components/ui/drawer";
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
-import { useEffect, useState, ReactNode } from 'react';
-import { Share2, Star, X } from 'lucide-react';
+import { useState } from 'react';
+import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
@@ -30,12 +29,11 @@ const Document = dynamic(
 
 interface BuyEbookSheetProps {
     ebook: Ebook;
-    children?: ReactNode;
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
 }
 
-export function BuyEbookSheet({ ebook, children, open, onOpenChange }: BuyEbookSheetProps) {
+export function BuyEbookSheet({ ebook, open, onOpenChange }: BuyEbookSheetProps) {
   const { handleNavigate } = useTransitionRouter();
   const { purchasedEbooks, purchaseEbook } = useEbooks();
   const [numPages, setNumPages] = useState<number | null>(null);
@@ -81,19 +79,14 @@ export function BuyEbookSheet({ ebook, children, open, onOpenChange }: BuyEbookS
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      {children && <DrawerTrigger asChild>{children}</DrawerTrigger>}
       <DrawerContent className="rounded-t-[50px] max-h-[90vh] flex flex-col bg-background p-0 border-0">
         {ebook.pdfDataUrl.startsWith('data:application/pdf') && (
             <div className="hidden">
                 <Document file={ebook.pdfDataUrl} onLoadSuccess={onDocumentLoadSuccess} />
             </div>
         )}
-        <header className="flex items-start justify-between w-full p-4 pt-3 flex-shrink-0">
-            <div className="w-11 h-11"></div>
-            <div className="mx-auto w-20 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/50" />
-            <Button onClick={closeSheet} variant="ghost" size="icon" className="rounded-full w-11 h-11 hover:bg-secondary [&_svg]:h-7 [&_svg]:w-7">
-                <X />
-            </Button>
+        <header className="flex items-center justify-center w-full p-4 pt-3 flex-shrink-0">
+            <div className="w-20 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/50" />
         </header>
 
         <div className="overflow-y-auto">
