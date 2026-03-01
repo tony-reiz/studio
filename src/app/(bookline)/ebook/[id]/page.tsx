@@ -60,6 +60,7 @@ export default function EbookViewerPage() {
   const [isZooming, setIsZooming] = useState(false);
   const initialDistance = useRef(0);
   const initialScale = useRef(1);
+  const [transformOrigin, setTransformOrigin] = useState('center center');
 
   useEffect(() => {
     setIsClient(true);
@@ -149,6 +150,12 @@ export default function EbookViewerPage() {
   const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
     if (e.touches.length === 2) {
       e.preventDefault();
+
+      const rect = e.currentTarget.getBoundingClientRect();
+      const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
+      const centerY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
+      setTransformOrigin(`${centerX}px ${centerY}px`);
+
       setIsZooming(true);
       initialDistance.current = getDistance(e.touches);
       initialScale.current = scale;
@@ -172,6 +179,7 @@ export default function EbookViewerPage() {
     // Snap back if zoom is very small
     if (scale < 1.05) {
         setScale(1);
+        setTransformOrigin('center center');
     }
   };
 
@@ -194,19 +202,18 @@ export default function EbookViewerPage() {
                   <div 
                     ref={viewerRef} 
                     className="w-full h-full overflow-auto rounded-lg bg-secondary"
-                    onTouchStart={handleTouchStart}
-                    onTouchMove={handleTouchMove}
-                    onTouchEnd={handleTouchEnd}
                     style={{touchAction: 'pan-x pan-y'}}
                   >
                     <div 
                       onClick={handleViewerClick}
+                      onTouchStart={handleTouchStart}
+                      onTouchMove={handleTouchMove}
+                      onTouchEnd={handleTouchEnd}
                       className="w-full"
                       style={{ 
                         transform: `scale(${scale})`,
-                        transformOrigin: 'center center',
+                        transformOrigin: transformOrigin,
                         transition: isZooming ? 'none' : 'transform 0.2s ease-out',
-                        cursor: 'grab'
                      }}
                     >
                           <Document
