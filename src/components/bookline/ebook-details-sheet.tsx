@@ -10,6 +10,7 @@ import type { Ebook } from '@/context/ebook-provider';
 import { Button } from '@/components/ui/button';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell } from "recharts";
+import { ReactNode } from "react";
 
 const chartData = [
   { metric: "Clics", value: 0, fill: "var(--color-clics)" },
@@ -38,11 +39,12 @@ const chartConfig = {
 
 interface EbookDetailsSheetProps {
     ebook: Ebook;
+    children: ReactNode;
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
 }
 
-export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsSheetProps) {
+export function EbookDetailsSheet({ ebook, children, open, onOpenChange }: EbookDetailsSheetProps) {
   const numberOfSales = 0; // Hardcoded for now
   const ebookPriceNumber = parseFloat(ebook.price.replace(',', '.')) || 0;
   const SELLER_FEE = 3;
@@ -51,9 +53,7 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger asChild>
-        <Button className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90">
-            Détail
-        </Button>
+        {children}
       </DrawerTrigger>
       <DrawerContent className="rounded-t-[50px] max-h-[85vh] flex flex-col bg-background p-4 border-0">
         <DrawerTitle className="sr-only">Détails de l'ebook</DrawerTitle>

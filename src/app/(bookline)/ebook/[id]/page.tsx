@@ -22,7 +22,11 @@ const Document = dynamic(
     ssr: false,
     loading: () => (
       <div className="flex justify-center items-center h-full">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <div className="flex items-center justify-center space-x-1">
+            <div className="h-2 w-2 bg-muted-foreground/60 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+            <div className="h-2 w-2 bg-muted-foreground/60 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+            <div className="h-2 w-2 bg-muted-foreground/60 rounded-full animate-bounce"></div>
+        </div>
       </div>
     ),
   }
@@ -191,7 +195,11 @@ export default function EbookViewerPage() {
 
       <footer className="w-full max-w-[16rem] pb-8 pt-4">
         {isClient && isMobile && ebook ? (
-            <EbookDetailsSheet ebook={ebook} open={isSheetOpen} onOpenChange={setIsSheetOpen} />
+            <EbookDetailsSheet ebook={ebook} open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+              <Button className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90">
+                  Détail
+              </Button>
+            </EbookDetailsSheet>
           ) : (
             <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90">
                 Détail
