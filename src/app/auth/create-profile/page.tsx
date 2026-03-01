@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { useEbooks } from '@/context/ebook-provider';
+import { useToast } from '@/hooks/use-toast';
 
 export default function CreateProfilePage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -19,6 +20,7 @@ export default function CreateProfilePage() {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { updateUserProfile, userProfile } = useEbooks();
+  const { toast } = useToast();
 
   useEffect(() => {
     setIsMounted(true);
@@ -37,16 +39,31 @@ export default function CreateProfilePage() {
   };
 
   const handleSaveProfile = () => {
+    // NOTE: This is a temporary check. A real implementation requires a database.
+    const existingUsernames = ['admin', 'bookline', 'kaizer'];
+    const newUsername = username.trim();
+
+    if (!newUsername) return;
+
+    if (existingUsernames.includes(newUsername.toLowerCase())) {
+      toast({
+        variant: "destructive",
+        title: "Nom d'utilisateur non disponible",
+        description: "Ce nom d'utilisateur est déjà pris. Veuillez en choisir un autre.",
+      });
+      return;
+    }
+
     if (avatarFile) {
         const reader = new FileReader();
         reader.onloadend = () => {
             const newAvatarUrl = reader.result as string;
-            updateUserProfile({ username: username.trim(), bio, avatarUrl: newAvatarUrl });
+            updateUserProfile({ username: newUsername, bio, avatarUrl: newAvatarUrl });
             handleNavigate('/profile');
         };
         reader.readAsDataURL(avatarFile);
     } else {
-        updateUserProfile({ username: username.trim(), bio, avatarUrl });
+        updateUserProfile({ username: newUsername, bio, avatarUrl });
         handleNavigate('/profile');
     }
   };
