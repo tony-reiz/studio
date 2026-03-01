@@ -53,7 +53,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
         if (selectedInterests.length > 0) {
             ebooks.forEach(ebook => {
                 const ebookKeywords = ebook.keywords.toLowerCase().split(',').map(k => k.trim());
-                const isRecommended = selectedInterests.some(interest => ebookKeywords.includes(interest));
+                const isRecommended = selectedInterests.some(interest => ebookKeywords.some(keyword => interest.includes(keyword) || keyword.includes(interest)));
 
                 if (isRecommended) {
                     recommended.push(ebook);
@@ -186,12 +186,12 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
                     {recommendedEbooks.length > 0 && (
                       <div className="mb-8">
                         <h3 className={cn("text-sm font-semibold text-muted-foreground mb-4 transition-all duration-500 ease-out", isContentVisible ? 'opacity-100' : 'opacity-0' )} style={{transitionDelay: '100ms'}}>Suggestions pour vous</h3>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
+                        <div className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 scrollbar-hide">
                           {recommendedEbooks.map((ebook, index) => (
                             <div
                                 key={`rec-${ebook.id}`}
                                 className={cn(
-                                    "transition-all duration-500 ease-out",
+                                    "transition-all duration-500 ease-out flex-shrink-0 w-[45%] sm:w-1/3",
                                     isContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                                 )}
                                 style={{ transitionDelay: `${150 + index * 75}ms` }}
