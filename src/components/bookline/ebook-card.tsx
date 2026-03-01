@@ -99,14 +99,10 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
             <>
                 {/* Gray placeholder that fades out */}
                 <div className={cn(
-                    "absolute inset-0 flex items-center justify-center bg-secondary transition-opacity duration-300 z-10",
+                    "absolute inset-0 bg-secondary transition-opacity duration-300 z-10 overflow-hidden",
                     isLoaded ? "opacity-0 pointer-events-none" : "opacity-100"
                 )}>
-                    <div className="flex items-center justify-center space-x-2">
-                        <div className="w-3 h-3 bg-muted-foreground rounded-full animate-loader-bounce" style={{ animationDelay: '-0.32s' }}></div>
-                        <div className="w-3 h-3 bg-muted-foreground rounded-full animate-loader-bounce" style={{ animationDelay: '-0.16s' }}></div>
-                        <div className="w-3 h-3 bg-muted-foreground rounded-full animate-loader-bounce"></div>
-                    </div>
+                    <div className="absolute inset-0 -translate-x-full animate-shimmer-card bg-gradient-to-r from-transparent via-muted to-transparent"></div>
                 </div>
                 
                 {/* Content that fades in */}
