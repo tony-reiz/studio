@@ -9,6 +9,7 @@ import { EbookCard } from '@/components/bookline/ebook-card';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { cn } from '@/lib/utils';
 import dynamic from 'next/dynamic';
+import { Badge } from '@/components/ui/badge';
 
 const Document = dynamic(
   () =>
@@ -133,9 +134,15 @@ export default function BuyEbookPage() {
                     </div>
                   </div>
                   <div className="relative w-full">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">M</span>
-                    <div className={cn(inputClasses, "truncate")}>
-                      <p className="text-foreground">{ebook.keywords}</p>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-10">M</span>
+                    <div className="h-12 w-full text-base bg-secondary border-0 rounded-full flex items-center p-0 overflow-hidden">
+                      <div className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-4 scrollbar-hide">
+                        {ebook.keywords.split(',').map((keyword, index) => (
+                          <Badge key={index} variant="default" className="flex-shrink-0 whitespace-nowrap rounded-full py-1 px-3">
+                            {keyword.trim()}
+                          </Badge>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
