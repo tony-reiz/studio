@@ -97,6 +97,18 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isOpen]);
+
   const handleEbookClick = (ebook: Ebook) => {
     const isOwnPublication = publishedEbooks.some(p => p.id === ebook.id);
     if (isOwnPublication) {
