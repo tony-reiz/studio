@@ -252,9 +252,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
           </div>
         </div>
       </div>
-      {selectedEbook && (
-        <BuyEbookSheet ebook={selectedEbook} open={!!selectedEbook} onOpenChange={handleSheetOpenChange} />
-      )}
+      <BuyEbookSheet ebook={selectedEbook} onOpenChange={handleSheetOpenChange} />
     </>
   );
 }

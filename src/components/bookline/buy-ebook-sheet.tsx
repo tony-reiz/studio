@@ -1,12 +1,7 @@
 'use client';
 
-import {
-  Drawer,
-  DrawerContent,
-  DrawerTitle,
-} from "@/components/ui/drawer";
+import { useEffect, useState } from 'react';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
-import { useState, useEffect } from 'react';
 import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
@@ -29,16 +24,38 @@ const Document = dynamic(
 );
 
 interface BuyEbookSheetProps {
-    ebook: Ebook;
-    open?: boolean;
-    onOpenChange?: (open: boolean) => void;
+    ebook: Ebook | null;
+    onOpenChange: (open: boolean) => void;
 }
 
-export function BuyEbookSheet({ ebook, open, onOpenChange }: BuyEbookSheetProps) {
+export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   const { handleNavigate } = useTransitionRouter();
   const { purchasedEbooks, purchaseEbook } = useEbooks();
   const [numPages, setNumPages] = useState<number | null>(null);
   const { toast } = useToast();
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (ebook) {
+      const timer = setTimeout(() => {
+        setIsVisible(true);
+      }, 10);
+      return () => clearTimeout(timer);
+    } else {
+      setIsVisible(false);
+    }
+  }, [ebook]);
+
+  const closeSheet = () => {
+    setIsVisible(false);
+    setTimeout(() => {
+      onOpenChange(false);
+    }, 1000); // Match animation duration
+  };
+
+  if (!ebook) {
+    return null;
+  }
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -52,8 +69,8 @@ export function BuyEbookSheet({ ebook, open, onOpenChange }: BuyEbookSheetProps)
 
   const handlePayment = () => {
     if (isPurchased) {
-      if (onOpenChange) onOpenChange(false);
-      setTimeout(() => handleNavigate(`/ebook/${ebook.id}`), 300);
+      closeSheet();
+      handleNavigate(`/ebook/${ebook.id}`);
     } else {
       purchaseEbook(ebook);
       toast({
@@ -73,23 +90,41 @@ export function BuyEbookSheet({ ebook, open, onOpenChange }: BuyEbookSheetProps)
     }
     return `${value.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
   };
+  
+  const handleSellerNavigate = () => {
+      closeSheet();
+      setTimeout(() => handleNavigate('/seller/1'), 300);
+  }
 
   const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full flex items-center";
   const textareaClasses = "pl-11 pr-4 h-[148px] w-full text-base bg-secondary border-0 rounded-[30px] py-3.5 leading-snug flex items-start overflow-y-auto";
-  const closeSheet = () => onOpenChange && onOpenChange(false);
 
   return (
-    <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className="rounded-t-[50px] max-h-[80vh] flex flex-col bg-background p-0 border-0">
-        <DrawerTitle className="sr-only">Achat de l'ebook: {ebook.title}</DrawerTitle>
-        {ebook.pdfDataUrl.startsWith('data:application/pdf') && (
-            <div className="hidden">
-                <Document file={ebook.pdfDataUrl} onLoadSuccess={onDocumentLoadSuccess} />
-            </div>
+    <div 
+        className={cn(
+            "fixed inset-0 z-50 bg-black/60 transition-opacity duration-1000",
+            isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
-        <header className="flex items-center justify-center w-full p-4 pt-3 flex-shrink-0">
-            <div className="w-20 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/50" />
-        </header>
+        onClick={closeSheet}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="sheet-title"
+    >
+      <div className="hidden">
+        {ebook.pdfDataUrl.startsWith('data:application/pdf') && (
+            <Document file={ebook.pdfDataUrl} onLoadSuccess={onDocumentLoadSuccess} />
+        )}
+      </div>
+
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className={cn(
+            "absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] transition-transform duration-1000 ease-in-out",
+            isVisible ? "translate-y-0" : "translate-y-full"
+        )}
+      >
+        <h2 id="sheet-title" className="sr-only">Acheter l'ebook {ebook.title}</h2>
+        <div className="mx-auto w-20 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/50 my-3" />
 
         <div className="overflow-y-auto">
             <main className="w-full flex flex-col items-center pt-2 pb-16 gap-8 px-4">
@@ -109,7 +144,7 @@ export function BuyEbookSheet({ ebook, open, onOpenChange }: BuyEbookSheetProps)
                 <div className="flex justify-center md:justify-start pt-8 md:pt-0">
                     <div className="w-full max-w-[18rem] md:max-w-xs flex flex-col items-center">
                         <div className="w-full">
-                            <button onClick={() => { closeSheet(); setTimeout(() => handleNavigate('/seller/1'), 300); }} className="w-full group">
+                            <button onClick={handleSellerNavigate} className="w-full group">
                                 <div className="w-full bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center mb-4 group-hover:bg-foreground/90 transition-colors">
                                     vendeur
                                 </div>
@@ -185,7 +220,7 @@ export function BuyEbookSheet({ ebook, open, onOpenChange }: BuyEbookSheetProps)
             </div>
             </main>
         </div>
-      </DrawerContent>
-    </Drawer>
+      </div>
+    </div>
   );
 }

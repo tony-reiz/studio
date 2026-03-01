@@ -83,12 +83,6 @@
   }
 }
 
-@layer components {
-  [data-vaul-drawer] {
-    transition: transform 1.2s cubic-bezier(0.32, 0.72, 0, 1) !important;
-  }
-}
-
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
