@@ -22,13 +22,17 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       setIsMounted(true);
       const timer = setTimeout(() => {
         setTranslateY(0);
-      }, 10); // Small delay for mount
+      }, 10);
       return () => clearTimeout(timer);
     } else {
-      const timer = setTimeout(() => setIsMounted(false), 500); // Wait for close animation
+      const timer = setTimeout(() => setIsMounted(false), 500); // Corresponds to duration-500
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
+
+  const openSheet = () => {
+    setIsOpen(true);
+  };
 
   const closeSheet = () => {
     setIsOpen(false);
@@ -37,18 +41,15 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
   const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
     setIsDragging(true);
     setDragStartY(e.touches[0].clientY);
-    if (sheetRef.current) {
-        const style = window.getComputedStyle(sheetRef.current);
-        const matrix = new DOMMatrix(style.transform);
-        setTranslateY(matrix.m42);
-    }
+    const style = window.getComputedStyle(e.currentTarget);
+    const matrix = new DOMMatrix(style.transform);
+    setTranslateY(matrix.m42);
   };
 
   const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
     if (!isDragging) return;
     const currentY = e.touches[0].clientY;
     const deltaY = currentY - dragStartY;
-    // Only allow dragging down
     if (deltaY > 0) {
       setTranslateY(deltaY);
     }
@@ -59,22 +60,18 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     setIsDragging(false);
     
     const sheetHeight = sheetRef.current?.clientHeight || 0;
-    // If dragged more than a quarter of the way down, close it
     if (translateY > sheetHeight / 4) {
       closeSheet();
     } else {
-      // Otherwise, snap it back to the top
       setTranslateY(0);
     }
   };
 
-  // Wrap the trigger to handle opening the sheet
   const trigger = children ? (
-    <div className="inline-block" onClick={() => setIsOpen(true)}>
+    <div className="inline-block" onClick={openSheet}>
       {children}
     </div>
   ) : null;
-
 
   return (
     <>
@@ -102,7 +99,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             onClick={(e) => e.stopPropagation()}
             className={cn(
                 "absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-full flex-col bg-background rounded-t-[50px] touch-none",
-                isDragging ? 'transition-none' : 'transition-transform duration-500 ease-in-out'
+                isDragging ? 'transition-none' : 'transition-[transform] duration-500 ease-in-out'
             )}
             style={{ transform: `translateY(${isOpen ? translateY : window.innerHeight}px)` }}
           >
