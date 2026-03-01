@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { ArrowRight } from 'lucide-react';
 
 const interests = [
   'Business', 'Histoires Fictives', 'Biographies', 'Cours & Révisions', 
@@ -85,7 +84,6 @@ export default function InterestsPage() {
             )}
           >
             Terminer
-            <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </div>
       </div>
