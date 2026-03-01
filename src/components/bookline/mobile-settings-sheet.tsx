@@ -35,10 +35,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
   };
   
   const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
-    const target = e.target as HTMLElement;
-    // Only allow dragging from the handle
-    if (target.id !== 'drag-handle') return;
-
     setIsDragging(true);
     setDragStartY(e.touches[0].clientY);
     if (sheetRef.current) {
@@ -112,8 +108,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
           >
             <h2 id="sheet-title" className="sr-only">Paramètres</h2>
             <div
-                id="drag-handle"
-                className="mx-auto w-20 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/50 my-3 cursor-grab active:cursor-grabbing"
+                className="mx-auto w-20 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/50 my-3"
             />
             <div className="overflow-y-auto px-4 pb-4">
                 <SettingsList />
