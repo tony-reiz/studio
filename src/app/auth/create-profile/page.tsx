@@ -88,7 +88,7 @@ export default function CreateProfilePage() {
             </div>
         </header>
 
-       <main className="flex-1 w-full flex flex-col items-center pt-8 md:pt-12">
+       <main className="flex-1 w-full flex flex-col items-center pt-8 md:pt-12 pb-8">
           <div className="flex flex-col items-center w-full max-w-sm">
             <div className="relative mb-6">
               <input
@@ -144,17 +144,18 @@ export default function CreateProfilePage() {
                 </p>
               </div>
             </div>
+            
+            <div className="w-full max-w-[16rem]">
+              <Button 
+                  onClick={handleSaveProfile}
+                  disabled={!username.trim()}
+                  className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90 disabled:bg-[#DFDFDF] disabled:text-muted-foreground"
+              >
+                Enregistrer
+              </Button>
+            </div>
           </div>
         </main>
-        <footer className="w-full max-w-[16rem] mx-auto pb-8 pt-4">
-          <Button 
-              onClick={handleSaveProfile}
-              disabled={!username.trim()}
-              className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90 disabled:bg-[#DFDFDF] disabled:text-muted-foreground"
-          >
-            Enregistrer
-          </Button>
-        </footer>
        </div>
     </div>
   );
