@@ -43,6 +43,8 @@ export default function InterestsPage() {
     handleNavigate('/home');
   };
 
+  const isButtonDisabled = selectedInterests.length < 3;
+
   return (
     <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
       <div className="w-full max-w-screen-lg mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
@@ -54,7 +56,7 @@ export default function InterestsPage() {
             </div>
           </div>
           <p className="mt-4 text-muted-foreground max-w-2xl">
-            Sélectionnez quelques sujets qui vous passionnent. Cela nous aidera à vous recommander les meilleurs ebooks.
+            Sélectionnez au moins 3 sujets qui vous passionnent. Cela nous aidera à vous recommander les meilleurs ebooks.
           </p>
         </header>
 
@@ -78,9 +80,10 @@ export default function InterestsPage() {
         <div className="w-full max-w-[16rem] mx-auto">
           <Button 
             onClick={handleFinish}
+            disabled={isButtonDisabled}
             className={cn(
-                "bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90",
-                selectedInterests.length > 0 && "animate-pulse-subtle"
+                "bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90 disabled:bg-[#DFDFDF] disabled:text-muted-foreground",
+                !isButtonDisabled && "animate-pulse-subtle"
             )}
           >
             Terminer
