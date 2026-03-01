@@ -81,8 +81,7 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
   const isPdf = ebook?.pdfDataUrl.startsWith('data:application/pdf');
 
   const handleLoad = () => {
-    // Use timeout to ensure the element is rendered before the transition starts
-    setTimeout(() => setIsLoaded(true), 50);
+    setIsLoaded(true);
   };
 
   const cardContent = (
@@ -113,7 +112,6 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
               <div className="absolute inset-0 w-full h-full pointer-events-none flex items-center justify-center">
                 <Document
                     file={ebook.pdfDataUrl}
-                    onLoadSuccess={handleLoad}
                     loading={null}
                     className="flex items-center justify-center overflow-hidden w-full h-full"
                 >
@@ -123,6 +121,7 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
                         className={cn(!containerWidth && 'invisible', 'drop-shadow-lg')}
                         renderTextLayer={false}
                         renderAnnotationLayer={false}
+                        onRenderSuccess={handleLoad}
                     />
                 </Document>
               </div>
