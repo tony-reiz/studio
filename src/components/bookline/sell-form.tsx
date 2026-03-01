@@ -43,7 +43,7 @@ export function SellForm() {
     const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0";
 
   return (
-    <div className="w-full max-w-[18rem] md:max-w-xs flex flex-col items-center">
+    <div className="w-full max-w-[18rem] md:w-80 flex flex-col items-center">
         <div className="w-full space-y-4">
             <FormField
                 control={control}
