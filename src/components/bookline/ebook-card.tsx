@@ -16,11 +16,7 @@ const Document = dynamic(
     }),
   {
     ssr: false,
-    loading: () => (
-      <div className="flex justify-center items-center h-full bg-secondary">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-      </div>
-    ),
+    loading: () => null,
   }
 );
 const Page = dynamic(() => import('react-pdf').then((mod) => mod.Page), {
@@ -39,6 +35,12 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
   const { favoritedEbooks, toggleFavoriteEbook } = useEbooks();
   const [containerWidth, setContainerWidth] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // Reset loaded state when ebook prop changes
+    setIsLoaded(false);
+  }, [ebook?.id]);
   
   const isFavorited = ebook ? favoritedEbooks.some(favEbook => favEbook.id === ebook.id) : false;
 
@@ -78,6 +80,11 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
 
   const isPdf = ebook?.pdfDataUrl.startsWith('data:application/pdf');
 
+  const handleLoad = () => {
+    // Use timeout to ensure the element is rendered before the transition starts
+    setTimeout(() => setIsLoaded(true), 50);
+  };
+
   const cardContent = (
     <Card 
       className={cn('bg-transparent border-0 shadow-lg rounded-[25px]', className)}
@@ -85,36 +92,58 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
       <CardContent
         ref={containerRef}
         className={cn(
-          'aspect-[210/297] p-0 flex items-start justify-end rounded-[25px] overflow-hidden relative',
-          !ebook && (isActive ? 'bg-[#AFAFAF]' : 'bg-[#DFDFDF]')
+          'aspect-[210/297] p-0 flex items-center justify-center rounded-[25px] overflow-hidden relative',
+          !ebook && (isActive ? 'bg-[#AFAFAF]' : 'bg-[#DFDFDF]'),
+          ebook && 'bg-secondary' // Use secondary as the grey placeholder background
         )}
       >
+        {ebook && !isLoaded && (
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        )}
+        
         {ebook?.pdfDataUrl && (
-          isPdf ? (
-            <div className="absolute inset-0 w-full h-full pointer-events-none flex items-center justify-center">
-              <Document
-                  file={ebook.pdfDataUrl}
-                  loading={null}
-                  className="flex items-center justify-center overflow-hidden w-full h-full"
-              >
-                  <Page
-                      pageNumber={1}
-                      width={containerWidth ? containerWidth * 1.1 : undefined} // Mimic scale-110
-                      className={cn(!containerWidth && 'invisible', 'drop-shadow-lg')}
-                      renderTextLayer={false}
-                      renderAnnotationLayer={false}
-                  />
-              </Document>
-            </div>
-          ) : (
-            <Image src={ebook.pdfDataUrl} alt={ebook.title || 'Ebook cover'} fill style={{ objectFit: 'cover' }} />
-          )
+          <div className={cn(
+              "absolute inset-0 w-full h-full transition-opacity duration-300",
+              isLoaded ? "opacity-100" : "opacity-0"
+            )}
+          >
+            {isPdf ? (
+              <div className="absolute inset-0 w-full h-full pointer-events-none flex items-center justify-center">
+                <Document
+                    file={ebook.pdfDataUrl}
+                    onLoadSuccess={handleLoad}
+                    loading={null}
+                    className="flex items-center justify-center overflow-hidden w-full h-full"
+                >
+                    <Page
+                        pageNumber={1}
+                        width={containerWidth ? containerWidth * 1.1 : undefined} // Mimic scale-110
+                        className={cn(!containerWidth && 'invisible', 'drop-shadow-lg')}
+                        renderTextLayer={false}
+                        renderAnnotationLayer={false}
+                    />
+                </Document>
+              </div>
+            ) : (
+              <Image 
+                src={ebook.pdfDataUrl} 
+                alt={ebook.title || 'Ebook cover'} 
+                fill 
+                style={{ objectFit: 'cover' }}
+                onLoad={handleLoad}
+                priority
+              />
+            )}
+          </div>
         )}
         
         {ebook && (
           <button
             onClick={handleFavoriteClick}
-            className="absolute top-0 right-0 m-4 p-0 z-10"
+            className={cn(
+                "absolute top-0 right-0 m-4 p-0 z-10 transition-opacity duration-300",
+                isLoaded ? 'opacity-100' : 'opacity-0'
+            )}
             aria-label="Ajouter aux favoris"
           >
             <Heart
