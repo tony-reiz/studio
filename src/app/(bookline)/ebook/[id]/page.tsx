@@ -1,6 +1,5 @@
 'use client';
 
-import { useParams } from 'next/navigation';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { Share2, Trash2, Loader2, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -36,8 +35,8 @@ const Page = dynamic(() => import('react-pdf').then((mod) => mod.Page), {
 });
 
 
-export default function EbookViewerPage() {
-  const { id } = useParams() as { id: string };
+export default function EbookViewerPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   const { handleNavigate, handleBack } = useTransitionRouter();
   const { publishedEbooks, removePublishedEbook } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);

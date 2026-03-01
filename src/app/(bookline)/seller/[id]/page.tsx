@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { BuyEbookSheet } from '@/components/bookline/buy-ebook-sheet';
 
-export default function SellerProfilePage() {
+export default function SellerProfilePage({ params }: { params: { id: string } }) {
   const { handleNavigate, handleBack } = useTransitionRouter();
   const { publishedEbooks, allEbooks, userProfile } = useEbooks();
   const { toast } = useToast();

@@ -1,6 +1,5 @@
 'use client';
 
-import { useParams } from 'next/navigation';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { useEffect, useState } from 'react';
 import { ChevronLeft, Share2, AlertCircle, Star } from 'lucide-react';
@@ -25,8 +24,8 @@ const Document = dynamic(
 );
 
 
-export default function BuyEbookPage() {
-  const { id } = useParams() as { id: string };
+export default function BuyEbookPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   const { handleBack, handleNavigate } = useTransitionRouter();
   const { allEbooks, purchasedEbooks, purchaseEbook } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);

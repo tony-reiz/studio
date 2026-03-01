@@ -1,6 +1,5 @@
 'use client';
 
-import { useParams } from 'next/navigation';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
@@ -34,8 +33,8 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export default function EbookDetailsPage() {
-  const { id } = useParams() as { id: string };
+export default function EbookDetailsPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   const { handleBack } = useTransitionRouter();
   const { publishedEbooks } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
