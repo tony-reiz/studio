@@ -32,7 +32,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       setIsAnimationOpen(false);
       const timer = setTimeout(() => {
         setIsSheetMounted(false);
-      }, 300); // This must match the animation duration
+      }, 400); // This must match the animation duration
       return () => clearTimeout(timer);
     }
   }, [isComponentOpen]);
@@ -105,7 +105,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
           className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-full flex-col bg-background rounded-t-[50px] touch-none"
           style={{
             transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-            transition: isDragging ? 'none' : 'transform 0.3s ease-in-out',
+            transition: isDragging ? 'none' : 'transform 0.4s ease-in-out',
           }}
         >
           <h2 id="sheet-title" className="sr-only">Paramètres</h2>

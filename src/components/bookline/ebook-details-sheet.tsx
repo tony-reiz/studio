@@ -67,7 +67,7 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
             setIsAnimationOpen(false);
             const timer = setTimeout(() => {
                 setIsSheetMounted(false);
-            }, 300);
+            }, 400);
             return () => clearTimeout(timer);
         }
     }, [open]);
@@ -135,10 +135,10 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
-                className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-full flex-col bg-background rounded-t-[50px] touch-none"
+                className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none"
                 style={{
                     transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-                    transition: isDragging ? 'none' : 'transform 0.3s ease-in-out',
+                    transition: isDragging ? 'none' : 'transform 0.4s ease-in-out',
                 }}
             >
                 <h2 id="sheet-title" className="sr-only">Détails de l'ebook</h2>
