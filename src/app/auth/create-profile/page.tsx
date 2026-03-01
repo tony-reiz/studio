@@ -17,11 +17,16 @@ export default function CreateProfilePage() {
   const [bio, setBio] = useState('');
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { updateUserProfile } = useEbooks();
+  const { updateUserProfile, userProfile } = useEbooks();
 
   useEffect(() => {
     setIsMounted(true);
-  }, []);
+    if (userProfile.username !== 'utilisateur') {
+      setUsername(userProfile.username);
+    }
+    setBio(userProfile.bio);
+    setAvatarUrl(userProfile.avatarUrl);
+  }, [userProfile]);
 
   const handleNavigate = (path: string) => {
     setIsMounted(false);
@@ -61,10 +66,18 @@ export default function CreateProfilePage() {
 
   return (
     <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
-       <main className="flex-1 w-full flex flex-col items-center justify-center px-4">
+       <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
+        <header className="w-full py-6">
+            <div className="flex flex-col items-start">
+              <div className="-mt-1">
+                <p className="text-[24px] font-bold tracking-widest text-foreground">FINALISEZ VOTRE</p>
+                <h1 className="text-5xl sm:text-6xl font-extrabold text-primary -mt-1">INSCRIPTION</h1>
+              </div>
+            </div>
+        </header>
+
+       <main className="flex-1 w-full flex flex-col items-center justify-center -mt-16 md:-mt-24">
           <div className="flex flex-col items-center w-full max-w-sm">
-            <h1 className="text-3xl font-bold mb-8 text-center whitespace-nowrap">Finalisez votre inscription</h1>
-            
             <div className="relative mb-6">
               <input
                 type="file"
@@ -130,6 +143,7 @@ export default function CreateProfilePage() {
             Enregistrer
           </Button>
         </footer>
+       </div>
     </div>
   );
 }
