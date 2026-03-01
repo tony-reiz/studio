@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { cn } from '@/lib/utils';
+import { KeywordInput } from './keyword-input';
 
 export function SellForm() {
     const { control, watch } = useFormContext();
@@ -82,9 +83,9 @@ export function SellForm() {
                 render={({ field }) => (
                     <FormItem>
                      <div className="relative w-full">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">M</span>
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-10">M</span>
                         <FormControl>
-                            <Input placeholder="mots clés..." {...field} className={inputClasses}/>
+                            <KeywordInput placeholder="mots clés..." {...field}/>
                         </FormControl>
                     </div>
                     <FormMessage className="pl-4" />
