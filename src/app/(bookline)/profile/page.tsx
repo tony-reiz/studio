@@ -31,14 +31,13 @@ export default function ProfilePage() {
   const userPublications = publishedEbooks;
   const { toast } = useToast();
   const longPressTimer = useRef<NodeJS.Timeout | null>(null);
+  const [isCopied, setIsCopied] = useState(false);
 
   const handleCopyUsername = () => {
     if (!userProfile.username) return;
     navigator.clipboard.writeText(userProfile.username).then(() => {
-      toast({
-        title: "Copié !",
-        description: `Le nom d'utilisateur "${userProfile.username}" a été copié.`,
-      });
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 1000);
     }).catch(err => {
       console.error("Failed to copy username: ", err);
       toast({
@@ -143,7 +142,10 @@ export default function ProfilePage() {
               </AvatarFallback>
             </Avatar>
             <div 
-              className="bg-foreground text-background text-sm font-semibold rounded-full px-12 mt-4 h-9 flex items-center justify-center cursor-pointer select-none"
+              className={cn(
+                "text-sm font-semibold rounded-full px-12 mt-4 h-9 flex items-center justify-center cursor-pointer select-none transition-colors duration-300",
+                isCopied ? 'bg-green-500 text-white' : 'bg-foreground text-background'
+              )}
               onMouseDown={handlePressStart}
               onMouseUp={handlePressEnd}
               onMouseLeave={handlePressEnd}

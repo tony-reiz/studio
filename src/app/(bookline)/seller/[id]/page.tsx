@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { User, Share2, ChevronLeft, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
@@ -8,20 +8,20 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
 export default function SellerProfilePage() {
   const { handleNavigate, handleBack } = useTransitionRouter();
   const { publishedEbooks, userProfile } = useEbooks();
   const { toast } = useToast();
   const longPressTimer = useRef<NodeJS.Timeout | null>(null);
+  const [isCopied, setIsCopied] = useState(false);
 
   const handleCopyUsername = () => {
     if (!userProfile.username) return;
     navigator.clipboard.writeText(userProfile.username).then(() => {
-      toast({
-        title: "Copié !",
-        description: `Le nom d'utilisateur "${userProfile.username}" a été copié.`,
-      });
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 1000);
     }).catch(err => {
       console.error("Failed to copy username: ", err);
       toast({
@@ -70,7 +70,10 @@ export default function SellerProfilePage() {
               </AvatarFallback>
             </Avatar>
             <div 
-              className="bg-foreground text-background text-sm font-semibold rounded-full px-16 py-1.5 mt-4 cursor-pointer select-none"
+              className={cn(
+                "text-sm font-semibold rounded-full px-16 py-1.5 mt-4 cursor-pointer select-none transition-colors duration-300",
+                isCopied ? 'bg-green-500 text-white' : 'bg-foreground text-background'
+              )}
               onMouseDown={handlePressStart}
               onMouseUp={handlePressEnd}
               onMouseLeave={handlePressEnd}
