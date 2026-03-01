@@ -112,7 +112,7 @@ export default function CreateProfilePage() {
         </header>
 
        <main className="flex-1 w-full flex flex-col items-center pt-8 md:pt-12 pb-28">
-          <div className="flex flex-col items-center w-full max-w-sm">
+          <div className="flex flex-col items-center w-full max-w-[18rem] sm:max-w-sm">
             <div className="relative mb-6 animate-float">
               <input
                 type="file"
