@@ -17,10 +17,11 @@ interface SearchOverlayProps {
 
 export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
   const [query, setQuery] = useState('');
-  const [displayEbooks, setDisplayEbooks] = useState<Ebook[]>([]);
+  const [recommendedEbooks, setRecommendedEbooks] = useState<Ebook[]>([]);
+  const [otherEbooks, setOtherEbooks] = useState<Ebook[]>([]);
+  const [searchResults, setSearchResults] = useState<Ebook[]>([]);
   const [isContentVisible, setIsContentVisible] = useState(false);
   const [shouldRenderContent, setShouldRenderContent] = useState(false);
-  const [title, setTitle] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { handleNavigate } = useTransitionRouter();
   const { publishedEbooks, selectedInterests } = useEbooks();
@@ -34,7 +35,8 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
       visibilityTimer = setTimeout(() => setIsContentVisible(true), 20);
 
       if (query.length > 0) {
-        setTitle(null); // No title for direct search results
+        setRecommendedEbooks([]);
+        setOtherEbooks([]);
         const lowerCaseQuery = query.toLowerCase();
         const filtered = ebooks.filter(
           (ebook) =>
@@ -42,27 +44,38 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
             ebook.description.toLowerCase().includes(lowerCaseQuery) ||
             ebook.keywords.toLowerCase().includes(lowerCaseQuery)
         );
-        setDisplayEbooks(filtered);
+        setSearchResults(filtered);
       } else {
-        // Recommendation logic
+        setSearchResults([]);
+        const recommended: Ebook[] = [];
+        const others: Ebook[] = [];
+
         if (selectedInterests.length > 0) {
-          setTitle("Suggestions pour vous");
-          const recommended = ebooks.filter(ebook => {
-              const ebookKeywords = ebook.keywords.toLowerCase().split(',').map(k => k.trim());
-              return selectedInterests.some(interest => ebookKeywords.includes(interest));
-          });
-          setDisplayEbooks(recommended);
+            ebooks.forEach(ebook => {
+                const ebookKeywords = ebook.keywords.toLowerCase().split(',').map(k => k.trim());
+                const isRecommended = selectedInterests.some(interest => ebookKeywords.includes(interest));
+
+                if (isRecommended) {
+                    recommended.push(ebook);
+                } else {
+                    others.push(ebook);
+                }
+            });
         } else {
-          setTitle(null);
-          setDisplayEbooks([]);
+            others.push(...ebooks);
         }
+        
+        setRecommendedEbooks(recommended);
+        setOtherEbooks(others);
       }
     } else {
       setIsContentVisible(false);
       renderTimer = setTimeout(() => {
-        setShouldRenderContent(false)
-        setDisplayEbooks([]);
-        setTitle(null);
+        setShouldRenderContent(false);
+        setRecommendedEbooks([]);
+        setOtherEbooks([]);
+        setSearchResults([]);
+        if (query) setQuery('');
       }, 300); // Match animation duration
     }
     
@@ -78,9 +91,6 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
         inputRef.current?.focus();
       }, 100);
       return () => clearTimeout(timer);
-    } else {
-      // Reset query when closing
-      if (query) setQuery('');
     }
   }, [isOpen]);
 
@@ -102,6 +112,8 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
     }
     return "Saisissez une recherche pour trouver des ebooks."
   }
+
+  const showEmptyState = query.length === 0 && recommendedEbooks.length === 0 && otherEbooks.length === 0;
 
   return (
     <div
@@ -146,19 +158,52 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
           >
              {shouldRenderContent && (
               <>
-                {displayEbooks.length > 0 ? (
-                  <div>
-                    {title && <h3 className="text-sm font-semibold text-muted-foreground mb-4">{title}</h3>}
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-                      {displayEbooks.map((ebook) => (
-                        <EbookCard key={ebook.id} ebook={ebook} onCardClick={handleEbookClick} />
-                      ))}
-                    </div>
-                  </div>
+                {query.length > 0 ? (
+                  <>
+                    {searchResults.length > 0 ? (
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
+                        {searchResults.map((ebook) => (
+                          <EbookCard key={ebook.id} ebook={ebook} onCardClick={handleEbookClick} />
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center text-muted-foreground mt-12">
+                        {`Aucun résultat trouvé pour "${query}".`}
+                      </div>
+                    )}
+                  </>
                 ) : (
-                  <div className="text-center text-muted-foreground mt-12">
-                    {getEmptyStateMessage()}
-                  </div>
+                  <>
+                    {recommendedEbooks.length > 0 && (
+                      <div className="mb-8">
+                        <h3 className="text-sm font-semibold text-muted-foreground mb-4">Suggestions pour vous</h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
+                          {recommendedEbooks.map((ebook) => (
+                            <EbookCard key={ebook.id} ebook={ebook} onCardClick={handleEbookClick} />
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {otherEbooks.length > 0 && (
+                      <div>
+                        {recommendedEbooks.length > 0 && (
+                          <h3 className="text-sm font-semibold text-muted-foreground mb-4">Autres ebooks</h3>
+                        )}
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
+                          {otherEbooks.map((ebook) => (
+                            <EbookCard key={ebook.id} ebook={ebook} onCardClick={handleEbookClick} />
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {showEmptyState && (
+                        <div className="text-center text-muted-foreground mt-12">
+                            {getEmptyStateMessage()}
+                        </div>
+                    )}
+                  </>
                 )}
               </>
             )}
