@@ -59,7 +59,7 @@ export default function CreateProfilePage() {
     }
 
     updateUserProfile({ username: newUsername, bio, avatarUrl });
-    handleNavigate('/profile');
+    handleNavigate('/auth/interests');
   };
   
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
