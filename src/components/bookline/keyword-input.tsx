@@ -72,7 +72,8 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
     if (newKeywordText && !keywords.some(k => k.text === newKeywordText)) {
       const newKeywords = [...keywords, { id: crypto.randomUUID(), text: newKeywordText, state: 'entering' }];
       setKeywords(newKeywords);
-      updateParent(newKeywords);
+      // Defer parent update to avoid calling it during render cycle
+      setTimeout(() => updateParent(newKeywords), 0);
     }
     setInputValue('');
   };
@@ -118,7 +119,7 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
                     key={keyword.id} 
                     variant="default" 
                     className={cn(
-                        "flex-shrink-0 whitespace-nowrap rounded-full py-1 px-2 transition-opacity duration-300",
+                        "flex-shrink-0 whitespace-nowrap rounded-full py-1 px-3 transition-opacity duration-300",
                         keyword.state !== 'visible' && 'opacity-0'
                     )}
                 >
