@@ -98,7 +98,9 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
         )}
       >
         {ebook && !isLoaded && (
-          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          <div className="absolute inset-0 flex items-center justify-center z-10">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          </div>
         )}
         
         {ebook?.pdfDataUrl && (
@@ -131,7 +133,6 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
                 fill 
                 style={{ objectFit: 'cover' }}
                 onLoad={handleLoad}
-                priority
               />
             )}
           </div>
@@ -141,7 +142,7 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
           <button
             onClick={handleFavoriteClick}
             className={cn(
-                "absolute top-0 right-0 m-4 p-0 z-10 transition-opacity duration-300",
+                "absolute top-0 right-0 m-4 p-0 z-20 transition-opacity duration-300",
                 isLoaded ? 'opacity-100' : 'opacity-0'
             )}
             aria-label="Ajouter aux favoris"
