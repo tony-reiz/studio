@@ -138,75 +138,78 @@ export default function EbookViewerPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
-      <main className="flex-1 flex w-full items-center justify-center">
-        <div className="relative w-full max-w-sm">
-            <div className="absolute top-4 -left-16">
-                <Button onClick={handleBack} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
-                    <ChevronLeft className="h-6 w-6" />
-                </Button>
-            </div>
-            <div className="h-[70vh]" onClick={() => isMobile && setIsSheetOpen(true)}>
-                <div className="w-full h-full relative">
-                    <div ref={viewerRef} className="w-full h-full overflow-y-auto rounded-lg bg-secondary">
-                        <Document
-                            file={ebook.pdfDataUrl}
-                            onLoadSuccess={onDocumentLoadSuccess}
-                            loading={null}
-                            className={cn(
-                                "flex flex-col items-center transition-opacity duration-300 ease-in-out",
-                                isPdfVisible ? "opacity-100" : "opacity-0"
-                            )}
-                        >
-                            {Array.from(new Array(numPages || 0), (el, index) => (
-                                <div
-                                    key={`page_${index + 1}`}
-                                    ref={(el) => (pageRefs.current[index] = el)}
-                                    data-page-number={index + 1}
-                                    className="mb-2 last:mb-0"
-                                >
-                                    <Page
-                                        pageNumber={index + 1}
-                                        width={containerWidth ? containerWidth : undefined}
-                                        className={cn(!containerWidth && 'invisible')}
-                                        renderTextLayer={false}
-                                        renderAnnotationLayer={false}
-                                    />
-                                </div>
-                            ))}
-                        </Document>
-                    </div>
-                    {numPages && (
-                        <div className="absolute bottom-4 right-4 bg-black/70 text-white text-xs rounded-full px-3 py-1 z-10">
-                            {currentPage}/{numPages}
-                        </div>
-                    )}
-                </div>
-            </div>
-            <div className="absolute top-4 -right-16 flex flex-col gap-3">
-                <Button onClick={handleDelete} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
-                    <Trash2 className="h-6 w-6" />
-                </Button>
-                <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
-                    <Share2 className="h-6 w-6" />
-                </Button>
-            </div>
-        </div>
-      </main>
+    <>
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+        <main className="flex-1 flex w-full items-center justify-center">
+          <div className="relative w-full max-w-sm">
+              <div className="absolute top-4 -left-16">
+                  <Button onClick={handleBack} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
+                      <ChevronLeft className="h-6 w-6" />
+                  </Button>
+              </div>
+              <div className="h-[70vh]" onClick={() => isMobile && setIsSheetOpen(true)}>
+                  <div className="w-full h-full relative">
+                      <div ref={viewerRef} className="w-full h-full overflow-y-auto rounded-lg bg-secondary">
+                          <Document
+                              file={ebook.pdfDataUrl}
+                              onLoadSuccess={onDocumentLoadSuccess}
+                              loading={null}
+                              className={cn(
+                                  "flex flex-col items-center transition-opacity duration-300 ease-in-out",
+                                  isPdfVisible ? "opacity-100" : "opacity-0"
+                              )}
+                          >
+                              {Array.from(new Array(numPages || 0), (el, index) => (
+                                  <div
+                                      key={`page_${index + 1}`}
+                                      ref={(el) => (pageRefs.current[index] = el)}
+                                      data-page-number={index + 1}
+                                      className="mb-2 last:mb-0"
+                                  >
+                                      <Page
+                                          pageNumber={index + 1}
+                                          width={containerWidth ? containerWidth : undefined}
+                                          className={cn(!containerWidth && 'invisible')}
+                                          renderTextLayer={false}
+                                          renderAnnotationLayer={false}
+                                      />
+                                  </div>
+                              ))}
+                          </Document>
+                      </div>
+                      {numPages && (
+                          <div className="absolute bottom-4 right-4 bg-black/70 text-white text-xs rounded-full px-3 py-1 z-10">
+                              {currentPage}/{numPages}
+                          </div>
+                      )}
+                  </div>
+              </div>
+              <div className="absolute top-4 -right-16 flex flex-col gap-3">
+                  <Button onClick={handleDelete} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
+                      <Trash2 className="h-6 w-6" />
+                  </Button>
+                  <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11">
+                      <Share2 className="h-6 w-6" />
+                  </Button>
+              </div>
+          </div>
+        </main>
 
-      <footer className="w-full max-w-[16rem] pb-8 pt-4">
-        {isClient && isMobile && ebook ? (
-            <EbookDetailsSheet ebook={ebook} open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-              <Button className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90">
+        <footer className="w-full max-w-[16rem] pb-8 pt-4">
+          {isClient && isMobile ? (
+              <Button onClick={() => setIsSheetOpen(true)} className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90">
                   Détail
               </Button>
-            </EbookDetailsSheet>
-          ) : (
-            <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90">
-                Détail
-            </Button>
-        )}
-      </footer>
-    </div>
+            ) : (
+              <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90">
+                  Détail
+              </Button>
+          )}
+        </footer>
+      </div>
+      {isClient && isMobile && (
+        <EbookDetailsSheet ebook={ebook} open={isSheetOpen} onOpenChange={setIsSheetOpen} />
+      )}
+    </>
   );
 }
