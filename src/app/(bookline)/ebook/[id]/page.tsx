@@ -3,7 +3,7 @@
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { Share2, Trash2, Loader2, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, type TouchEvent } from 'react';
 import { useParams } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -138,14 +138,14 @@ export default function EbookViewerPage() {
     }
   };
   
-  const getDistance = (touches: React.TouchList) => {
+  const getDistance = (touches: TouchList) => {
     return Math.hypot(
       touches[0].pageX - touches[1].pageX,
       touches[0].pageY - touches[1].pageY
     );
   };
 
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+  const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
     if (e.touches.length === 2) {
       e.preventDefault();
       setIsZooming(true);
@@ -153,7 +153,7 @@ export default function EbookViewerPage() {
     }
   };
 
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+  const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
     if (isZooming && e.touches.length === 2) {
       e.preventDefault();
       const newDistance = getDistance(e.touches);
@@ -163,7 +163,7 @@ export default function EbookViewerPage() {
     }
   };
 
-  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+  const handleTouchEnd = (e: TouchEvent<HTMLDivElement>) => {
     if (isZooming) {
       setIsZooming(false);
       initialDistance.current = 0;
@@ -194,17 +194,24 @@ export default function EbookViewerPage() {
                       <ChevronLeft className="h-6 w-6" />
                   </Button>
               </div>
-              <div className="h-[70vh]">
+              <div className="aspect-[210/297]">
                   <div 
                     ref={viewerRef} 
                     className="w-full h-full overflow-auto rounded-lg bg-secondary"
                     onTouchStart={handleTouchStart}
                     onTouchMove={handleTouchMove}
                     onTouchEnd={handleTouchEnd}
+                    style={{touchAction: 'none'}}
                   >
                     <div 
                       onClick={handleViewerClick}
                       className="w-full h-full"
+                      style={{ 
+                        transform: `scale(${scale})`,
+                        transformOrigin: 'center center',
+                        transition: isZooming ? 'none' : 'transform 0.2s ease-out',
+                        cursor: 'grab'
+                     }}
                     >
                           <Document
                               file={ebook.pdfDataUrl}
@@ -214,12 +221,6 @@ export default function EbookViewerPage() {
                                   "flex flex-col items-center transition-opacity duration-300 ease-in-out",
                                   isPdfVisible ? "opacity-100" : "opacity-0"
                               )}
-                              style={{ 
-                                transform: `scale(${scale})`,
-                                transformOrigin: 'center center',
-                                transition: isZooming ? 'none' : 'transform 0.2s ease-out',
-                                cursor: 'grab'
-                             }}
                           >
                               {Array.from(new Array(numPages || 0), (el, index) => (
                                   <div
