@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 
 export default function SellerProfilePage() {
   const { handleNavigate, handleBack } = useTransitionRouter();
-  const { publishedEbooks, allEbooks } = useEbooks();
+  const { publishedEbooks, allEbooks, userProfile } = useEbooks();
   const { toast } = useToast();
   const [isCopied, setIsCopied] = useState(false);
 
@@ -20,11 +20,11 @@ export default function SellerProfilePage() {
   const publishedEbookIds = new Set(publishedEbooks.map(e => e.id));
   const sellerEbooks = allEbooks.filter(ebook => !publishedEbookIds.has(ebook.id));
   
-  // For now, the seller profile is static.
+  // The seller profile is static for now, but uses the user's bio and avatar.
   const sellerProfile = {
       username: 'bookline',
-      bio: 'Découvrez notre collection d\'ebooks exclusifs sur des sujets variés.',
-      avatarUrl: null
+      bio: userProfile.bio || 'Découvrez notre collection d\'ebooks exclusifs sur des sujets variés.',
+      avatarUrl: userProfile.avatarUrl
   };
 
   const handleCopyUsername = () => {
