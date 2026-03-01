@@ -60,7 +60,7 @@ export default function InterestsPage() {
           </p>
         </header>
 
-        <main className="flex-1 w-full flex flex-col items-center pt-8 pb-28">
+        <main className="flex-1 w-full flex flex-col items-center pt-4 sm:pt-8 pb-28">
           <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
             {interests.map((interest) => (
               <Button
