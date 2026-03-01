@@ -27,6 +27,7 @@ const Document = dynamic(
 
 export default function BuyEbookPage() {
   const params = useParams();
+  const id = params.id as string;
   const { handleBack, handleNavigate } = useTransitionRouter();
   const { allEbooks, purchasedEbooks, purchaseEbook } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
@@ -35,11 +36,11 @@ export default function BuyEbookPage() {
 
 
   useEffect(() => {
-    if (params.id && allEbooks.length > 0) {
-      const foundEbook = allEbooks.find((e) => e.id === params.id);
+    if (id && allEbooks.length > 0) {
+      const foundEbook = allEbooks.find((e) => e.id === id);
       setEbook(foundEbook);
     }
-  }, [params.id, allEbooks]);
+  }, [id, allEbooks]);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);

@@ -38,6 +38,7 @@ const Page = dynamic(() => import('react-pdf').then((mod) => mod.Page), {
 
 export default function EbookViewerPage() {
   const params = useParams();
+  const id = params.id as string;
   const { handleNavigate, handleBack } = useTransitionRouter();
   const { publishedEbooks, removePublishedEbook } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
@@ -59,11 +60,11 @@ export default function EbookViewerPage() {
   }, []);
 
   useEffect(() => {
-    if (params.id && publishedEbooks.length > 0) {
-      const foundEbook = publishedEbooks.find((e) => e.id === params.id);
+    if (id && publishedEbooks.length > 0) {
+      const foundEbook = publishedEbooks.find((e) => e.id === id);
       setEbook(foundEbook);
     }
-  }, [params.id, publishedEbooks]);
+  }, [id, publishedEbooks]);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);

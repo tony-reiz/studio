@@ -36,16 +36,17 @@ const chartConfig = {
 
 export default function EbookDetailsPage() {
   const params = useParams();
+  const id = params.id as string;
   const { handleBack } = useTransitionRouter();
   const { publishedEbooks } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
 
   useEffect(() => {
-    if (params.id && publishedEbooks.length > 0) {
-      const foundEbook = publishedEbooks.find((e) => e.id === params.id);
+    if (id && publishedEbooks.length > 0) {
+      const foundEbook = publishedEbooks.find((e) => e.id === id);
       setEbook(foundEbook);
     }
-  }, [params.id, publishedEbooks]);
+  }, [id, publishedEbooks]);
 
   if (!ebook) {
     return <div className="flex h-screen w-full items-center justify-center bg-background">Chargement...</div>;
