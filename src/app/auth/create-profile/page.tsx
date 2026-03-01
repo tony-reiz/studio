@@ -103,7 +103,7 @@ export default function CreateProfilePage() {
             <div className="flex flex-col items-start">
               <div>
                 <p className="text-[24px] font-bold tracking-widest text-foreground">FINALISEZ</p>
-                <h1 className="text-[46px] sm:text-[58px] font-extrabold text-primary">L’INSCRIPTION !</h1>
+                <h1 className="text-[46px] sm:text-[58px] font-extrabold text-primary -mt-2">L’INSCRIPTION !</h1>
               </div>
             </div>
         </header>
