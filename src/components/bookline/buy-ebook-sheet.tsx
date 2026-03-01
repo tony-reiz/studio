@@ -33,6 +33,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   const [isComponentOpen, setIsComponentOpen] = useState(!!ebook);
   const [isSheetMounted, setIsSheetMounted] = useState(!!ebook);
   const [isAnimationOpen, setIsAnimationOpen] = useState(false);
+  const [activeEbook, setActiveEbook] = useState<Ebook | null>(ebook);
 
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartY, setDragStartY] = useState(0);
@@ -42,6 +43,12 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   const { purchasedEbooks, purchaseEbook } = useEbooks();
   const [numPages, setNumPages] = useState<number | null>(null);
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (ebook) {
+      setActiveEbook(ebook);
+    }
+  }, [ebook]);
 
   useEffect(() => {
     setIsComponentOpen(!!ebook);
@@ -114,24 +121,24 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
     // In sheet, clicking card does nothing.
   };
 
-  const isPurchased = ebook ? purchasedEbooks.some(p => p.id === ebook.id) : false;
+  const isPurchased = activeEbook ? purchasedEbooks.some(p => p.id === activeEbook.id) : false;
 
   const handlePayment = () => {
-    if (!ebook) return;
+    if (!activeEbook) return;
     if (isPurchased) {
       closeSheet();
-      handleNavigate(`/ebook/${ebook.id}`);
+      handleNavigate(`/ebook/${activeEbook.id}`);
     } else {
-      purchaseEbook(ebook);
+      purchaseEbook(activeEbook);
       toast({
         title: "Achat réussi !",
-        description: `Vous pouvez maintenant lire "${ebook.title}".`,
+        description: `Vous pouvez maintenant lire "${activeEbook.title}".`,
       });
     }
   };
 
   const CUSTOMER_FEE = 3.5;
-  const ebookPriceNumber = ebook ? parseFloat(ebook.price.replace(',', '.')) || 0 : 0;
+  const ebookPriceNumber = activeEbook ? parseFloat(activeEbook.price.replace(',', '.')) || 0 : 0;
   const totalPriceForCustomer = ebookPriceNumber + CUSTOMER_FEE;
 
   const formatPrice = (value: number | null): string => {
@@ -161,8 +168,8 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
         aria-labelledby="sheet-title"
     >
       <div className="hidden">
-        {ebook?.pdfDataUrl.startsWith('data:application/pdf') && (
-            <Document file={ebook.pdfDataUrl} onLoadSuccess={onDocumentLoadSuccess} />
+        {activeEbook?.pdfDataUrl.startsWith('data:application/pdf') && (
+            <Document file={activeEbook.pdfDataUrl} onLoadSuccess={onDocumentLoadSuccess} />
         )}
       </div>
       
@@ -185,13 +192,13 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
           transition: isDragging ? 'none' : 'transform 0.5s ease-in-out',
         }}
       >
-        <h2 id="sheet-title" className="sr-only">Acheter l'ebook {ebook?.title}</h2>
+        <h2 id="sheet-title" className="sr-only">Acheter l'ebook {activeEbook?.title}</h2>
         <div
             className="mx-auto w-20 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/50 my-3"
         />
 
         <div className="overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            {ebook && (
+            {activeEbook && (
                 <main className="w-full flex flex-col items-center pt-2 pb-16 gap-8 px-4">
                 <div className="w-full max-w-5xl flex flex-col md:flex-row md:items-start md:justify-center md:gap-4">
                     <div className="flex justify-center md:justify-end">
@@ -203,7 +210,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
                                 <Star className="w-8 h-8 text-[#DFDFDF] fill-[#DFDFDF]" />
                                 <Star className="w-8 h-8 text-[#DFDFDF] fill-[#DFDFDF]" />
                             </div>
-                            <EbookCard ebook={ebook} onCardClick={handleCardClick} />
+                            <EbookCard ebook={activeEbook} onCardClick={handleCardClick} />
                         </div>
                     </div>
                     <div className="flex justify-center md:justify-start pt-8 md:pt-0">
@@ -231,20 +238,20 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
                                 <div className="relative w-full">
                                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">T</span>
                                     <div className={cn(inputClasses, "overflow-x-auto scrollbar-hide")}>
-                                    <p className="text-foreground whitespace-nowrap">{ebook.title}</p>
+                                    <p className="text-foreground whitespace-nowrap">{activeEbook.title}</p>
                                     </div>
                                 </div>
                                 <div className="relative w-full">
                                     <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-muted-foreground">D</span>
                                     <div className={cn(textareaClasses, 'whitespace-pre-wrap')}>
-                                    <p className="text-foreground">{ebook.description}</p>
+                                    <p className="text-foreground">{activeEbook.description}</p>
                                     </div>
                                 </div>
                                 <div className="relative w-full">
                                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-10">M</span>
                                     <div className="h-12 w-full text-base bg-secondary border-0 rounded-full flex items-center p-0 overflow-hidden">
                                     <div className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-4 scrollbar-hide">
-                                        {ebook.keywords.split(',').map((keyword, index) => (
+                                        {activeEbook.keywords.split(',').map((keyword, index) => (
                                         <Badge key={index} variant="default" className="flex-shrink-0 whitespace-nowrap rounded-full py-1 px-3">
                                             {keyword.trim()}
                                         </Badge>
