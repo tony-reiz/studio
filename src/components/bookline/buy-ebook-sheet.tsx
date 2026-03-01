@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, type TouchEvent } from 'react';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -35,21 +35,27 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   const { toast } = useToast();
   
   const sheetRef = useRef<HTMLDivElement>(null);
-  const [shouldRender, setShouldRender] = useState(!!ebook);
-
+  const [isMounted, setIsMounted] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartY, setDragStartY] = useState(0);
-  const [translateY, setTranslateY] = useState(window.innerHeight);
+  const [translateY, setTranslateY] = useState(0);
 
   useEffect(() => {
     if (ebook) {
-      setShouldRender(true);
-      // Use a timeout to ensure the component is rendered before starting animation
-      setTimeout(() => setTranslateY(0), 10);
+      setIsMounted(true);
+      // Ensure the component is mounted before triggering the open animation
+      const timer = setTimeout(() => {
+        setIsOpen(true);
+        setTranslateY(0);
+      }, 10);
+      return () => clearTimeout(timer);
     } else {
-      setTranslateY(window.innerHeight);
-      // Unmount after animation
-      setTimeout(() => setShouldRender(false), 1000);
+      setIsOpen(false);
+      // Unmount after the close animation completes
+      const timer = setTimeout(() => setIsMounted(false), 1000);
+      return () => clearTimeout(timer);
     }
   }, [ebook]);
 
@@ -58,17 +64,24 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
     onOpenChange(false);
   };
   
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+  const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
     setIsDragging(true);
     setDragStartY(e.touches[0].clientY);
+    // We set the initial translateY to its current value, which is likely 0
+    // This prevents a jump if the user starts dragging from a non-zero position in the future.
+    const style = window.getComputedStyle(e.currentTarget);
+    const matrix = new DOMMatrix(style.transform);
+    setTranslateY(matrix.m42);
   };
 
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+  const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
     if (!isDragging) return;
     const currentY = e.touches[0].clientY;
-    let deltaY = currentY - dragStartY;
-    if (deltaY < 0) deltaY = 0; // Prevent dragging up
-    setTranslateY(deltaY);
+    const deltaY = currentY - dragStartY;
+    // Only allow dragging down
+    if (deltaY > 0) {
+      setTranslateY(deltaY);
+    }
   };
 
   const handleTouchEnd = () => {
@@ -76,10 +89,12 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
     setIsDragging(false);
     
     const sheetHeight = sheetRef.current?.clientHeight || 0;
+    // If dragged more than a quarter of the way down, close it
     if (translateY > sheetHeight / 4) {
       closeSheet();
     } else {
-      setTranslateY(0); // Snap back to top
+      // Otherwise, snap it back to the top
+      setTranslateY(0);
     }
   };
 
@@ -127,16 +142,13 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full flex items-center";
   const textareaClasses = "pl-11 pr-4 h-[148px] w-full text-base bg-secondary border-0 rounded-[30px] py-3.5 leading-snug flex items-start overflow-y-auto";
 
-  if (!shouldRender) {
+  if (!isMounted) {
     return null;
   }
 
   return (
     <div 
-        className={cn(
-            "fixed inset-0 z-50",
-        )}
-        onClick={closeSheet}
+        className="fixed inset-0 z-50"
         role="dialog"
         aria-modal="true"
         aria-labelledby="sheet-title"
@@ -146,22 +158,31 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
             <Document file={ebook.pdfDataUrl} onLoadSuccess={onDocumentLoadSuccess} />
         )}
       </div>
-
+      
+      {/* Overlay */}
+      <div
+        className={cn(
+          "fixed inset-0 bg-black/60 transition-opacity duration-1000",
+          isOpen ? 'opacity-100' : 'opacity-0'
+        )}
+        onClick={closeSheet}
+      />
+      
       <div
         ref={sheetRef}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
         onClick={(e) => e.stopPropagation()}
         className={cn(
-            "absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px]",
-            !isDragging && "transition-transform duration-1000 ease-in-out"
+            "absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none",
+            isDragging ? 'transition-none' : 'transition-transform duration-1000 ease-in-out'
         )}
-        style={{ transform: `translateY(${translateY}px)` }}
+        style={{ transform: `translateY(${isOpen ? translateY : window.innerHeight}px)` }}
       >
         <h2 id="sheet-title" className="sr-only">Acheter l'ebook {ebook?.title}</h2>
         <div
-            className="mx-auto w-20 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/50 my-3 cursor-grab active:cursor-grabbing"
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
+            className="mx-auto w-20 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/50 my-3"
         />
 
         <div className="overflow-y-auto">
