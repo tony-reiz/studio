@@ -69,7 +69,7 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
     >
         <div ref={scrollContainerRef} className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-2 scrollbar-hide">
             {keywords.map((keyword) => (
-                <Badge key={keyword} variant="default" className="flex-shrink-0 whitespace-nowrap rounded-md py-1 px-2">
+                <Badge key={keyword} variant="default" className="flex-shrink-0 whitespace-nowrap rounded-full py-1 px-2">
                 {keyword}
                 <button 
                     type="button"
