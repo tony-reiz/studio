@@ -116,7 +116,7 @@ export function SellForm() {
                 <p>votre gain net</p>
                 <p>total de l'ebook</p>
             </div>
-            <div className='bg-foreground text-background rounded-l-[30px] px-12 py-4 text-sm flex flex-col justify-center text-right space-y-1'>
+            <div className='bg-foreground text-background rounded-l-[30px] px-8 py-4 text-sm flex flex-col justify-center text-right space-y-1'>
                 <p>{formatPrice(ebookPrice)}</p>
                 <p>{formatPrice(netGain)}</p>
                 <p>{formatPrice(totalPriceForCustomer)}</p>
