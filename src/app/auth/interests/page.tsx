@@ -44,7 +44,7 @@ export default function InterestsPage() {
     handleNavigate('/home');
   };
 
-  const isButtonDisabled = selectedInterests.length < 3;
+  const isButtonDisabled = selectedInterests.length < 5;
 
   return (
     <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
@@ -57,7 +57,7 @@ export default function InterestsPage() {
             </div>
           </div>
           <p className="mt-4 text-muted-foreground max-w-2xl">
-            Sélectionnez au moins 3 sujets qui vous passionnent. Cela nous aidera à vous recommander les meilleurs ebooks.
+            Sélectionnez au moins 5 sujets qui vous passionnent. Cela nous aidera à vous recommander les meilleurs ebooks.
           </p>
         </header>
 
