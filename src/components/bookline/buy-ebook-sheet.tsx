@@ -35,29 +35,36 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   const { toast } = useToast();
   
   const sheetRef = useRef<HTMLDivElement>(null);
-  const [isMounted, setIsMounted] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isComponentOpen, setIsComponentOpen] = useState(!!ebook);
+  const [isSheetMounted, setIsSheetMounted] = useState(!!ebook);
+  const [isAnimationOpen, setIsAnimationOpen] = useState(false);
   
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartY, setDragStartY] = useState(0);
   const [translateY, setTranslateY] = useState(0);
 
   useEffect(() => {
-    if (ebook) {
-      setIsMounted(true);
-      // Ensure the component is mounted before triggering the open animation
+    setIsComponentOpen(!!ebook);
+  }, [ebook]);
+
+  useEffect(() => {
+    if (isComponentOpen) {
+      document.body.style.overflow = 'hidden';
+      setIsSheetMounted(true);
       const timer = setTimeout(() => {
-        setIsOpen(true);
+        setIsAnimationOpen(true);
         setTranslateY(0);
       }, 10);
       return () => clearTimeout(timer);
     } else {
-      setIsOpen(false);
-      // Unmount after the close animation completes
-      const timer = setTimeout(() => setIsMounted(false), 500);
+      document.body.style.overflow = 'auto';
+      setIsAnimationOpen(false);
+      const timer = setTimeout(() => {
+        setIsSheetMounted(false);
+      }, 500); // This must match the animation duration
       return () => clearTimeout(timer);
     }
-  }, [ebook]);
+  }, [isComponentOpen]);
 
 
   const closeSheet = () => {
@@ -140,7 +147,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full flex items-center";
   const textareaClasses = "pl-11 pr-4 h-[148px] w-full text-base bg-secondary border-0 rounded-[30px] py-3.5 leading-snug flex items-start overflow-y-auto";
 
-  if (!isMounted) {
+  if (!isSheetMounted) {
     return null;
   }
 
@@ -161,7 +168,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
       <div
         className={cn(
           "fixed inset-0 bg-black/60 transition-opacity duration-500",
-          isOpen ? 'opacity-100' : 'opacity-0'
+          isAnimationOpen ? 'opacity-100' : 'opacity-0'
         )}
         onClick={closeSheet}
       />
@@ -174,7 +181,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
         onClick={(e) => e.stopPropagation()}
         className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none"
         style={{
-          transform: `translateY(${isOpen ? translateY : window.innerHeight}px)`,
+          transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
           transition: isDragging ? 'none' : 'transform 0.5s ease-in-out',
         }}
       >
