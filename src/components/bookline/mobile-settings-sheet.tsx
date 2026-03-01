@@ -20,6 +20,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
   useEffect(() => {
     if (isComponentOpen) {
+      document.body.style.overflow = 'hidden';
       setIsSheetMounted(true);
       const timer = setTimeout(() => {
         setIsAnimationOpen(true);
@@ -27,24 +28,13 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       }, 10);
       return () => clearTimeout(timer);
     } else {
+      document.body.style.overflow = 'auto';
       setIsAnimationOpen(false);
       const timer = setTimeout(() => {
         setIsSheetMounted(false);
-      }, 500);
+      }, 500); // This must match the animation duration
       return () => clearTimeout(timer);
     }
-  }, [isComponentOpen]);
-
-  useEffect(() => {
-    if (isComponentOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
   }, [isComponentOpen]);
 
   const openSheet = () => setIsComponentOpen(true);
@@ -112,11 +102,11 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
           onClick={(e) => e.stopPropagation()}
-          className={cn(
-              "absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-full flex-col bg-background rounded-t-[50px] touch-none",
-              isDragging ? 'transition-none' : 'transition-transform duration-500 ease-in-out'
-          )}
-          style={{ transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)` }}
+          className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-full flex-col bg-background rounded-t-[50px] touch-none"
+          style={{
+            transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
+            transition: isDragging ? 'none' : 'transform 0.5s ease-in-out',
+          }}
         >
           <h2 id="sheet-title" className="sr-only">Paramètres</h2>
           <div

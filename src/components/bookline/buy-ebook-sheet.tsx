@@ -67,8 +67,6 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
     setIsDragging(true);
     setDragStartY(e.touches[0].clientY);
-    // We set the initial translateY to its current value, which is likely 0
-    // This prevents a jump if the user starts dragging from a non-zero position in the future.
     const style = window.getComputedStyle(e.currentTarget);
     const matrix = new DOMMatrix(style.transform);
     setTranslateY(matrix.m42);
@@ -174,11 +172,11 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         onClick={(e) => e.stopPropagation()}
-        className={cn(
-            "absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none",
-            isDragging ? 'transition-none' : 'transition-transform duration-500 ease-in-out'
-        )}
-        style={{ transform: `translateY(${isOpen ? translateY : window.innerHeight}px)` }}
+        className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none"
+        style={{
+          transform: `translateY(${isOpen ? translateY : window.innerHeight}px)`,
+          transition: isDragging ? 'none' : 'transform 0.5s ease-in-out',
+        }}
       >
         <h2 id="sheet-title" className="sr-only">Acheter l'ebook {ebook?.title}</h2>
         <div
