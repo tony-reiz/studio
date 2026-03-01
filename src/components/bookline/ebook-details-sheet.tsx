@@ -38,16 +38,18 @@ const chartConfig = {
 
 interface EbookDetailsSheetProps {
     ebook: Ebook;
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
 }
 
-export function EbookDetailsSheet({ ebook }: EbookDetailsSheetProps) {
+export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsSheetProps) {
   const numberOfSales = 0; // Hardcoded for now
   const ebookPriceNumber = parseFloat(ebook.price.replace(',', '.')) || 0;
   const SELLER_FEE = 3;
   const totalRevenue = (ebookPriceNumber - SELLER_FEE) * numberOfSales;
 
   return (
-    <Drawer>
+    <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger asChild>
         <Button className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90">
             Détail

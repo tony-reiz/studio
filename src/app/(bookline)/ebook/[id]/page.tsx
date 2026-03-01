@@ -48,6 +48,7 @@ export default function EbookViewerPage() {
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -140,7 +141,7 @@ export default function EbookViewerPage() {
                     <ChevronLeft className="h-6 w-6" />
                 </Button>
             </div>
-            <div className="h-[70vh]">
+            <div className="h-[70vh]" onClick={() => isMobile && setIsSheetOpen(true)}>
                 <div className="w-full h-full relative">
                     <div ref={viewerRef} className="w-full h-full overflow-y-auto rounded-lg bg-secondary">
                         <Document
@@ -190,7 +191,7 @@ export default function EbookViewerPage() {
 
       <footer className="w-full max-w-[16rem] pb-8 pt-4">
         {isClient && isMobile && ebook ? (
-            <EbookDetailsSheet ebook={ebook} />
+            <EbookDetailsSheet ebook={ebook} open={isSheetOpen} onOpenChange={setIsSheetOpen} />
           ) : (
             <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90">
                 Détail
