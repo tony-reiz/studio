@@ -88,7 +88,7 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
     const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
         if (!isDragging) return;
         const currentY = e.touches[0].clientY;
-        const deltaY = currentY - dragStartY;
+        let deltaY = currentY - dragStartY;
         if (deltaY < 0) {
             deltaY = 0;
         }
@@ -135,7 +135,7 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
-                className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none"
+                className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-full flex-col bg-background rounded-t-[50px] touch-none"
                 style={{
                     transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
                     transition: isDragging ? 'none' : 'transform 0.5s ease-in-out',
