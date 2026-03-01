@@ -35,6 +35,18 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     }
   }, [isComponentOpen]);
 
+  useEffect(() => {
+    if (isComponentOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isComponentOpen]);
+
   const openSheet = () => setIsComponentOpen(true);
   const closeSheet = () => setIsComponentOpen(false);
   
