@@ -194,15 +194,16 @@ export default function EbookViewerPage() {
                       <ChevronLeft className="h-6 w-6" />
                   </Button>
               </div>
-              <div 
-                className="h-[70vh]" 
-                onClick={handleViewerClick}
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
-              >
+              <div className="h-[70vh]">
                   <div className="w-full h-full relative">
-                      <div ref={viewerRef} className="w-full h-full overflow-auto rounded-lg bg-secondary">
+                      <div 
+                        ref={viewerRef} 
+                        className="w-full h-full overflow-auto rounded-lg bg-secondary"
+                        onClick={handleViewerClick}
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleTouchEnd}
+                      >
                           <Document
                               file={ebook.pdfDataUrl}
                               onLoadSuccess={onDocumentLoadSuccess}
