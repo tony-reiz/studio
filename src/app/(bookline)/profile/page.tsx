@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { ChevronLeft, User, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
@@ -16,9 +15,8 @@ import { BuyEbookSheet } from '@/components/bookline/buy-ebook-sheet';
 
 type ActiveTab = 'achats' | 'publications' | 'favoris';
 
-export default function ProfilePage() {
-  const searchParams = useSearchParams();
-  const initialTabQuery = searchParams.get('tab');
+export default function ProfilePage({ searchParams }: { searchParams?: { tab?: string } }) {
+  const initialTabQuery = searchParams?.tab;
   const initialTab: ActiveTab = initialTabQuery === 'achats' || initialTabQuery === 'publications' || initialTabQuery === 'favoris' 
                                     ? initialTabQuery 
                                     : 'publications';
