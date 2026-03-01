@@ -16,6 +16,7 @@ export default function CreateProfilePage() {
   const [username, setUsername] = useState('');
   const [bio, setBio] = useState('');
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { updateUserProfile, userProfile } = useEbooks();
 
@@ -36,13 +37,24 @@ export default function CreateProfilePage() {
   };
 
   const handleSaveProfile = () => {
-    updateUserProfile({ username: username.trim(), bio, avatarUrl });
-    handleNavigate('/profile');
+    if (avatarFile) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            const newAvatarUrl = reader.result as string;
+            updateUserProfile({ username: username.trim(), bio, avatarUrl: newAvatarUrl });
+            handleNavigate('/profile');
+        };
+        reader.readAsDataURL(avatarFile);
+    } else {
+        updateUserProfile({ username: username.trim(), bio, avatarUrl });
+        handleNavigate('/profile');
+    }
   };
   
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setAvatarFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setAvatarUrl(reader.result as string);
@@ -71,7 +83,7 @@ export default function CreateProfilePage() {
             <div className="flex flex-col items-start">
               <div className="-mt-1">
                 <p className="text-[24px] font-bold tracking-widest text-foreground">FINALISEZ VOTRE</p>
-                <h1 className="text-5xl sm:text-6xl font-extrabold text-primary -mt-1">INSCRIPTION</h1>
+                <h1 className="text-5xl sm:text-6xl font-extrabold text-primary -mt-1">INSCRIPTION !</h1>
               </div>
             </div>
         </header>
