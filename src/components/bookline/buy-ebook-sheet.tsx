@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -33,29 +33,56 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   const { purchasedEbooks, purchaseEbook } = useEbooks();
   const [numPages, setNumPages] = useState<number | null>(null);
   const { toast } = useToast();
-  const [isVisible, setIsVisible] = useState(false);
+  
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const [shouldRender, setShouldRender] = useState(!!ebook);
+
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStartY, setDragStartY] = useState(0);
+  const [translateY, setTranslateY] = useState(window.innerHeight);
 
   useEffect(() => {
     if (ebook) {
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 10);
-      return () => clearTimeout(timer);
+      setShouldRender(true);
+      // Use a timeout to ensure the component is rendered before starting animation
+      setTimeout(() => setTranslateY(0), 10);
     } else {
-      setIsVisible(false);
+      setTranslateY(window.innerHeight);
+      // Unmount after animation
+      setTimeout(() => setShouldRender(false), 1000);
     }
   }, [ebook]);
 
+
   const closeSheet = () => {
-    setIsVisible(false);
-    setTimeout(() => {
-      onOpenChange(false);
-    }, 1000); // Match animation duration
+    onOpenChange(false);
+  };
+  
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setIsDragging(true);
+    setDragStartY(e.touches[0].clientY);
   };
 
-  if (!ebook) {
-    return null;
-  }
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!isDragging) return;
+    const currentY = e.touches[0].clientY;
+    let deltaY = currentY - dragStartY;
+    if (deltaY < 0) deltaY = 0; // Prevent dragging up
+    setTranslateY(deltaY);
+  };
+
+  const handleTouchEnd = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    
+    const sheetHeight = sheetRef.current?.clientHeight || 0;
+    if (translateY > sheetHeight / 4) {
+      closeSheet();
+    } else {
+      setTranslateY(0); // Snap back to top
+    }
+  };
+
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -65,9 +92,10 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
     // In sheet, clicking card does nothing.
   };
 
-  const isPurchased = purchasedEbooks.some(p => p.id === ebook.id);
+  const isPurchased = ebook ? purchasedEbooks.some(p => p.id === ebook.id) : false;
 
   const handlePayment = () => {
+    if (!ebook) return;
     if (isPurchased) {
       closeSheet();
       handleNavigate(`/ebook/${ebook.id}`);
@@ -81,7 +109,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   };
 
   const CUSTOMER_FEE = 3.5;
-  const ebookPriceNumber = parseFloat(ebook.price.replace(',', '.')) || 0;
+  const ebookPriceNumber = ebook ? parseFloat(ebook.price.replace(',', '.')) || 0 : 0;
   const totalPriceForCustomer = ebookPriceNumber + CUSTOMER_FEE;
 
   const formatPrice = (value: number | null): string => {
@@ -99,11 +127,14 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full flex items-center";
   const textareaClasses = "pl-11 pr-4 h-[148px] w-full text-base bg-secondary border-0 rounded-[30px] py-3.5 leading-snug flex items-start overflow-y-auto";
 
+  if (!shouldRender) {
+    return null;
+  }
+
   return (
     <div 
         className={cn(
-            "fixed inset-0 z-50 bg-black/60 transition-opacity duration-1000",
-            isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+            "fixed inset-0 z-50",
         )}
         onClick={closeSheet}
         role="dialog"
@@ -111,114 +142,123 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
         aria-labelledby="sheet-title"
     >
       <div className="hidden">
-        {ebook.pdfDataUrl.startsWith('data:application/pdf') && (
+        {ebook?.pdfDataUrl.startsWith('data:application/pdf') && (
             <Document file={ebook.pdfDataUrl} onLoadSuccess={onDocumentLoadSuccess} />
         )}
       </div>
 
       <div
+        ref={sheetRef}
         onClick={(e) => e.stopPropagation()}
         className={cn(
-            "absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] transition-transform duration-1000 ease-in-out",
-            isVisible ? "translate-y-0" : "translate-y-full"
+            "absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px]",
+            !isDragging && "transition-transform duration-1000 ease-in-out"
         )}
+        style={{ transform: `translateY(${translateY}px)` }}
       >
-        <h2 id="sheet-title" className="sr-only">Acheter l'ebook {ebook.title}</h2>
-        <div className="mx-auto w-20 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/50 my-3" />
+        <h2 id="sheet-title" className="sr-only">Acheter l'ebook {ebook?.title}</h2>
+        <div
+            className="mx-auto w-20 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/50 my-3 cursor-grab active:cursor-grabbing"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+        />
 
         <div className="overflow-y-auto">
-            <main className="w-full flex flex-col items-center pt-2 pb-16 gap-8 px-4">
-            <div className="w-full max-w-5xl flex flex-col md:flex-row md:items-start md:justify-center md:gap-4">
-                <div className="flex justify-center md:justify-end">
-                    <div className="w-full max-w-[18rem] md:max-w-xs">
-                        <div className="flex justify-center gap-1 mb-4">
-                            <Star className="w-8 h-8 text-foreground fill-foreground" />
-                            <Star className="w-8 h-8 text-foreground fill-foreground" />
-                            <Star className="w-8 h-8 text-foreground fill-foreground" />
-                            <Star className="w-8 h-8 text-[#DFDFDF] fill-[#DFDFDF]" />
-                            <Star className="w-8 h-8 text-[#DFDFDF] fill-[#DFDFDF]" />
-                        </div>
-                        <EbookCard ebook={ebook} onCardClick={handleCardClick} />
-                    </div>
-                </div>
-                <div className="flex justify-center md:justify-start pt-8 md:pt-0">
-                    <div className="w-full max-w-[18rem] md:max-w-xs flex flex-col items-center">
-                        <div className="w-full">
-                            <button onClick={handleSellerNavigate} className="w-full group">
-                                <div className="w-full bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center mb-4 group-hover:bg-foreground/90 transition-colors">
-                                    vendeur
-                                </div>
-                            </button>
-                        </div>
-                        <div className="w-full grid grid-cols-3 gap-2 mb-4">
-                            <div className="bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center">
-                                {formatPrice(totalPriceForCustomer)}
+            {ebook && (
+                <main className="w-full flex flex-col items-center pt-2 pb-16 gap-8 px-4">
+                <div className="w-full max-w-5xl flex flex-col md:flex-row md:items-start md:justify-center md:gap-4">
+                    <div className="flex justify-center md:justify-end">
+                        <div className="w-full max-w-[18rem] md:max-w-xs">
+                            <div className="flex justify-center gap-1 mb-4">
+                                <Star className="w-8 h-8 text-foreground fill-foreground" />
+                                <Star className="w-8 h-8 text-foreground fill-foreground" />
+                                <Star className="w-8 h-8 text-foreground fill-foreground" />
+                                <Star className="w-8 h-8 text-[#DFDFDF] fill-[#DFDFDF]" />
+                                <Star className="w-8 h-8 text-[#DFDFDF] fill-[#DFDFDF]" />
                             </div>
-                            <div className="bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center">
-                                {numPages ? `${numPages} p` : '178 p'}
-                            </div>
-                            <div className="bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center">
-                                12/07/2024
-                            </div>
-                        </div>
-
-                        <div className="w-full space-y-4">
-                            <div className="relative w-full">
-                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">T</span>
-                                <div className={cn(inputClasses, "overflow-x-auto scrollbar-hide")}>
-                                <p className="text-foreground whitespace-nowrap">{ebook.title}</p>
-                                </div>
-                            </div>
-                            <div className="relative w-full">
-                                <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-muted-foreground">D</span>
-                                <div className={cn(textareaClasses, 'whitespace-pre-wrap')}>
-                                <p className="text-foreground">{ebook.description}</p>
-                                </div>
-                            </div>
-                            <div className="relative w-full">
-                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-10">M</span>
-                                <div className="h-12 w-full text-base bg-secondary border-0 rounded-full flex items-center p-0 overflow-hidden">
-                                <div className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-4 scrollbar-hide">
-                                    {ebook.keywords.split(',').map((keyword, index) => (
-                                    <Badge key={index} variant="default" className="flex-shrink-0 whitespace-nowrap rounded-full py-1 px-3">
-                                        {keyword.trim()}
-                                    </Badge>
-                                    ))}
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="w-full bg-secondary rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden">
-                            <div className='pl-6 py-4 text-sm text-muted-foreground space-y-1 flex flex-col justify-center'>
-                                <p>prix de l'ebook</p>
-                                <p>frais de service</p>
-                                <p>total de l'ebook</p>
-                            </div>
-                            <div className='bg-foreground text-background rounded-l-[30px] px-8 py-4 text-sm flex flex-col justify-center text-right space-y-1'>
-                                <p>{formatPrice(ebookPriceNumber)}</p>
-                                <p>{formatPrice(CUSTOMER_FEE)}</p>
-                                <p>{formatPrice(totalPriceForCustomer)}</p>
-                            </div>
+                            <EbookCard ebook={ebook} onCardClick={handleCardClick} />
                         </div>
                     </div>
-                </div>
-            </div>
+                    <div className="flex justify-center md:justify-start pt-8 md:pt-0">
+                        <div className="w-full max-w-[18rem] md:max-w-xs flex flex-col items-center">
+                            <div className="w-full">
+                                <button onClick={handleSellerNavigate} className="w-full group">
+                                    <div className="w-full bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center mb-4 group-hover:bg-foreground/90 transition-colors">
+                                        vendeur
+                                    </div>
+                                </button>
+                            </div>
+                            <div className="w-full grid grid-cols-3 gap-2 mb-4">
+                                <div className="bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center">
+                                    {formatPrice(totalPriceForCustomer)}
+                                </div>
+                                <div className="bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center">
+                                    {numPages ? `${numPages} p` : '178 p'}
+                                </div>
+                                <div className="bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center">
+                                    12/07/2024
+                                </div>
+                            </div>
 
-            <div className="max-w-[16rem] w-full">
-                <Button
-                onClick={handlePayment}
-                className={cn(
-                    "rounded-full w-full h-12 text-lg font-semibold",
-                    isPurchased 
-                        ? "bg-green-600 text-white hover:bg-green-700"
-                        : "bg-foreground text-background hover:bg-foreground/90"
-                )}
-                >
-                {isPurchased ? 'Voir' : 'Payer'}
-                </Button>
-            </div>
-            </main>
+                            <div className="w-full space-y-4">
+                                <div className="relative w-full">
+                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">T</span>
+                                    <div className={cn(inputClasses, "overflow-x-auto scrollbar-hide")}>
+                                    <p className="text-foreground whitespace-nowrap">{ebook.title}</p>
+                                    </div>
+                                </div>
+                                <div className="relative w-full">
+                                    <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-muted-foreground">D</span>
+                                    <div className={cn(textareaClasses, 'whitespace-pre-wrap')}>
+                                    <p className="text-foreground">{ebook.description}</p>
+                                    </div>
+                                </div>
+                                <div className="relative w-full">
+                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-10">M</span>
+                                    <div className="h-12 w-full text-base bg-secondary border-0 rounded-full flex items-center p-0 overflow-hidden">
+                                    <div className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-4 scrollbar-hide">
+                                        {ebook.keywords.split(',').map((keyword, index) => (
+                                        <Badge key={index} variant="default" className="flex-shrink-0 whitespace-nowrap rounded-full py-1 px-3">
+                                            {keyword.trim()}
+                                        </Badge>
+                                        ))}
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="w-full bg-secondary rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden">
+                                <div className='pl-6 py-4 text-sm text-muted-foreground space-y-1 flex flex-col justify-center'>
+                                    <p>prix de l'ebook</p>
+                                    <p>frais de service</p>
+                                    <p>total de l'ebook</p>
+                                </div>
+                                <div className='bg-foreground text-background rounded-l-[30px] px-8 py-4 text-sm flex flex-col justify-center text-right space-y-1'>
+                                    <p>{formatPrice(ebookPriceNumber)}</p>
+                                    <p>{formatPrice(CUSTOMER_FEE)}</p>
+                                    <p>{formatPrice(totalPriceForCustomer)}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="max-w-[16rem] w-full">
+                    <Button
+                    onClick={handlePayment}
+                    className={cn(
+                        "rounded-full w-full h-12 text-lg font-semibold",
+                        isPurchased 
+                            ? "bg-green-600 text-white hover:bg-green-700"
+                            : "bg-foreground text-background hover:bg-foreground/90"
+                    )}
+                    >
+                    {isPurchased ? 'Voir' : 'Payer'}
+                    </Button>
+                </div>
+                </main>
+            )}
         </div>
       </div>
     </div>
