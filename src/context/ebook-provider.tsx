@@ -39,6 +39,8 @@ interface EbookContextType {
   allEbooks: Ebook[];
   userProfile: UserProfile;
   updateUserProfile: (profile: Partial<UserProfile>) => void;
+  selectedInterests: string[];
+  updateSelectedInterests: (interests: string[]) => void;
 }
 
 // Create the context
@@ -53,9 +55,17 @@ export function EbookProvider({ children }: { children: ReactNode }) {
     bio: '',
     avatarUrl: null,
   });
+  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
 
   const updateUserProfile = (profileUpdate: Partial<UserProfile>) => {
     setUserProfile((prev) => ({ ...prev, ...profileUpdate }));
+  };
+
+  const updateSelectedInterests = (interests: string[]) => {
+    const cleanedInterests = interests.map(interest => 
+        interest.split(' ')[0].toLowerCase()
+    );
+    setSelectedInterests(cleanedInterests);
   };
 
 
@@ -92,7 +102,7 @@ export function EbookProvider({ children }: { children: ReactNode }) {
 
 
   return (
-    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook, favoritedEbooks, toggleFavoriteEbook, allEbooks, userProfile, updateUserProfile }}>
+    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook, favoritedEbooks, toggleFavoriteEbook, allEbooks, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests }}>
       {children}
     </EbookContext.Provider>
   );

@@ -17,35 +17,52 @@ interface SearchOverlayProps {
 
 export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
   const [query, setQuery] = useState('');
-  const [filteredEbooks, setFilteredEbooks] = useState<Ebook[]>([]);
+  const [displayEbooks, setDisplayEbooks] = useState<Ebook[]>([]);
   const [isContentVisible, setIsContentVisible] = useState(false);
   const [shouldRenderContent, setShouldRenderContent] = useState(false);
+  const [title, setTitle] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { handleNavigate } = useTransitionRouter();
-  const { publishedEbooks } = useEbooks();
+  const { publishedEbooks, selectedInterests } = useEbooks();
 
   useEffect(() => {
     let visibilityTimer: NodeJS.Timeout;
     let renderTimer: NodeJS.Timeout;
 
-    if (query.length > 0) {
+    if (isOpen) {
       setShouldRenderContent(true);
-      visibilityTimer = setTimeout(() => setIsContentVisible(true), 20); // Small delay for rendering
-      
-      const lowerCaseQuery = query.toLowerCase();
-      const filtered = ebooks.filter(
-        (ebook) =>
-          ebook.title.toLowerCase().includes(lowerCaseQuery) ||
-          ebook.description.toLowerCase().includes(lowerCaseQuery) ||
-          ebook.keywords.toLowerCase().includes(lowerCaseQuery)
-      );
-      setFilteredEbooks(filtered);
+      visibilityTimer = setTimeout(() => setIsContentVisible(true), 20);
 
+      if (query.length > 0) {
+        setTitle(null); // No title for direct search results
+        const lowerCaseQuery = query.toLowerCase();
+        const filtered = ebooks.filter(
+          (ebook) =>
+            ebook.title.toLowerCase().includes(lowerCaseQuery) ||
+            ebook.description.toLowerCase().includes(lowerCaseQuery) ||
+            ebook.keywords.toLowerCase().includes(lowerCaseQuery)
+        );
+        setDisplayEbooks(filtered);
+      } else {
+        // Recommendation logic
+        if (selectedInterests.length > 0) {
+          setTitle("Suggestions pour vous");
+          const recommended = ebooks.filter(ebook => {
+              const ebookKeywords = ebook.keywords.toLowerCase().split(',').map(k => k.trim());
+              return selectedInterests.some(interest => ebookKeywords.includes(interest));
+          });
+          setDisplayEbooks(recommended);
+        } else {
+          setTitle(null);
+          setDisplayEbooks([]);
+        }
+      }
     } else {
       setIsContentVisible(false);
       renderTimer = setTimeout(() => {
         setShouldRenderContent(false)
-        setFilteredEbooks([]);
+        setDisplayEbooks([]);
+        setTitle(null);
       }, 300); // Match animation duration
     }
     
@@ -53,7 +70,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
       clearTimeout(visibilityTimer);
       clearTimeout(renderTimer);
     };
-  }, [query, ebooks]);
+  }, [query, ebooks, isOpen, selectedInterests]);
 
   useEffect(() => {
     if (isOpen) {
@@ -62,10 +79,10 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
       }, 100);
       return () => clearTimeout(timer);
     } else {
-      // Reset query which will trigger the fade out effect
+      // Reset query when closing
       if (query) setQuery('');
     }
-  }, [isOpen, query]);
+  }, [isOpen]);
 
   const handleEbookClick = (ebook: Ebook) => {
     const isOwnPublication = publishedEbooks.some(p => p.id === ebook.id);
@@ -76,6 +93,15 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
     }
   };
 
+  const getEmptyStateMessage = () => {
+    if (query) {
+      return `Aucun résultat trouvé pour "${query}".`
+    }
+    if (selectedInterests.length > 0) {
+      return "Aucun ebook ne correspond à vos intérêts pour le moment."
+    }
+    return "Saisissez une recherche pour trouver des ebooks."
+  }
 
   return (
     <div
@@ -91,7 +117,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
       >
         <div
           className={cn(
-            'flex items-center gap-2 p-4 pt-6 mb-6 transition-all duration-300 ease-in-out max-w-4xl mx-auto w-full',
+            'flex items-center gap-2 p-4 pt-6 mb-2 transition-all duration-300 ease-in-out max-w-4xl mx-auto w-full',
             isOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'
           )}
         >
@@ -120,15 +146,18 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
           >
              {shouldRenderContent && (
               <>
-                {filteredEbooks.length > 0 ? (
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-                    {filteredEbooks.map((ebook) => (
-                      <EbookCard key={ebook.id} ebook={ebook} onCardClick={handleEbookClick} />
-                    ))}
+                {displayEbooks.length > 0 ? (
+                  <div>
+                    {title && <h3 className="text-sm font-semibold text-muted-foreground mb-4">{title}</h3>}
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
+                      {displayEbooks.map((ebook) => (
+                        <EbookCard key={ebook.id} ebook={ebook} onCardClick={handleEbookClick} />
+                      ))}
+                    </div>
                   </div>
                 ) : (
                   <div className="text-center text-muted-foreground mt-12">
-                    Aucun résultat trouvé pour "{query}".
+                    {getEmptyStateMessage()}
                   </div>
                 )}
               </>

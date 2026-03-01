@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useEbooks } from '@/context/ebook-provider';
 
 const interests = [
   'Business 💼', 'Histoires Fictives 📖', 'Biographies ✍️', 'Cours & Révisions 📚', 
@@ -17,6 +18,7 @@ export default function InterestsPage() {
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+  const { updateSelectedInterests } = useEbooks();
 
   useEffect(() => {
     setIsMounted(true);
@@ -38,8 +40,7 @@ export default function InterestsPage() {
   };
   
   const handleFinish = () => {
-    // Here you would typically save the user's interests
-    console.log('Selected interests:', selectedInterests);
+    updateSelectedInterests(selectedInterests);
     handleNavigate('/home');
   };
 
