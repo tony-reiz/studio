@@ -93,7 +93,7 @@ export default function EbookViewerPage() {
   
   useEffect(() => {
     const viewer = viewerRef.current;
-    if (!viewer || !numPages) return;
+    if (!viewer || !numPages || !isPdfVisible) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -120,7 +120,7 @@ export default function EbookViewerPage() {
         if (pageEl) observer.unobserve(pageEl);
       });
     };
-  }, [numPages]);
+  }, [numPages, isPdfVisible]);
 
 
   const handleDelete = () => {
