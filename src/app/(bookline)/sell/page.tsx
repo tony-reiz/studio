@@ -32,7 +32,7 @@ const sellFormSchema = z.object({
 
 export default function SellPage() {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionStep, setSubmissionStep] = useState<'idle' | 'compressing' | 'publishing'>('idle');
   const { toast } = useToast();
   const { handleNavigate } = useTransitionRouter();
   const { addPublishedEbook } = useEbooks();
@@ -49,7 +49,7 @@ export default function SellPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof sellFormSchema>) {
+  async function onSubmit(values: z.infer<typeof sellFormSchema>) {
     if (!pdfFile) {
       toast({
         variant: "destructive",
@@ -59,33 +59,44 @@ export default function SellPage() {
       return;
     }
     
-    if (isSubmitting) return;
-    setIsSubmitting(true);
+    if (submissionStep !== 'idle') return;
+
+    setSubmissionStep('compressing');
+
+    // Simulate compression process
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    setSubmissionStep('publishing');
 
     const reader = new FileReader();
     reader.readAsDataURL(pdfFile);
+    
     reader.onloadend = () => {
       const base64String = reader.result as string;
+      
+      // In a real scenario, you would use the compressed PDF data here.
       addPublishedEbook({
         title: values.title,
         description: values.description,
         keywords: values.keywords,
         price: values.price,
-        pdfDataUrl: base64String,
+        pdfDataUrl: base64String, // For now, we use the original file data.
       });
+      
       handleNavigate('/profile');
     }
+
     reader.onerror = () => {
         toast({
             variant: "destructive",
             title: "Erreur",
             description: "Impossible de lire le fichier PDF.",
         });
-        setIsSubmitting(false);
+        setSubmissionStep('idle');
     }
   }
 
-  const isButtonDisabled = !form.formState.isValid || !pdfFile || isSubmitting;
+  const isButtonDisabled = !form.formState.isValid || !pdfFile || submissionStep !== 'idle';
 
   const menuButton = (
     <Button
@@ -131,14 +142,19 @@ export default function SellPage() {
                     : "bg-foreground text-background hover:bg-foreground/90"
                 )}
                 >
-                {isSubmitting ? (
+                {submissionStep === 'compressing' ? (
+                    <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        Compression...
+                    </>
+                  ) : submissionStep === 'publishing' ? (
                     <>
                         <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                         Publication...
                     </>
-                ) : (
+                  ) : (
                     'publier'
-                )}
+                  )}
                 </Button>
             </div>
           </main>
