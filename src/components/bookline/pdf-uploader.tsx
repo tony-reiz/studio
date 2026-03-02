@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { CloudUpload } from 'lucide-react';
+import { CloudUpload, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface PdfUploaderProps {
@@ -10,9 +10,10 @@ interface PdfUploaderProps {
   className?: string;
   originalSize?: number | null;
   compressedSize?: number | null;
+  isCompressing?: boolean;
 }
 
-export function PdfUploader({ pdfFile, onFileChange, className, originalSize, compressedSize }: PdfUploaderProps) {
+export function PdfUploader({ pdfFile, onFileChange, className, originalSize, compressedSize, isCompressing }: PdfUploaderProps) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isPdfVisible, setIsPdfVisible] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -44,10 +45,9 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
 
   useEffect(() => {
     if (previewUrl) {
-      // Use a timeout to allow the object to render before starting the transition
       const timer = setTimeout(() => {
         setIsPdfVisible(true);
-      }, 50); // A small delay is enough
+      }, 50);
       return () => clearTimeout(timer);
     } else {
       setIsPdfVisible(false);
@@ -91,13 +91,12 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
         )}
       >
         {originalSize && (
-            <div className="absolute top-2 left-2 z-10 bg-black/60 text-white text-[10px] font-semibold rounded-full px-2.5 py-1 backdrop-blur-sm flex items-center gap-1">
+            <div className="absolute top-2 left-2 z-10 bg-black/60 text-white text-[10px] font-semibold rounded-full px-2.5 py-1 backdrop-blur-sm flex items-center gap-1.5">
                 <span>{formatBytes(originalSize)}</span>
-                {compressedSize && (
-                    <>
-                        <span>=</span>
-                        <span className='text-green-400'>{formatBytes(compressedSize)}</span>
-                    </>
+                {(isCompressing || compressedSize) && <span>=</span>}
+                {isCompressing && <Loader2 className="h-3 w-3 animate-spin" />}
+                {compressedSize && !isCompressing && (
+                    <span className='text-green-400'>{formatBytes(compressedSize)}</span>
                 )}
             </div>
         )}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -34,6 +34,7 @@ const sellFormSchema = z.object({
 export default function SellPage() {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [submissionStep, setSubmissionStep] = useState<'idle' | 'compressing' | 'publishing'>('idle');
+  const [compressedPdfBytes, setCompressedPdfBytes] = useState<Uint8Array | null>(null);
   const [fileSize, setFileSize] = useState<{ original: number | null, compressed: number | null }>({ original: null, compressed: null });
   const { toast } = useToast();
   const { handleNavigate } = useTransitionRouter();
@@ -53,6 +54,7 @@ export default function SellPage() {
 
   const handleFileChange = (file: File | null) => {
     setPdfFile(file);
+    setCompressedPdfBytes(null);
     if (file) {
       setFileSize({ original: file.size, compressed: null });
     } else {
@@ -60,37 +62,51 @@ export default function SellPage() {
     }
   };
 
+  useEffect(() => {
+    if (!pdfFile) return;
+
+    const processPdf = async () => {
+        setSubmissionStep('compressing');
+        try {
+            const pdfBytes = await pdfFile.arrayBuffer();
+            const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+            const newCompressedBytes = await pdfDoc.save();
+
+            setCompressedPdfBytes(newCompressedBytes);
+            setFileSize(prev => ({ ...prev, compressed: newCompressedBytes.byteLength }));
+        } catch (error) {
+            console.error("PDF compression failed:", error);
+            toast({
+                variant: "destructive",
+                title: "Erreur de compression",
+                description: "Le fichier PDF n'a pas pu être traité. Il est peut-être corrompu ou protégé.",
+            });
+            handleFileChange(null);
+        } finally {
+            setSubmissionStep('idle');
+        }
+    };
+
+    processPdf();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pdfFile]);
+
+
   async function onSubmit(values: z.infer<typeof sellFormSchema>) {
-    if (!pdfFile) {
+    if (!compressedPdfBytes) {
       toast({
         variant: "destructive",
-        title: "Fichier PDF manquant",
-        description: "Veuillez ajouter le fichier de votre ebook.",
+        title: "Compression en cours...",
+        description: "Veuillez attendre la fin de l'optimisation du fichier.",
       });
       return;
     }
     
     if (submissionStep !== 'idle') return;
 
-    setSubmissionStep('compressing');
+    setSubmissionStep('publishing');
 
     try {
-      const pdfBytes = await pdfFile.arrayBuffer();
-      const pdfDoc = await PDFDocument.load(pdfBytes, {
-        ignoreEncryption: true,
-      });
-      
-      const compressedPdfBytes = await pdfDoc.save();
-
-      // Update state and give React time to render
-      setFileSize(prev => ({ ...prev, compressed: compressedPdfBytes.byteLength }));
-      await new Promise(resolve => setTimeout(resolve, 50)); // Small delay to ensure re-render
-
-      setSubmissionStep('publishing');
-      
-      // Another delay for user to see the "publishing" state and new size
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
       const compressedPdfBlob = new Blob([compressedPdfBytes], { type: 'application/pdf' });
 
       const base64String = await new Promise<string>((resolve, reject) => {
@@ -111,17 +127,18 @@ export default function SellPage() {
       handleNavigate('/profile');
 
     } catch (error) {
-        console.error("PDF compression failed:", error);
+        console.error("PDF publication failed:", error);
         toast({
             variant: "destructive",
-            title: "Erreur de compression",
-            description: "Le fichier PDF n'a pas pu être traité. Il est peut-être corrompu ou protégé.",
+            title: "Erreur de publication",
+            description: "Une erreur est survenue, veuillez réessayer.",
         });
         setSubmissionStep('idle');
     }
   }
 
-  const isButtonDisabled = !form.formState.isValid || !pdfFile || submissionStep !== 'idle';
+  const isCompressing = submissionStep === 'compressing';
+  const isButtonDisabled = isCompressing || submissionStep === 'publishing' || !form.formState.isValid || !pdfFile;
 
   const menuButton = (
     <Button
@@ -134,6 +151,12 @@ export default function SellPage() {
       <Menu />
     </Button>
   );
+
+  const getButtonText = () => {
+    if (submissionStep === 'publishing') return 'Publication...';
+    if (isCompressing) return 'Compression...';
+    return 'publier';
+  }
 
   return (
     <Form {...form}>
@@ -154,6 +177,7 @@ export default function SellPage() {
                   onFileChange={handleFileChange}
                   originalSize={fileSize.original}
                   compressedSize={fileSize.compressed}
+                  isCompressing={isCompressing}
                 />
               </div>
               <div className="flex justify-center md:justify-start">
@@ -172,19 +196,8 @@ export default function SellPage() {
                     : "bg-foreground text-background hover:bg-foreground/90"
                 )}
                 >
-                {submissionStep === 'compressing' ? (
-                    <>
-                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                        Compression...
-                    </>
-                  ) : submissionStep === 'publishing' ? (
-                    <>
-                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                        Publication...
-                    </>
-                  ) : (
-                    'publier'
-                  )}
+                {(submissionStep !== 'idle') && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+                {getButtonText()}
                 </Button>
             </div>
           </main>
