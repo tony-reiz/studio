@@ -91,7 +91,7 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
         )}
       >
         {originalSize && (
-            <div className="absolute top-2 left-2 z-10 bg-black/60 text-white text-[10px] font-semibold rounded-full px-2.5 py-1 backdrop-blur-sm flex items-center gap-1.5">
+            <div className="absolute top-3 left-3 z-10 bg-black/60 text-white text-[10px] font-semibold rounded-full px-2.5 py-1 backdrop-blur-sm flex items-center gap-1.5">
                 <span>{formatBytes(originalSize)}</span>
                 {(isCompressing || compressedSize) && <span>=</span>}
                 {isCompressing && <Loader2 className="h-3 w-3 animate-spin" />}
