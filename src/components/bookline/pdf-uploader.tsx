@@ -93,10 +93,19 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
         {originalSize && (
             <div className="absolute top-3 left-3 z-10 bg-black/60 text-white text-[10px] font-semibold rounded-full px-2.5 py-1 backdrop-blur-sm flex items-center gap-1.5">
                 <span>{formatBytes(originalSize)}</span>
-                {(isCompressing || compressedSize) && <span>=</span>}
-                {isCompressing && <Loader2 className="h-3 w-3 animate-spin" />}
+                
+                {isCompressing && (
+                    <>
+                        <span>=</span>
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                    </>
+                )}
+
                 {compressedSize && !isCompressing && (
-                    <span className='text-green-400'>{formatBytes(compressedSize)}</span>
+                    <div className="flex items-center gap-1.5 animate-in fade-in-0 slide-in-from-left-4 duration-500">
+                        <span>=</span>
+                        <span className='text-green-400'>{formatBytes(compressedSize)}</span>
+                    </div>
                 )}
             </div>
         )}
