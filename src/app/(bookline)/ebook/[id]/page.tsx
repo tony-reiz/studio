@@ -100,34 +100,33 @@ export default function EbookViewerPage() {
         const visiblePages = entries.filter((entry) => entry.isIntersecting);
 
         if (visiblePages.length > 0) {
-          // Determine the center of the viewport (the scrolling container)
-          const viewerCenterY = viewer.getBoundingClientRect().top + viewer.clientHeight / 2;
+          const viewerRect = viewer.getBoundingClientRect();
+          const viewerCenterY = viewerRect.top + viewerRect.height / 2;
 
-          let closestPage: IntersectionObserverEntry | null = null;
+          let closestPageEntry: IntersectionObserverEntry | null = null;
           let minDistance = Infinity;
 
-          visiblePages.forEach((page) => {
-            // Determine the center of the page element
-            const pageRect = page.target.getBoundingClientRect();
+          visiblePages.forEach((entry) => {
+            const pageRect = entry.target.getBoundingClientRect();
             const pageCenterY = pageRect.top + pageRect.height / 2;
             const distance = Math.abs(viewerCenterY - pageCenterY);
 
             if (distance < minDistance) {
               minDistance = distance;
-              closestPage = page;
+              closestPageEntry = entry;
             }
           });
 
-          if (closestPage) {
+          if (closestPageEntry) {
             const pageIndex = parseInt(
-              closestPage.target.getAttribute('data-page-number') || '1',
+              closestPageEntry.target.getAttribute('data-page-number') || '1',
               10
             );
             setCurrentPage(pageIndex);
           }
         }
       },
-      { root: viewer, threshold: 0.01 } // Low threshold to detect any visibility
+      { root: viewer, threshold: 0.5 }
     );
 
     const currentRefs = pageRefs.current;
@@ -182,7 +181,7 @@ export default function EbookViewerPage() {
   return (
     <>
       <div className="h-screen bg-secondary flex flex-col">
-        <header className="fixed top-0 left-0 right-0 z-30 bg-background/80 backdrop-blur-lg" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+        <header className="fixed top-0 left-0 right-0 z-30 bg-background/80 backdrop-blur-xl" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
           <div className="flex items-center justify-between px-2 sm:px-4 h-16">
             <Button onClick={handleBack} variant="ghost" size="icon" className="text-foreground">
               <ChevronLeft className="h-6 w-6" />
@@ -210,7 +209,7 @@ export default function EbookViewerPage() {
         </header>
 
         {numPages && (
-          <div className="fixed left-1/2 -translate-x-1/2 z-20 bg-background/80 backdrop-blur-lg shadow-lg rounded-full flex items-center gap-2 px-3 py-1.5" style={{ top: `calc(env(safe-area-inset-top) + 5rem)`}}>
+          <div className="fixed left-1/2 -translate-x-1/2 z-20 bg-background/80 backdrop-blur-xl shadow-lg rounded-full flex items-center gap-2 px-3 py-1.5" style={{ top: `calc(env(safe-area-inset-top) + 5rem)`}}>
             <FileText className="h-4 w-4 text-muted-foreground" />
             <span className="text-sm font-medium text-foreground tabular-nums">{currentPage}/{numPages}</span>
           </div>
@@ -249,7 +248,7 @@ export default function EbookViewerPage() {
             </Document>
         </main>
 
-        <footer className="fixed bottom-0 left-0 right-0 z-30 p-4 bg-background/80 backdrop-blur-lg" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
+        <footer className="fixed bottom-0 left-0 right-0 z-30 p-4 bg-background/80 backdrop-blur-xl" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
           <div className="w-full max-w-[16rem] mx-auto">
               {isClient && isMobile ? (
                   <Button onClick={() => setIsSheetOpen(true)} className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90 shadow-lg">
