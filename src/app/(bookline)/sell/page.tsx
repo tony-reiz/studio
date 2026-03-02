@@ -14,7 +14,6 @@ import { cn } from '@/lib/utils';
 import { useEbooks } from '@/context/ebook-provider';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
 import { PDFDocument } from 'pdf-lib';
 
 const sellFormSchema = z.object({
@@ -34,6 +33,7 @@ const sellFormSchema = z.object({
 export default function SellPage() {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [submissionStep, setSubmissionStep] = useState<'idle' | 'compressing' | 'publishing'>('idle');
+  const [fileSize, setFileSize] = useState<{ original: number | null, compressed: number | null }>({ original: null, compressed: null });
   const { toast } = useToast();
   const { handleNavigate } = useTransitionRouter();
   const { addPublishedEbook } = useEbooks();
@@ -49,6 +49,15 @@ export default function SellPage() {
       price: '',
     },
   });
+
+  const handleFileChange = (file: File | null) => {
+    setPdfFile(file);
+    if (file) {
+      setFileSize({ original: file.size, compressed: null });
+    } else {
+      setFileSize({ original: null, compressed: null });
+    }
+  };
 
   async function onSubmit(values: z.infer<typeof sellFormSchema>) {
     if (!pdfFile) {
@@ -76,6 +85,8 @@ export default function SellPage() {
       // and remove unnecessary objects.
       const compressedPdfBytes = await pdfDoc.save();
 
+      setFileSize(prev => ({ ...prev, compressed: compressedPdfBytes.byteLength }));
+
       const compressedPdfBlob = new Blob([compressedPdfBytes], { type: 'application/pdf' });
 
       setSubmissionStep('publishing');
@@ -95,7 +106,9 @@ export default function SellPage() {
           pdfDataUrl: base64String,
         });
         
-        handleNavigate('/profile');
+        setTimeout(() => {
+            handleNavigate('/profile');
+        }, 2000);
       }
 
       reader.onerror = () => {
@@ -141,7 +154,12 @@ export default function SellPage() {
           <main className="flex-1 w-full flex flex-col items-center pt-12 md:pt-20 pb-28 gap-8">
             <div className="grid md:grid-cols-2 items-start gap-4">
               <div className="flex justify-center md:justify-end">
-                <PdfUploader pdfFile={pdfFile} onFileChange={setPdfFile} />
+                <PdfUploader
+                  pdfFile={pdfFile}
+                  onFileChange={handleFileChange}
+                  originalSize={fileSize.original}
+                  compressedSize={fileSize.compressed}
+                />
               </div>
               <div className="flex justify-center md:justify-start">
                 <SellForm />

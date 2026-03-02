@@ -8,9 +8,11 @@ interface PdfUploaderProps {
   pdfFile: File | null;
   onFileChange: (file: File | null) => void;
   className?: string;
+  originalSize?: number | null;
+  compressedSize?: number | null;
 }
 
-export function PdfUploader({ pdfFile, onFileChange, className }: PdfUploaderProps) {
+export function PdfUploader({ pdfFile, onFileChange, className, originalSize, compressedSize }: PdfUploaderProps) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isPdfVisible, setIsPdfVisible] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -56,6 +58,19 @@ export function PdfUploader({ pdfFile, onFileChange, className }: PdfUploaderPro
   const handleUploadClick = () => {
     fileInputRef.current?.click();
   };
+  
+  const formatBytes = (bytes: number | null | undefined, decimals = 2) => {
+    if (!bytes) return '0 Mo';
+    if (bytes === 0) return '0 Mo';
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'Ko', 'Mo', 'Go', 'To'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  }
 
   return (
     <div
@@ -75,6 +90,17 @@ export function PdfUploader({ pdfFile, onFileChange, className }: PdfUploaderPro
           {'group-hover:bg-[#d0d0d0]': !pdfFile}
         )}
       >
+        {originalSize && (
+            <div className="absolute top-2 left-2 z-10 bg-black/60 text-white text-[10px] font-semibold rounded-full px-2.5 py-1 backdrop-blur-sm flex items-center gap-1">
+                <span>{formatBytes(originalSize)}</span>
+                {compressedSize && (
+                    <>
+                        <span>=</span>
+                        <span className='text-green-400'>{formatBytes(compressedSize)}</span>
+                    </>
+                )}
+            </div>
+        )}
         {previewUrl ? (
           <object 
             data={`${previewUrl}#toolbar=0&navpanes=0&scrollbar=0`} 
