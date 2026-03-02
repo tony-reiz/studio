@@ -162,7 +162,7 @@ export default function EbookViewerPage() {
   return (
     <>
       <div className="h-screen bg-secondary flex flex-col">
-        <header className="fixed top-0 left-0 right-0 z-30 bg-background/80 backdrop-blur-sm" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+        <header className="fixed top-0 left-0 right-0 z-30 bg-background/70 backdrop-blur-md" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
           <div className="flex items-center justify-between px-2 sm:px-4 h-16">
             <Button onClick={handleBack} variant="ghost" size="icon" className="text-foreground">
               <ChevronLeft className="h-6 w-6" />
@@ -190,7 +190,7 @@ export default function EbookViewerPage() {
         </header>
 
         {numPages && (
-          <div className="fixed left-1/2 -translate-x-1/2 z-20 bg-background/80 backdrop-blur-sm shadow-lg rounded-full flex items-center gap-2 px-3 py-1.5" style={{ top: `calc(env(safe-area-inset-top) + 5rem)`}}>
+          <div className="fixed left-1/2 -translate-x-1/2 z-20 bg-background/70 backdrop-blur-md shadow-lg rounded-full flex items-center gap-2 px-3 py-1.5" style={{ top: `calc(env(safe-area-inset-top) + 5rem)`}}>
             <FileText className="h-4 w-4 text-muted-foreground" />
             <span className="text-sm font-medium text-foreground tabular-nums">{currentPage}/{numPages}</span>
           </div>
