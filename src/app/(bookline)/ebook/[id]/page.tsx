@@ -97,17 +97,36 @@ export default function EbookViewerPage() {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        const visiblePages = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        
+        const visiblePages = entries.filter((entry) => entry.isIntersecting);
+
         if (visiblePages.length > 0) {
-          const topMostVisiblePage = visiblePages[0];
-          const pageIndex = parseInt(topMostVisiblePage.target.getAttribute('data-page-number') || '1', 10);
-          setCurrentPage(pageIndex);
+          // Determine the center of the viewport (the scrolling container)
+          const viewerCenterY = viewer.getBoundingClientRect().top + viewer.clientHeight / 2;
+
+          let closestPage: IntersectionObserverEntry | null = null;
+          let minDistance = Infinity;
+
+          visiblePages.forEach((page) => {
+            // Determine the center of the page element
+            const pageCenterY = page.getBoundingClientRect().top + page.getBoundingClientRect().height / 2;
+            const distance = Math.abs(viewerCenterY - pageCenterY);
+
+            if (distance < minDistance) {
+              minDistance = distance;
+              closestPage = page;
+            }
+          });
+
+          if (closestPage) {
+            const pageIndex = parseInt(
+              closestPage.target.getAttribute('data-page-number') || '1',
+              10
+            );
+            setCurrentPage(pageIndex);
+          }
         }
       },
-      { root: viewer, rootMargin: '-50% 0px -50% 0px', threshold: 0.1 }
+      { root: viewer, threshold: 0.01 } // Low threshold to detect any visibility
     );
 
     const currentRefs = pageRefs.current;
@@ -229,7 +248,7 @@ export default function EbookViewerPage() {
             </Document>
         </main>
 
-        <footer className="fixed bottom-0 left-0 right-0 z-30 p-4" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
+        <footer className="fixed bottom-0 left-0 right-0 z-30 p-4 bg-background/70 backdrop-blur-md" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
           <div className="w-full max-w-[16rem] mx-auto">
               {isClient && isMobile ? (
                   <Button onClick={() => setIsSheetOpen(true)} className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90 shadow-lg">
