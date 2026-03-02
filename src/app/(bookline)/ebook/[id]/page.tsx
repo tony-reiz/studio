@@ -249,12 +249,12 @@ export default function EbookViewerPage() {
         <footer className="fixed bottom-8 left-0 right-0 z-30 p-4 md:bottom-2 md:mb-4" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
           <div className="w-full max-w-[16rem] mx-auto">
               {isClient && isMobile ? (
-                  <Button onClick={() => setIsSheetOpen(true)} className="backdrop-blur border border-white/10 text-white rounded-full w-full h-12 text-lg font-semibold transition-all duration-200 [background:radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.15)_0%,transparent_50%),rgba(0,0,0,0.2)] hover:[background:radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.15)_0%,transparent_50%),rgba(0,0,0,0.3)] [box-shadow:0_10px_15px_-3px_rgba(0,0,0,0.1),_0_4px_6px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]">
-                      Détail
+                  <Button onClick={() => setIsSheetOpen(true)} className="glass-liquid text-white w-full h-12 text-lg font-semibold transition-all duration-200">
+                      <span className="relative z-10">Détail</span>
                   </Button>
                 ) : (
-                  <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="backdrop-blur border border-white/10 text-white rounded-full w-full h-12 text-lg font-semibold transition-all duration-200 [background:radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.15)_0%,transparent_50%),rgba(0,0,0,0.2)] hover:[background:radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.15)_0%,transparent_50%),rgba(0,0,0,0.3)] [box-shadow:0_10px_15px_-3px_rgba(0,0,0,0.1),_0_4px_6px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]">
-                      Détail
+                  <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="glass-liquid text-white w-full h-12 text-lg font-semibold transition-all duration-200">
+                      <span className="relative z-10">Détail</span>
                   </Button>
               )}
           </div>
