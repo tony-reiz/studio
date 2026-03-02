@@ -70,7 +70,8 @@ export default function SellPage() {
         try {
             const pdfBytes = await pdfFile.arrayBuffer();
             const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
-            const newCompressedBytes = await pdfDoc.save();
+            // This is the compression step. Using object streams can reduce file size.
+            const newCompressedBytes = await pdfDoc.save({ useObjectStreams: true });
 
             setCompressedPdfBytes(newCompressedBytes);
             setFileSize(prev => ({ ...prev, compressed: newCompressedBytes.byteLength }));
