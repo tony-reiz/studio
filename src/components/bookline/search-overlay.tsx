@@ -24,68 +24,74 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
   const [searchResults, setSearchResults] = useState<Ebook[]>([]);
   const [isContentVisible, setIsContentVisible] = useState(false);
   const [shouldRenderContent, setShouldRenderContent] = useState(false);
+  const [overlayRunId, setOverlayRunId] = useState(0); // This will be used to force remount
   const inputRef = useRef<HTMLInputElement>(null);
   const { handleNavigate } = useTransitionRouter();
   const { publishedEbooks, selectedInterests } = useEbooks();
   const isMobile = useIsMobile();
   const [selectedEbook, setSelectedEbook] = useState<Ebook | null>(null);
 
+  // This effect handles visibility, animations, and remounting of content
   useEffect(() => {
     let visibilityTimer: NodeJS.Timeout;
     let renderTimer: NodeJS.Timeout;
 
     if (isOpen) {
+      setOverlayRunId(id => id + 1); // Increment ID to force remount children with new key
       setShouldRenderContent(true);
-      // Wait a moment for the content structure to render before starting the animation
       visibilityTimer = setTimeout(() => setIsContentVisible(true), 50);
-
-      if (query.length > 0) {
-        setRecommendedEbooks([]);
-        setOtherEbooks([]);
-        const lowerCaseQuery = query.toLowerCase();
-        const filtered = ebooks.filter(
-          (ebook) =>
-            ebook.title.toLowerCase().includes(lowerCaseQuery) ||
-            ebook.description.toLowerCase().includes(lowerCaseQuery) ||
-            ebook.keywords.toLowerCase().includes(lowerCaseQuery)
-        );
-        setSearchResults(filtered);
-      } else {
-        setSearchResults([]);
-        const recommended: Ebook[] = [];
-        const others: Ebook[] = [];
-
-        if (selectedInterests.length > 0) {
-            ebooks.forEach(ebook => {
-                const ebookKeywords = ebook.keywords.toLowerCase().split(',').map(k => k.trim());
-                const isRecommended = selectedInterests.some(interest => ebookKeywords.some(keyword => interest.includes(keyword) || keyword.includes(interest)));
-
-                if (isRecommended) {
-                    recommended.push(ebook);
-                } else {
-                    others.push(ebook);
-                }
-            });
-        } else {
-            others.push(...ebooks);
-        }
-        
-        setRecommendedEbooks(recommended);
-        setOtherEbooks(others);
-      }
     } else {
       setIsContentVisible(false);
-      // Wait for exit animation to complete before unmounting content
       renderTimer = setTimeout(() => {
         setShouldRenderContent(false);
         if (query) setQuery('');
-      }, 300); // Match animation duration
+      }, 300);
     }
     
     return () => {
       clearTimeout(visibilityTimer);
       clearTimeout(renderTimer);
     };
+  }, [isOpen]);
+  
+  // This effect handles the search/filter logic
+  useEffect(() => {
+    if (!isOpen) return;
+
+    if (query.length > 0) {
+      setRecommendedEbooks([]);
+      setOtherEbooks([]);
+      const lowerCaseQuery = query.toLowerCase();
+      const filtered = ebooks.filter(
+        (ebook) =>
+          ebook.title.toLowerCase().includes(lowerCaseQuery) ||
+          ebook.description.toLowerCase().includes(lowerCaseQuery) ||
+          ebook.keywords.toLowerCase().includes(lowerCaseQuery)
+      );
+      setSearchResults(filtered);
+    } else {
+      setSearchResults([]);
+      const recommended: Ebook[] = [];
+      const others: Ebook[] = [];
+
+      if (selectedInterests.length > 0) {
+          ebooks.forEach(ebook => {
+              const ebookKeywords = ebook.keywords.toLowerCase().split(',').map(k => k.trim());
+              const isRecommended = selectedInterests.some(interest => ebookKeywords.some(keyword => interest.includes(keyword) || keyword.includes(interest)));
+
+              if (isRecommended) {
+                  recommended.push(ebook);
+              } else {
+                  others.push(ebook);
+              }
+          });
+      } else {
+          others.push(...ebooks);
+      }
+      
+      setRecommendedEbooks(recommended);
+      setOtherEbooks(others);
+    }
   }, [query, ebooks, isOpen, selectedInterests]);
 
   useEffect(() => {
@@ -190,7 +196,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
                           {searchResults.map((ebook, index) => (
                             <div
-                              key={`search-${ebook.id}`}
+                              key={`search-${ebook.id}-${overlayRunId}`} // Using the run ID in the key
                               className={cn(
                                   "transition-all duration-300 ease-out",
                                   isContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
@@ -215,7 +221,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
                           <div className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 scrollbar-hide">
                             {recommendedEbooks.map((ebook, index) => (
                               <div
-                                  key={`rec-${ebook.id}`}
+                                  key={`rec-${ebook.id}-${overlayRunId}`} // Using the run ID in the key
                                   className={cn(
                                       "transition-all duration-300 ease-out flex-shrink-0 w-[45%] sm:w-1/3",
                                       isContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
@@ -237,7 +243,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
                           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
                             {otherEbooks.map((ebook, index) => (
                               <div
-                                  key={`other-${ebook.id}`}
+                                  key={`other-${ebook.id}-${overlayRunId}`} // Using the run ID in the key
                                   className={cn(
                                       "transition-all duration-300 ease-out",
                                       isContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
