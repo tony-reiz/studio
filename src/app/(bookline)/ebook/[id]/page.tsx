@@ -83,7 +83,7 @@ export default function EbookViewerPage() {
 
     const timer = setTimeout(() => {
         setIsPdfVisible(true);
-    }, 50);
+    }, 100);
 
     return () => {
         window.removeEventListener('resize', setWidth)
@@ -94,46 +94,49 @@ export default function EbookViewerPage() {
   useEffect(() => {
     const viewer = viewerRef.current;
     if (!viewer || !numPages || !isPdfVisible) return;
-
+  
     const observer = new IntersectionObserver(
       (entries) => {
-        const visiblePages = entries.filter((entry) => entry.isIntersecting);
-
-        if (visiblePages.length > 0) {
-          const viewerRect = viewer.getBoundingClientRect();
-          const viewerCenterY = viewerRect.top + viewerRect.height / 2;
-
-          let closestPageEntry: IntersectionObserverEntry | null = null;
-          let minDistance = Infinity;
-
-          visiblePages.forEach((entry) => {
-            const pageRect = entry.target.getBoundingClientRect();
-            const pageCenterY = pageRect.top + pageRect.height / 2;
-            const distance = Math.abs(viewerCenterY - pageCenterY);
-
-            if (distance < minDistance) {
-              minDistance = distance;
-              closestPageEntry = entry;
-            }
-          });
-
-          if (closestPageEntry) {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
             const pageIndex = parseInt(
-              closestPageEntry.target.getAttribute('data-page-number') || '1',
+              entry.target.getAttribute('data-page-number') || '1',
               10
             );
-            setCurrentPage(pageIndex);
+            
+            const viewerRect = viewer.getBoundingClientRect();
+            const viewerCenterY = viewerRect.top + viewerRect.height / 2;
+  
+            let closestPage = pageIndex;
+            let minDistance = Infinity;
+  
+            pageRefs.current.forEach((pageEl, index) => {
+              if (pageEl) {
+                const pageRect = pageEl.getBoundingClientRect();
+                const pageCenterY = pageRect.top + pageRect.height / 2;
+                const distance = Math.abs(viewerCenterY - pageCenterY);
+  
+                if (distance < minDistance) {
+                  minDistance = distance;
+                  closestPage = index + 1;
+                }
+              }
+            });
+            setCurrentPage(closestPage);
           }
-        }
+        });
       },
-      { root: viewer, threshold: 0.5 }
+      {
+        root: viewer,
+        threshold: 0.1,
+      }
     );
-
+  
     const currentRefs = pageRefs.current;
     currentRefs.forEach((pageEl) => {
       if (pageEl) observer.observe(pageEl);
     });
-
+  
     return () => {
       currentRefs.forEach((pageEl) => {
         if (pageEl) observer.unobserve(pageEl);
@@ -215,7 +218,7 @@ export default function EbookViewerPage() {
           </div>
         )}
 
-        <main ref={viewerRef} className="flex-1 overflow-y-auto" style={{ paddingTop: `calc(env(safe-area-inset-top) + 8rem)`, paddingBottom: '8rem' }}>
+        <main ref={viewerRef} className="flex-1 overflow-y-auto" style={{ paddingTop: `calc(env(safe-area-inset-top) + 4rem)`, paddingBottom: '8rem' }}>
             <Document
                 file={ebook.pdfDataUrl}
                 onLoadSuccess={onDocumentLoadSuccess}
@@ -251,11 +254,11 @@ export default function EbookViewerPage() {
         <footer className="fixed bottom-0 left-0 right-0 z-30 p-4" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
           <div className="w-full max-w-[16rem] mx-auto">
               {isClient && isMobile ? (
-                  <Button onClick={() => setIsSheetOpen(true)} className="bg-background/50 backdrop-blur-lg border border-foreground/10 text-foreground rounded-full w-full h-12 text-lg font-semibold hover:bg-background/70 shadow-lg">
+                  <Button onClick={() => setIsSheetOpen(true)} className="bg-background/60 backdrop-blur-xl border border-white/20 text-foreground rounded-full w-full h-12 text-lg font-semibold hover:bg-background/70 shadow-xl">
                       Détail
                   </Button>
                 ) : (
-                  <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="bg-background/50 backdrop-blur-lg border border-foreground/10 text-foreground rounded-full w-full h-12 text-lg font-semibold hover:bg-background/70 shadow-lg">
+                  <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="bg-background/60 backdrop-blur-xl border border-white/20 text-foreground rounded-full w-full h-12 text-lg font-semibold hover:bg-background/70 shadow-xl">
                       Détail
                   </Button>
               )}
