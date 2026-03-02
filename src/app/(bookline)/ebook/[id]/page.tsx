@@ -97,38 +97,33 @@ export default function EbookViewerPage() {
   
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const pageIndex = parseInt(
-              entry.target.getAttribute('data-page-number') || '1',
-              10
-            );
-            
-            const viewerRect = viewer.getBoundingClientRect();
-            const viewerCenterY = viewerRect.top + viewerRect.height / 2;
+        const visiblePages = entries.filter(entry => entry.isIntersecting);
   
-            let closestPage = pageIndex;
-            let minDistance = Infinity;
+        if (visiblePages.length > 0) {
+          const viewerRect = viewer.getBoundingClientRect();
+          const viewerCenterY = viewerRect.top + viewerRect.height / 2;
   
-            pageRefs.current.forEach((pageEl, index) => {
-              if (pageEl) {
-                const pageRect = pageEl.getBoundingClientRect();
-                const pageCenterY = pageRect.top + pageRect.height / 2;
-                const distance = Math.abs(viewerCenterY - pageCenterY);
+          let closestPage = 1;
+          let minDistance = Infinity;
   
-                if (distance < minDistance) {
-                  minDistance = distance;
-                  closestPage = index + 1;
-                }
+          pageRefs.current.forEach((pageEl, index) => {
+            if (pageEl) {
+              const pageRect = pageEl.getBoundingClientRect();
+              const pageCenterY = pageRect.top + pageRect.height / 2;
+              const distance = Math.abs(viewerCenterY - pageCenterY);
+  
+              if (distance < minDistance) {
+                minDistance = distance;
+                closestPage = index + 1;
               }
-            });
-            setCurrentPage(closestPage);
-          }
-        });
+            }
+          });
+          setCurrentPage(closestPage);
+        }
       },
       {
         root: viewer,
-        threshold: 0.5,
+        threshold: [0.2, 0.5, 0.8],
       }
     );
   
@@ -254,11 +249,11 @@ export default function EbookViewerPage() {
         <footer className="fixed bottom-8 left-0 right-0 z-30 p-4 md:bottom-2 md:mb-4" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
           <div className="w-full max-w-[16rem] mx-auto">
               {isClient && isMobile ? (
-                  <Button onClick={() => setIsSheetOpen(true)} className="bg-black/20 backdrop-blur border border-white/10 text-white rounded-full w-full h-12 text-lg font-semibold hover:bg-black/30 shadow-lg">
+                  <Button onClick={() => setIsSheetOpen(true)} className="backdrop-blur border border-white/10 text-white rounded-full w-full h-12 text-lg font-semibold transition-all duration-200 [background:radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.15)_0%,transparent_50%),rgba(0,0,0,0.2)] hover:[background:radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.15)_0%,transparent_50%),rgba(0,0,0,0.3)] [box-shadow:0_10px_15px_-3px_rgba(0,0,0,0.1),_0_4px_6px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]">
                       Détail
                   </Button>
                 ) : (
-                  <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="bg-black/20 backdrop-blur border border-white/10 text-white rounded-full w-full h-12 text-lg font-semibold hover:bg-black/30 shadow-lg">
+                  <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="backdrop-blur border border-white/10 text-white rounded-full w-full h-12 text-lg font-semibold transition-all duration-200 [background:radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.15)_0%,transparent_50%),rgba(0,0,0,0.2)] hover:[background:radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.15)_0%,transparent_50%),rgba(0,0,0,0.3)] [box-shadow:0_10px_15px_-3px_rgba(0,0,0,0.1),_0_4px_6px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]">
                       Détail
                   </Button>
               )}
