@@ -136,7 +136,6 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
                         fill 
                         style={{ objectFit: 'cover' }}
                         onLoad={handleLoad}
-                        loading="eager"
                         unoptimized
                       />
                     )}
