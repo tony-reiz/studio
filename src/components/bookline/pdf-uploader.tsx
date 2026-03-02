@@ -102,7 +102,7 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
                 )}
 
                 {compressedSize && !isCompressing && (
-                    <div className="flex items-center gap-1.5 animate-in fade-in-0 slide-in-from-left-4 duration-500">
+                    <div className="flex items-center gap-1.5 animate-in fade-in-0 slide-in-from-left-4 duration-700">
                         <span>=</span>
                         <span className='text-green-400'>{formatBytes(compressedSize)}</span>
                     </div>
