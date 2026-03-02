@@ -248,14 +248,14 @@ export default function EbookViewerPage() {
             </Document>
         </main>
 
-        <footer className="fixed bottom-0 left-0 right-0 z-30 p-4 bg-background/80 backdrop-blur-xl" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
+        <footer className="fixed bottom-0 left-0 right-0 z-30 p-4" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
           <div className="w-full max-w-[16rem] mx-auto">
               {isClient && isMobile ? (
-                  <Button onClick={() => setIsSheetOpen(true)} className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90 shadow-lg">
+                  <Button onClick={() => setIsSheetOpen(true)} className="bg-background/50 backdrop-blur-lg border border-foreground/10 text-foreground rounded-full w-full h-12 text-lg font-semibold hover:bg-background/70 shadow-lg">
                       Détail
                   </Button>
                 ) : (
-                  <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90 shadow-lg">
+                  <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="bg-background/50 backdrop-blur-lg border border-foreground/10 text-foreground rounded-full w-full h-12 text-lg font-semibold hover:bg-background/70 shadow-lg">
                       Détail
                   </Button>
               )}
