@@ -15,6 +15,7 @@ import { useEbooks } from '@/context/ebook-provider';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
+import { PDFDocument } from 'pdf-lib';
 
 const sellFormSchema = z.object({
   title: z.string().min(1, { message: "Le titre est requis." }),
@@ -63,34 +64,50 @@ export default function SellPage() {
 
     setSubmissionStep('compressing');
 
-    // Simulate compression process
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setSubmissionStep('publishing');
-
-    const reader = new FileReader();
-    reader.readAsDataURL(pdfFile);
-    
-    reader.onloadend = () => {
-      const base64String = reader.result as string;
-      
-      // In a real scenario, you would use the compressed PDF data here.
-      addPublishedEbook({
-        title: values.title,
-        description: values.description,
-        keywords: values.keywords,
-        price: values.price,
-        pdfDataUrl: base64String, // For now, we use the original file data.
+    try {
+      // Real compression step
+      const pdfBytes = await pdfFile.arrayBuffer();
+      const pdfDoc = await PDFDocument.load(pdfBytes, {
+        // This option can sometimes help with corrupted files
+        ignoreEncryption: true,
       });
-      
-      handleNavigate('/profile');
-    }
 
-    reader.onerror = () => {
+      // Saving the document with pdf-lib can perform some optimizations
+      // and remove unnecessary objects.
+      const compressedPdfBytes = await pdfDoc.save();
+
+      const compressedPdfBlob = new Blob([compressedPdfBytes], { type: 'application/pdf' });
+
+      setSubmissionStep('publishing');
+
+      // Convert compressed PDF to data URL
+      const reader = new FileReader();
+      reader.readAsDataURL(compressedPdfBlob);
+      
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        
+        addPublishedEbook({
+          title: values.title,
+          description: values.description,
+          keywords: values.keywords,
+          price: values.price,
+          pdfDataUrl: base64String,
+        });
+        
+        handleNavigate('/profile');
+      }
+
+      reader.onerror = () => {
+          throw new Error("Impossible de lire le fichier PDF compressé.");
+      }
+
+    } catch (error) {
+        console.error("PDF compression failed:", error);
         toast({
             variant: "destructive",
-            title: "Erreur",
-            description: "Impossible de lire le fichier PDF.",
+            title: "Erreur de compression",
+            description: "Le fichier PDF n'a pas pu être traité. Il est peut-être corrompu ou protégé.",
         });
         setSubmissionStep('idle');
     }
