@@ -127,7 +127,8 @@ export default function ProfilePage() {
 
   return (
     <>
-      <div className="flex flex-col min-h-screen bg-background text-foreground">
+      <div className="absolute inset-0 -z-10 h-full w-full bg-gradient-to-br from-primary/5 to-secondary/10" />
+      <div className="flex flex-col min-h-screen bg-transparent text-foreground">
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
           <header className="flex items-start justify-between w-full py-6">
             <Button onClick={handleBack} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Retour">
