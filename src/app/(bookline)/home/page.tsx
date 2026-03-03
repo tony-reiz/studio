@@ -46,8 +46,8 @@ export default function HomePage() {
     <div className={cn("flex flex-col h-screen overflow-hidden text-foreground bg-transparent")}>
       {isClient && (
         <>
-          <LightFluidBackground className={cn("transition-opacity duration-300", theme === 'light' ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
-          <DarkFluidBackground className={cn("transition-opacity duration-300", theme === 'dark' ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
+          <LightFluidBackground isActive={theme === 'light'} />
+          <DarkFluidBackground isActive={theme === 'dark'} />
         </>
       )}
       <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">

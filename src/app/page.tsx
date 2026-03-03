@@ -81,8 +81,8 @@ export default function LandingPage() {
     <div className={cn("flex flex-col min-h-screen text-foreground bg-transparent transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
       {isClient && (
         <>
-          <LightFluidBackground className={cn("transition-opacity duration-300", theme === 'light' ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
-          <DarkFluidBackground className={cn("transition-opacity duration-300", theme === 'dark' ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
+          <LightFluidBackground isActive={theme === 'light'} />
+          <DarkFluidBackground isActive={theme === 'dark'} />
         </>
       )}
       <header className="absolute top-0 left-0 right-0 z-10">

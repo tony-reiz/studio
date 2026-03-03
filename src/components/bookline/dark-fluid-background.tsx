@@ -1,15 +1,30 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 
 interface FluidBackgroundProps {
+  isActive: boolean;
   className?: string;
 }
 
-export function DarkFluidBackground({ className }: FluidBackgroundProps) {
+export function DarkFluidBackground({ isActive, className }: FluidBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameId = useRef<number>();
+  const [isOpaque, setIsOpaque] = useState(false);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isActive) {
+      // Delay setting opacity to allow CSS transition to trigger
+      timer = setTimeout(() => setIsOpaque(true), 50);
+    } else {
+      setIsOpaque(false);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [isActive]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -156,5 +171,9 @@ export function DarkFluidBackground({ className }: FluidBackgroundProps) {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className={cn("fixed inset-0 w-full h-full -z-10", className)} />;
+  return <canvas ref={canvasRef} className={cn(
+        "fixed inset-0 w-full h-full -z-10 transition-opacity duration-300",
+        isOpaque ? "opacity-100" : "opacity-0 pointer-events-none",
+        className
+      )} />;
 }

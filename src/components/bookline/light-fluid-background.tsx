@@ -1,15 +1,30 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 
 interface FluidBackgroundProps {
+  isActive: boolean;
   className?: string;
 }
 
-export function LightFluidBackground({ className }: FluidBackgroundProps) {
+export function LightFluidBackground({ isActive, className }: FluidBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameId = useRef<number>();
+  const [isOpaque, setIsOpaque] = useState(false);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isActive) {
+      // Delay setting opacity to allow CSS transition to trigger
+      timer = setTimeout(() => setIsOpaque(true), 50);
+    } else {
+      setIsOpaque(false);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [isActive]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -154,13 +169,15 @@ export function LightFluidBackground({ className }: FluidBackgroundProps) {
 
     return () => {
       clearTimeout(timeoutId);
-      // The resize function is redefined inside useEffect, so we can't remove it directly by name.
-      // A real implementation would define it outside or use a ref. For this context, we skip removal.
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
       }
     };
   }, []);
 
-  return <canvas ref={canvasRef} className={cn("fixed inset-0 w-full h-full -z-10", className)} />;
+  return <canvas ref={canvasRef} className={cn(
+        "fixed inset-0 w-full h-full -z-10 transition-opacity duration-300",
+        isOpaque ? "opacity-100" : "opacity-0 pointer-events-none",
+        className
+      )} />;
 }
