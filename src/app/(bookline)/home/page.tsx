@@ -66,8 +66,8 @@ export default function HomePage() {
                       onClick={() => setIsSearchOpen(true)}
                       className="relative flex items-center pl-11 pr-4 h-11 w-40 sm:w-64 text-sm rounded-full text-left focus:outline-none glass-search"
                   >
-                      <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5" />
-                      <span className="truncate">recherchez vos ebook...</span>
+                      <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 z-[2]" />
+                      <span className="truncate relative z-[2]">recherchez vos ebook...</span>
                   </button>
               </div>
               <Button onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="-mt-2 sm:mt-0 w-11 h-11 rounded-full glass-icon-button" aria-label="Profil Utilisateur">
@@ -81,8 +81,8 @@ export default function HomePage() {
                   onClick={() => setIsSearchOpen(true)}
                   className="relative flex items-center pl-11 pr-4 h-11 w-full text-sm rounded-full text-left focus:outline-none glass-search"
               >
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5" />
-                  <span className="truncate">recherchez vos ebook...</span>
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 z-[2]" />
+                  <span className="truncate relative z-[2]">recherchez vos ebook...</span>
               </button>
           </div>
         </header>
