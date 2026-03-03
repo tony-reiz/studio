@@ -35,10 +35,11 @@ export default function HomePage() {
     <Button
       onClick={!isMobile ? () => handleNavigate('/settings') : undefined}
       variant="ghost"
+      size="icon"
       aria-label="Menu"
-      className="p-0 h-auto hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7"
+      className="w-11 h-11 rounded-full glass-icon-button"
     >
-      <Menu />
+      <Menu className="h-6 w-6" />
     </Button>
   );
 
@@ -53,7 +54,7 @@ export default function HomePage() {
       <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="w-full py-6">
           <div className="flex items-start justify-between w-full">
-            <div className="flex flex-col items-start">
+            <div className="flex flex-col items-start gap-3">
               {isClient && isMobile ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
               <div className="-mt-1">
                 <p className="text-[24px] font-bold tracking-widest text-foreground">BIENVENUE SUR</p>

@@ -161,10 +161,11 @@ export default function SellPage() {
       type="button"
       onClick={!isMobile ? () => handleNavigate('/settings') : undefined}
       variant="ghost"
+      size="icon"
       aria-label="Menu"
-      className="p-0 h-auto hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-7 [&_svg]:w-7"
+      className="w-11 h-11 rounded-full glass-icon-button"
     >
-      <Menu />
+      <Menu className="h-6 w-6" />
     </Button>
   );
 
