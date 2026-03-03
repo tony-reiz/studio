@@ -209,7 +209,6 @@ export default function SellPage() {
             <div className="max-w-[16rem] w-full">
                 <Button
                 type="submit"
-                variant="ghost"
                 disabled={isButtonDisabled}
                 className={cn(
                     "w-full h-12 text-lg font-semibold rounded-full",
