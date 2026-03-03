@@ -36,7 +36,7 @@ export function BottomNav() {
 
   return (
     <div className="fixed bottom-8 left-0 right-0 p-4 md:bottom-2 md:mb-4">
-      <div className="bg-secondary rounded-full flex relative items-center max-w-[16rem] mx-auto shadow-lg">
+      <div className="glass-form-element rounded-full flex relative items-center max-w-[16rem] mx-auto">
         <div
           className={cn(
             'absolute top-0 h-full w-1/2 rounded-full bg-foreground transition-all duration-500 ease-in-out',
