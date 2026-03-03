@@ -169,12 +169,12 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
             )}
           >
             <div className="relative flex-1">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground z-10" />
               <Input
                 ref={inputRef}
                 type="search"
                 placeholder="recherchez vos ebook..."
-                className="pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0"
+                className="pl-11 pr-4 h-12 w-full text-base glass-form-element border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
