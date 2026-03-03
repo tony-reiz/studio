@@ -40,7 +40,7 @@ export function SellForm() {
         return `${formatted} €`;
     };
 
-    const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0";
+    const inputClasses = "pl-11 pr-4 h-12 w-full text-base glass-form-element placeholder:text-muted-foreground border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0";
 
   return (
     <div className="w-full max-w-[18rem] md:w-80 flex flex-col items-center">
@@ -51,7 +51,7 @@ export function SellForm() {
                 render={({ field }) => (
                     <FormItem>
                     <div className="relative w-full">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">T</span>
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-10">T</span>
                         <FormControl>
                             <Input placeholder="titre de l'ebook..." {...field} className={inputClasses}/>
                         </FormControl>
@@ -67,7 +67,7 @@ export function SellForm() {
                 render={({ field }) => (
                     <FormItem>
                     <div className="relative w-full">
-                         <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-muted-foreground">D</span>
+                         <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-muted-foreground z-10">D</span>
                         <FormControl>
                             <Textarea placeholder="description de l'ebook..." {...field} className={cn(inputClasses, "h-28 rounded-[30px] py-3.5 leading-snug")} />
                         </FormControl>
@@ -99,7 +99,7 @@ export function SellForm() {
                 render={({ field }) => (
                     <FormItem>
                     <div className="relative w-full">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">€</span>
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-10">€</span>
                         <FormControl>
                             <Input type="text" inputMode="decimal" placeholder="prix..." {...field} className={inputClasses}/>
                         </FormControl>

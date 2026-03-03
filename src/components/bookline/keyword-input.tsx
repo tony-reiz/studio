@@ -109,7 +109,7 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
   return (
     <div 
         className={cn(
-            "flex items-center h-12 w-full rounded-full bg-secondary p-0 overflow-hidden",
+            "flex items-center h-12 w-full rounded-full p-0 overflow-hidden glass-form-element",
             error ? 'ring-2 ring-destructive ring-offset-2' : ''
         )}
         onClick={() => inputRef.current?.focus()}
