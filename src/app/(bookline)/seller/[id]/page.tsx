@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { User, Share2, ChevronLeft, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -12,16 +12,33 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { BuyEbookSheet } from '@/components/bookline/buy-ebook-sheet';
+import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 
 export default function SellerProfilePage() {
   const params = useParams();
   const id = params.id as string;
   const { handleNavigate, handleBack } = useTransitionRouter();
-  const { publishedEbooks, allEbooks, userProfile } = useEbooks();
+  const { publishedEbooks, allEbooks, userProfile, theme } = useEbooks();
   const { toast } = useToast();
   const [isCopied, setIsCopied] = useState(false);
   const isMobile = useIsMobile();
   const [selectedEbook, setSelectedEbook] = useState<Ebook | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (theme === 'light') {
+      document.body.classList.add('landing-light');
+    } else {
+      document.body.classList.remove('landing-light');
+    }
+    return () => {
+      document.body.classList.remove('landing-light');
+    };
+  }, [theme]);
 
   // The seller's ebooks are all ebooks that are not the current user's published ebooks.
   const publishedEbookIds = new Set(publishedEbooks.map(e => e.id));
@@ -67,7 +84,8 @@ export default function SellerProfilePage() {
 
   return (
     <>
-      <div className="flex flex-col min-h-screen bg-background text-foreground">
+      {isClient && theme === 'light' && <LightFluidBackground />}
+      <div className={cn("flex flex-col min-h-screen text-foreground", theme === 'light' ? 'bg-transparent' : 'bg-background')}>
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
           <header className="flex items-start justify-between w-full py-6">
             <Button onClick={handleBack} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Retour">
