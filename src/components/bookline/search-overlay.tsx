@@ -153,7 +153,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
     <>
       <div
         className={cn(
-          'fixed inset-0 bg-gradient-to-br from-background/95 to-secondary/95 backdrop-blur-sm z-50 transition-opacity duration-500 ease-in-out',
+          'fixed inset-0 bg-background/90 backdrop-blur-lg z-50 transition-opacity duration-500 ease-in-out',
           isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         )}
         onClick={onClose}
