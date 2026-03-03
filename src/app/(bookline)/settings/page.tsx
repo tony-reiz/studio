@@ -4,12 +4,35 @@ import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { SettingsList } from '@/components/bookline/settings-list';
+import { useEbooks } from '@/context/ebook-provider';
+import { useEffect, useState } from 'react';
+import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
+import { cn } from '@/lib/utils';
 
 export default function SettingsPage() {
   const { handleBack } = useTransitionRouter();
+  const { theme } = useEbooks();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (theme === 'light') {
+      document.body.classList.add('landing-light');
+    } else {
+      document.body.classList.remove('landing-light');
+    }
+    return () => {
+      document.body.classList.remove('landing-light');
+    };
+  }, [theme]);
+
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className={cn("min-h-screen text-foreground", theme === 'light' ? 'bg-transparent' : 'bg-background')}>
+      {isClient && theme === 'light' && <LightFluidBackground />}
       <div className="w-full max-w-screen-md mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="flex items-center justify-center w-full py-6 relative">
           <h1 className="text-2xl font-bold invisible sm:visible">Paramètres</h1>
