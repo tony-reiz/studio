@@ -73,8 +73,8 @@
     --sidebar-ring: 0 0% 83.1%;
   }
 
-  * {
-    @apply border-border;
+  *, ::before, ::after {
+    @apply border-border transition-colors duration-300;
   }
   body {
     @apply bg-background text-foreground;
