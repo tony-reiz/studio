@@ -90,14 +90,14 @@ export default function SellerProfilePage() {
       <div className={cn("flex flex-col min-h-screen text-foreground bg-transparent")}>
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
           <header className="flex items-start justify-between w-full py-6">
-            <Button onClick={handleBack} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Retour">
+            <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label="Retour">
               <ChevronLeft className="h-6 w-6" />
             </Button>
             <div className="flex flex-col items-center gap-3">
-              <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Partager le profil">
+              <Button variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label="Partager le profil">
                 <Share2 className="h-6 w-6" />
               </Button>
-              <Button variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Signaler le profil">
+              <Button variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label="Signaler le profil">
                 <AlertCircle className="h-6 w-6" />
               </Button>
             </div>
