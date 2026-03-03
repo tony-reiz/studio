@@ -249,12 +249,12 @@ export default function EbookViewerPage() {
         <footer className="fixed bottom-8 left-0 right-0 z-30 p-4 md:bottom-2 md:mb-4" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
           <div className="w-full max-w-[16rem] mx-auto">
               {isClient && isMobile ? (
-                  <Button onClick={() => setIsSheetOpen(true)} className="glass-liquid text-white w-full h-12 text-lg font-semibold transition-all duration-200">
-                      <span className="relative z-10">Détail</span>
+                  <Button onClick={() => setIsSheetOpen(true)} className="glass-button rounded-full w-full h-12 text-lg font-semibold">
+                      Détail
                   </Button>
                 ) : (
-                  <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="glass-liquid text-white w-full h-12 text-lg font-semibold transition-all duration-200">
-                      <span className="relative z-10">Détail</span>
+                  <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="glass-button rounded-full w-full h-12 text-lg font-semibold">
+                      Détail
                   </Button>
               )}
           </div>

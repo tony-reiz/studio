@@ -96,40 +96,6 @@
     scrollbar-width: none;
   }
 
-  .glass-liquid {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(2px) saturate(160%);
-    -webkit-backdrop-filter: blur(2px) saturate(160%);
-    box-shadow: 
-      inset 0 10px 10px rgba(255, 255, 255, 0.4),
-      inset 0 -5px 10px rgba(0, 0, 0, 0.1),
-      0 5px 15px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-top: 1px solid rgba(255, 255, 255, 0.7);
-    border-radius: 50px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .glass-liquid:hover {
-    background: rgba(255, 255, 255, 0.2);
-  }
-  
-  .glass-liquid::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 5%;
-    width: 90%;
-    height: 40%;
-    background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.5) 0%,
-      rgba(255, 255, 255, 0) 100%
-    );
-    border-radius: 50px 50px 100px 100px;
-  }
-
   .glass-icon-button {
     color: rgba(0, 0, 0, 0.85);
     position: relative;
@@ -138,7 +104,7 @@
     align-items: center;
     overflow: hidden;
     border: none;
-    background: rgba(60, 60, 65, 0.18);
+    background: rgba(60, 60, 65, 0.18) !important;
     backdrop-filter: blur(5px) saturate(200%) brightness(0.95);
     -webkit-backdrop-filter: blur(5px) saturate(200%) brightness(0.95);
     border: 0.5px solid rgba(255, 255, 255, 0.25);
@@ -177,7 +143,7 @@
 
   .dark .glass-icon-button {
     color: rgba(255, 255, 255, 0.85);
-    background: rgba(200, 200, 205, 0.1);
+    background: rgba(200, 200, 205, 0.1) !important;
     backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
     -webkit-backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
     border-color: rgba(255, 255, 255, 0.15);
@@ -195,7 +161,7 @@
   .glass-search {
     position: relative;
     overflow: hidden;
-    background: rgba(60, 60, 65, 0.18);
+    background: rgba(60, 60, 65, 0.18) !important;
     backdrop-filter: blur(5px) saturate(200%) brightness(0.95);
     -webkit-backdrop-filter: blur(5px) saturate(200%) brightness(0.95);
     border: 0.5px solid rgba(255, 255, 255, 0.25);
@@ -228,7 +194,7 @@
   }
 
   .dark .glass-search {
-    background: rgba(200, 200, 205, 0.1);
+    background: rgba(200, 200, 205, 0.1) !important;
     backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
     -webkit-backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
     border-color: rgba(255, 255, 255, 0.15);
@@ -249,7 +215,7 @@
     position: relative;
     font-weight: 500;
     color: rgba(0, 0, 0, 0.85);
-    background: rgba(60, 60, 65, 0.18);
+    background: rgba(60, 60, 65, 0.18) !important;
     backdrop-filter: blur(5px) saturate(200%) brightness(0.95);
     -webkit-backdrop-filter: blur(5px) saturate(200%) brightness(0.95);
     border: 0.5px solid rgba(255, 255, 255, 0.25);
@@ -288,7 +254,7 @@
   }
   .dark .glass-button {
     color: rgba(255, 255, 255, 0.85);
-    background: rgba(200, 200, 205, 0.1);
+    background: rgba(200, 200, 205, 0.1) !important;
     backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
     -webkit-backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
     border-color: rgba(255, 255, 255, 0.15);
@@ -305,7 +271,7 @@
     position: relative;
     overflow: hidden;
     color: hsl(var(--foreground));
-    background: rgba(60, 60, 65, 0.18);
+    background: rgba(60, 60, 65, 0.18) !important;
     backdrop-filter: blur(5px) saturate(200%) brightness(0.95);
     -webkit-backdrop-filter: blur(5px) saturate(200%) brightness(0.95);
     border: 0.5px solid rgba(255, 255, 255, 0.25);
@@ -332,7 +298,7 @@
     pointer-events: none;
   }
   .dark .glass-form-element {
-    background: rgba(200, 200, 205, 0.1);
+    background: rgba(200, 200, 205, 0.1) !important;
     backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
     -webkit-backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
     border-color: rgba(255, 255, 255, 0.15);
