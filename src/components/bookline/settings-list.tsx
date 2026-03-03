@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useEbooks } from '@/context/ebook-provider';
 import { cn } from '@/lib/utils';
+import { Switch } from '@/components/ui/switch';
 
 const settingsItems = [
   { icon: User, label: 'Paramètres du compte' },
@@ -32,6 +33,10 @@ const settingsItems = [
 
 export function SettingsList() {
   const { theme, setTheme } = useEbooks();
+
+  const handleThemeChange = (checked: boolean) => {
+    setTheme(checked ? 'dark' : 'light');
+  };
 
   return (
     <ul className="w-full space-y-2">
@@ -53,28 +58,16 @@ export function SettingsList() {
         <div className="w-full rounded-full flex items-center justify-between p-4 text-left">
           <div className="flex items-center gap-4">
             <SunMoon className="h-6 w-6 text-muted-foreground" />
-            <span className="font-semibold text-foreground">Thème</span>
+            <label htmlFor="theme-switch" className="font-semibold text-foreground cursor-pointer">
+              Thème sombre
+            </label>
           </div>
-          <div className="flex items-center bg-secondary p-1 rounded-full">
-            <button
-              onClick={() => setTheme('light')}
-              className={cn(
-                'px-4 py-1 rounded-full text-sm font-semibold transition-colors duration-200',
-                theme === 'light' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
-              )}
-            >
-              Clair
-            </button>
-            <button
-              onClick={() => setTheme('dark')}
-              className={cn(
-                'px-4 py-1 rounded-full text-sm font-semibold transition-colors duration-200',
-                theme === 'dark' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
-              )}
-            >
-              Sombre
-            </button>
-          </div>
+          <Switch
+            id="theme-switch"
+            checked={theme === 'dark'}
+            onCheckedChange={handleThemeChange}
+            aria-label="Activer le thème sombre"
+          />
         </div>
       </li>
 
