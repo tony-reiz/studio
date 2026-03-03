@@ -110,7 +110,7 @@ export function SellForm() {
             />
         </div>
 
-        <div className="w-full bg-secondary rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden">
+        <div className="w-full glass-form-element rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden">
             <div className='pl-6 py-4 text-sm text-muted-foreground space-y-1 flex flex-col justify-center'>
                 <p>prix de l'ebook</p>
                 <p>votre gain net</p>
