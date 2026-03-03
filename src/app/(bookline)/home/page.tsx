@@ -9,17 +9,31 @@ import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useEbooks } from '@/context/ebook-provider';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
+import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
+import { cn } from '@/lib/utils';
 
 export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { handleNavigate } = useTransitionRouter();
-  const { allEbooks } = useEbooks();
+  const { allEbooks, theme } = useEbooks();
   const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  // This effect handles the body class for the light theme background
+  useEffect(() => {
+    if (theme === 'light') {
+      document.body.classList.add('landing-light');
+    } else {
+      document.body.classList.remove('landing-light');
+    }
+    return () => {
+      document.body.classList.remove('landing-light');
+    };
+  }, [theme]);
 
   const menuButton = (
     <Button
@@ -33,7 +47,8 @@ export default function HomePage() {
   );
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-background text-foreground">
+    <div className={cn("flex flex-col h-screen overflow-hidden text-foreground", theme === 'light' ? 'bg-transparent' : 'bg-background')}>
+      {isClient && theme === 'light' && <LightFluidBackground />}
       <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="w-full py-6">
           <div className="flex items-start justify-between w-full">
