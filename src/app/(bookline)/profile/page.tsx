@@ -75,7 +75,7 @@ export default function ProfilePage() {
     setTimeout(() => {
       setDisplayedTab(newTab);
       setIsContentVisible(true);
-    }, 300);
+    }, 500);
   };
 
   const handleEbookClick = (ebook: Ebook, path: 'buy' | 'read') => {
@@ -185,7 +185,7 @@ export default function ProfilePage() {
 
             <ProfileTabNav activeTab={activeTab} setActiveTab={handleTabChange} />
             
-            <div className={cn("w-full max-w-sm md:max-w-4xl mt-4 transition-opacity duration-300", isContentVisible ? 'opacity-100' : 'opacity-0')}>
+            <div className={cn("w-full max-w-sm md:max-w-4xl mt-4 transition-opacity duration-500", isContentVisible ? 'opacity-100' : 'opacity-0')}>
               {renderContent()}
             </div>
           </main>

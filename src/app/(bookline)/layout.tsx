@@ -50,7 +50,7 @@ export default function BooklineLayout({
     setIsPageVisible(false);
     setTimeout(() => {
       router.push(path);
-    }, 300); // Duration of the fade-out animation
+    }, 500); // Duration of the fade-out animation
   };
 
   const handleBack = () => {
@@ -60,14 +60,14 @@ export default function BooklineLayout({
     setIsPageVisible(false);
     setTimeout(() => {
       router.back();
-    }, 300);
+    }, 500);
   };
 
   const transitionContextValue = { handleNavigate, handleBack };
 
   return (
       <TransitionContext.Provider value={transitionContextValue}>
-        <div className={cn("transition-opacity duration-300 ease-in-out", isPageVisible ? "opacity-100" : "opacity-0")}>
+        <div className={cn("transition-opacity duration-500 ease-in-out", isPageVisible ? "opacity-100" : "opacity-0")}>
           {children}
         </div>
         {showBottomNav && <BottomNav />}

@@ -223,7 +223,7 @@ export default function EbookViewerPage() {
                   </div>
                 }
                 className={cn(
-                    "flex flex-col items-center transition-opacity duration-300 ease-in-out",
+                    "flex flex-col items-center transition-opacity duration-500 ease-in-out",
                     isPdfVisible ? "opacity-100" : "opacity-0"
                 )}
             >

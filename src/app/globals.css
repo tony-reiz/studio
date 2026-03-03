@@ -74,7 +74,7 @@
   }
 
   *, ::before, ::after {
-    @apply border-border transition-colors duration-300;
+    @apply border-border transition-colors duration-500;
   }
   body {
     @apply bg-background text-foreground;

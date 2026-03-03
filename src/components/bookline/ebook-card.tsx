@@ -99,7 +99,7 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
             <>
                 {/* Gray placeholder that fades out */}
                 <div className={cn(
-                    "absolute inset-0 bg-secondary transition-opacity duration-300 z-10 overflow-hidden",
+                    "absolute inset-0 bg-secondary transition-opacity duration-500 z-10 overflow-hidden",
                     isLoaded ? "opacity-0 pointer-events-none" : "opacity-100"
                 )}>
                     <div className="absolute inset-0 -translate-x-full animate-shimmer-card bg-gradient-to-r from-transparent via-muted to-transparent"></div>
@@ -108,7 +108,7 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
                 {/* Content that fades in */}
                 {ebook.pdfDataUrl && (
                   <div className={cn(
-                      "absolute inset-0 w-full h-full transition-opacity duration-300",
+                      "absolute inset-0 w-full h-full transition-opacity duration-500",
                       isLoaded ? "opacity-100" : "opacity-0"
                     )}
                   >
@@ -146,7 +146,7 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
                 <button
                     onClick={handleFavoriteClick}
                     className={cn(
-                        "absolute top-0 right-0 m-4 p-0 z-20 transition-opacity duration-300",
+                        "absolute top-0 right-0 m-4 p-0 z-20 transition-opacity duration-500",
                         isLoaded ? 'opacity-100' : 'opacity-0 pointer-events-none'
                     )}
                     aria-label="Ajouter aux favoris"

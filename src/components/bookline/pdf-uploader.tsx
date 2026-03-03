@@ -114,7 +114,7 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
             data={`${previewUrl}#toolbar=0&navpanes=0&scrollbar=0`} 
             type="application/pdf" 
             className={cn(
-              "absolute inset-0 w-full h-full border-0 pointer-events-none scale-110 transition-opacity duration-300 ease-in-out",
+              "absolute inset-0 w-full h-full border-0 pointer-events-none scale-110 transition-opacity duration-500 ease-in-out",
               isPdfVisible ? "opacity-100" : "opacity-0"
             )} 
             title="Aperçu du PDF" 

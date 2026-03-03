@@ -26,13 +26,13 @@ export function ProfileTabNav({ activeTab, setActiveTab }: ProfileTabNavProps) {
   return (
     <div className="bg-secondary rounded-full flex relative items-center w-full max-w-sm md:max-w-lg mx-auto shadow-inner mt-4 mb-4">
       <div
-        className="absolute top-0 h-full w-1/3 rounded-full bg-foreground transition-all duration-300 ease-in-out"
+        className="absolute top-0 h-full w-1/3 rounded-full bg-foreground transition-all duration-500 ease-in-out"
         style={{ left: getLeftPosition() }}
       />
       <button
         onClick={() => setActiveTab('achats')}
         className={cn(
-          'relative z-10 w-1/3 py-2 text-center text-sm font-semibold transition-colors duration-300',
+          'relative z-10 w-1/3 py-2 text-center text-sm font-semibold transition-colors duration-500',
           activeTab === 'achats' ? 'text-background' : 'text-foreground'
         )}
       >
@@ -41,7 +41,7 @@ export function ProfileTabNav({ activeTab, setActiveTab }: ProfileTabNavProps) {
       <button
         onClick={() => setActiveTab('publications')}
         className={cn(
-          'relative z-10 w-1/3 py-2 text-center text-sm font-semibold transition-colors duration-300',
+          'relative z-10 w-1/3 py-2 text-center text-sm font-semibold transition-colors duration-500',
           activeTab === 'publications' ? 'text-background' : 'text-foreground'
         )}
       >
@@ -50,7 +50,7 @@ export function ProfileTabNav({ activeTab, setActiveTab }: ProfileTabNavProps) {
       <button
         onClick={() => setActiveTab('favoris')}
         className={cn(
-          'relative z-10 w-1/3 py-2 text-center text-sm font-semibold transition-colors duration-300',
+          'relative z-10 w-1/3 py-2 text-center text-sm font-semibold transition-colors duration-500',
           activeTab === 'favoris' ? 'text-background' : 'text-foreground'
         )}
       >

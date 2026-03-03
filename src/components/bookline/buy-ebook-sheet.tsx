@@ -68,7 +68,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
       setIsAnimationOpen(false);
       const timer = setTimeout(() => {
         setIsSheetMounted(false);
-      }, 400); // This must match the animation duration
+      }, 500); // This must match the animation duration
       return () => clearTimeout(timer);
     }
   }, [isComponentOpen]);
@@ -150,7 +150,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   
   const handleSellerNavigate = () => {
       closeSheet();
-      setTimeout(() => handleNavigate('/seller/1'), 300);
+      setTimeout(() => handleNavigate('/seller/1'), 500);
   }
 
   const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full flex items-center";
@@ -175,7 +175,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
       
       <div
         className={cn(
-          "fixed inset-0 bg-black/60 transition-opacity duration-300",
+          "fixed inset-0 bg-black/60 transition-opacity duration-500",
           isAnimationOpen ? 'opacity-100' : 'opacity-0'
         )}
         onClick={closeSheet}
@@ -189,7 +189,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
         className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none"
         style={{
           transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-          transition: isDragging ? 'none' : 'transform 0.4s ease-in-out',
+          transition: isDragging ? 'none' : 'transform 0.5s ease-in-out',
         }}
       >
         <h2 id="sheet-title" className="sr-only">Acheter l'ebook {activeEbook?.title}</h2>

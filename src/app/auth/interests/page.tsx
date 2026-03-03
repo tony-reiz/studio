@@ -28,7 +28,7 @@ export default function InterestsPage() {
     setIsMounted(false);
     setTimeout(() => {
       router.push(path);
-    }, 300);
+    }, 500);
   };
 
   const toggleInterest = (interest: string) => {
@@ -47,7 +47,7 @@ export default function InterestsPage() {
   const isButtonDisabled = selectedInterests.length < 5;
 
   return (
-    <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
+    <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-500 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
       <div className="w-full max-w-screen-lg mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="w-full py-6">
           <div className="flex flex-col items-start">

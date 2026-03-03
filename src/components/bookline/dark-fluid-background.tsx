@@ -172,7 +172,7 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
   }, []);
 
   return <canvas ref={canvasRef} className={cn(
-        "fixed inset-0 w-full h-full -z-10 transition-opacity duration-300",
+        "fixed inset-0 w-full h-full -z-10 transition-opacity duration-500",
         isOpaque ? "opacity-100" : "opacity-0 pointer-events-none",
         className
       )} />;

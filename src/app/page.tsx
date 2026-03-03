@@ -74,11 +74,11 @@ export default function LandingPage() {
     }
     setTimeout(() => {
       router.push(path);
-    }, 300); // Match animation duration
+    }, 500); // Match animation duration
   };
 
   return (
-    <div className={cn("flex flex-col min-h-screen text-foreground bg-transparent transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
+    <div className={cn("flex flex-col min-h-screen text-foreground bg-transparent transition-opacity duration-500 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
       {isClient && (
         <>
           <LightFluidBackground isActive={theme === 'light'} />

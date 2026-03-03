@@ -103,7 +103,7 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
         updateParent(newKeywords);
         return newKeywords;
       });
-    }, 300); // This duration must match the CSS transition duration
+    }, 500); // This duration must match the CSS transition duration
   };
   
   return (
@@ -120,7 +120,7 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
                     key={keyword.id} 
                     variant="default" 
                     className={cn(
-                        "flex-shrink-0 whitespace-nowrap rounded-full py-1 px-3 transition-opacity duration-300",
+                        "flex-shrink-0 whitespace-nowrap rounded-full py-1 px-3 transition-opacity duration-500",
                         keyword.state !== 'visible' && 'opacity-0'
                     )}
                 >

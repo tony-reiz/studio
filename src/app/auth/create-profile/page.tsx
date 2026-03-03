@@ -40,7 +40,7 @@ export default function CreateProfilePage() {
     setIsMounted(false);
     setTimeout(() => {
       router.push(path);
-    }, 300);
+    }, 500);
   };
 
   const handleSaveProfile = () => {
@@ -95,7 +95,7 @@ export default function CreateProfilePage() {
   const isSaveDisabled = !username.trim();
 
   return (
-    <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
+    <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-500 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
        <ImageCropper 
          imageSrc={imageToCrop}
          onCropComplete={onCropComplete}

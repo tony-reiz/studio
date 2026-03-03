@@ -19,12 +19,12 @@ export default function PrivacyPage() {
     setIsMounted(false);
     setTimeout(() => {
       router.back();
-    }, 300);
+    }, 500);
   };
 
 
   return (
-    <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
+    <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-500 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
       <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto flex items-center p-6">
             <Button onClick={handleBack} variant="ghost" size="icon" className="mr-4">

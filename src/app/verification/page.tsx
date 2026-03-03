@@ -18,11 +18,11 @@ export default function VerificationPage() {
     setIsMounted(false);
     setTimeout(() => {
       router.push(path);
-    }, 300);
+    }, 500);
   };
 
   return (
-    <div className={cn("grid h-screen place-items-center bg-background text-foreground overflow-hidden transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
+    <div className={cn("grid h-screen place-items-center bg-background text-foreground overflow-hidden transition-opacity duration-500 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
       <main className="max-w-md w-full text-center p-4">
         <div className="flex justify-center mb-6">
           <div className="w-24 h-24 bg-secondary rounded-full flex items-center justify-center">
