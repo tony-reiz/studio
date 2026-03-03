@@ -86,8 +86,8 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
       />
       <div
         className={cn(
-          'aspect-[210/297] p-0 flex items-center justify-center rounded-[25px] overflow-hidden relative bg-[#DFDFDF] transition-colors',
-          {'group-hover:bg-[#d0d0d0]': !pdfFile}
+          'aspect-[210/297] p-0 flex items-center justify-center rounded-[25px] overflow-hidden relative transition-colors',
+          !pdfFile ? 'glass-form-element' : 'bg-[#DFDFDF]'
         )}
       >
         {originalSize && (
@@ -120,7 +120,7 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
             title="Aperçu du PDF" 
           />
         ) : (
-          <CloudUpload className="h-10 w-10 text-muted-foreground" />
+          <CloudUpload className="h-10 w-10 text-muted-foreground z-10" />
         )}
       </div>
     </div>
