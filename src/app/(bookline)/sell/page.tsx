@@ -16,6 +16,7 @@ import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { PDFDocument } from 'pdf-lib';
 import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
+import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 
 const sellFormSchema = z.object({
   title: z.string().min(1, { message: "Le titre est requis." }),
@@ -38,13 +39,24 @@ export default function SellPage() {
   const [fileSize, setFileSize] = useState<{ original: number | null, compressed: number | null }>({ original: null, compressed: null });
   const { toast } = useToast();
   const { handleNavigate } = useTransitionRouter();
-  const { addPublishedEbook } = useEbooks();
+  const { addPublishedEbook, theme } = useEbooks();
   const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    if (theme === 'light') {
+      document.body.classList.add('landing-light');
+    } else {
+      document.body.classList.remove('landing-light');
+    }
+    return () => {
+      document.body.classList.remove('landing-light');
+    };
+  }, [theme]);
 
   const form = useForm<z.infer<typeof sellFormSchema>>({
     resolver: zodResolver(sellFormSchema),
@@ -166,7 +178,8 @@ export default function SellPage() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col min-h-screen bg-background text-foreground">
+      <form onSubmit={form.handleSubmit(onSubmit)} className={cn("flex flex-col min-h-screen text-foreground", theme === 'light' ? 'bg-transparent' : 'bg-background')}>
+        {isClient && theme === 'light' && <LightFluidBackground />}
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
           <header className="flex items-start justify-between w-full py-6">
             {isClient && isMobile ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
