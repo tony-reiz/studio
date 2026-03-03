@@ -185,7 +185,7 @@ export default function SellPage() {
           </>
         )}
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
-          <header className="flex items-start justify-between w-full py-6">
+          <header className="sticky top-0 z-10 flex items-start justify-between w-full pb-6 bg-background/80 backdrop-blur-sm" style={{ paddingTop: `calc(1.5rem + env(safe-area-inset-top))` }}>
             {isClient && isMobile ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
             <Button type="button" onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="-mt-2 sm:mt-0 w-11 h-11 rounded-full glass-icon-button" aria-label="Profil Utilisateur">
               <User className="h-6 w-6" />

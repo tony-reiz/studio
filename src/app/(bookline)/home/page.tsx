@@ -44,15 +44,15 @@ export default function HomePage() {
   );
 
   return (
-    <div className={cn("flex flex-col h-screen overflow-hidden text-foreground bg-transparent")}>
+    <div className={cn("flex flex-col h-screen text-foreground bg-transparent")}>
       {isClient && (
         <>
           <LightFluidBackground isActive={theme === 'light'} />
           <DarkFluidBackground isActive={theme === 'dark'} />
         </>
       )}
-      <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
-        <header className="w-full py-6">
+      <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8 overflow-y-auto scrollbar-hide">
+        <header className="sticky top-0 z-10 w-full pb-6 bg-background/80 backdrop-blur-sm" style={{ paddingTop: `calc(1.5rem + env(safe-area-inset-top))` }}>
           <div className="flex items-start justify-between w-full">
             <div className="flex flex-col items-start gap-3">
               {isClient && isMobile ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
