@@ -12,7 +12,8 @@ import {
   Bell,
   ShieldCheck,
   Trash2,
-  SunMoon,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { useEbooks } from '@/context/ebook-provider';
 import { cn } from '@/lib/utils';
@@ -38,6 +39,8 @@ export function SettingsList() {
     setTheme(checked ? 'dark' : 'light');
   };
 
+  const isDark = theme === 'dark';
+
   return (
     <ul className="w-full space-y-2">
       {settingsItems.slice(0, 3).map((item) => (
@@ -57,16 +60,20 @@ export function SettingsList() {
       <li>
         <div className="w-full rounded-full flex items-center justify-between p-4 text-left">
           <div className="flex items-center gap-4">
-            <SunMoon className="h-6 w-6 text-muted-foreground" />
+            {isDark ? (
+              <Moon className="h-6 w-6 text-muted-foreground" />
+            ) : (
+              <Sun className="h-6 w-6 text-muted-foreground" />
+            )}
             <label htmlFor="theme-switch" className="font-semibold text-foreground cursor-pointer">
-              Thème sombre
+              Thème
             </label>
           </div>
           <Switch
             id="theme-switch"
-            checked={theme === 'dark'}
+            checked={isDark}
             onCheckedChange={handleThemeChange}
-            aria-label="Activer le thème sombre"
+            aria-label="Changer le thème"
           />
         </div>
       </li>
