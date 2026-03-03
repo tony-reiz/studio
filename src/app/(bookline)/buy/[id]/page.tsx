@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import dynamic from 'next/dynamic';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 
 const Document = dynamic(
   () =>
@@ -29,10 +30,26 @@ export default function BuyEbookPage() {
   const params = useParams();
   const id = params.id as string;
   const { handleBack, handleNavigate } = useTransitionRouter();
-  const { allEbooks, purchasedEbooks, purchaseEbook } = useEbooks();
+  const { allEbooks, purchasedEbooks, purchaseEbook, theme } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
   const [numPages, setNumPages] = useState<number | null>(null);
   const { toast } = useToast();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (theme === 'light') {
+      document.body.classList.add('landing-light');
+    } else {
+      document.body.classList.remove('landing-light');
+    }
+    return () => {
+      document.body.classList.remove('landing-light');
+    };
+  }, [theme]);
 
 
   useEffect(() => {
@@ -85,7 +102,8 @@ export default function BuyEbookPage() {
   const textareaClasses = "pl-11 pr-4 h-[148px] w-full text-base bg-secondary border-0 rounded-[30px] py-3.5 leading-snug flex items-start overflow-y-auto";
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className={cn("min-h-screen text-foreground", theme === 'light' ? 'bg-transparent' : 'bg-background')}>
+       {isClient && theme === 'light' && <LightFluidBackground />}
        {ebook.pdfDataUrl.startsWith('data:application/pdf') && (
         <div className="hidden">
           <Document file={ebook.pdfDataUrl} onLoadSuccess={onDocumentLoadSuccess} />
