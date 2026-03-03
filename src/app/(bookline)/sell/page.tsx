@@ -152,8 +152,9 @@ export default function SellPage() {
     }
   }
 
-  const isCompressing = submissionStep === 'compressing';
-  const isButtonDisabled = isCompressing || submissionStep === 'publishing' || !form.formState.isValid || !pdfFile;
+  const isProcessing = submissionStep !== 'idle';
+  const isFormComplete = form.formState.isValid && !!pdfFile;
+  const isButtonDisabled = isProcessing || !isFormComplete;
 
   const menuButton = (
     <Button
@@ -169,7 +170,7 @@ export default function SellPage() {
 
   const getButtonText = () => {
     if (submissionStep === 'publishing') return 'Publication...';
-    if (isCompressing) return 'Compression...';
+    if (submissionStep === 'compressing') return 'Compression...';
     return 'publier';
   }
 
@@ -198,7 +199,7 @@ export default function SellPage() {
                   onFileChange={handleFileChange}
                   originalSize={fileSize.original}
                   compressedSize={fileSize.compressed}
-                  isCompressing={isCompressing}
+                  isCompressing={submissionStep === 'compressing'}
                 />
               </div>
               <div className="flex justify-center md:justify-start">
@@ -213,12 +214,14 @@ export default function SellPage() {
                 className={cn(
                     "w-full h-12 text-lg font-semibold rounded-full",
                     "transition-colors duration-300",
-                    isButtonDisabled
-                    ? "bg-[#DFDFDF] text-muted-foreground cursor-not-allowed"
-                    : "glass-button hover:bg-foreground hover:text-background"
+                    isProcessing
+                        ? "bg-[#DFDFDF] text-muted-foreground cursor-not-allowed"
+                        : isFormComplete
+                            ? "bg-foreground text-background hover:bg-foreground/90"
+                            : "glass-button"
                 )}
                 >
-                {(submissionStep !== 'idle') && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+                {isProcessing && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
                 <span>{getButtonText()}</span>
                 </Button>
             </div>
