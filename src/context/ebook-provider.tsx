@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 // Define the shape of an ebook
@@ -43,6 +43,8 @@ interface EbookContextType {
   updateSelectedInterests: (interests: string[]) => void;
   purchasedEbooks: Ebook[];
   purchaseEbook: (ebook: Ebook) => void;
+  theme: 'light' | 'dark';
+  setTheme: (theme: 'light' | 'dark') => void;
 }
 
 // Create the context
@@ -59,6 +61,24 @@ export function EbookProvider({ children }: { children: ReactNode }) {
     avatarUrl: null,
   });
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+  const [theme, setThemeState] = useState<'light' | 'dark'>('light');
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem('bookline-theme') as 'light' | 'dark';
+    if (storedTheme) {
+      setTheme(storedTheme);
+    }
+  }, []);
+
+  const setTheme = (newTheme: 'light' | 'dark') => {
+    setThemeState(newTheme);
+    localStorage.setItem('bookline-theme', newTheme);
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  };
 
   const updateUserProfile = (profileUpdate: Partial<UserProfile>) => {
     setUserProfile((prev) => ({ ...prev, ...profileUpdate }));
@@ -117,7 +137,7 @@ export function EbookProvider({ children }: { children: ReactNode }) {
 
 
   return (
-    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook, favoritedEbooks, toggleFavoriteEbook, allEbooks, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, purchasedEbooks, purchaseEbook }}>
+    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook, favoritedEbooks, toggleFavoriteEbook, allEbooks, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, purchasedEbooks, purchaseEbook, theme, setTheme }}>
       {children}
     </EbookContext.Provider>
   );
