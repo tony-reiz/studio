@@ -208,13 +208,14 @@ export default function SellPage() {
             <div className="max-w-[16rem] w-full">
                 <Button
                 type="submit"
+                variant="ghost"
                 disabled={isButtonDisabled}
                 className={cn(
                     "w-full h-12 text-lg font-semibold rounded-full",
                     "transition-colors duration-300",
                     isButtonDisabled
                     ? "bg-[#DFDFDF] text-muted-foreground cursor-not-allowed"
-                    : "bg-foreground text-background hover:bg-foreground/90"
+                    : "glass-button hover:bg-foreground hover:text-background"
                 )}
                 >
                 {(submissionStep !== 'idle') && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
