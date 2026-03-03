@@ -214,7 +214,7 @@ export default function SellPage() {
                     "transition-colors duration-300",
                     isButtonDisabled
                     ? "bg-[#DFDFDF] text-muted-foreground cursor-not-allowed"
-                    : "glass-button"
+                    : "bg-foreground text-background hover:bg-foreground/90"
                 )}
                 >
                 {(submissionStep !== 'idle') && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
