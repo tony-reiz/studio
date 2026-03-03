@@ -64,7 +64,7 @@ export default function HomePage() {
               <div className="relative hidden sm:block">
                   <button
                       onClick={() => setIsSearchOpen(true)}
-                      className="relative flex items-center pl-11 pr-4 h-11 w-40 sm:w-64 text-sm bg-secondary border-0 rounded-full text-left text-muted-foreground focus:outline-none"
+                      className="relative flex items-center pl-11 pr-4 h-11 w-40 sm:w-64 text-sm rounded-full text-left focus:outline-none glass-search"
                   >
                       <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5" />
                       <span className="truncate">recherchez vos ebook...</span>
@@ -79,7 +79,7 @@ export default function HomePage() {
           <div className="relative w-full mt-2 sm:hidden">
               <button
                   onClick={() => setIsSearchOpen(true)}
-                  className="relative flex items-center pl-11 pr-4 h-11 w-full text-sm bg-secondary border-0 rounded-full text-left text-muted-foreground focus:outline-none"
+                  className="relative flex items-center pl-11 pr-4 h-11 w-full text-sm rounded-full text-left focus:outline-none glass-search"
               >
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5" />
                   <span className="truncate">recherchez vos ebook...</span>
