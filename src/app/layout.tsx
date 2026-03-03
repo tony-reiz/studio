@@ -25,7 +25,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icons/icon-192.svg" />
         <meta name="theme-color" content="#ffffff" />
       </head>
-      <body className="font-body antialiased">
+      <body className="font-body antialiased" suppressHydrationWarning>
           <EbookProvider>
             {children}
             <Toaster />
