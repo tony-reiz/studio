@@ -174,7 +174,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
                 ref={inputRef}
                 type="search"
                 placeholder="recherchez vos ebook..."
-                className="pl-11 pr-4 h-12 w-full text-base glass-form-element border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground"
+                className="pl-11 pr-4 h-12 w-full text-base glass-form-element bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
