@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, User, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookDisplayArea } from '@/components/bookline/ebook-display-area';
@@ -15,6 +15,11 @@ export default function HomePage() {
   const { handleNavigate } = useTransitionRouter();
   const { allEbooks } = useEbooks();
   const isMobile = useIsMobile();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const menuButton = (
     <Button
@@ -33,7 +38,7 @@ export default function HomePage() {
         <header className="w-full py-6">
           <div className="flex items-start justify-between w-full">
             <div className="flex flex-col items-start">
-              {isMobile ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
+              {isClient && isMobile ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
               <div className="-mt-1">
                 <p className="text-[24px] font-bold tracking-widest text-foreground">BIENVENUE SUR</p>
                 <h1 className="text-5xl sm:text-6xl font-extrabold text-primary -mt-1">BOOKLINE !</h1>

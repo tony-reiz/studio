@@ -40,6 +40,11 @@ export default function SellPage() {
   const { handleNavigate } = useTransitionRouter();
   const { addPublishedEbook } = useEbooks();
   const isMobile = useIsMobile();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const form = useForm<z.infer<typeof sellFormSchema>>({
     resolver: zodResolver(sellFormSchema),
@@ -164,7 +169,7 @@ export default function SellPage() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col min-h-screen bg-background text-foreground">
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
           <header className="flex items-start justify-between w-full py-6">
-            {isMobile ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
+            {isClient && isMobile ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
             <Button type="button" onClick={() => handleNavigate('/profile?tab=achats')} variant="default" size="icon" className="-mt-2 sm:mt-0 rounded-full bg-foreground text-background w-11 h-11" aria-label="Profil Utilisateur">
               <User className="h-6 w-6" />
             </Button>
