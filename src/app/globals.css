@@ -74,7 +74,7 @@
   }
 
   *, ::before, ::after {
-    @apply border-border transition-colors duration-500;
+    @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
@@ -145,7 +145,7 @@
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05), inset 0 0 15px rgba(255, 255, 255, 0.05);
   }
   .glass-icon-button:hover {
-    background: rgba(60, 60, 65, 0.18);
+    background: rgba(60, 60, 65, 0.18) !important;
   }
 
   .glass-icon-button::before {
@@ -185,7 +185,7 @@
   }
 
   .dark .glass-icon-button:hover {
-    background: rgba(200, 200, 205, 0.1);
+    background: rgba(200, 200, 205, 0.1) !important;
   }
 
   .dark .glass-icon-button::after {
@@ -200,6 +200,9 @@
     -webkit-backdrop-filter: blur(5px) saturate(200%) brightness(0.95);
     border: 0.5px solid rgba(255, 255, 255, 0.25);
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05), inset 0 0 15px rgba(255, 255, 255, 0.05);
+  }
+   .glass-search:hover {
+    background: rgba(60, 60, 65, 0.18) !important;
   }
 
   .glass-search::before {
@@ -231,6 +234,9 @@
     border-color: rgba(255, 255, 255, 0.15);
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.15), inset 0 0 15px rgba(255, 255, 255, 0.03);
   }
+  .dark .glass-search:hover {
+    background: rgba(200, 200, 205, 0.1) !important;
+  }
 
   .dark .glass-search::after {
     background: linear-gradient(rgba(255, 255, 255, 0.1), transparent);
@@ -254,7 +260,7 @@
     overflow: hidden;
   }
   .glass-button:hover {
-    background: rgba(60, 60, 65, 0.18);
+    background: rgba(60, 60, 65, 0.18) !important;
   }
   .glass-button > * {
       position: relative;
@@ -289,7 +295,7 @@
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.15), inset 0 0 15px rgba(255, 255, 255, 0.03);
   }
   .dark .glass-button:hover {
-    background: rgba(200, 200, 205, 0.1);
+    background: rgba(200, 200, 205, 0.1) !important;
   }
   .dark .glass-button::after {
       background: linear-gradient(rgba(255, 255, 255, 0.1), transparent);
