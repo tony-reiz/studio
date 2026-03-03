@@ -218,7 +218,7 @@ export default function SellPage() {
                         ? "bg-[#DFDFDF] text-muted-foreground cursor-not-allowed"
                         : isFormComplete
                             ? "bg-foreground text-background hover:bg-foreground/90"
-                            : "glass-button"
+                            : "glass-button disabled:opacity-100"
                 )}
                 >
                 {isProcessing && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
