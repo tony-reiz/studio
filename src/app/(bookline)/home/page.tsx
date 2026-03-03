@@ -10,6 +10,7 @@ import { useEbooks } from '@/context/ebook-provider';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
+import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 import { cn } from '@/lib/utils';
 
 export default function HomePage() {
@@ -23,17 +24,12 @@ export default function HomePage() {
     setIsClient(true);
   }, []);
 
-  // This effect handles the body class for the light theme background
   useEffect(() => {
-    if (theme === 'light') {
-      document.body.classList.add('landing-light');
-    } else {
-      document.body.classList.remove('landing-light');
-    }
+    document.body.classList.add('has-fluid-background');
     return () => {
-      document.body.classList.remove('landing-light');
+      document.body.classList.remove('has-fluid-background');
     };
-  }, [theme]);
+  }, []);
 
   const menuButton = (
     <Button
@@ -47,8 +43,13 @@ export default function HomePage() {
   );
 
   return (
-    <div className={cn("flex flex-col h-screen overflow-hidden text-foreground", theme === 'light' ? 'bg-transparent' : 'bg-background')}>
-      {isClient && theme === 'light' && <LightFluidBackground />}
+    <div className={cn("flex flex-col h-screen overflow-hidden text-foreground bg-transparent")}>
+      {isClient && (
+        <>
+          <LightFluidBackground className={cn("transition-opacity duration-300", theme === 'light' ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
+          <DarkFluidBackground className={cn("transition-opacity duration-300", theme === 'dark' ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
+        </>
+      )}
       <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="w-full py-6">
           <div className="flex items-start justify-between w-full">

@@ -82,8 +82,7 @@
     padding-top: env(safe-area-inset-top);
   }
   
-  /* This will make the body background transparent only for the landing page in light mode */
-  body.landing-light {
+  body.has-fluid-background {
     @apply bg-transparent;
   }
 }

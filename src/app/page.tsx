@@ -12,6 +12,7 @@ import { TermsSheet } from '@/components/bookline/terms-sheet';
 import { PrivacySheet } from '@/components/bookline/privacy-sheet';
 import { useEbooks } from '@/context/ebook-provider';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
+import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 
 
 // Chart data and config
@@ -56,17 +57,12 @@ export default function LandingPage() {
     return () => clearInterval(interval);
   }, []);
 
-  // This effect handles the body class for the light theme background
   useEffect(() => {
-    if (theme === 'light') {
-      document.body.classList.add('landing-light');
-    } else {
-      document.body.classList.remove('landing-light');
-    }
+    document.body.classList.add('has-fluid-background');
     return () => {
-      document.body.classList.remove('landing-light');
+      document.body.classList.remove('has-fluid-background');
     };
-  }, [theme]);
+  }, []);
 
 
   const handleNavigate = (path: string) => {
@@ -82,8 +78,13 @@ export default function LandingPage() {
   };
 
   return (
-    <div className={cn("flex flex-col min-h-screen text-foreground transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0", theme === 'light' ? 'bg-transparent' : 'bg-background')}>
-      {isClient && theme === 'light' && <LightFluidBackground />}
+    <div className={cn("flex flex-col min-h-screen text-foreground bg-transparent transition-opacity duration-300 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
+      {isClient && (
+        <>
+          <LightFluidBackground className={cn("transition-opacity duration-300", theme === 'light' ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
+          <DarkFluidBackground className={cn("transition-opacity duration-300", theme === 'dark' ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
+        </>
+      )}
       <header className="absolute top-0 left-0 right-0 z-10">
         <div className="container mx-auto flex justify-between items-center p-6">
             <h1 className="text-2xl font-bold">BookLine</h1>
@@ -98,7 +99,6 @@ export default function LandingPage() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative flex flex-col items-center justify-center text-center min-h-[85vh] pt-40 pb-20 px-4 overflow-hidden">
-          <div className={cn("absolute inset-0 -z-10", theme === 'light' ? 'bg-secondary/30 [mask-image:radial-gradient(ellipse_at_center,white_20%,transparent_80%)]' : '')}></div>
           
           <h2 className={cn(
             "text-5xl md:text-7xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 transition-all duration-700 ease-out",

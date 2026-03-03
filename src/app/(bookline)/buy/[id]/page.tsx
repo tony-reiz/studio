@@ -12,6 +12,7 @@ import dynamic from 'next/dynamic';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
+import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 
 const Document = dynamic(
   () =>
@@ -41,15 +42,11 @@ export default function BuyEbookPage() {
   }, []);
 
   useEffect(() => {
-    if (theme === 'light') {
-      document.body.classList.add('landing-light');
-    } else {
-      document.body.classList.remove('landing-light');
-    }
+    document.body.classList.add('has-fluid-background');
     return () => {
-      document.body.classList.remove('landing-light');
+      document.body.classList.remove('has-fluid-background');
     };
-  }, [theme]);
+  }, []);
 
 
   useEffect(() => {
@@ -102,8 +99,13 @@ export default function BuyEbookPage() {
   const textareaClasses = "pl-11 pr-4 h-[148px] w-full text-base bg-secondary border-0 rounded-[30px] py-3.5 leading-snug flex items-start overflow-y-auto";
 
   return (
-    <div className={cn("min-h-screen text-foreground", theme === 'light' ? 'bg-transparent' : 'bg-background')}>
-       {isClient && theme === 'light' && <LightFluidBackground />}
+    <div className={cn("min-h-screen text-foreground bg-transparent")}>
+       {isClient && (
+        <>
+          <LightFluidBackground className={cn("transition-opacity duration-300", theme === 'light' ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
+          <DarkFluidBackground className={cn("transition-opacity duration-300", theme === 'dark' ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
+        </>
+      )}
        {ebook.pdfDataUrl.startsWith('data:application/pdf') && (
         <div className="hidden">
           <Document file={ebook.pdfDataUrl} onLoadSuccess={onDocumentLoadSuccess} />

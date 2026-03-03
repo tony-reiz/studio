@@ -7,6 +7,7 @@ import { SettingsList } from '@/components/bookline/settings-list';
 import { useEbooks } from '@/context/ebook-provider';
 import { useEffect, useState } from 'react';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
+import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 import { cn } from '@/lib/utils';
 
 export default function SettingsPage() {
@@ -19,20 +20,21 @@ export default function SettingsPage() {
   }, []);
 
   useEffect(() => {
-    if (theme === 'light') {
-      document.body.classList.add('landing-light');
-    } else {
-      document.body.classList.remove('landing-light');
-    }
+    document.body.classList.add('has-fluid-background');
     return () => {
-      document.body.classList.remove('landing-light');
+      document.body.classList.remove('has-fluid-background');
     };
-  }, [theme]);
+  }, []);
 
 
   return (
-    <div className={cn("min-h-screen text-foreground", theme === 'light' ? 'bg-transparent' : 'bg-background')}>
-      {isClient && theme === 'light' && <LightFluidBackground />}
+    <div className={cn("min-h-screen text-foreground bg-transparent")}>
+      {isClient && (
+        <>
+          <LightFluidBackground className={cn("transition-opacity duration-300", theme === 'light' ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
+          <DarkFluidBackground className={cn("transition-opacity duration-300", theme === 'dark' ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
+        </>
+      )}
       <div className="w-full max-w-screen-md mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="flex items-center justify-center w-full py-6 relative">
           <h1 className="text-2xl font-bold invisible sm:visible">Paramètres</h1>

@@ -14,6 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { BuyEbookSheet } from '@/components/bookline/buy-ebook-sheet';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
+import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 
 type ActiveTab = 'achats' | 'publications' | 'favoris';
 
@@ -41,15 +42,11 @@ export default function ProfilePage() {
   }, []);
 
   useEffect(() => {
-    if (theme === 'light') {
-      document.body.classList.add('landing-light');
-    } else {
-      document.body.classList.remove('landing-light');
-    }
+    document.body.classList.add('has-fluid-background');
     return () => {
-      document.body.classList.remove('landing-light');
+      document.body.classList.remove('has-fluid-background');
     };
-  }, [theme]);
+  }, []);
 
   const handleCopyUsername = () => {
     if (isCopied) return;
@@ -144,12 +141,13 @@ export default function ProfilePage() {
 
   return (
     <>
-      {isClient && theme === 'light' ? (
-        <LightFluidBackground />
-      ) : (
-        <div className="absolute inset-0 -z-10 h-full w-full bg-gradient-to-br from-primary/5 to-secondary/10" />
+      {isClient && (
+        <>
+          <LightFluidBackground className={cn("transition-opacity duration-300", theme === 'light' ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
+          <DarkFluidBackground className={cn("transition-opacity duration-300", theme === 'dark' ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
+        </>
       )}
-      <div className={cn("flex flex-col min-h-screen text-foreground", theme === 'light' ? 'bg-transparent' : 'bg-transparent')}>
+      <div className={cn("flex flex-col min-h-screen text-foreground bg-transparent")}>
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
           <header className="flex items-start justify-between w-full py-6">
             <Button onClick={handleBack} variant="default" size="icon" className="rounded-full bg-foreground text-background w-11 h-11" aria-label="Retour">
