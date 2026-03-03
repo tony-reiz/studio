@@ -110,16 +110,16 @@ export function SellForm() {
             />
         </div>
 
-        <div className="w-full bg-secondary rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden">
+        <div className="w-full glass-form-element rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden">
             <div className='pl-6 py-4 text-sm text-muted-foreground space-y-1 flex flex-col justify-center'>
                 <p>prix de l'ebook</p>
                 <p>votre gain net</p>
                 <p>total de l'ebook</p>
             </div>
-            <div className='bg-foreground text-background rounded-l-[30px] px-8 py-4 text-sm flex flex-col justify-center text-right space-y-1'>
-                <p>{formatPrice(ebookPrice)}</p>
-                <p>{formatPrice(netGain)}</p>
-                <p>{formatPrice(totalPriceForCustomer)}</p>
+            <div className='bg-black/5 dark:bg-white/5 text-foreground rounded-l-[30px] px-8 py-4 text-sm flex flex-col justify-center text-right space-y-1'>
+                <p className="font-semibold">{formatPrice(ebookPrice)}</p>
+                <p className="font-semibold">{formatPrice(netGain)}</p>
+                <p className="font-semibold">{formatPrice(totalPriceForCustomer)}</p>
             </div>
         </div>
     </div>
