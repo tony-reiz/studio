@@ -86,13 +86,12 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
 
   const cardContent = (
     <Card 
-      className={cn('bg-transparent border-0 shadow-lg rounded-[25px]', className)}
+      className={cn('bg-transparent border-0 shadow-lg rounded-[25px]', !ebook && 'glass-form-element', className)}
     >
       <CardContent
         ref={containerRef}
         className={cn(
-          'aspect-[210/297] p-0 flex items-center justify-center rounded-[25px] overflow-hidden relative bg-transparent',
-          !ebook && (isActive ? 'bg-[#AFAFAF]' : 'bg-[#DFDFDF]')
+          'aspect-[210/297] p-0 flex items-center justify-center rounded-[25px] overflow-hidden relative bg-transparent'
         )}
       >
         {ebook ? (
