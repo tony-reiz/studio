@@ -207,7 +207,7 @@ export default function EbookViewerPage() {
         </header>
 
         {numPages && (
-          <div className="fixed left-1/2 -translate-x-1/2 z-20 bg-background/80 backdrop-blur-xl shadow-lg rounded-full flex items-center gap-2 px-3 py-1.5" style={{ top: `calc(env(safe-area-inset-top) + 5rem)`}}>
+          <div className="fixed left-1/2 -translate-x-1/2 z-20 bg-background/80 backdrop-blur-xl rounded-full flex items-center gap-2 px-3 py-1.5" style={{ top: `calc(env(safe-area-inset-top) + 5rem)`}}>
             <FileText className="h-4 w-4 text-muted-foreground" />
             <span className="text-sm font-medium text-foreground tabular-nums">{currentPage}/{numPages}</span>
           </div>
@@ -237,7 +237,7 @@ export default function EbookViewerPage() {
                         <Page
                             pageNumber={index + 1}
                             width={containerWidth ? containerWidth : undefined}
-                            className={cn(!containerWidth && 'invisible', 'shadow-lg')}
+                            className={cn(!containerWidth && 'invisible')}
                             renderTextLayer={false}
                             renderAnnotationLayer={false}
                         />

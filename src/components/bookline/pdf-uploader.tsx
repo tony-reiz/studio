@@ -74,7 +74,7 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
 
   return (
     <div
-      className={cn("w-full max-w-[18rem] md:w-80 cursor-pointer group rounded-[25px] shadow-lg", className)}
+      className={cn("w-full max-w-[18rem] md:w-80 cursor-pointer group rounded-[25px]", className)}
       onClick={handleUploadClick}
     >
        <input

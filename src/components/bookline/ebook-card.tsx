@@ -86,7 +86,7 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
 
   const cardContent = (
     <Card 
-      className={cn('bg-transparent border-0 shadow-lg rounded-[25px]', !ebook && 'glass-form-element', className)}
+      className={cn('bg-transparent border-0 rounded-[25px]', !ebook && 'glass-form-element', className)}
     >
       <CardContent
         ref={containerRef}
@@ -121,7 +121,7 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
                             <Page
                                 pageNumber={1}
                                 width={containerWidth ? containerWidth * 1.1 : undefined} // Mimic scale-110
-                                className={cn(!containerWidth && 'invisible', 'drop-shadow-lg')}
+                                className={cn(!containerWidth && 'invisible')}
                                 renderTextLayer={false}
                                 renderAnnotationLayer={false}
                                 onRenderSuccess={handleLoad}

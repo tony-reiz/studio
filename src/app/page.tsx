@@ -135,7 +135,7 @@ export default function LandingPage() {
                 "flex flex-col items-center transition-all duration-700 ease-out delay-[400ms]",
                 isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"
               )}>
-                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-background mb-6 shadow-md transition-transform duration-300 hover:scale-110">
+                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-background mb-6 transition-transform duration-300 hover:scale-110">
                     <Feather className="w-8 h-8 text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Publication Facile</h3>
@@ -146,7 +146,7 @@ export default function LandingPage() {
                 "flex flex-col items-center transition-all duration-700 ease-out delay-[550ms]",
                 isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"
               )}>
-                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-background mb-6 shadow-md transition-transform duration-300 hover:scale-110">
+                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-background mb-6 transition-transform duration-300 hover:scale-110">
                     <DollarSign className="w-8 h-8 text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Monétisation Simple</h3>
@@ -157,7 +157,7 @@ export default function LandingPage() {
                 "flex flex-col items-center transition-all duration-700 ease-out delay-[700ms]",
                 isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"
               )}>
-                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-background mb-6 shadow-md transition-transform duration-300 hover:scale-110">
+                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-background mb-6 transition-transform duration-300 hover:scale-110">
                     <ShieldCheck className="w-8 h-8 text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Paiements Sécurisés</h3>
