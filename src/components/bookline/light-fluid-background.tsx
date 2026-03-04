@@ -84,7 +84,7 @@ export function LightFluidBackground({ isActive, className }: FluidBackgroundPro
               float ratio = uResolution.x / uResolution.y;
               vec2 p = uv * vec2(ratio, 1.0);
 
-              float t = uTime * 0.4; 
+              float t = uTime * 0.5; 
 
               p *= 1.1; 
 
@@ -99,7 +99,7 @@ export function LightFluidBackground({ isActive, className }: FluidBackgroundPro
               vec3 baseWhite = vec3(1.0, 1.0, 1.0);
               
               // Couleurs pastels encore plus épurées
-              vec3 softPurple = vec3(0.8, 0.75, 0.98); 
+              vec3 softPurple = vec3(0.65, 0.6, 0.95); 
               vec3 skyBlue = vec3(0.75, 0.85, 1.0);
               
               // On diminue l'influence globale pour laisser le blanc respirer
