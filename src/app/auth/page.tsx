@@ -76,7 +76,7 @@ export default function AuthPage() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/10 rounded-full blur-3xl -z-10 animate-pulse" />
 
       <main className="flex-1 flex flex-col items-center justify-center p-4 text-center">
-        <div className="max-w-sm w-full space-y-8">
+        <div className="max-w-[18rem] sm:max-w-sm w-full space-y-8">
             <div className='overflow-hidden py-2'>
                 <h1 className={cn(
                     "text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 transition-transform duration-700 ease-out",
