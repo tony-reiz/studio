@@ -236,19 +236,19 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
 
                             <div className="w-full space-y-4">
                                 <div className="relative w-full">
-                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">T</span>
+                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground">T</span>
                                     <div className={cn(inputClasses, "overflow-x-auto scrollbar-hide")}>
                                     <p className="text-foreground whitespace-nowrap">{activeEbook.title}</p>
                                     </div>
                                 </div>
                                 <div className="relative w-full">
-                                    <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-muted-foreground">D</span>
+                                    <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-foreground">D</span>
                                     <div className={cn(textareaClasses, 'whitespace-pre-wrap')}>
                                     <p className="text-foreground">{activeEbook.description}</p>
                                     </div>
                                 </div>
                                 <div className="relative w-full">
-                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-10">M</span>
+                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground z-10">M</span>
                                     <div className="h-12 w-full text-base rounded-full flex items-center p-0 overflow-hidden glass-form-element">
                                     <div className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-4 scrollbar-hide">
                                         {activeEbook.keywords.split(',').map((keyword, index) => (
@@ -262,7 +262,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
                             </div>
 
                             <div className="w-full rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden glass-form-element">
-                                <div className='pl-6 py-4 text-sm text-muted-foreground space-y-1 flex flex-col justify-center'>
+                                <div className='pl-6 py-4 text-sm text-foreground space-y-1 flex flex-col justify-center'>
                                     <p>prix de l'ebook</p>
                                     <p>frais de service</p>
                                     <p>total de l'ebook</p>
