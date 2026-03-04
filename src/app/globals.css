@@ -76,14 +76,13 @@
   *, ::before, ::after {
     @apply border-border;
   }
+  html {
+    @apply bg-background;
+  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-transparent text-foreground;
     font-family: Arial, Helvetica, sans-serif;
     padding-top: env(safe-area-inset-top);
-  }
-  
-  body.has-fluid-background {
-    @apply bg-transparent;
   }
 }
 
