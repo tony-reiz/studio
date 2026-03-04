@@ -91,7 +91,7 @@ export default function CreateProfilePage() {
     setAvatarUrl(croppedImageUrl);
   };
 
-  const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0";
+  const inputClasses = "pl-11 pr-4 h-12 w-full text-base border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 glass-form-element";
   const isSaveDisabled = !username.trim();
 
   return (

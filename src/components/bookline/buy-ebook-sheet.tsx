@@ -153,8 +153,8 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
       setTimeout(() => handleNavigate('/seller/1'), 500);
   }
 
-  const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-secondary border-0 rounded-full flex items-center";
-  const textareaClasses = "pl-11 pr-4 h-[148px] w-full text-base bg-secondary border-0 rounded-[30px] py-3.5 leading-snug flex items-start overflow-y-auto";
+  const inputClasses = "pl-11 pr-4 h-12 w-full text-base rounded-full flex items-center glass-form-element";
+  const textareaClasses = "pl-11 pr-4 h-[148px] w-full text-base rounded-[30px] py-3.5 leading-snug flex items-start overflow-y-auto glass-form-element";
 
   if (!isSheetMounted) {
     return null;
@@ -249,7 +249,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
                                 </div>
                                 <div className="relative w-full">
                                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-10">M</span>
-                                    <div className="h-12 w-full text-base bg-secondary border-0 rounded-full flex items-center p-0 overflow-hidden">
+                                    <div className="h-12 w-full text-base rounded-full flex items-center p-0 overflow-hidden glass-form-element">
                                     <div className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-4 scrollbar-hide">
                                         {activeEbook.keywords.split(',').map((keyword, index) => (
                                         <Badge key={index} variant="default" className="flex-shrink-0 whitespace-nowrap rounded-full py-1 px-3">
@@ -261,7 +261,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
                                 </div>
                             </div>
 
-                            <div className="w-full bg-secondary rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden">
+                            <div className="w-full rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden glass-form-element">
                                 <div className='pl-6 py-4 text-sm text-muted-foreground space-y-1 flex flex-col justify-center'>
                                     <p>prix de l'ebook</p>
                                     <p>frais de service</p>
