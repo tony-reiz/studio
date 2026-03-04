@@ -37,7 +37,7 @@ export default function HomePage() {
       variant="ghost"
       size="icon"
       aria-label="Menu"
-      className="w-11 h-11 rounded-full glass-icon-button"
+      className="w-11 h-11 rounded-full glass-icon-button -mt-2 sm:mt-0"
     >
       <Menu className="h-6 w-6" />
     </Button>
