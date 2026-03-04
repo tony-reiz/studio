@@ -171,7 +171,7 @@ export default function ProfilePage() {
               <div 
                 className={cn(
                   "text-sm font-semibold rounded-full px-12 mt-4 h-9 flex items-center justify-center cursor-pointer select-none transition-colors duration-300",
-                  isCopied ? 'bg-green-500 text-white' : 'bg-foreground text-background'
+                  isCopied ? 'bg-green-500 text-white' : 'glass-form-element'
                 )}
                 onClick={handleCopyUsername}
                 onContextMenu={(e) => e.preventDefault()}
