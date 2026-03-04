@@ -84,7 +84,7 @@ export function LightFluidBackground({ isActive, className }: FluidBackgroundPro
               float ratio = uResolution.x / uResolution.y;
               vec2 p = uv * vec2(ratio, 1.0);
 
-              float t = uTime * 0.06; 
+              float t = uTime * 0.08; 
 
               p *= 1.1; 
 
