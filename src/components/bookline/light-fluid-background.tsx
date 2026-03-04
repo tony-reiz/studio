@@ -86,7 +86,7 @@ export function LightFluidBackground({ isActive, className }: FluidBackgroundPro
 
               float t = uTime * 0.5; 
 
-              p *= 1.1; 
+              p *= 0.8; 
 
               // Flux organique
               float n = snoise(p + snoise(p * 0.4 + t * 0.2));
