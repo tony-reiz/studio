@@ -84,7 +84,7 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
               float ratio = uResolution.x / uResolution.y;
               vec2 p = uv * vec2(ratio, 1.0);
 
-              float t = uTime * 1.0; 
+              float t = uTime * 0.3; 
 
               p *= 1.3;
 
