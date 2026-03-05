@@ -49,9 +49,9 @@
     --primary-foreground: 0 0% 8%;
     --secondary: 0 0% 20%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 15%;
+    --muted: 0 0% 25%;
     --muted-foreground: 0 0% 98%;
-    --accent: 0 0% 15%;
+    --accent: 0 0% 25%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 0% 98%;
     --destructive-foreground: 0 0% 8%;
@@ -303,3 +303,5 @@
       background: linear-gradient(rgba(255, 255, 255, 0.1), transparent);
   }
 }
+
+    
