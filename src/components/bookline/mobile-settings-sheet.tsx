@@ -6,7 +6,7 @@ import { SettingsList } from './settings-list';
 import { ChevronLeft, Check, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { languages } from '@/lib/languages';
-import { useIsMobile } from '@/hooks/use-is-mobile';
+import { useIsMobile } from '@/hooks/use-mobile';
 import {
   Dialog,
   DialogContent,
