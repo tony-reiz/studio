@@ -143,18 +143,18 @@ export default function BuyEbookPage() {
             <div className="flex justify-center md:justify-start">
               <div className="w-full max-w-[18rem] md:max-w-xs flex flex-col items-center">
                 <button onClick={() => handleNavigate('/seller/1')} className="w-full group">
-                  <div className="w-full bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center mb-4 group-hover:bg-foreground/90 transition-colors">
+                  <div className="w-full bg-background text-foreground rounded-full py-2 text-sm font-semibold text-center mb-4 group-hover:bg-muted transition-colors">
                       vendeur
                   </div>
                 </button>
                 <div className="w-full grid grid-cols-3 gap-2 mb-4">
-                    <div className="bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center">
+                    <div className="bg-background text-foreground rounded-full py-2 text-sm font-semibold text-center">
                         {formatPrice(totalPriceForCustomer)}
                     </div>
-                    <div className="bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center">
+                    <div className="bg-background text-foreground rounded-full py-2 text-sm font-semibold text-center">
                         {numPages ? `${numPages} p` : '178 p'}
                     </div>
-                    <div className="bg-foreground text-background rounded-full py-2 text-sm font-semibold text-center">
+                    <div className="bg-background text-foreground rounded-full py-2 text-sm font-semibold text-center">
                         12/07/2024
                     </div>
                 </div>
@@ -192,7 +192,7 @@ export default function BuyEbookPage() {
                     <p>frais de service</p>
                     <p>total de l'ebook</p>
                   </div>
-                  <div className='bg-foreground text-background rounded-l-[30px] px-8 py-4 text-sm flex flex-col justify-center text-right space-y-1'>
+                  <div className='bg-background text-foreground rounded-l-[30px] px-8 py-4 text-sm flex flex-col justify-center text-right space-y-1'>
                     <p>{formatPrice(ebookPriceNumber)}</p>
                     <p>{formatPrice(CUSTOMER_FEE)}</p>
                     <p>{formatPrice(totalPriceForCustomer)}</p>
