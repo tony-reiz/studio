@@ -102,8 +102,8 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const filteredLanguages = searchQuery
       ? languages.filter(
           (lang) =>
-            lang.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            lang.nativeName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            lang.name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+            lang.nativeName.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
             lang.flag.includes(searchQuery)
         )
       : [];
