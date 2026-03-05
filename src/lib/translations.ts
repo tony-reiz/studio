@@ -88,17 +88,6 @@ export const translations = {
   },
 };
 
-export type Locale = keyof typeof translations | 'es' | 'de' | 'it' | 'pt' | 'nl' | 'ru' | 'ja' | 'zh' | 'ar' | 'ko' | 'hi' | 'sv' | 'da' | 'fi' | 'no' | 'pl' | 'tr' | 'el' | 'he' | 'id' | 'th' | 'vi' | 'cs' | 'hu' | 'ro' | 'uk' | 'ta' | 'af' | 'sq' | 'am' | 'hy' | 'az' | 'eu' | 'be' | 'bn' | 'bs' | 'bg' | 'ca' | 'hr' | 'et' | 'tl' | 'gl' | 'ka' | 'gu' | 'ha' | 'is' | 'ig' | 'ga' | 'jv' | 'kn' | 'kk' | 'km' | 'ku' | 'ky' | 'lo' | 'lv' | 'lt' | 'lb' | 'mk' | 'mg' | 'ms' | 'ml' | 'mt' | 'mi' | 'mr' | 'mn' | 'my' | 'ne' | 'ps' | 'fa' | 'pa' | 'sr' | 'si' | 'sk' | 'sl' | 'so' | 'sw' | 'tg' | 'te' | 'ur' | 'uz' | 'cy' | 'xh' | 'yi' | 'yo' | 'zu';
+export type Locale = keyof typeof translations;
 
-type TranslationKeys = keyof (typeof translations)['fr'];
-type TranslationsType = { [L in Locale]?: { [K in TranslationKeys]?: string } };
-
-// Add other languages with english as fallback
-const fallbacks: TranslationsType = {};
-const allLangs: Locale[] = ['es', 'de', 'it', 'pt', 'nl', 'ru', 'ja', 'zh', 'ar', 'ko', 'hi', 'sv', 'da', 'fi', 'no', 'pl', 'tr', 'el', 'he', 'id', 'th', 'vi', 'cs', 'hu', 'ro', 'uk', 'ta', 'af', 'sq', 'am', 'hy', 'az', 'eu', 'be', 'bn', 'bs', 'bg', 'ca', 'hr', 'et', 'tl', 'gl', 'ka', 'gu', 'ha', 'is', 'ig', 'ga', 'jv', 'kn', 'kk', 'km', 'ku', 'ky', 'lo', 'lv', 'lt', 'lb', 'mk', 'mg', 'ms', 'ml', 'mt', 'mi', 'mr', 'mn', 'my', 'ne', 'ps', 'fa', 'pa', 'sr', 'si', 'sk', 'sl', 'so', 'sw', 'tg', 'te', 'ur', 'uz', 'cy', 'xh', 'yi', 'yo', 'zu'];
-
-for (const lang of allLangs) {
-    fallbacks[lang] = translations.en;
-}
-
-Object.assign(translations, fallbacks);
+export type TranslationKeys = keyof (typeof translations)['fr'];
