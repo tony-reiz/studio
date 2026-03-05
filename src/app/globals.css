@@ -143,8 +143,8 @@
   .dark .glass-icon-button {
     color: hsl(var(--foreground));
     background: rgba(10, 10, 10, 0.2) !important;
-    backdrop-filter: blur(8px) saturate(180%) brightness(0.9);
-    -webkit-backdrop-filter: blur(8px) saturate(180%) brightness(0.9);
+    backdrop-filter: blur(8px) saturate(180%);
+    -webkit-backdrop-filter: blur(8px) saturate(180%);
     border-color: rgba(255, 255, 255, 0.1);
   }
 
@@ -193,8 +193,8 @@
 
   .dark .glass-search {
     background: rgba(10, 10, 10, 0.2) !important;
-    backdrop-filter: blur(8px) saturate(180%) brightness(0.9);
-    -webkit-backdrop-filter: blur(8px) saturate(180%) brightness(0.9);
+    backdrop-filter: blur(8px) saturate(180%);
+    -webkit-backdrop-filter: blur(8px) saturate(180%);
     border-color: rgba(255, 255, 255, 0.1);
   }
   .dark .glass-search:hover {
@@ -252,8 +252,8 @@
   .dark .glass-button {
     color: hsl(var(--foreground));
     background: rgba(10, 10, 10, 0.2) !important;
-    backdrop-filter: blur(8px) saturate(180%) brightness(0.9);
-    -webkit-backdrop-filter: blur(8px) saturate(180%) brightness(0.9);
+    backdrop-filter: blur(8px) saturate(180%);
+    -webkit-backdrop-filter: blur(8px) saturate(180%);
     border-color: rgba(255, 255, 255, 0.1);
   }
   .dark .glass-button:hover {
@@ -295,8 +295,8 @@
   }
   .dark .glass-form-element {
     background: rgba(10, 10, 10, 0.2) !important;
-    backdrop-filter: blur(8px) saturate(180%) brightness(0.9);
-    -webkit-backdrop-filter: blur(8px) saturate(180%) brightness(0.9);
+    backdrop-filter: blur(8px) saturate(180%);
+    -webkit-backdrop-filter: blur(8px) saturate(180%);
     border-color: rgba(255, 255, 255, 0.1);
   }
   .dark .glass-form-element::after {
