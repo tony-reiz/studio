@@ -3,6 +3,17 @@
 import { useEffect, useState, useRef, type TouchEvent, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { SettingsList } from './settings-list';
+import { ChevronLeft, Check } from 'lucide-react';
+
+type View = 'main' | 'language';
+
+const languages = [
+  { code: 'fr', name: 'Français' },
+  { code: 'en', name: 'English' },
+  { code: 'es', name: 'Español' },
+  { code: 'de', name: 'Deutsch' },
+  { code: 'it', name: 'Italiano' },
+];
 
 interface MobileSettingsSheetProps {
     children: ReactNode;
@@ -18,6 +29,9 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const [dragStartY, setDragStartY] = useState(0);
     const [translateY, setTranslateY] = useState(0);
 
+    const [view, setView] = useState<View>('main');
+    const [selectedLanguage, setSelectedLanguage] = useState('fr');
+
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
@@ -32,6 +46,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             setIsAnimationOpen(false);
             const timer = setTimeout(() => {
                 setIsSheetMounted(false);
+                setView('main'); // Reset view when sheet is fully closed
             }, 400); // Animation duration
             return () => clearTimeout(timer);
         }
@@ -76,6 +91,17 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         }
     };
 
+    const handleMobileItemClick = (id: string) => {
+        if (id === 'language') {
+            setView('language');
+        }
+    };
+
+    const handleLanguageSelect = (code: string) => {
+        setSelectedLanguage(code);
+        closeSheet();
+    };
+
     return (
         <>
             <div onClick={openSheet}>
@@ -108,9 +134,41 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     >
                         <h2 id="sheet-title" className="sr-only">Paramètres</h2>
                         <div className="mx-auto w-20 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/50 my-3" />
-                        <div className="overflow-y-auto px-4" onClick={(e) => e.stopPropagation()}>
-                            <SettingsList />
+                        
+                        <div className="flex-1 overflow-hidden" onClick={(e) => e.stopPropagation()}>
+                            <div className={cn(
+                                "flex h-full w-[200%] transition-transform duration-400 ease-in-out",
+                                view === 'language' ? "-translate-x-1/2" : "translate-x-0"
+                            )}>
+                                <div className="w-1/2 h-full overflow-y-auto px-4">
+                                    <SettingsList onMobileItemClick={handleMobileItemClick} />
+                                </div>
+                                <div className="w-1/2 h-full overflow-y-auto px-4">
+                                     <div className="flex items-center justify-center relative mb-4">
+                                        <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
+                                            <ChevronLeft className="h-6 w-6" />
+                                        </button>
+                                        <h1 className="text-xl font-bold text-center">Langue</h1>
+                                    </div>
+                                    <ul className="w-full space-y-2">
+                                        {languages.map((lang) => (
+                                            <li key={lang.code}>
+                                                <button 
+                                                onClick={() => handleLanguageSelect(lang.code)}
+                                                className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
+                                                >
+                                                <span className="font-semibold text-foreground">
+                                                    {lang.name}
+                                                </span>
+                                                {selectedLanguage === lang.code && <Check className="h-6 w-6 text-foreground" />}
+                                                </button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             )}

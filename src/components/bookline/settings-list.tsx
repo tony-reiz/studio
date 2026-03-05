@@ -21,8 +21,10 @@ import { Switch } from '@/components/ui/switch';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useState, useEffect } from 'react';
-import { LanguageSettingsSheet } from './language-settings-sheet';
 
+interface SettingsListProps {
+  onMobileItemClick?: (id: string) => void;
+}
 
 const settingsItems: Array<{
     icon: React.ElementType;
@@ -43,12 +45,11 @@ const settingsItems: Array<{
   { icon: LogOut, label: 'Déconnexion', isDestructive: true },
 ];
 
-export function SettingsList() {
+export function SettingsList({ onMobileItemClick }: SettingsListProps) {
   const { theme, setTheme } = useEbooks();
   const { handleNavigate } = useTransitionRouter();
   const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
-  const [isLanguageSheetOpen, setIsLanguageSheetOpen] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -60,8 +61,8 @@ export function SettingsList() {
   };
 
   const handleItemClick = (item: (typeof settingsItems)[0]) => {
-    if (item.id === 'language' && isClient && isMobile) {
-      setIsLanguageSheetOpen(true);
+    if (item.id && isClient && isMobile && onMobileItemClick) {
+      onMobileItemClick(item.id);
     } else if (item.href) {
       handleNavigate(item.href);
     }
@@ -127,7 +128,6 @@ export function SettingsList() {
             </li>
         ))}
         </ul>
-        {isClient && isMobile && <LanguageSettingsSheet open={isLanguageSheetOpen} onOpenChange={setIsLanguageSheetOpen} />}
     </>
   );
 }
