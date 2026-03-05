@@ -38,9 +38,11 @@ export default function LanguageSettingsPage() {
   };
 
   const filteredLanguages = searchQuery
-    ? languages.filter(lang =>
-        lang.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        lang.nativeName.toLowerCase().includes(searchQuery.toLowerCase())
+    ? languages.filter(
+        (lang) =>
+          lang.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          lang.nativeName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          lang.flag.includes(searchQuery)
       )
     : [];
 
