@@ -7,7 +7,6 @@ import { EbookDisplayArea } from '@/components/bookline/ebook-display-area';
 import { SearchOverlay } from '@/components/bookline/search-overlay';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useEbooks } from '@/context/ebook-provider';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
@@ -17,7 +16,6 @@ export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { handleNavigate } = useTransitionRouter();
   const { allEbooks, theme } = useEbooks();
-  const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -33,7 +31,6 @@ export default function HomePage() {
 
   const menuButton = (
     <Button
-      onClick={!isMobile ? () => handleNavigate('/settings') : undefined}
       variant="ghost"
       size="icon"
       aria-label="Menu"
@@ -55,7 +52,7 @@ export default function HomePage() {
         <header className="sticky top-0 z-10 w-full pb-6" style={{ paddingTop: `calc(1.5rem + env(safe-area-inset-top))` }}>
           <div className="flex items-start justify-between w-full">
             <div className="flex flex-col items-start gap-3">
-              {isClient && isMobile ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
+              {isClient ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
               <div className="-mt-1">
                 <p className="text-[24px] font-bold tracking-widest text-foreground">BIENVENUE SUR</p>
                 <h1 className="text-5xl sm:text-6xl font-extrabold text-foreground -mt-1">BOOKLINE !</h1>

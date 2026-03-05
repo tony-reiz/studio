@@ -19,7 +19,6 @@ import { useEbooks } from '@/context/ebook-provider';
 import { cn } from '@/lib/utils';
 import { Switch } from '@/components/ui/switch';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { useState, useEffect } from 'react';
 
 interface SettingsListProps {
@@ -48,7 +47,6 @@ const settingsItems: Array<{
 export function SettingsList({ onMobileItemClick }: SettingsListProps) {
   const { theme, setTheme } = useEbooks();
   const { handleNavigate } = useTransitionRouter();
-  const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -61,7 +59,7 @@ export function SettingsList({ onMobileItemClick }: SettingsListProps) {
   };
 
   const handleItemClick = (item: (typeof settingsItems)[0]) => {
-    if (item.id && isClient && isMobile && onMobileItemClick) {
+    if (item.id && isClient && onMobileItemClick) {
       onMobileItemClick(item.id);
     } else if (item.href) {
       handleNavigate(item.href);
@@ -85,7 +83,7 @@ export function SettingsList({ onMobileItemClick }: SettingsListProps) {
                     {item.label}
                 </span>
                 </div>
-                {!item.isDestructive && <ChevronRight className="h-6 w-6 text-muted-foreground" />}
+                {!item.isDestructive && (item.href || (item.id && onMobileItemClick)) && <ChevronRight className="h-6 w-6 text-muted-foreground" />}
             </button>
             </li>
         ))}
@@ -123,7 +121,7 @@ export function SettingsList({ onMobileItemClick }: SettingsListProps) {
                     {item.label}
                 </span>
                 </div>
-                {isClient && (item.id === 'language' ? !isMobile : !item.isDestructive) && <ChevronRight className="h-6 w-6 text-muted-foreground" />}
+                {!item.isDestructive && (item.href || (item.id && onMobileItemClick)) && <ChevronRight className="h-6 w-6 text-muted-foreground" />}
             </button>
             </li>
         ))}
