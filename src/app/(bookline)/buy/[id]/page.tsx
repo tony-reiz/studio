@@ -208,7 +208,7 @@ export default function BuyEbookPage() {
                 "rounded-full w-full h-12 text-lg font-semibold",
                 isPurchased 
                     ? "bg-green-600 text-white hover:bg-green-700"
-                    : "bg-foreground text-background hover:bg-foreground/90"
+                    : "bg-background text-foreground hover:bg-background/90"
               )}
             >
               {isPurchased ? 'Voir' : 'Payer'}
