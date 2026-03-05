@@ -6,7 +6,7 @@ import { SettingsList } from './settings-list';
 import { ChevronLeft, Check, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { languages } from '@/lib/languages';
-import { useIsMobile } from '@/hooks/use-is-mobile';
+import { useIsMobile } from '@/hooks/use-mobile';
 import {
   Dialog,
   DialogContent,
@@ -108,7 +108,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         }
     };
 
-    const handleItemClick = (id: string) => {
+    const onItemClick = (id: string) => {
         if (id === 'language') {
             setView('language');
         }
@@ -141,7 +141,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     {isMobile && <h2 id="sheet-title" className="sr-only">Paramètres</h2>}
                     {!isMobile && <h2 className="text-xl font-bold text-center p-4 pt-6">Paramètres</h2>}
                     <div className="flex-1 overflow-y-auto px-4 pb-4">
-                        <SettingsList onItemClick={handleItemClick} />
+                        <SettingsList onItemClick={onItemClick} />
                     </div>
                 </div>
 
