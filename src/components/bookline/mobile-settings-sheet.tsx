@@ -137,7 +137,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                         
                         <div className="flex-1 overflow-hidden" onClick={(e) => e.stopPropagation()}>
                             <div className={cn(
-                                "flex h-full w-[200%] transition-transform duration-400 ease-in-out",
+                                "flex h-full w-[200%] transition-transform duration-500 ease-in-out",
                                 view === 'language' ? "-translate-x-1/2" : "translate-x-0"
                             )}>
                                 <div className="w-1/2 h-full overflow-y-auto px-4">
