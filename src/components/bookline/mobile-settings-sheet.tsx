@@ -248,9 +248,9 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             <DialogTrigger asChild onClick={openSheet}>
                 {children}
             </DialogTrigger>
-            <DialogContent className="max-w-2xl w-full p-0 rounded-t-[40px] overflow-hidden border-none bg-transparent shadow-xl fixed bottom-0 left-1/2 -translate-x-1/2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-bottom-full data-[state=open]:slide-in-from-bottom-full">
+            <DialogContent className="max-w-2xl w-full p-0 rounded-[40px] overflow-hidden border-none bg-transparent shadow-xl fixed bottom-0 left-1/2 -translate-x-1/2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-bottom-full data-[state=open]:slide-in-from-bottom-full">
                  <DialogTitle className="sr-only">Paramètres</DialogTitle>
-                 <div className="h-[65vh] w-full bg-background rounded-t-[40px] overflow-hidden flex flex-col">
+                 <div className="h-[65vh] w-full bg-background rounded-[40px] overflow-hidden flex flex-col">
                     {SettingsContent}
                  </div>
             </DialogContent>
