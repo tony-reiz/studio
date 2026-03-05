@@ -204,9 +204,9 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
                     <div className="flex justify-center md:justify-end">
                         <div className="w-full max-w-[18rem] md:max-w-xs">
                             <div className="flex justify-center gap-1 mb-4">
-                                <Star className="w-8 h-8 text-muted fill-muted" />
-                                <Star className="w-8 h-8 text-muted fill-muted" />
-                                <Star className="w-8 h-8 text-muted fill-muted" />
+                                <Star className="w-8 h-8 text-border fill-border" />
+                                <Star className="w-8 h-8 text-border fill-border" />
+                                <Star className="w-8 h-8 text-border fill-border" />
                                 <Star className="w-8 h-8 text-secondary fill-secondary" />
                                 <Star className="w-8 h-8 text-secondary fill-secondary" />
                             </div>
