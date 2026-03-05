@@ -50,11 +50,13 @@ export default function LanguageSettingsPage() {
         </>
       )}
       <div className="w-full max-w-screen-md mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
-        <header className="flex items-center justify-center w-full py-6 relative">
-          <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11 absolute left-0" aria-label="Retour">
-              <ChevronLeft className="h-6 w-6" />
-          </Button>
-          <h1 className="text-2xl font-bold">Langue</h1>
+        <header className="grid grid-cols-3 items-center w-full py-6">
+          <div className="justify-self-start">
+            <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label="Retour">
+                <ChevronLeft className="h-6 w-6" />
+            </Button>
+          </div>
+          <h1 className="text-2xl font-bold text-center">Langue</h1>
         </header>
 
         <main className="flex-1 w-full flex flex-col items-center pt-16 pb-28 gap-2">
