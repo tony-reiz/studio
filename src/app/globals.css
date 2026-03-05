@@ -142,14 +142,14 @@
 
   .dark .glass-icon-button {
     color: hsl(var(--foreground));
-    background: rgba(200, 200, 205, 0.1) !important;
-    backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
-    -webkit-backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
-    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(10, 10, 10, 0.2) !important;
+    backdrop-filter: blur(8px) saturate(180%) brightness(0.9);
+    -webkit-backdrop-filter: blur(8px) saturate(180%) brightness(0.9);
+    border-color: rgba(255, 255, 255, 0.1);
   }
 
   .dark .glass-icon-button:hover {
-    background: rgba(200, 200, 205, 0.1) !important;
+    background: rgba(10, 10, 10, 0.2) !important;
     color: hsl(var(--foreground));
   }
 
@@ -192,13 +192,13 @@
   }
 
   .dark .glass-search {
-    background: rgba(200, 200, 205, 0.1) !important;
-    backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
-    -webkit-backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
-    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(10, 10, 10, 0.2) !important;
+    backdrop-filter: blur(8px) saturate(180%) brightness(0.9);
+    -webkit-backdrop-filter: blur(8px) saturate(180%) brightness(0.9);
+    border-color: rgba(255, 255, 255, 0.1);
   }
   .dark .glass-search:hover {
-    background: rgba(200, 200, 205, 0.1) !important;
+    background: rgba(10, 10, 10, 0.2) !important;
     color: rgba(255, 255, 255, 0.85);
   }
 
@@ -251,13 +251,13 @@
   }
   .dark .glass-button {
     color: hsl(var(--foreground));
-    background: rgba(200, 200, 205, 0.1) !important;
-    backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
-    -webkit-backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
-    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(10, 10, 10, 0.2) !important;
+    backdrop-filter: blur(8px) saturate(180%) brightness(0.9);
+    -webkit-backdrop-filter: blur(8px) saturate(180%) brightness(0.9);
+    border-color: rgba(255, 255, 255, 0.1);
   }
   .dark .glass-button:hover {
-    background: rgba(200, 200, 205, 0.1) !important;
+    background: rgba(10, 10, 10, 0.2) !important;
     color: hsl(var(--foreground));
   }
   .dark .glass-button::after {
@@ -294,10 +294,10 @@
     pointer-events: none;
   }
   .dark .glass-form-element {
-    background: rgba(200, 200, 205, 0.1) !important;
-    backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
-    -webkit-backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
-    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(10, 10, 10, 0.2) !important;
+    backdrop-filter: blur(8px) saturate(180%) brightness(0.9);
+    -webkit-backdrop-filter: blur(8px) saturate(180%) brightness(0.9);
+    border-color: rgba(255, 255, 255, 0.1);
   }
   .dark .glass-form-element::after {
       background: linear-gradient(rgba(255, 255, 255, 0.1), transparent);
