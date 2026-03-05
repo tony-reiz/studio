@@ -6,13 +6,15 @@ import { SettingsList } from './settings-list';
 import { ChevronLeft, Check, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { languages } from '@/lib/languages';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useIsMobile } from '@/hooks/use-is-mobile';
 import {
   Dialog,
   DialogContent,
   DialogTrigger,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useEbooks } from '@/context/ebook-provider';
+import type { Locale } from '@/lib/translations';
 
 type View = 'main' | 'language';
 
@@ -31,7 +33,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const [translateY, setTranslateY] = useState(0);
 
     const [view, setView] = useState<View>('main');
-    const [selectedLanguage, setSelectedLanguage] = useState('fr');
+    const { locale, setLocale, t } = useEbooks();
     const [searchQuery, setSearchQuery] = useState('');
     
     const isMobile = useIsMobile();
@@ -115,8 +117,8 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         }
     };
 
-    const handleLanguageSelect = (code: string) => {
-        setSelectedLanguage(code);
+    const handleLanguageSelect = (code: Locale) => {
+        setLocale(code);
         setSearchQuery('');
         closeSheet();
     };
@@ -130,7 +132,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         )
       : [];
 
-    const selectedLanguageObject = languages.find(lang => lang.code === selectedLanguage);
+    const selectedLanguageObject = languages.find(lang => lang.code === locale);
 
     const SettingsContent = (
         <div className="flex-1 overflow-hidden" onClick={(e) => e.stopPropagation()}>
@@ -139,8 +141,8 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 view === 'language' ? "-translate-x-1/2" : "translate-x-0"
             )}>
                 <div className="w-1/2 h-full flex flex-col">
-                    {isMobile && <h2 id="sheet-title" className="sr-only">Paramètres</h2>}
-                    {!isMobile && <h2 className="text-xl font-bold text-center p-4 pt-6">Paramètres</h2>}
+                    {isMobile && <h2 id="sheet-title" className="sr-only">{t('settings')}</h2>}
+                    {!isMobile && <h2 className="text-xl font-bold text-center p-4 pt-6">{t('settings')}</h2>}
                     <div className="flex-1 overflow-y-auto px-4 pb-4">
                         <SettingsList onItemClick={onItemClick} />
                     </div>
@@ -152,20 +154,20 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
                                 <ChevronLeft className="h-6 w-6" />
                             </button>
-                            <h1 className="text-xl font-bold text-center">Langue</h1>
+                            <h1 className="text-xl font-bold text-center">{t('language')}</h1>
                         </div>
                         <div className="relative w-full mb-2">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground z-10" />
                             <Input
                                 type="search"
-                                placeholder="Rechercher..."
+                                placeholder={t('search_language')}
                                 className="pl-11 pr-4 h-12 w-full text-base glass-form-element bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </div>
                         <div className="w-full text-center py-2">
-                            <p className="text-sm text-muted-foreground">Langue sélectionnée</p>
+                            <p className="text-sm text-muted-foreground">{t('selected_language')}</p>
                             <div className="text-lg font-semibold text-foreground flex justify-center items-center gap-2">
                                 <span>{selectedLanguageObject?.flag}</span>
                                 <span>{selectedLanguageObject?.name || 'Français'}</span>
@@ -178,7 +180,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                                 {filteredLanguages.map((lang) => (
                                     <li key={lang.code}>
                                         <button 
-                                        onClick={() => handleLanguageSelect(lang.code)}
+                                        onClick={() => handleLanguageSelect(lang.code as Locale)}
                                         className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
                                         >
                                             <div className="flex items-center gap-4">
@@ -188,7 +190,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                                                     <span className="text-sm text-muted-foreground">{lang.nativeName}</span>
                                                 </div>
                                             </div>
-                                        {selectedLanguage === lang.code && <Check className="h-6 w-6 text-foreground" />}
+                                        {locale === lang.code && <Check className="h-6 w-6 text-foreground" />}
                                         </button>
                                     </li>
                                 ))}
@@ -249,7 +251,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 {children}
             </DialogTrigger>
             <DialogContent className="max-w-2xl w-full p-0 bg-transparent border-none shadow-xl">
-                 <DialogTitle className="sr-only">Paramètres</DialogTitle>
+                 <DialogTitle className="sr-only">{t('settings')}</DialogTitle>
                  <div className="h-[60vh] flex flex-col bg-background rounded-[60px] overflow-hidden">
                     {SettingsContent}
                  </div>

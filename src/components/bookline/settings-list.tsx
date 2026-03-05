@@ -22,31 +22,33 @@ import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useState, useEffect } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
+interface SettingsItem {
+  icon: React.ElementType;
+  labelKey: keyof ReturnType<typeof useEbooks>['t'];
+  href?: string;
+  isDestructive?: boolean;
+  id?: string;
+}
+
+const settingsItems: SettingsItem[] = [
+  { icon: User, labelKey: 'account_settings' },
+  { icon: Bell, labelKey: 'notifications' },
+  { icon: ShieldCheck, labelKey: 'security' },
+  { icon: Languages, labelKey: 'language', href: '/settings/language', id: 'language' },
+  { icon: CircleDollarSign, labelKey: 'currency' },
+  { icon: Landmark, labelKey: 'transfer' },
+  { icon: Receipt, labelKey: 'invoices' },
+  { icon: HelpCircle, labelKey: 'help' },
+  { icon: Trash2, labelKey: 'delete_account', isDestructive: true },
+  { icon: LogOut, labelKey: 'logout', isDestructive: true },
+];
+
 interface SettingsListProps {
   onItemClick?: (id: string) => void;
 }
 
-const settingsItems: Array<{
-    icon: React.ElementType;
-    label: string;
-    href?: string;
-    isDestructive?: boolean;
-    id?: string;
-}> = [
-  { icon: User, label: 'Paramètres du compte' },
-  { icon: Bell, label: 'Notifications' },
-  { icon: ShieldCheck, label: 'Sécurité' },
-  { icon: Languages, label: 'Langue', href: '/settings/language', id: 'language' },
-  { icon: CircleDollarSign, label: 'Devise' },
-  { icon: Landmark, label: 'Virement' },
-  { icon: Receipt, label: 'Factures' },
-  { icon: HelpCircle, label: 'Aide' },
-  { icon: Trash2, label: 'Supprimer mon compte', isDestructive: true },
-  { icon: LogOut, label: 'Déconnexion', isDestructive: true },
-];
-
 export function SettingsList({ onItemClick }: SettingsListProps) {
-  const { theme, setTheme } = useEbooks();
+  const { theme, setTheme, t } = useEbooks();
   const { handleNavigate } = useTransitionRouter();
   const [isClient, setIsClient] = useState(false);
   const isMobile = useIsMobile();
@@ -55,12 +57,11 @@ export function SettingsList({ onItemClick }: SettingsListProps) {
     setIsClient(true);
   }, []);
 
-
   const handleThemeChange = (checked: boolean) => {
     setTheme(checked ? 'dark' : 'light');
   };
 
-  const handleItemClick = (item: (typeof settingsItems)[0]) => {
+  const handleItemClick = (item: SettingsItem) => {
     if (item.id && isClient && onItemClick) {
       onItemClick(item.id);
     } else if (item.href && (!isMobile || !onItemClick)) {
@@ -72,62 +73,62 @@ export function SettingsList({ onItemClick }: SettingsListProps) {
 
   return (
     <>
-        <ul className="w-full space-y-2">
+      <ul className="w-full space-y-2">
         {settingsItems.slice(0, 3).map((item) => (
-            <li key={item.label}>
+          <li key={item.labelKey}>
             <button
-                onClick={() => handleItemClick(item)}
-                className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
+              onClick={() => handleItemClick(item)}
+              className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
             >
-                <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4">
                 <item.icon className={`h-6 w-6 ${item.isDestructive ? 'text-destructive' : 'text-muted-foreground'}`} />
                 <span className={`font-semibold ${item.isDestructive ? 'text-destructive' : 'text-foreground'}`}>
-                    {item.label}
+                  {t(item.labelKey)}
                 </span>
-                </div>
-                {!item.isDestructive && (item.href || (item.id && onItemClick)) && <ChevronRight className="h-6 w-6 text-muted-foreground" />}
+              </div>
+              {!item.isDestructive && (item.href || (item.id && onItemClick)) && <ChevronRight className="h-6 w-6 text-muted-foreground" />}
             </button>
-            </li>
+          </li>
         ))}
 
         <li>
-            <div className="w-full rounded-full flex items-center justify-between p-4 text-left">
+          <div className="w-full rounded-full flex items-center justify-between p-4 text-left">
             <div className="flex items-center gap-4">
-                {isDark ? (
+              {isDark ? (
                 <Moon className="h-6 w-6 text-muted-foreground" />
-                ) : (
+              ) : (
                 <Sun className="h-6 w-6 text-muted-foreground" />
-                )}
-                <label htmlFor="theme-switch" className="font-semibold text-foreground cursor-pointer">
-                Thème
-                </label>
+              )}
+              <label htmlFor="theme-switch" className="font-semibold text-foreground cursor-pointer">
+                {t('theme')}
+              </label>
             </div>
             <Switch
-                id="theme-switch"
-                checked={isDark}
-                onCheckedChange={handleThemeChange}
-                aria-label="Changer le thème"
+              id="theme-switch"
+              checked={isDark}
+              onCheckedChange={handleThemeChange}
+              aria-label={t('change_theme')}
             />
-            </div>
+          </div>
         </li>
 
         {settingsItems.slice(3).map((item) => (
-            <li key={item.label}>
+          <li key={item.labelKey}>
             <button
-                onClick={() => handleItemClick(item)}
-                className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
+              onClick={() => handleItemClick(item)}
+              className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
             >
-                <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4">
                 <item.icon className={`h-6 w-6 ${item.isDestructive ? 'text-destructive' : 'text-muted-foreground'}`} />
                 <span className={`font-semibold ${item.isDestructive ? 'text-destructive' : 'text-foreground'}`}>
-                    {item.label}
+                  {t(item.labelKey)}
                 </span>
-                </div>
-                {!item.isDestructive && (item.href || (item.id && onItemClick)) && <ChevronRight className="h-6 w-6 text-muted-foreground" />}
+              </div>
+              {!item.isDestructive && (item.href || (item.id && onItemClick)) && <ChevronRight className="h-6 w-6 text-muted-foreground" />}
             </button>
-            </li>
+          </li>
         ))}
-        </ul>
+      </ul>
     </>
   );
 }

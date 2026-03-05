@@ -4,10 +4,12 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useState, useEffect } from 'react';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
+import { useEbooks } from '@/context/ebook-provider';
 
 export function BottomNav() {
   const pathname = usePathname();
   const { handleNavigate } = useTransitionRouter();
+  const { t } = useEbooks();
 
   const getCurrentTab = () => (pathname === '/sell' ? 'vendre' : 'acheter');
 
@@ -50,7 +52,7 @@ export function BottomNav() {
             isAcheter ? 'text-background' : 'text-foreground'
           )}
         >
-          acheter
+          {t('buy')}
         </button>
         <button
           onClick={() => handleNavigation('vendre')}
@@ -59,7 +61,7 @@ export function BottomNav() {
             !isAcheter ? 'text-background' : 'text-foreground'
           )}
         >
-          vendre
+          {t('sell')}
         </button>
       </div>
     </div>

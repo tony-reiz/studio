@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils';
 export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { handleNavigate } = useTransitionRouter();
-  const { allEbooks, theme } = useEbooks();
+  const { allEbooks, theme, t } = useEbooks();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function HomePage() {
     <Button
       variant="ghost"
       size="icon"
-      aria-label="Menu"
+      aria-label={t('menu')}
       className="w-11 h-11 rounded-full glass-icon-button -mt-2 sm:mt-0"
     >
       <Menu className="h-6 w-6" />
@@ -54,8 +54,8 @@ export default function HomePage() {
             <div className="flex flex-col items-start gap-3">
               {isClient ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
               <div className="-mt-1">
-                <p className="text-[24px] font-bold tracking-widest text-foreground">BIENVENUE SUR</p>
-                <h1 className="text-5xl sm:text-6xl font-extrabold text-foreground -mt-1">BOOKLINE !</h1>
+                <p className="text-[24px] font-bold tracking-widest text-foreground">{t('welcome_to')}</p>
+                <h1 className="text-5xl sm:text-6xl font-extrabold text-foreground -mt-1">{t('bookline')}</h1>
               </div>
             </div>
             <div className="flex items-start sm:items-center shrink-0 gap-2 sm:gap-3">
@@ -65,10 +65,10 @@ export default function HomePage() {
                       className="relative flex items-center pl-11 pr-4 h-11 w-40 sm:w-64 text-sm rounded-full text-left focus:outline-none glass-search"
                   >
                       <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 z-[2]" />
-                      <span className="truncate relative z-[2]">recherchez vos ebook...</span>
+                      <span className="truncate relative z-[2]">{t('search_ebooks')}</span>
                   </button>
               </div>
-              <Button onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="-mt-2 sm:mt-0 w-11 h-11 rounded-full glass-icon-button" aria-label="Profil Utilisateur">
+              <Button onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="-mt-2 sm:mt-0 w-11 h-11 rounded-full glass-icon-button" aria-label={t('user_profile')}>
                 <User className="h-6 w-6" />
               </Button>
             </div>
@@ -80,7 +80,7 @@ export default function HomePage() {
                   className="relative flex items-center pl-11 pr-4 h-11 w-full text-sm rounded-full text-left focus:outline-none glass-search"
               >
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 z-[2]" />
-                  <span className="truncate relative z-[2]">recherchez vos ebook...</span>
+                  <span className="truncate relative z-[2]">{t('search_ebooks')}</span>
               </button>
           </div>
         </header>

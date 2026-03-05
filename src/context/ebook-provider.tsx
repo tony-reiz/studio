@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { translations, type Locale } from '@/lib/translations';
 
 // Define the shape of an ebook
 export interface Ebook {
@@ -29,6 +30,8 @@ const placeholderEbooks: Ebook[] = PlaceHolderImages.map((img, index) => ({
     pdfDataUrl: img.imageUrl,
 }));
 
+type TranslationKeys = keyof typeof translations.fr;
+
 // Define the context type
 interface EbookContextType {
   publishedEbooks: Ebook[];
@@ -45,6 +48,9 @@ interface EbookContextType {
   purchaseEbook: (ebook: Ebook) => void;
   theme: 'light' | 'dark';
   setTheme: (theme: 'light' | 'dark') => void;
+  locale: Locale;
+  setLocale: (locale: Locale) => void;
+  t: (key: TranslationKeys) => string;
 }
 
 // Create the context
@@ -62,11 +68,19 @@ export function EbookProvider({ children }: { children: ReactNode }) {
   });
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
   const [theme, setThemeState] = useState<'light' | 'dark'>('light');
+  const [locale, setLocaleState] = useState<Locale>('fr');
 
   useEffect(() => {
     const storedTheme = localStorage.getItem('bookline-theme') as 'light' | 'dark';
     if (storedTheme) {
       setTheme(storedTheme);
+    }
+    
+    const storedLocale = localStorage.getItem('bookline-locale') as Locale;
+    if (storedLocale && translations[storedLocale]) {
+      setLocale(storedLocale);
+    } else {
+      setLocale('fr');
     }
   }, []);
 
@@ -78,6 +92,16 @@ export function EbookProvider({ children }: { children: ReactNode }) {
     } else {
       document.documentElement.classList.remove('dark');
     }
+  };
+
+  const setLocale = (newLocale: Locale) => {
+    setLocaleState(newLocale);
+    localStorage.setItem('bookline-locale', newLocale);
+    document.documentElement.lang = newLocale;
+  };
+
+  const t = (key: TranslationKeys): string => {
+    return translations[locale]?.[key] || translations['en']?.[key] || key;
   };
 
   const updateUserProfile = (profileUpdate: Partial<UserProfile>) => {
@@ -137,7 +161,7 @@ export function EbookProvider({ children }: { children: ReactNode }) {
 
 
   return (
-    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook, favoritedEbooks, toggleFavoriteEbook, allEbooks, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, purchasedEbooks, purchaseEbook, theme, setTheme }}>
+    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook, favoritedEbooks, toggleFavoriteEbook, allEbooks, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, purchasedEbooks, purchaseEbook, theme, setTheme, locale, setLocale, t }}>
       {children}
     </EbookContext.Provider>
   );
