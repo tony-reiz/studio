@@ -19,12 +19,22 @@ import { useEbooks } from '@/context/ebook-provider';
 import { cn } from '@/lib/utils';
 import { Switch } from '@/components/ui/switch';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { useState, useEffect } from 'react';
+import { LanguageSettingsSheet } from './language-settings-sheet';
 
-const settingsItems = [
+
+const settingsItems: Array<{
+    icon: React.ElementType;
+    label: string;
+    href?: string;
+    isDestructive?: boolean;
+    id?: string;
+}> = [
   { icon: User, label: 'Paramètres du compte' },
   { icon: Bell, label: 'Notifications' },
   { icon: ShieldCheck, label: 'Sécurité' },
-  { icon: Languages, label: 'Langue', href: '/settings/language' },
+  { icon: Languages, label: 'Langue', href: '/settings/language', id: 'language' },
   { icon: CircleDollarSign, label: 'Devise' },
   { icon: Landmark, label: 'Virement' },
   { icon: Receipt, label: 'Factures' },
@@ -36,13 +46,23 @@ const settingsItems = [
 export function SettingsList() {
   const { theme, setTheme } = useEbooks();
   const { handleNavigate } = useTransitionRouter();
+  const isMobile = useIsMobile();
+  const [isClient, setIsClient] = useState(false);
+  const [isLanguageSheetOpen, setIsLanguageSheetOpen] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
 
   const handleThemeChange = (checked: boolean) => {
     setTheme(checked ? 'dark' : 'light');
   };
 
   const handleItemClick = (item: (typeof settingsItems)[0]) => {
-    if (item.href) {
+    if (item.id === 'language' && isClient && isMobile) {
+      setIsLanguageSheetOpen(true);
+    } else if (item.href) {
       handleNavigate(item.href);
     }
   };
@@ -50,61 +70,64 @@ export function SettingsList() {
   const isDark = theme === 'dark';
 
   return (
-    <ul className="w-full space-y-2">
-      {settingsItems.slice(0, 3).map((item) => (
-        <li key={item.label}>
-          <button
-            onClick={() => handleItemClick(item)}
-            className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
-          >
-            <div className="flex items-center gap-4">
-              <item.icon className={`h-6 w-6 ${item.isDestructive ? 'text-destructive' : 'text-muted-foreground'}`} />
-              <span className={`font-semibold ${item.isDestructive ? 'text-destructive' : 'text-foreground'}`}>
-                {item.label}
-              </span>
-            </div>
-            {!item.isDestructive && <ChevronRight className="h-6 w-6 text-muted-foreground" />}
-          </button>
-        </li>
-      ))}
+    <>
+        <ul className="w-full space-y-2">
+        {settingsItems.slice(0, 3).map((item) => (
+            <li key={item.label}>
+            <button
+                onClick={() => handleItemClick(item)}
+                className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
+            >
+                <div className="flex items-center gap-4">
+                <item.icon className={`h-6 w-6 ${item.isDestructive ? 'text-destructive' : 'text-muted-foreground'}`} />
+                <span className={`font-semibold ${item.isDestructive ? 'text-destructive' : 'text-foreground'}`}>
+                    {item.label}
+                </span>
+                </div>
+                {!item.isDestructive && <ChevronRight className="h-6 w-6 text-muted-foreground" />}
+            </button>
+            </li>
+        ))}
 
-      <li>
-        <div className="w-full rounded-full flex items-center justify-between p-4 text-left">
-          <div className="flex items-center gap-4">
-            {isDark ? (
-              <Moon className="h-6 w-6 text-muted-foreground" />
-            ) : (
-              <Sun className="h-6 w-6 text-muted-foreground" />
-            )}
-            <label htmlFor="theme-switch" className="font-semibold text-foreground cursor-pointer">
-              Thème
-            </label>
-          </div>
-          <Switch
-            id="theme-switch"
-            checked={isDark}
-            onCheckedChange={handleThemeChange}
-            aria-label="Changer le thème"
-          />
-        </div>
-      </li>
-
-      {settingsItems.slice(3).map((item) => (
-        <li key={item.label}>
-          <button
-            onClick={() => handleItemClick(item)}
-            className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
-          >
+        <li>
+            <div className="w-full rounded-full flex items-center justify-between p-4 text-left">
             <div className="flex items-center gap-4">
-              <item.icon className={`h-6 w-6 ${item.isDestructive ? 'text-destructive' : 'text-muted-foreground'}`} />
-              <span className={`font-semibold ${item.isDestructive ? 'text-destructive' : 'text-foreground'}`}>
-                {item.label}
-              </span>
+                {isDark ? (
+                <Moon className="h-6 w-6 text-muted-foreground" />
+                ) : (
+                <Sun className="h-6 w-6 text-muted-foreground" />
+                )}
+                <label htmlFor="theme-switch" className="font-semibold text-foreground cursor-pointer">
+                Thème
+                </label>
             </div>
-            {!item.isDestructive && <ChevronRight className="h-6 w-6 text-muted-foreground" />}
-          </button>
+            <Switch
+                id="theme-switch"
+                checked={isDark}
+                onCheckedChange={handleThemeChange}
+                aria-label="Changer le thème"
+            />
+            </div>
         </li>
-      ))}
-    </ul>
+
+        {settingsItems.slice(3).map((item) => (
+            <li key={item.label}>
+            <button
+                onClick={() => handleItemClick(item)}
+                className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
+            >
+                <div className="flex items-center gap-4">
+                <item.icon className={`h-6 w-6 ${item.isDestructive ? 'text-destructive' : 'text-muted-foreground'}`} />
+                <span className={`font-semibold ${item.isDestructive ? 'text-destructive' : 'text-foreground'}`}>
+                    {item.label}
+                </span>
+                </div>
+                {isClient && (item.id === 'language' ? !isMobile : !item.isDestructive) && <ChevronRight className="h-6 w-6 text-muted-foreground" />}
+            </button>
+            </li>
+        ))}
+        </ul>
+        {isClient && isMobile && <LanguageSettingsSheet open={isLanguageSheetOpen} onOpenChange={setIsLanguageSheetOpen} />}
+    </>
   );
 }
