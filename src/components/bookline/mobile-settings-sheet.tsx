@@ -228,7 +228,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             onTouchStart={handleTouchStart}
                             onTouchMove={handleTouchMove}
                             onTouchEnd={handleTouchEnd}
-                            className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-full flex-col bg-background rounded-t-[60px] touch-none"
+                            className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-full flex-col bg-background rounded-t-[40px] touch-none"
                             style={{
                                 transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
                                 transition: isDragging ? 'none' : 'transform 0.5s ease-in-out',
