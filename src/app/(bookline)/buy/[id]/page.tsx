@@ -131,9 +131,9 @@ export default function BuyEbookPage() {
             <div className="flex justify-center md:justify-end">
               <div className="w-full max-w-[18rem] md:max-w-xs">
                 <div className="flex justify-center gap-1 mb-4">
-                    <Star className="w-8 h-8 text-foreground fill-foreground" />
-                    <Star className="w-8 h-8 text-foreground fill-foreground" />
-                    <Star className="w-8 h-8 text-foreground fill-foreground" />
+                    <Star className="w-8 h-8 text-background fill-foreground" />
+                    <Star className="w-8 h-8 text-background fill-foreground" />
+                    <Star className="w-8 h-8 text-background fill-foreground" />
                     <Star className="w-8 h-8 text-muted fill-muted" />
                     <Star className="w-8 h-8 text-muted fill-muted" />
                 </div>
@@ -208,7 +208,7 @@ export default function BuyEbookPage() {
                 "rounded-full w-full h-12 text-lg font-semibold",
                 isPurchased 
                     ? "bg-green-600 text-white hover:bg-green-700"
-                    : "bg-background text-foreground hover:bg-background/90"
+                    : "bg-background text-foreground hover:bg-muted"
               )}
             >
               {isPurchased ? 'Voir' : 'Payer'}
