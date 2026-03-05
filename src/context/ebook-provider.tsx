@@ -62,7 +62,7 @@ export function EbookProvider({ children }: { children: ReactNode }) {
   const [favoritedEbooks, setFavoritedEbooks] = useState<Ebook[]>([]);
   const [purchasedEbooks, setPurchasedEbooks] = useState<Ebook[]>([]);
   const [userProfile, setUserProfile] = useState<UserProfile>({
-    username: 'utilisateur',
+    username: 'user',
     bio: '',
     avatarUrl: null,
   });
@@ -74,13 +74,17 @@ export function EbookProvider({ children }: { children: ReactNode }) {
     const storedTheme = localStorage.getItem('bookline-theme') as 'light' | 'dark';
     if (storedTheme) {
       setTheme(storedTheme);
+    } else {
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(prefersDark ? 'dark' : 'light');
     }
     
     const storedLocale = localStorage.getItem('bookline-locale') as Locale;
     if (storedLocale && translations[storedLocale]) {
       setLocale(storedLocale);
     } else {
-      setLocale('fr');
+      const browserLang = navigator.language.split('-')[0] as Locale;
+      setLocale(translations[browserLang] ? browserLang : 'fr');
     }
   }, []);
 

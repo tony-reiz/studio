@@ -6,9 +6,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { cn } from '@/lib/utils';
 import { KeywordInput } from './keyword-input';
+import { useEbooks } from '@/context/ebook-provider';
 
 export function SellForm() {
     const { control, watch } = useFormContext();
+    const { t } = useEbooks();
 
     const watchedPrice = watch('price');
     
@@ -53,7 +55,7 @@ export function SellForm() {
                     <div className="relative w-full">
                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground z-10">T</span>
                         <FormControl>
-                            <Input placeholder="titre de l'ebook..." {...field} className={inputClasses}/>
+                            <Input placeholder={t('ebook_title_placeholder')} {...field} className={inputClasses}/>
                         </FormControl>
                     </div>
                     <FormMessage className="pl-4" />
@@ -69,7 +71,7 @@ export function SellForm() {
                     <div className="relative w-full">
                          <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-foreground z-10">D</span>
                         <FormControl>
-                            <Textarea placeholder="description de l'ebook..." {...field} className={cn(inputClasses, "h-28 rounded-[30px] py-3.5 leading-snug")} />
+                            <Textarea placeholder={t('ebook_description_placeholder')} {...field} className={cn(inputClasses, "h-28 rounded-[30px] py-3.5 leading-snug")} />
                         </FormControl>
                     </div>
                     <FormMessage className="pl-4" />
@@ -85,7 +87,7 @@ export function SellForm() {
                      <div className="relative w-full">
                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground z-10">M</span>
                         <FormControl>
-                            <KeywordInput placeholder="mots clés..." {...field}/>
+                            <KeywordInput placeholder={t('keywords_placeholder')} {...field}/>
                         </FormControl>
                     </div>
                     <FormMessage className="pl-4" />
@@ -101,7 +103,7 @@ export function SellForm() {
                     <div className="relative w-full">
                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground z-10">€</span>
                         <FormControl>
-                            <Input type="text" inputMode="decimal" placeholder="prix..." {...field} className={inputClasses}/>
+                            <Input type="text" inputMode="decimal" placeholder={t('price_placeholder')} {...field} className={inputClasses}/>
                         </FormControl>
                     </div>
                     <FormMessage className="pl-4" />
@@ -112,9 +114,9 @@ export function SellForm() {
 
         <div className="w-full glass-form-element rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden">
             <div className='pl-6 py-4 text-sm text-foreground space-y-1 flex flex-col justify-center'>
-                <p>prix de l'ebook</p>
-                <p>votre gain net</p>
-                <p>total de l'ebook</p>
+                <p>{t('ebook_price')}</p>
+                <p>{t('your_net_gain')}</p>
+                <p>{t('total_ebook_price')}</p>
             </div>
             <div className='bg-foreground text-background rounded-l-[30px] px-8 py-4 text-sm flex flex-col justify-center text-right space-y-1'>
                 <p className="font-semibold">{formatPrice(ebookPrice)}</p>

@@ -18,19 +18,6 @@ import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 
-const sellFormSchema = z.object({
-  title: z.string().min(1, { message: "Le titre est requis." }),
-  description: z.string().min(1, { message: "La description est requise." }),
-  keywords: z.string().min(1, { message: "Les mots-clés sont requis." }),
-  price: z.string().min(1, { message: "Le prix est requis." })
-    .refine((val) => !/[a-zA-Z]/.test(val), { message: 'Le prix ne doit pas contenir de lettres.' })
-    .refine((val) => {
-        const n = parseFloat(val.replace(',', '.'));
-        return !isNaN(n) && isFinite(n);
-    }, { message: 'Le prix doit être un nombre.' })
-    .refine((val) => parseFloat(val.replace(',', '.')) >= 10, { message: 'Le prix doit être de 10€ minimum.' })
-    .refine((val) => parseFloat(val.replace(',', '.')) <= 1000, { message: 'Le prix ne doit pas dépasser 1000€.' }),
-});
 
 export default function SellPage() {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
@@ -39,8 +26,22 @@ export default function SellPage() {
   const [fileSize, setFileSize] = useState<{ original: number | null, compressed: number | null }>({ original: null, compressed: null });
   const { toast } = useToast();
   const { handleNavigate } = useTransitionRouter();
-  const { addPublishedEbook, theme } = useEbooks();
+  const { addPublishedEbook, theme, t } = useEbooks();
   const [isClient, setIsClient] = useState(false);
+
+  const sellFormSchema = z.object({
+    title: z.string().min(1, { message: t('title_required') }),
+    description: z.string().min(1, { message: t('description_required') }),
+    keywords: z.string().min(1, { message: t('keywords_required') }),
+    price: z.string().min(1, { message: t('price_required') })
+      .refine((val) => !/[a-zA-Z]/.test(val), { message: t('price_no_letters') })
+      .refine((val) => {
+          const n = parseFloat(val.replace(',', '.'));
+          return !isNaN(n) && isFinite(n);
+      }, { message: t('price_must_be_number') })
+      .refine((val) => parseFloat(val.replace(',', '.')) >= 10, { message: t('price_min_10') })
+      .refine((val) => parseFloat(val.replace(',', '.')) <= 1000, { message: t('price_max_1000') }),
+  });
 
   useEffect(() => {
     setIsClient(true);
@@ -91,8 +92,8 @@ export default function SellPage() {
             console.error("PDF compression failed:", error);
             toast({
                 variant: "destructive",
-                title: "Erreur de compression",
-                description: "Le fichier PDF n'a pas pu être traité. Il est peut-être corrompu ou protégé.",
+                title: t('compression_error'),
+                description: t('pdf_process_error'),
             });
             handleFileChange(null);
         } finally {
@@ -109,8 +110,8 @@ export default function SellPage() {
     if (!compressedPdfBytes) {
       toast({
         variant: "destructive",
-        title: "Compression en cours...",
-        description: "Veuillez attendre la fin de l'optimisation du fichier.",
+        title: t('compressing'),
+        description: t('wait_for_optimization'),
       });
       return;
     }
@@ -143,8 +144,8 @@ export default function SellPage() {
         console.error("PDF publication failed:", error);
         toast({
             variant: "destructive",
-            title: "Erreur de publication",
-            description: "Une erreur est survenue, veuillez réessayer.",
+            title: t('publication_error'),
+            description: t('error_try_again'),
         });
         setSubmissionStep('idle');
     }
@@ -159,7 +160,7 @@ export default function SellPage() {
       type="button"
       variant="ghost"
       size="icon"
-      aria-label="Menu"
+      aria-label={t('menu')}
       className="w-11 h-11 rounded-full glass-icon-button -mt-2 sm:mt-0"
     >
       <Menu className="h-6 w-6" />
@@ -167,9 +168,9 @@ export default function SellPage() {
   );
 
   const getButtonText = () => {
-    if (submissionStep === 'publishing') return 'Publication...';
-    if (submissionStep === 'compressing') return 'Compression...';
-    return 'publier';
+    if (submissionStep === 'publishing') return t('publishing');
+    if (submissionStep === 'compressing') return t('compressing');
+    return t('publish');
   }
 
   return (
@@ -184,7 +185,7 @@ export default function SellPage() {
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8 overflow-y-auto scrollbar-hide">
           <header className="sticky top-0 z-10 flex items-start justify-between w-full pb-6" style={{ paddingTop: `calc(1.5rem + env(safe-area-inset-top))` }}>
             {isClient ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
-            <Button type="button" onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="-mt-2 sm:mt-0 w-11 h-11 rounded-full glass-icon-button" aria-label="Profil Utilisateur">
+            <Button type="button" onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="-mt-2 sm:mt-0 w-11 h-11 rounded-full glass-icon-button" aria-label={t('user_profile')}>
               <User className="h-6 w-6" />
             </Button>
           </header>
