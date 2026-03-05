@@ -42,6 +42,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             const timer = setTimeout(() => {
                 setIsSheetMounted(false);
                 setView('main'); // Reset view when sheet is fully closed
+                setSearchQuery('');
             }, 500); // Animation duration
             return () => clearTimeout(timer);
         }
@@ -94,13 +95,16 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
     const handleLanguageSelect = (code: string) => {
         setSelectedLanguage(code);
+        setSearchQuery('');
         closeSheet();
     };
 
-    const filteredLanguages = languages.filter(lang =>
-        lang.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        lang.nativeName.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredLanguages = searchQuery
+      ? languages.filter(lang =>
+          lang.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          lang.nativeName.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : [];
 
     const selectedLanguageObject = languages.find(lang => lang.code === selectedLanguage);
 
@@ -166,29 +170,34 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                                         </div>
                                         <div className="w-full text-center py-2">
                                             <p className="text-sm text-muted-foreground">Langue sélectionnée</p>
-                                            <p className="text-lg font-semibold text-foreground">{selectedLanguageObject?.name || 'Français'}</p>
+                                            <div className="text-lg font-semibold text-foreground flex justify-center items-center gap-2">
+                                                <span>{selectedLanguageObject?.flag}</span>
+                                                <span>{selectedLanguageObject?.name || 'Français'}</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="flex-1 overflow-y-auto px-4">
-                                        <ul className="w-full space-y-2">
-                                            {filteredLanguages.map((lang) => (
-                                                <li key={lang.code}>
-                                                    <button 
-                                                    onClick={() => handleLanguageSelect(lang.code)}
-                                                    className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
-                                                    >
-                                                        <div className="flex items-center gap-4">
-                                                            <span className="text-2xl">{lang.flag}</span>
-                                                            <div className="flex flex-col">
-                                                                <span className="font-semibold text-foreground">{lang.name}</span>
-                                                                <span className="text-sm text-muted-foreground">{lang.nativeName}</span>
+                                        {searchQuery && (
+                                            <ul className="w-full space-y-2">
+                                                {filteredLanguages.map((lang) => (
+                                                    <li key={lang.code}>
+                                                        <button 
+                                                        onClick={() => handleLanguageSelect(lang.code)}
+                                                        className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
+                                                        >
+                                                            <div className="flex items-center gap-4">
+                                                                <span className="text-2xl">{lang.flag}</span>
+                                                                <div className="flex flex-col">
+                                                                    <span className="font-semibold text-foreground">{lang.name}</span>
+                                                                    <span className="text-sm text-muted-foreground">{lang.nativeName}</span>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    {selectedLanguage === lang.code && <Check className="h-6 w-6 text-foreground" />}
-                                                    </button>
-                                                </li>
-                                            ))}
-                                        </ul>
+                                                        {selectedLanguage === lang.code && <Check className="h-6 w-6 text-foreground" />}
+                                                        </button>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
                                     </div>
                                 </div>
                             </div>
