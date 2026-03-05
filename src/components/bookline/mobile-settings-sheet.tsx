@@ -3,17 +3,11 @@
 import { useEffect, useState, useRef, type TouchEvent, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { SettingsList } from './settings-list';
-import { ChevronLeft, Check } from 'lucide-react';
+import { ChevronLeft, Check, Search } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { languages } from '@/lib/languages';
 
 type View = 'main' | 'language';
-
-const languages = [
-  { code: 'fr', name: 'Français' },
-  { code: 'en', name: 'English' },
-  { code: 'es', name: 'Español' },
-  { code: 'de', name: 'Deutsch' },
-  { code: 'it', name: 'Italiano' },
-];
 
 interface MobileSettingsSheetProps {
     children: ReactNode;
@@ -31,6 +25,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
     const [view, setView] = useState<View>('main');
     const [selectedLanguage, setSelectedLanguage] = useState('fr');
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         if (isOpen) {
@@ -47,7 +42,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             const timer = setTimeout(() => {
                 setIsSheetMounted(false);
                 setView('main'); // Reset view when sheet is fully closed
-            }, 400); // Animation duration
+            }, 500); // Animation duration
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
@@ -102,6 +97,14 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         closeSheet();
     };
 
+    const filteredLanguages = languages.filter(lang =>
+        lang.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        lang.nativeName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const selectedLanguageObject = languages.find(lang => lang.code === selectedLanguage);
+
+
     return (
         <>
             <div onClick={openSheet}>
@@ -129,7 +132,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                         className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-full flex-col bg-background rounded-t-[50px] touch-none"
                         style={{
                             transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-                            transition: isDragging ? 'none' : 'transform 0.4s ease-in-out',
+                            transition: isDragging ? 'none' : 'transform 0.5s ease-in-out',
                         }}
                     >
                         <h2 id="sheet-title" className="sr-only">Paramètres</h2>
@@ -143,28 +146,50 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                                 <div className="w-1/2 h-full overflow-y-auto px-4">
                                     <SettingsList onMobileItemClick={handleMobileItemClick} />
                                 </div>
-                                <div className="w-1/2 h-full overflow-y-auto px-4">
-                                     <div className="flex items-center justify-center relative mb-4">
-                                        <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
-                                            <ChevronLeft className="h-6 w-6" />
-                                        </button>
-                                        <h1 className="text-xl font-bold text-center">Langue</h1>
+                                <div className="w-1/2 h-full flex flex-col">
+                                    <div className="px-4">
+                                        <div className="flex items-center justify-center relative mb-2">
+                                            <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
+                                                <ChevronLeft className="h-6 w-6" />
+                                            </button>
+                                            <h1 className="text-xl font-bold text-center">Langue</h1>
+                                        </div>
+                                        <div className="relative w-full mb-2">
+                                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground z-10" />
+                                            <Input
+                                                type="search"
+                                                placeholder="Rechercher..."
+                                                className="pl-11 pr-4 h-12 w-full text-base glass-form-element bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground"
+                                                value={searchQuery}
+                                                onChange={(e) => setSearchQuery(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="w-full text-center py-2">
+                                            <p className="text-sm text-muted-foreground">Langue sélectionnée</p>
+                                            <p className="text-lg font-semibold text-foreground">{selectedLanguageObject?.name || 'Français'}</p>
+                                        </div>
                                     </div>
-                                    <ul className="w-full space-y-2">
-                                        {languages.map((lang) => (
-                                            <li key={lang.code}>
-                                                <button 
-                                                onClick={() => handleLanguageSelect(lang.code)}
-                                                className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
-                                                >
-                                                <span className="font-semibold text-foreground">
-                                                    {lang.name}
-                                                </span>
-                                                {selectedLanguage === lang.code && <Check className="h-6 w-6 text-foreground" />}
-                                                </button>
-                                            </li>
-                                        ))}
-                                    </ul>
+                                    <div className="flex-1 overflow-y-auto px-4">
+                                        <ul className="w-full space-y-2">
+                                            {filteredLanguages.map((lang) => (
+                                                <li key={lang.code}>
+                                                    <button 
+                                                    onClick={() => handleLanguageSelect(lang.code)}
+                                                    className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
+                                                    >
+                                                        <div className="flex items-center gap-4">
+                                                            <span className="text-2xl">{lang.flag}</span>
+                                                            <div className="flex flex-col">
+                                                                <span className="font-semibold text-foreground">{lang.name}</span>
+                                                                <span className="text-sm text-muted-foreground">{lang.nativeName}</span>
+                                                            </div>
+                                                        </div>
+                                                    {selectedLanguage === lang.code && <Check className="h-6 w-6 text-foreground" />}
+                                                    </button>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>

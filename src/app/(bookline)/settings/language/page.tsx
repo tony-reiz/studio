@@ -1,27 +1,22 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ChevronLeft, Check } from 'lucide-react';
+import { ChevronLeft, Check, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useEbooks } from '@/context/ebook-provider';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 import { cn } from '@/lib/utils';
-
-const languages = [
-  { code: 'fr', name: 'Français' },
-  { code: 'en', name: 'English' },
-  { code: 'es', name: 'Español' },
-  { code: 'de', name: 'Deutsch' },
-  { code: 'it', name: 'Italiano' },
-];
+import { languages } from '@/lib/languages';
 
 export default function LanguageSettingsPage() {
   const { handleBack } = useTransitionRouter();
   const { theme } = useEbooks();
   const [isClient, setIsClient] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('fr'); // Default to French
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     setIsClient(true);
@@ -41,6 +36,13 @@ export default function LanguageSettingsPage() {
     handleBack();
   };
 
+  const filteredLanguages = languages.filter(lang =>
+    lang.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    lang.nativeName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const selectedLanguageObject = languages.find(lang => lang.code === selectedLanguage);
+
   return (
     <div className={cn("min-h-screen text-foreground bg-transparent")}>
       {isClient && (
@@ -59,17 +61,34 @@ export default function LanguageSettingsPage() {
           <h1 className="text-2xl font-bold text-center">Langue</h1>
         </header>
 
-        <main className="flex-1 w-full flex flex-col items-center pt-16 pb-28 gap-2">
+        <main className="flex-1 w-full flex flex-col items-center pt-8 pb-28 gap-4">
+          <div className="relative w-full">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground z-10" />
+            <Input
+              type="search"
+              placeholder="Rechercher une langue..."
+              className="pl-11 pr-4 h-12 w-full text-base glass-form-element bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+
+          <div className="w-full text-center py-2">
+            <p className="text-sm text-muted-foreground">Langue sélectionnée</p>
+            <p className="text-lg font-semibold text-foreground">{selectedLanguageObject?.name || 'Français'}</p>
+          </div>
+
           <ul className="w-full space-y-2">
-            {languages.map((lang) => (
+            {filteredLanguages.map((lang) => (
               <li key={lang.code}>
                 <button 
                   onClick={() => handleLanguageSelect(lang.code)}
                   className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
                 >
-                  <span className="font-semibold text-foreground">
-                    {lang.name}
-                  </span>
+                  <div className="flex items-center gap-4">
+                    <span className="text-2xl">{lang.flag}</span>
+                    <span className="font-semibold text-foreground">{lang.name}</span>
+                  </div>
                   {selectedLanguage === lang.code && <Check className="h-6 w-6 text-foreground" />}
                 </button>
               </li>
