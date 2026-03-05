@@ -207,8 +207,8 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
                                 <Star className="w-8 h-8 text-foreground fill-foreground" />
                                 <Star className="w-8 h-8 text-foreground fill-foreground" />
                                 <Star className="w-8 h-8 text-foreground fill-foreground" />
-                                <Star className="w-8 h-8 text-[#DFDFDF] fill-[#DFDFDF]" />
-                                <Star className="w-8 h-8 text-[#DFDFDF] fill-[#DFDFDF]" />
+                                <Star className="w-8 h-8 text-muted fill-muted" />
+                                <Star className="w-8 h-8 text-muted fill-muted" />
                             </div>
                             <EbookCard ebook={activeEbook} onCardClick={handleCardClick} />
                         </div>
