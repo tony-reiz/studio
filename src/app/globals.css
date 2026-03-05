@@ -45,8 +45,8 @@
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 8%;
     --popover-foreground: 0 0% 98%;
-    --primary: 8 88% 68%;
-    --primary-foreground: 8 90% 10%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 8%;
     --secondary: 8 40% 12%;
     --secondary-foreground: 0 0% 98%;
     --muted: 8 30% 20%;
@@ -57,7 +57,7 @@
     --destructive-foreground: 0 0% 98%;
     --border: 8 30% 20%;
     --input: 8 30% 15%;
-    --ring: 8 88% 68%;
+    --ring: 0 0% 98%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
@@ -96,7 +96,7 @@
   }
 
   .glass-icon-button {
-    color: rgba(0, 0, 0, 0.85);
+    color: hsl(var(--foreground));
     position: relative;
     display: flex;
     justify-content: center;
@@ -109,6 +109,7 @@
     border: 0.5px solid rgba(255, 255, 255, 0.25);
   }
   .glass-icon-button:hover {
+    color: hsl(var(--foreground));
     background: rgba(60, 60, 65, 0.18) !important;
   }
 
@@ -140,7 +141,7 @@
   }
 
   .dark .glass-icon-button {
-    color: rgba(255, 255, 255, 0.85);
+    color: hsl(var(--foreground));
     background: rgba(200, 200, 205, 0.1) !important;
     backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
     -webkit-backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
@@ -149,7 +150,7 @@
 
   .dark .glass-icon-button:hover {
     background: rgba(200, 200, 205, 0.1) !important;
-    color: rgba(255, 255, 255, 0.85);
+    color: hsl(var(--foreground));
   }
 
   .dark .glass-icon-button::after {
@@ -211,7 +212,7 @@
     border: none;
     position: relative;
     font-weight: 500;
-    color: rgba(0, 0, 0, 0.85);
+    color: hsl(var(--foreground));
     background: rgba(60, 60, 65, 0.18) !important;
     backdrop-filter: blur(5px) saturate(200%) brightness(0.95);
     -webkit-backdrop-filter: blur(5px) saturate(200%) brightness(0.95);
@@ -249,7 +250,7 @@
       z-index: 2;
   }
   .dark .glass-button {
-    color: rgba(255, 255, 255, 0.85);
+    color: hsl(var(--foreground));
     background: rgba(200, 200, 205, 0.1) !important;
     backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
     -webkit-backdrop-filter: blur(8px) saturate(200%) brightness(0.8);
@@ -257,7 +258,7 @@
   }
   .dark .glass-button:hover {
     background: rgba(200, 200, 205, 0.1) !important;
-    color: rgba(255, 255, 255, 0.85);
+    color: hsl(var(--foreground));
   }
   .dark .glass-button::after {
       background: linear-gradient(rgba(255, 255, 255, 0.1), transparent);
