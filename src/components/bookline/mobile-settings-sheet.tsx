@@ -6,7 +6,7 @@ import { SettingsList } from './settings-list';
 import { ChevronLeft, Check, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { languages } from '@/lib/languages';
-import { useMobile } from '@/hooks/use-mobile';
+import { useIsMobile } from '@/hooks/use-mobile';
 import {
   Dialog,
   DialogContent,
@@ -34,7 +34,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const [selectedLanguage, setSelectedLanguage] = useState('fr');
     const [searchQuery, setSearchQuery] = useState('');
     
-    const isMobile = useMobile();
+    const isMobile = useIsMobile();
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
