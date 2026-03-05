@@ -248,7 +248,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             <DialogTrigger asChild onClick={openSheet}>
                 {children}
             </DialogTrigger>
-            <DialogContent className="max-w-2xl w-full p-0 rounded-[40px] overflow-hidden border-none bg-background shadow-xl">
+            <DialogContent className="max-w-2xl w-full p-0 rounded-[100px] overflow-hidden border-none bg-background shadow-xl">
                  <DialogTitle className="sr-only">Paramètres</DialogTitle>
                  <div className="h-[65vh] flex flex-col">
                     {SettingsContent}
