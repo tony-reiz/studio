@@ -34,4 +34,5 @@ export const languages: Language[] = [
     { code: 'hu', name: 'Hongrois', nativeName: 'Magyar', flag: '🇭🇺' },
     { code: 'ro', name: 'Roumain', nativeName: 'Română', flag: '🇷🇴' },
     { code: 'uk', name: 'Ukrainien', nativeName: 'Українська', flag: '🇺🇦' },
+    { code: 'ta', name: 'Tamoul', nativeName: 'தமிழ்', flag: '🇮🇳' },
 ];
