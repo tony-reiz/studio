@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { translations, type Locale } from '@/lib/translations';
 
@@ -69,6 +70,7 @@ export function EbookProvider({ children }: { children: ReactNode }) {
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
   const [theme, setThemeState] = useState<'light' | 'dark'>('light');
   const [locale, setLocaleState] = useState<Locale>('fr');
+  const pathname = usePathname();
 
   useEffect(() => {
     const storedTheme = localStorage.getItem('bookline-theme') as 'light' | 'dark';
@@ -87,6 +89,30 @@ export function EbookProvider({ children }: { children: ReactNode }) {
       setLocale(translations[browserLang] ? browserLang : 'fr');
     }
   }, []);
+
+  useEffect(() => {
+    const fluidBgRoutes = [
+      '/',
+      '/home',
+      '/buy',
+      '/profile',
+      '/sell',
+      '/seller',
+      '/settings'
+    ];
+
+    const needsFluidBg = fluidBgRoutes.some(route => {
+        if (route === '/') return pathname === '/';
+        return pathname.startsWith(route);
+    });
+
+    if (needsFluidBg) {
+      document.body.classList.add('has-fluid-background');
+      return () => {
+        document.body.classList.remove('has-fluid-background');
+      };
+    }
+  }, [pathname]);
 
   const setTheme = (newTheme: 'light' | 'dark') => {
     setThemeState(newTheme);

@@ -41,13 +41,6 @@ export default function ProfilePage() {
     setIsClient(true);
   }, []);
 
-  useEffect(() => {
-    document.body.classList.add('has-fluid-background');
-    return () => {
-      document.body.classList.remove('has-fluid-background');
-    };
-  }, []);
-
   const handleCopyUsername = () => {
     if (isCopied) return;
     if (!userProfile.username) return;

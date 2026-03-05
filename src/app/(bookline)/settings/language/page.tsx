@@ -22,13 +22,6 @@ export default function LanguageSettingsPage() {
     setIsClient(true);
   }, []);
 
-  useEffect(() => {
-    document.body.classList.add('has-fluid-background');
-    return () => {
-      document.body.classList.remove('has-fluid-background');
-    };
-  }, []);
-
   const handleLanguageSelect = (code: Locale) => {
     setLocale(code);
     setSearchQuery('');

@@ -19,13 +19,6 @@ export default function SettingsPage() {
     setIsClient(true);
   }, []);
 
-  useEffect(() => {
-    document.body.classList.add('has-fluid-background');
-    return () => {
-      document.body.classList.remove('has-fluid-background');
-    };
-  }, []);
-
 
   return (
     <div className={cn("min-h-screen text-foreground bg-transparent")}>

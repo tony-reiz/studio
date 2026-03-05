@@ -57,13 +57,6 @@ export default function LandingPage() {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    document.body.classList.add('has-fluid-background');
-    return () => {
-      document.body.classList.remove('has-fluid-background');
-    };
-  }, []);
-
 
   const handleNavigate = (path: string) => {
     // Start fade-out animation

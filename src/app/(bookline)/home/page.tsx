@@ -22,13 +22,6 @@ export default function HomePage() {
     setIsClient(true);
   }, []);
 
-  useEffect(() => {
-    document.body.classList.add('has-fluid-background');
-    return () => {
-      document.body.classList.remove('has-fluid-background');
-    };
-  }, []);
-
   const menuButton = (
     <Button
       variant="ghost"

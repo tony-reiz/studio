@@ -42,14 +42,6 @@ export default function BuyEbookPage() {
   }, []);
 
   useEffect(() => {
-    document.body.classList.add('has-fluid-background');
-    return () => {
-      document.body.classList.remove('has-fluid-background');
-    };
-  }, []);
-
-
-  useEffect(() => {
     if (id && allEbooks.length > 0) {
       const foundEbook = allEbooks.find((e) => e.id === id);
       setEbook(foundEbook);

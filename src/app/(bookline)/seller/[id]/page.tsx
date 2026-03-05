@@ -30,13 +30,6 @@ export default function SellerProfilePage() {
     setIsClient(true);
   }, []);
 
-  useEffect(() => {
-    document.body.classList.add('has-fluid-background');
-    return () => {
-      document.body.classList.remove('has-fluid-background');
-    };
-  }, []);
-
   // The seller's ebooks are all ebooks that are not the current user's published ebooks.
   const publishedEbookIds = new Set(publishedEbooks.map(e => e.id));
   const sellerEbooks = allEbooks.filter(ebook => !publishedEbookIds.has(ebook.id));
