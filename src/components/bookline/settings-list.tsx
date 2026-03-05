@@ -18,12 +18,13 @@ import {
 import { useEbooks } from '@/context/ebook-provider';
 import { cn } from '@/lib/utils';
 import { Switch } from '@/components/ui/switch';
+import { useTransitionRouter } from '@/app/(bookline)/layout';
 
 const settingsItems = [
   { icon: User, label: 'Paramètres du compte' },
   { icon: Bell, label: 'Notifications' },
   { icon: ShieldCheck, label: 'Sécurité' },
-  { icon: Languages, label: 'Langue' },
+  { icon: Languages, label: 'Langue', href: '/settings/language' },
   { icon: CircleDollarSign, label: 'Devise' },
   { icon: Landmark, label: 'Virement' },
   { icon: Receipt, label: 'Factures' },
@@ -34,9 +35,16 @@ const settingsItems = [
 
 export function SettingsList() {
   const { theme, setTheme } = useEbooks();
+  const { handleNavigate } = useTransitionRouter();
 
   const handleThemeChange = (checked: boolean) => {
     setTheme(checked ? 'dark' : 'light');
+  };
+
+  const handleItemClick = (item: (typeof settingsItems)[0]) => {
+    if (item.href) {
+      handleNavigate(item.href);
+    }
   };
 
   const isDark = theme === 'dark';
@@ -45,7 +53,10 @@ export function SettingsList() {
     <ul className="w-full space-y-2">
       {settingsItems.slice(0, 3).map((item) => (
         <li key={item.label}>
-          <button className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors">
+          <button
+            onClick={() => handleItemClick(item)}
+            className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
+          >
             <div className="flex items-center gap-4">
               <item.icon className={`h-6 w-6 ${item.isDestructive ? 'text-destructive' : 'text-muted-foreground'}`} />
               <span className={`font-semibold ${item.isDestructive ? 'text-destructive' : 'text-foreground'}`}>
@@ -80,7 +91,10 @@ export function SettingsList() {
 
       {settingsItems.slice(3).map((item) => (
         <li key={item.label}>
-          <button className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors">
+          <button
+            onClick={() => handleItemClick(item)}
+            className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
+          >
             <div className="flex items-center gap-4">
               <item.icon className={`h-6 w-6 ${item.isDestructive ? 'text-destructive' : 'text-muted-foreground'}`} />
               <span className={`font-semibold ${item.isDestructive ? 'text-destructive' : 'text-foreground'}`}>
