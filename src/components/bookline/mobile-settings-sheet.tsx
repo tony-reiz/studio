@@ -6,7 +6,7 @@ import { SettingsList } from './settings-list';
 import { ChevronLeft, Check, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { languages } from '@/lib/languages';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useMobile } from '@/hooks/use-mobile';
 import {
   Dialog,
   DialogContent,
@@ -34,7 +34,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const [selectedLanguage, setSelectedLanguage] = useState('fr');
     const [searchQuery, setSearchQuery] = useState('');
     
-    const isMobile = useIsMobile();
+    const isMobile = useMobile();
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
@@ -228,7 +228,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             onTouchStart={handleTouchStart}
                             onTouchMove={handleTouchMove}
                             onTouchEnd={handleTouchEnd}
-                            className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-full flex-col bg-background rounded-t-[40px] touch-none"
+                            className="absolute bottom-4 left-4 right-4 flex max-h-[70vh] w-auto flex-col bg-background rounded-[40px] touch-none"
                             style={{
                                 transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
                                 transition: isDragging ? 'none' : 'transform 0.5s ease-in-out',
@@ -248,9 +248,9 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             <DialogTrigger asChild onClick={openSheet}>
                 {children}
             </DialogTrigger>
-            <DialogContent className="max-w-2xl w-full p-0 rounded-[40px] overflow-hidden border-none bg-transparent shadow-xl fixed bottom-0 left-1/2 -translate-x-1/2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-bottom-full data-[state=open]:slide-in-from-bottom-full">
+            <DialogContent className="max-w-2xl w-full p-0 rounded-[40px] overflow-hidden border-none bg-background shadow-xl fixed bottom-0 left-1/2 -translate-x-1/2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-bottom-full data-[state=open]:slide-in-from-bottom-full">
                  <DialogTitle className="sr-only">Paramètres</DialogTitle>
-                 <div className="h-[65vh] w-full bg-background rounded-[40px] overflow-hidden flex flex-col">
+                 <div className="h-[65vh] bg-background rounded-[40px] overflow-hidden flex flex-col">
                     {SettingsContent}
                  </div>
             </DialogContent>
