@@ -20,9 +20,10 @@ import { cn } from '@/lib/utils';
 import { Switch } from '@/components/ui/switch';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useState, useEffect } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface SettingsListProps {
-  onMobileItemClick?: (id: string) => void;
+  onItemClick?: (id: string) => void;
 }
 
 const settingsItems: Array<{
@@ -44,10 +45,11 @@ const settingsItems: Array<{
   { icon: LogOut, label: 'Déconnexion', isDestructive: true },
 ];
 
-export function SettingsList({ onMobileItemClick }: SettingsListProps) {
+export function SettingsList({ onItemClick }: SettingsListProps) {
   const { theme, setTheme } = useEbooks();
   const { handleNavigate } = useTransitionRouter();
   const [isClient, setIsClient] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setIsClient(true);
@@ -59,9 +61,9 @@ export function SettingsList({ onMobileItemClick }: SettingsListProps) {
   };
 
   const handleItemClick = (item: (typeof settingsItems)[0]) => {
-    if (item.id && isClient && onMobileItemClick) {
-      onMobileItemClick(item.id);
-    } else if (item.href) {
+    if (item.id && isClient && onItemClick) {
+      onItemClick(item.id);
+    } else if (item.href && (!isMobile || !onItemClick)) {
       handleNavigate(item.href);
     }
   };
@@ -83,7 +85,7 @@ export function SettingsList({ onMobileItemClick }: SettingsListProps) {
                     {item.label}
                 </span>
                 </div>
-                {!item.isDestructive && (item.href || (item.id && onMobileItemClick)) && <ChevronRight className="h-6 w-6 text-muted-foreground" />}
+                {!item.isDestructive && (item.href || (item.id && onItemClick)) && <ChevronRight className="h-6 w-6 text-muted-foreground" />}
             </button>
             </li>
         ))}
@@ -121,7 +123,7 @@ export function SettingsList({ onMobileItemClick }: SettingsListProps) {
                     {item.label}
                 </span>
                 </div>
-                {!item.isDestructive && (item.href || (item.id && onMobileItemClick)) && <ChevronRight className="h-6 w-6 text-muted-foreground" />}
+                {!item.isDestructive && (item.href || (item.id && onItemClick)) && <ChevronRight className="h-6 w-6 text-muted-foreground" />}
             </button>
             </li>
         ))}

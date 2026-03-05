@@ -6,6 +6,12 @@ import { SettingsList } from './settings-list';
 import { ChevronLeft, Check, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { languages } from '@/lib/languages';
+import { useIsMobile } from '@/hooks/use-mobile';
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 type View = 'main' | 'language';
 
@@ -26,6 +32,13 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const [view, setView] = useState<View>('main');
     const [selectedLanguage, setSelectedLanguage] = useState('fr');
     const [searchQuery, setSearchQuery] = useState('');
+    
+    const isMobile = useIsMobile();
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     useEffect(() => {
         if (isOpen) {
@@ -54,6 +67,14 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     
     const openSheet = () => {
         setIsOpen(true);
+    }
+    
+    const handleOpenChange = (open: boolean) => {
+        if (open) {
+            openSheet();
+        } else {
+            closeSheet();
+        }
     }
 
     const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
@@ -87,7 +108,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         }
     };
 
-    const handleMobileItemClick = (id: string) => {
+    const handleItemClick = (id: string) => {
         if (id === 'language') {
             setView('language');
         }
@@ -110,104 +131,127 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
     const selectedLanguageObject = languages.find(lang => lang.code === selectedLanguage);
 
-
-    return (
-        <>
-            <div onClick={openSheet}>
-                {children}
-            </div>
-            {isSheetMounted && (
-                <div 
-                    className="fixed inset-0 z-50"
-                    role="dialog"
-                    aria-modal="true"
-                    aria-labelledby="sheet-title"
-                >
-                    <div
-                        className={cn(
-                            "fixed inset-0 bg-black/60 transition-opacity duration-300",
-                            isAnimationOpen ? 'opacity-100' : 'opacity-0'
-                        )}
-                        onClick={closeSheet}
-                    />
-                    <div
-                        ref={sheetRef}
-                        onTouchStart={handleTouchStart}
-                        onTouchMove={handleTouchMove}
-                        onTouchEnd={handleTouchEnd}
-                        className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-full flex-col bg-background rounded-t-[50px] touch-none"
-                        style={{
-                            transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-                            transition: isDragging ? 'none' : 'transform 0.5s ease-in-out',
-                        }}
-                    >
-                        <h2 id="sheet-title" className="sr-only">Paramètres</h2>
-                        <div className="mx-auto w-20 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/50 my-3" />
-                        
-                        <div className="flex-1 overflow-hidden" onClick={(e) => e.stopPropagation()}>
-                            <div className={cn(
-                                "flex h-full w-[200%] transition-transform duration-500 ease-in-out",
-                                view === 'language' ? "-translate-x-1/2" : "translate-x-0"
-                            )}>
-                                <div className="w-1/2 h-full overflow-y-auto px-4">
-                                    <SettingsList onMobileItemClick={handleMobileItemClick} />
-                                </div>
-                                <div className="w-1/2 h-full flex flex-col">
-                                    <div className="px-4">
-                                        <div className="flex items-center justify-center relative mb-2">
-                                            <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
-                                                <ChevronLeft className="h-6 w-6" />
-                                            </button>
-                                            <h1 className="text-xl font-bold text-center">Langue</h1>
-                                        </div>
-                                        <div className="relative w-full mb-2">
-                                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground z-10" />
-                                            <Input
-                                                type="search"
-                                                placeholder="Rechercher..."
-                                                className="pl-11 pr-4 h-12 w-full text-base glass-form-element bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground"
-                                                value={searchQuery}
-                                                onChange={(e) => setSearchQuery(e.target.value)}
-                                            />
-                                        </div>
-                                        <div className="w-full text-center py-2">
-                                            <p className="text-sm text-muted-foreground">Langue sélectionnée</p>
-                                            <div className="text-lg font-semibold text-foreground flex justify-center items-center gap-2">
-                                                <span>{selectedLanguageObject?.flag}</span>
-                                                <span>{selectedLanguageObject?.name || 'Français'}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="flex-1 overflow-y-auto px-4">
-                                        {searchQuery && (
-                                            <ul className="w-full space-y-2">
-                                                {filteredLanguages.map((lang) => (
-                                                    <li key={lang.code}>
-                                                        <button 
-                                                        onClick={() => handleLanguageSelect(lang.code)}
-                                                        className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
-                                                        >
-                                                            <div className="flex items-center gap-4">
-                                                                <span className="text-2xl">{lang.flag}</span>
-                                                                <div className="flex flex-col">
-                                                                    <span className="font-semibold text-foreground">{lang.name}</span>
-                                                                    <span className="text-sm text-muted-foreground">{lang.nativeName}</span>
-                                                                </div>
-                                                            </div>
-                                                        {selectedLanguage === lang.code && <Check className="h-6 w-6 text-foreground" />}
-                                                        </button>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+    const SettingsContent = (
+        <div className="flex-1 overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <div className={cn(
+                "flex h-full w-[200%] transition-transform duration-500 ease-in-out",
+                view === 'language' ? "-translate-x-1/2" : "translate-x-0"
+            )}>
+                <div className="w-1/2 h-full flex flex-col">
+                    {isMobile && <h2 id="sheet-title" className="sr-only">Paramètres</h2>}
+                    {!isMobile && <h2 className="text-xl font-bold text-center p-4 pt-6">Paramètres</h2>}
+                    <div className="flex-1 overflow-y-auto px-4 pb-4">
+                        <SettingsList onItemClick={handleItemClick} />
                     </div>
                 </div>
-            )}
-        </>
+
+                <div className="w-1/2 h-full flex flex-col">
+                    <div className="px-4 pt-6">
+                        <div className="flex items-center justify-center relative mb-2">
+                            <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
+                                <ChevronLeft className="h-6 w-6" />
+                            </button>
+                            <h1 className="text-xl font-bold text-center">Langue</h1>
+                        </div>
+                        <div className="relative w-full mb-2">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground z-10" />
+                            <Input
+                                type="search"
+                                placeholder="Rechercher..."
+                                className="pl-11 pr-4 h-12 w-full text-base glass-form-element bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </div>
+                        <div className="w-full text-center py-2">
+                            <p className="text-sm text-muted-foreground">Langue sélectionnée</p>
+                            <div className="text-lg font-semibold text-foreground flex justify-center items-center gap-2">
+                                <span>{selectedLanguageObject?.flag}</span>
+                                <span>{selectedLanguageObject?.name || 'Français'}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex-1 overflow-y-auto px-4 pb-4">
+                        {searchQuery && (
+                            <ul className="w-full space-y-2">
+                                {filteredLanguages.map((lang) => (
+                                    <li key={lang.code}>
+                                        <button 
+                                        onClick={() => handleLanguageSelect(lang.code)}
+                                        className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
+                                        >
+                                            <div className="flex items-center gap-4">
+                                                <span className="text-2xl">{lang.flag}</span>
+                                                <div className="flex flex-col">
+                                                    <span className="font-semibold text-foreground">{lang.name}</span>
+                                                    <span className="text-sm text-muted-foreground">{lang.nativeName}</span>
+                                                </div>
+                                            </div>
+                                        {selectedLanguage === lang.code && <Check className="h-6 w-6 text-foreground" />}
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+    
+    if (!isClient) {
+        return <div onClick={openSheet}>{children}</div>;
+    }
+
+    if (isMobile) {
+        return (
+            <>
+                <div onClick={openSheet}>
+                    {children}
+                </div>
+                {isSheetMounted && (
+                    <div 
+                        className="fixed inset-0 z-50"
+                        role="dialog"
+                        aria-modal="true"
+                    >
+                        <div
+                            className={cn(
+                                "fixed inset-0 bg-black/60 transition-opacity duration-300",
+                                isAnimationOpen ? 'opacity-100' : 'opacity-0'
+                            )}
+                            onClick={closeSheet}
+                        />
+                        <div
+                            ref={sheetRef}
+                            onTouchStart={handleTouchStart}
+                            onTouchMove={handleTouchMove}
+                            onTouchEnd={handleTouchEnd}
+                            className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-full flex-col bg-background rounded-t-[50px] touch-none"
+                            style={{
+                                transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
+                                transition: isDragging ? 'none' : 'transform 0.5s ease-in-out',
+                            }}
+                        >
+                            <div className="mx-auto w-20 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/50 my-3" />
+                            {SettingsContent}
+                        </div>
+                    </div>
+                )}
+            </>
+        );
+    }
+    
+    return (
+        <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+            <DialogTrigger asChild onClick={openSheet}>
+                {children}
+            </DialogTrigger>
+            <DialogContent className="max-w-md w-full p-0 rounded-2xl overflow-hidden">
+                 <div className="h-[70vh] w-full bg-background rounded-2xl overflow-hidden flex flex-col">
+                    {SettingsContent}
+                 </div>
+            </DialogContent>
+        </Dialog>
     );
 }

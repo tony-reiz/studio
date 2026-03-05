@@ -13,7 +13,6 @@ import { SellForm } from '@/components/bookline/sell-form';
 import { cn } from '@/lib/utils';
 import { useEbooks } from '@/context/ebook-provider';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { PDFDocument } from 'pdf-lib';
 import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
@@ -41,7 +40,6 @@ export default function SellPage() {
   const { toast } = useToast();
   const { handleNavigate } = useTransitionRouter();
   const { addPublishedEbook, theme } = useEbooks();
-  const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -159,7 +157,6 @@ export default function SellPage() {
   const menuButton = (
     <Button
       type="button"
-      onClick={!isMobile ? () => handleNavigate('/settings') : undefined}
       variant="ghost"
       size="icon"
       aria-label="Menu"
@@ -186,7 +183,7 @@ export default function SellPage() {
         )}
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8 overflow-y-auto scrollbar-hide">
           <header className="sticky top-0 z-10 flex items-start justify-between w-full pb-6" style={{ paddingTop: `calc(1.5rem + env(safe-area-inset-top))` }}>
-            {isClient && isMobile ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
+            {isClient ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
             <Button type="button" onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="-mt-2 sm:mt-0 w-11 h-11 rounded-full glass-icon-button" aria-label="Profil Utilisateur">
               <User className="h-6 w-6" />
             </Button>
