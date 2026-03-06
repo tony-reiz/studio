@@ -37,9 +37,8 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   const [isContentVisible, setIsContentVisible] = useState(false);
   const [activeEbook, setActiveEbook] = useState<Ebook | null>(ebook);
 
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragStartY, setDragStartY] = useState(0);
   const [translateY, setTranslateY] = useState(0);
+  const dragState = useRef({ isDragging: false, startY: 0, isSheetDrag: false });
 
   const { handleNavigate } = useTransitionRouter();
   const { purchasedEbooks, purchaseEbook } = useEbooks();
@@ -88,39 +87,46 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   };
   
   const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
-    if (scrollRef.current && scrollRef.current.scrollTop > 0) {
-      return;
-    }
-    if (!sheetRef.current) return;
-    setIsDragging(true);
-    setDragStartY(e.touches[0].clientY);
-    const style = window.getComputedStyle(sheetRef.current);
-    const matrix = new DOMMatrix(style.transform);
-    setTranslateY(matrix.m42);
+    if (dragState.current.isDragging) return;
+    dragState.current = { isDragging: true, startY: e.touches[0].clientY, isSheetDrag: false };
   };
 
   const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
-    if (!isDragging) return;
-    const currentY = e.touches[0].clientY;
-    const deltaY = currentY - dragStartY;
+    if (!dragState.current.isDragging) return;
 
-    if (deltaY < 0) {
-        return;
+    const currentY = e.touches[0].clientY;
+    const deltaY = currentY - dragState.current.startY;
+
+    if (!dragState.current.isSheetDrag && scrollRef.current && scrollRef.current.scrollTop === 0 && deltaY > 0) {
+      dragState.current.isSheetDrag = true;
+      if (sheetRef.current) {
+        sheetRef.current.style.transition = 'none';
+      }
     }
-    e.preventDefault();
-    setTranslateY(deltaY);
+
+    if (dragState.current.isSheetDrag) {
+      e.preventDefault();
+      setTranslateY(Math.max(0, deltaY));
+    }
   };
 
   const handleTouchEnd = () => {
-    if (!isDragging) return;
-    setIsDragging(false);
-    
-    const sheetHeight = sheetRef.current?.clientHeight || 0;
-    if (translateY > sheetHeight / 4) {
-      closeSheet();
-    } else {
-      setTranslateY(0);
+    if (!dragState.current.isDragging) return;
+
+    if (sheetRef.current) {
+      sheetRef.current.style.transition = ''; // Re-enable CSS transition
     }
+
+    if (dragState.current.isSheetDrag) {
+      const sheetHeight = sheetRef.current?.clientHeight || 0;
+      if (translateY > sheetHeight / 4) {
+        closeSheet();
+      } else {
+        setTranslateY(0);
+      }
+    }
+    
+    dragState.current = { isDragging: false, startY: 0, isSheetDrag: false };
   };
 
 
@@ -200,7 +206,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
         className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] pt-6"
         style={{
           transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-          transition: isDragging ? 'none' : 'transform 0.8s cubic-bezier(0.32, 0.72, 0, 1)',
+          transition: 'transform 0.8s cubic-bezier(0.32, 0.72, 0, 1)',
         }}
       >
         <h2 id="sheet-title" className="sr-only">Acheter l'ebook {activeEbook?.title}</h2>
