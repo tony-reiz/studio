@@ -75,7 +75,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 setIsSheetMounted(false);
                 setView('main'); // Reset view when sheet is fully closed
                 setSearchQuery('');
-            }, 500); // Animation duration
+            }, 600); // Animation duration
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
@@ -353,7 +353,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-auto flex-col bg-background rounded-t-[40px] touch-none pt-6"
                             style={{
                                 transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-                                transition: isDragging ? 'none' : 'transform 0.5s ease-out',
+                                transition: isDragging ? 'none' : 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)',
                             }}
                         >
                             
