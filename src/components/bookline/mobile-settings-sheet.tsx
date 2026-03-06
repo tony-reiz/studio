@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef, type TouchEvent, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { SettingsList } from './settings-list';
 import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut } from 'lucide-react';
@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/accordion";
 import { useEbooks } from '@/context/ebook-provider';
 import type { Locale } from '@/lib/translations';
+import { useTransitionRouter } from '@/app/(bookline)/layout';
 
 type View = 'main' | 'language' | 'help' | 'security';
 
@@ -30,163 +31,40 @@ interface MobileSettingsSheetProps {
 }
 
 export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
-    const sheetRef = useRef<HTMLDivElement>(null);
-    const mainViewRef = useRef<HTMLDivElement>(null);
-    const languageViewRef = useRef<HTMLDivElement>(null);
-    const helpViewRef = useRef<HTMLDivElement>(null);
-    const securityViewRef = useRef<HTMLDivElement>(null);
-
     const [isOpen, setIsOpen] = useState(false);
-    const [isSheetMounted, setIsSheetMounted] = useState(false);
-    const [isAnimationOpen, setIsAnimationOpen] = useState(false);
-    const [isContentVisible, setIsContentVisible] = useState(false);
-
-    const [animationCurve, setAnimationCurve] = useState('cubic-bezier(0.32, 0.72, 0, 1)');
-    const [translateY, setTranslateY] = useState(0);
-    const dragState = useRef({ isDragging: false, startY: 0, isSheetDrag: false });
-
     const [view, setView] = useState<View>('main');
     const { locale, setLocale, t } = useEbooks();
     const [searchQuery, setSearchQuery] = useState('');
     
     const isMobile = useIsMobile();
     const [isClient, setIsClient] = useState(false);
+    const { handleNavigate } = useTransitionRouter();
 
     useEffect(() => {
         setIsClient(true);
     }, []);
 
     useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = 'hidden';
-            setIsSheetMounted(true);
-            setIsContentVisible(false);
-            setAnimationCurve('cubic-bezier(0.32, 0.72, 0, 1)'); // Entry curve
+        if (!isOpen) {
+            // Reset view when dialog is closed
             const timer = setTimeout(() => {
-                setIsAnimationOpen(true);
-                setTranslateY(0);
-            }, 10);
-            const contentTimer = setTimeout(() => {
-                setIsContentVisible(true);
-            }, 700);
-            return () => {
-                clearTimeout(timer);
-                clearTimeout(contentTimer);
-            };
-        } else {
-            if (!isSheetMounted) return;
-            document.body.style.overflow = 'auto';
-            setAnimationCurve('cubic-bezier(0.55, 0.085, 0.68, 0.53)'); // Exit curve
-            setIsAnimationOpen(false);
-            setIsContentVisible(false);
-            const timer = setTimeout(() => {
-                setIsSheetMounted(false);
-                setView('main'); // Reset view when sheet is fully closed
+                setView('main');
                 setSearchQuery('');
-            }, 800);
+            }, 300); // After animation
             return () => clearTimeout(timer);
         }
-    }, [isOpen, isSheetMounted]);
-
-    const closeSheet = () => {
-        setIsOpen(false);
-    };
-    
-    const openSheet = () => {
-        setIsOpen(true);
-    }
-    
-    const handleOpenChange = (open: boolean) => {
-        if (open) {
-            openSheet();
-        } else {
-            closeSheet();
-        }
-    }
-
-    const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
-        if (dragState.current.isDragging) return;
-        
-        let currentViewRef;
-        switch (view) {
-            case 'language': currentViewRef = languageViewRef; break;
-            case 'help': currentViewRef = helpViewRef; break;
-            case 'security': currentViewRef = securityViewRef; break;
-            default: currentViewRef = mainViewRef; break;
-        }
-
-        const scrollableContent = currentViewRef.current;
-        dragState.current = { isDragging: true, startY: e.touches[0].clientY, isSheetDrag: !scrollableContent || scrollableContent.scrollTop === 0 };
-    };
-    
-    const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
-        if (!dragState.current.isDragging) return;
-        
-        let currentViewRef;
-        switch (view) {
-            case 'language': currentViewRef = languageViewRef; break;
-            case 'help': currentViewRef = helpViewRef; break;
-            case 'security': currentViewRef = securityViewRef; break;
-            default: currentViewRef = mainViewRef; break;
-        }
-        const scrollableContent = currentViewRef.current;
-
-        const currentY = e.touches[0].clientY;
-        const deltaY = currentY - dragState.current.startY;
-
-        if (dragState.current.isSheetDrag) {
-            e.preventDefault();
-            if (deltaY > 0) {
-              if (sheetRef.current) {
-                sheetRef.current.style.transition = 'none';
-              }
-              setTranslateY(deltaY);
-            }
-        } else {
-            if (scrollableContent && scrollableContent.scrollTop === 0 && deltaY > 0) {
-                dragState.current.isSheetDrag = true;
-                dragState.current.startY = currentY;
-                if (sheetRef.current) {
-                    sheetRef.current.style.transition = 'none';
-                }
-                e.preventDefault();
-            }
-        }
-    };
-    
-    const handleTouchEnd = () => {
-        if (!dragState.current.isDragging) return;
-
-        if (sheetRef.current) {
-            sheetRef.current.style.transition = ''; // Re-enable CSS transition
-        }
-
-        if (dragState.current.isSheetDrag) {
-            const sheetHeight = sheetRef.current?.clientHeight || 0;
-            if (translateY > sheetHeight / 4) {
-                closeSheet();
-            } else {
-                setTranslateY(0);
-            }
-        }
-        
-        dragState.current = { isDragging: false, startY: 0, isSheetDrag: false };
-    };
+    }, [isOpen]);
 
     const onItemClick = (id: string) => {
-        if (id === 'language') {
-            setView('language');
-        } else if (id === 'help') {
-            setView('help');
-        } else if (id === 'security') {
-            setView('security');
-        }
+        if (id === 'language') setView('language');
+        else if (id === 'help') setView('help');
+        else if (id === 'security') setView('security');
     };
 
     const handleLanguageSelect = (code: Locale) => {
         setLocale(code);
         setSearchQuery('');
-        closeSheet();
+        setIsOpen(false);
     };
 
     const filteredLanguages = searchQuery
@@ -209,9 +87,8 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     
     const MainView = (
         <div className="w-full h-full flex flex-col flex-shrink-0">
-            {isMobile && <h2 id="sheet-title" className="sr-only">{t('settings')}</h2>}
-            {!isMobile && <h2 className="text-xl font-bold text-center p-4 pt-6">{t('settings')}</h2>}
-            <div ref={mainViewRef} className="flex-1 overflow-y-auto px-4 pt-4 pb-4">
+            <h2 className="text-xl font-bold text-center p-4 pt-6">{t('settings')}</h2>
+            <div className="flex-1 overflow-y-auto px-4 pt-4 pb-4">
                 <SettingsList onItemClick={onItemClick} />
             </div>
         </div>
@@ -244,7 +121,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
                 </div>
             </div>
-            <div ref={languageViewRef} className="flex-1 overflow-y-auto px-4 pb-4">
+            <div className="flex-1 overflow-y-auto px-4 pb-4">
                 {searchQuery && (
                     <ul className="w-full space-y-2">
                         {filteredLanguages.map((lang) => (
@@ -284,7 +161,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     <p className="text-muted-foreground text-sm mt-1">{t('help_center_subtitle')}</p>
                 </div>
             </div>
-            <div ref={helpViewRef} className="flex-1 overflow-y-auto px-4 pb-4">
+            <div className="flex-1 overflow-y-auto px-4 pb-4">
                 <Accordion type="single" collapsible className="w-full">
                     {faqs.map(faq => (
                       <AccordionItem value={faq.id} key={faq.id}>
@@ -313,7 +190,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     <p className="text-muted-foreground text-sm mt-1">{t('manage_account_security')}</p>
                 </div>
             </div>
-            <div ref={securityViewRef} className="flex-1 overflow-y-auto px-4 pb-4">
+            <div className="flex-1 overflow-y-auto px-4 pb-4">
                 <ul className="w-full space-y-2">
                     <li>
                         <button className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors">
@@ -331,11 +208,11 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             <div className="flex items-center gap-4">
                                 <Smartphone className="h-6 w-6 text-muted-foreground" />
                                  <div className="flex flex-col">
-                                    <label htmlFor="2fa-switch-mobile" className="font-semibold text-foreground cursor-pointer">{t('two_factor_auth')}</label>
+                                    <label htmlFor="2fa-switch-desktop" className="font-semibold text-foreground cursor-pointer">{t('two_factor_auth')}</label>
                                     <span className="text-sm text-muted-foreground">{t('two_factor_auth_desc')}</span>
                                 </div>
                             </div>
-                            <Switch id="2fa-switch-mobile" />
+                            <Switch id="2fa-switch-desktop" />
                         </div>
                     </li>
                     <li>
@@ -352,7 +229,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     );
 
     const SettingsContent = (
-        <div className={cn("flex-1 overflow-hidden pt-4", "transition-opacity", isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-[800ms]")} onClick={(e) => e.stopPropagation()}>
+        <div className={cn("flex-1 overflow-hidden pt-4 opacity-100 duration-300")} onClick={(e) => e.stopPropagation()}>
             <div className={cn(
                 "flex h-full w-[200%]",
                 "transition-transform duration-500 ease-in-out",
@@ -369,51 +246,20 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     );
     
     if (!isClient) {
-        return <div onClick={openSheet}>{children}</div>;
+        return <div>{children}</div>;
     }
 
     if (isMobile) {
         return (
-            <>
-                <div onClick={openSheet}>
-                    {children}
-                </div>
-                {isSheetMounted && (
-                    <div 
-                        className="fixed inset-0 z-50"
-                        role="dialog"
-                        aria-modal="true"
-                    >
-                        <div
-                            className={cn(
-                                "fixed inset-0 bg-black/60 transition-opacity duration-300",
-                                isAnimationOpen ? 'opacity-100' : 'opacity-0'
-                            )}
-                            onClick={closeSheet}
-                        />
-                        <div
-                            ref={sheetRef}
-                            onTouchStart={handleTouchStart}
-                            onTouchMove={handleTouchMove}
-                            onTouchEnd={handleTouchEnd}
-                            className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-auto flex-col bg-background rounded-t-[50px] pt-6"
-                            style={{
-                                transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-                                transition: `transform 0.8s ${animationCurve}`,
-                            }}
-                        >
-                            
-                            {SettingsContent}
-                        </div>
-                    </div>
-                )}
-            </>
+            <div onClick={() => handleNavigate('/settings')}>
+                {children}
+            </div>
         );
     }
     
     return (
-        <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-            <DialogTrigger asChild onClick={openSheet}>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
             <DialogContent className="max-w-2xl w-full p-0 bg-transparent border-none shadow-xl">
