@@ -144,10 +144,10 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
-                className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none pt-4"
+                className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none pt-6"
                 style={{
                     transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-                    transition: isDragging ? 'none' : 'transform 0.4s ease-in-out',
+                    transition: isDragging ? 'none' : 'transform 0.4s ease-out',
                 }}
             >
                 <h2 id="sheet-title" className="sr-only">Détails de l'ebook</h2>
