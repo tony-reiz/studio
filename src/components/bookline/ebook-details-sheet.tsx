@@ -65,7 +65,7 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
             }, 10);
             const contentTimer = setTimeout(() => {
                 setIsContentVisible(true);
-            }, 1000);
+            }, 700);
             return () => {
                 clearTimeout(timer);
                 clearTimeout(contentTimer);

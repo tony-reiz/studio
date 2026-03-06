@@ -24,7 +24,7 @@ export function PrivacySheet({ children }: PrivacySheetProps) {
       setIsContentVisible(false);
       contentTimer = setTimeout(() => {
         setIsContentVisible(true);
-      }, 1000);
+      }, 700);
     }
     return () => clearTimeout(contentTimer);
   }, [isOpen]);

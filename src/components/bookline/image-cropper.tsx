@@ -64,7 +64,7 @@ export function ImageCropper({ imageSrc, onCropComplete, onClose }: ImageCropper
       setIsContentVisible(false);
       contentTimer = setTimeout(() => {
         setIsContentVisible(true);
-      }, 1000);
+      }, 700);
     }
     return () => {
       clearTimeout(contentTimer);

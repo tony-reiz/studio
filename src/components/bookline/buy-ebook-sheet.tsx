@@ -66,7 +66,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
       }, 10);
       const contentTimer = setTimeout(() => {
         setIsContentVisible(true);
-      }, 1000);
+      }, 700);
       return () => {
         clearTimeout(timer);
         clearTimeout(contentTimer);

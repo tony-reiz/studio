@@ -24,7 +24,7 @@ export function TermsSheet({ children }: TermsSheetProps) {
       setIsContentVisible(false);
       contentTimer = setTimeout(() => {
         setIsContentVisible(true);
-      }, 1000);
+      }, 700);
     }
     return () => clearTimeout(contentTimer);
   }, [isOpen]);
