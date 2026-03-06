@@ -3,8 +3,9 @@
 import { useEffect, useState, useRef, type TouchEvent, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { SettingsList } from './settings-list';
-import { ChevronLeft, Check, Search } from 'lucide-react';
+import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
 import { languages } from '@/lib/languages';
 import { useIsMobile } from '@/hooks/use-mobile';
 import {
@@ -22,7 +23,7 @@ import {
 import { useEbooks } from '@/context/ebook-provider';
 import type { Locale } from '@/lib/translations';
 
-type View = 'main' | 'language' | 'help';
+type View = 'main' | 'language' | 'help' | 'security';
 
 interface MobileSettingsSheetProps {
     children: ReactNode;
@@ -122,6 +123,8 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             setView('language');
         } else if (id === 'help') {
             setView('help');
+        } else if (id === 'security') {
+            setView('security');
         }
     };
 
@@ -241,6 +244,58 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         </div>
     );
 
+    const SecurityView = (
+        <div className="w-full h-full flex flex-col flex-shrink-0">
+             <div className="px-4 pt-6">
+                <div className="flex items-center justify-center relative mb-2">
+                    <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
+                        <ChevronLeft className="h-6 w-6" />
+                    </button>
+                    <h1 className="text-xl font-bold text-center">{t('security')}</h1>
+                </div>
+                <div className="text-center mb-4">
+                    <h2 className="text-2xl font-bold">{t('security_and_login')}</h2>
+                    <p className="text-muted-foreground text-sm mt-1">{t('manage_account_security')}</p>
+                </div>
+            </div>
+            <div className="flex-1 overflow-y-auto px-4 pb-4">
+                <ul className="w-full space-y-2">
+                    <li>
+                        <button className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors">
+                            <div className="flex items-center gap-4">
+                                <KeyRound className="h-6 w-6 text-muted-foreground" />
+                                <div className="flex flex-col">
+                                    <span className="font-semibold text-foreground">{t('password')}</span>
+                                    <span className="text-sm text-muted-foreground">{t('password_last_changed')}</span>
+                                </div>
+                            </div>
+                        </button>
+                    </li>
+                    <li>
+                        <div className="w-full rounded-full flex items-center justify-between p-4 text-left">
+                            <div className="flex items-center gap-4">
+                                <Smartphone className="h-6 w-6 text-muted-foreground" />
+                                 <div className="flex flex-col">
+                                    <label htmlFor="2fa-switch-mobile" className="font-semibold text-foreground cursor-pointer">{t('two_factor_auth')}</label>
+                                    <span className="text-sm text-muted-foreground">{t('two_factor_auth_desc')}</span>
+                                </div>
+                            </div>
+                            <Switch id="2fa-switch-mobile" />
+                        </div>
+                    </li>
+                    <li>
+                        <button className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors">
+                            <div className="flex items-center gap-4">
+                                <LogOut className="h-6 w-6 text-destructive" />
+                                <span className="font-semibold text-destructive">{t('logout_all_devices')}</span>
+                            </div>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    );
+
     const SettingsContent = (
         <div className="flex-1 overflow-hidden" onClick={(e) => e.stopPropagation()}>
             <div className={cn(
@@ -252,6 +307,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <div className="w-1/2 h-full flex-shrink-0">
                     {view === 'language' && LanguageView}
                     {view === 'help' && HelpView}
+                    {view === 'security' && SecurityView}
                 </div>
             </div>
         </div>

@@ -54,6 +54,15 @@ export const translations = {
     'faq_q4': "Comment contacter le support ?",
     'faq_a4': "Si vous ne trouvez pas de réponse à votre question ici, vous pouvez nous contacter par e-mail à l'adresse support@bookline.app. Notre équipe vous répondra dans les plus brefs délais.",
 
+    // Security Page
+    'security_and_login': 'Sécurité et connexion',
+    'manage_account_security': 'Gérez la sécurité de votre compte',
+    'password': 'Mot de passe',
+    'password_last_changed': 'Modifié il y a 2 mois',
+    'two_factor_auth': 'Authentification à deux facteurs',
+    'two_factor_auth_desc': 'Protégez votre compte avec une sécurité renforcée',
+    'logout_all_devices': 'Se déconnecter de tous les appareils',
+
     // New keys
     'seller': 'vendeur',
     'ebook_price': "prix de l'ebook",
@@ -230,6 +239,15 @@ export const translations = {
     'faq_a3': "We take a €3 commission on each sale to cover transaction fees, file hosting, and platform maintenance. For the customer, a service fee of €3.50 is added to the ebook price.",
     'faq_q4': 'How can I contact support?',
     'faq_a4': "If you can't find an answer to your question here, you can email us at support@bookline.app. Our team will get back to you as soon as possible.",
+    
+    // Security Page
+    'security_and_login': 'Security and Login',
+    'manage_account_security': 'Manage your account security',
+    'password': 'Password',
+    'password_last_changed': 'Changed 2 months ago',
+    'two_factor_auth': 'Two-Factor Authentication',
+    'two_factor_auth_desc': 'Protect your account with enhanced security',
+    'logout_all_devices': 'Log out from all devices',
 
     // New keys
     'seller': 'seller',
