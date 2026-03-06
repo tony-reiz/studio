@@ -39,7 +39,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
     if (isOpen) {
       setOverlayRunId(id => id + 1); // Increment ID to force remount children with new key
       setShouldRenderContent(true);
-      visibilityTimer = setTimeout(() => setIsContentVisible(true), 50);
+      visibilityTimer = setTimeout(() => setIsContentVisible(true), 1000);
     } else {
       setIsContentVisible(false);
       renderTimer = setTimeout(() => {
@@ -98,7 +98,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
     if (isOpen) {
       const timer = setTimeout(() => {
         inputRef.current?.focus();
-      }, 500);
+      }, 1300);
       return () => clearTimeout(timer);
     }
   }, [isOpen]);

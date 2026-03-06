@@ -24,7 +24,7 @@ export function TermsSheet({ children }: TermsSheetProps) {
       setIsContentVisible(false);
       contentTimer = setTimeout(() => {
         setIsContentVisible(true);
-      }, 500);
+      }, 1000);
     }
     return () => clearTimeout(contentTimer);
   }, [isOpen]);
@@ -34,7 +34,7 @@ export function TermsSheet({ children }: TermsSheetProps) {
       <DrawerTrigger asChild>
         {children}
       </DrawerTrigger>
-      <DrawerContent className="rounded-t-[50px] max-h-[85vh] flex flex-col bg-background p-4 pt-8 border-0">
+      <DrawerContent className="rounded-t-[50px] max-h-[85vh] flex flex-col bg-background p-4 pt-4 border-0">
         <DrawerTitle className="sr-only">Conditions d'Utilisation</DrawerTitle>
         
         <div className={cn("overflow-y-auto -mx-4 px-4 pt-4 transition-opacity duration-300", isContentVisible ? "opacity-100" : "opacity-0")}>
