@@ -41,6 +41,7 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
     const sheetRef = useRef<HTMLDivElement>(null);
     const [isSheetMounted, setIsSheetMounted] = useState(open);
     const [isAnimationOpen, setIsAnimationOpen] = useState(false);
+    const [isContentVisible, setIsContentVisible] = useState(false);
     const [activeEbook, setActiveEbook] = useState<Ebook | null>(ebook);
 
     const [isDragging, setIsDragging] = useState(false);
@@ -57,14 +58,22 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
         if (open) {
             document.body.style.overflow = 'hidden';
             setIsSheetMounted(true);
+            setIsContentVisible(false);
             const timer = setTimeout(() => {
                 setIsAnimationOpen(true);
                 setTranslateY(0);
             }, 10);
-            return () => clearTimeout(timer);
+            const contentTimer = setTimeout(() => {
+                setIsContentVisible(true);
+            }, 500);
+            return () => {
+                clearTimeout(timer);
+                clearTimeout(contentTimer);
+            };
         } else {
             document.body.style.overflow = 'auto';
             setIsAnimationOpen(false);
+            setIsContentVisible(false);
             const timer = setTimeout(() => {
                 setIsSheetMounted(false);
             }, 400);
@@ -135,7 +144,7 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
-                className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none"
+                className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none pt-8"
                 style={{
                     transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
                     transition: isDragging ? 'none' : 'transform 0.4s ease-in-out',
@@ -143,83 +152,85 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
             >
                 <h2 id="sheet-title" className="sr-only">Détails de l'ebook</h2>
                 
-                <div className="overflow-y-auto p-4 pt-4" onClick={(e) => e.stopPropagation()}>
-                    {activeEbook && (
-                        <main className="w-full space-y-6 pb-12">
-                            <div className="border-0 shadow-none bg-transparent">
-                                <div className="p-0 pb-4">
-                                    <h2 className="text-2xl font-semibold leading-none tracking-tight">{activeEbook.title}</h2>
-                                </div>
-                                <div className="space-y-4 p-0">
-                                    <div>
-                                        <h3 className="font-semibold text-foreground mb-1 text-sm">Description</h3>
-                                        <p className="text-sm leading-relaxed whitespace-pre-line">{activeEbook.description}</p>
+                <div className="overflow-y-auto p-4" onClick={(e) => e.stopPropagation()}>
+                    <div className={cn("transition-opacity duration-300", isContentVisible ? "opacity-100" : "opacity-0")}>
+                        {activeEbook && (
+                            <main className="w-full space-y-6 pb-12">
+                                <div className="border-0 shadow-none bg-transparent">
+                                    <div className="p-0 pb-4">
+                                        <h2 className="text-2xl font-semibold leading-none tracking-tight">{activeEbook.title}</h2>
                                     </div>
-                                    <div>
-                                        <h3 className="font-semibold text-foreground mb-2 text-sm">Mots-clés</h3>
-                                        <div className="flex flex-wrap gap-2">
-                                            {activeEbook.keywords.split(',').map((keyword, index) => (
-                                                <Badge key={index} variant="default" className="rounded-full py-1 px-3">
-                                                    {keyword.trim()}
-                                                </Badge>
-                                            ))}
+                                    <div className="space-y-4 p-0">
+                                        <div>
+                                            <h3 className="font-semibold text-foreground mb-1 text-sm">Description</h3>
+                                            <p className="text-sm leading-relaxed whitespace-pre-line">{activeEbook.description}</p>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="border-0 shadow-none bg-transparent">
-                                <div className="p-0 pb-4">
-                                    <h2 className="text-2xl font-semibold leading-none tracking-tight">Statistiques</h2>
-                                    <p className="text-sm text-muted-foreground">Performance de votre ebook.</p>
-                                </div>
-                                <div className="space-y-6 p-0">
-                                    <div className="grid grid-cols-3 gap-4 text-left">
-                                        <div className="bg-secondary p-4 rounded-lg">
-                                            <p className="text-sm text-muted-foreground">Nombre de ventes</p>
-                                            <p className="text-3xl font-bold">{numberOfSales}</p>
-                                        </div>
-                                        <div className="bg-secondary p-4 rounded-lg">
-                                            <p className="text-sm text-muted-foreground">Revenus générés</p>
-                                            <p className="text-3xl font-bold">{totalRevenue.toFixed(2).replace('.', ',')} €</p>
-                                        </div>
-                                        <div className="bg-secondary p-4 rounded-lg">
-                                            <p className="text-sm text-muted-foreground">Prix de l'ebook</p>
-                                            <p className="text-3xl font-bold">{activeEbook.price} €</p>
-                                        </div>
-                                    </div>
-                                    <ChartContainer config={chartConfig} className="w-full h-[250px]">
-                                        <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
-                                            <CartesianGrid vertical={false} />
-                                            <XAxis
-                                                dataKey="metric"
-                                                tickLine={false}
-                                                tickMargin={10}
-                                                axisLine={false}
-                                                stroke="hsl(var(--muted-foreground))"
-                                                fontSize={12}
-                                            />
-                                            <YAxis 
-                                                tickLine={false}
-                                                axisLine={false}
-                                                stroke="hsl(var(--muted-foreground))"
-                                                fontSize={12}
-                                                allowDecimals={false}
-                                            />
-                                            <ChartTooltip
-                                                cursor={false}
-                                                content={<ChartTooltipContent indicator="dot" />}
-                                            />
-                                            <Bar dataKey="value" radius={4}>
-                                                {chartData.map((entry, index) => (
-                                                    <Cell key={`cell-${index}`} fill={entry.fill} />
+                                        <div>
+                                            <h3 className="font-semibold text-foreground mb-2 text-sm">Mots-clés</h3>
+                                            <div className="flex flex-wrap gap-2">
+                                                {activeEbook.keywords.split(',').map((keyword, index) => (
+                                                    <Badge key={index} variant="default" className="rounded-full py-1 px-3">
+                                                        {keyword.trim()}
+                                                    </Badge>
                                                 ))}
-                                            </Bar>
-                                        </BarChart>
-                                    </ChartContainer>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </main>
-                    )}
+                                <div className="border-0 shadow-none bg-transparent">
+                                    <div className="p-0 pb-4">
+                                        <h2 className="text-2xl font-semibold leading-none tracking-tight">Statistiques</h2>
+                                        <p className="text-sm text-muted-foreground">Performance de votre ebook.</p>
+                                    </div>
+                                    <div className="space-y-6 p-0">
+                                        <div className="grid grid-cols-3 gap-4 text-left">
+                                            <div className="bg-secondary p-4 rounded-lg">
+                                                <p className="text-sm text-muted-foreground">Nombre de ventes</p>
+                                                <p className="text-3xl font-bold">{numberOfSales}</p>
+                                            </div>
+                                            <div className="bg-secondary p-4 rounded-lg">
+                                                <p className="text-sm text-muted-foreground">Revenus générés</p>
+                                                <p className="text-3xl font-bold">{totalRevenue.toFixed(2).replace('.', ',')} €</p>
+                                            </div>
+                                            <div className="bg-secondary p-4 rounded-lg">
+                                                <p className="text-sm text-muted-foreground">Prix de l'ebook</p>
+                                                <p className="text-3xl font-bold">{activeEbook.price} €</p>
+                                            </div>
+                                        </div>
+                                        <ChartContainer config={chartConfig} className="w-full h-[250px]">
+                                            <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
+                                                <CartesianGrid vertical={false} />
+                                                <XAxis
+                                                    dataKey="metric"
+                                                    tickLine={false}
+                                                    tickMargin={10}
+                                                    axisLine={false}
+                                                    stroke="hsl(var(--muted-foreground))"
+                                                    fontSize={12}
+                                                />
+                                                <YAxis 
+                                                    tickLine={false}
+                                                    axisLine={false}
+                                                    stroke="hsl(var(--muted-foreground))"
+                                                    fontSize={12}
+                                                    allowDecimals={false}
+                                                />
+                                                <ChartTooltip
+                                                    cursor={false}
+                                                    content={<ChartTooltipContent indicator="dot" />}
+                                                />
+                                                <Bar dataKey="value" radius={4}>
+                                                    {chartData.map((entry, index) => (
+                                                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                                                    ))}
+                                                </Bar>
+                                            </BarChart>
+                                        </ChartContainer>
+                                    </div>
+                                </div>
+                            </main>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

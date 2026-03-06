@@ -34,6 +34,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [isSheetMounted, setIsSheetMounted] = useState(false);
     const [isAnimationOpen, setIsAnimationOpen] = useState(false);
+    const [isContentVisible, setIsContentVisible] = useState(false);
 
     const [isDragging, setIsDragging] = useState(false);
     const [dragStartY, setDragStartY] = useState(0);
@@ -54,14 +55,22 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
             setIsSheetMounted(true);
+            setIsContentVisible(false);
             const timer = setTimeout(() => {
                 setIsAnimationOpen(true);
                 setTranslateY(0);
             }, 10);
-            return () => clearTimeout(timer);
+            const contentTimer = setTimeout(() => {
+                setIsContentVisible(true);
+            }, 500);
+            return () => {
+                clearTimeout(timer);
+                clearTimeout(contentTimer);
+            };
         } else {
             document.body.style.overflow = 'auto';
             setIsAnimationOpen(false);
+            setIsContentVisible(false);
             const timer = setTimeout(() => {
                 setIsSheetMounted(false);
                 setView('main'); // Reset view when sheet is fully closed
@@ -297,7 +306,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     );
 
     const SettingsContent = (
-        <div className="flex-1 overflow-hidden" onClick={(e) => e.stopPropagation()}>
+        <div className={cn("flex-1 overflow-hidden transition-opacity duration-300", isContentVisible ? "opacity-100" : "opacity-0")} onClick={(e) => e.stopPropagation()}>
             <div className={cn(
                 "flex h-full w-[200%]",
                 "transition-transform duration-500 ease-in-out",
@@ -341,7 +350,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             onTouchStart={handleTouchStart}
                             onTouchMove={handleTouchMove}
                             onTouchEnd={handleTouchEnd}
-                            className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-auto flex-col bg-background rounded-t-[40px] touch-none pt-4"
+                            className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-auto flex-col bg-background rounded-t-[40px] touch-none pt-8"
                             style={{
                                 transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
                                 transition: isDragging ? 'none' : 'transform 0.5s ease-in-out',

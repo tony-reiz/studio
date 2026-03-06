@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Cropper, { type Area } from 'react-easy-crop';
 import {
   Dialog,
@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
+import { cn } from '@/lib/utils';
 
 interface ImageCropperProps {
   imageSrc: string | null;
@@ -55,6 +56,20 @@ export function ImageCropper({ imageSrc, onCropComplete, onClose }: ImageCropper
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
+  const [isContentVisible, setIsContentVisible] = useState(false);
+  
+  useEffect(() => {
+    let contentTimer: NodeJS.Timeout;
+    if (imageSrc) {
+      setIsContentVisible(false);
+      contentTimer = setTimeout(() => {
+        setIsContentVisible(true);
+      }, 500);
+    }
+    return () => {
+      clearTimeout(contentTimer);
+    };
+  }, [imageSrc]);
 
   const onCropChange = useCallback((location: {x:number, y:number}) => {
     setCrop(location);
@@ -89,38 +104,40 @@ export function ImageCropper({ imageSrc, onCropComplete, onClose }: ImageCropper
   return (
     <Dialog open={!!imageSrc} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-w-md w-full p-0">
-        <DialogHeader className="p-6 pb-0">
-          <DialogTitle>Recadrer l'image</DialogTitle>
-        </DialogHeader>
-        <div className="relative w-full aspect-square">
-          <Cropper
-            image={imageSrc}
-            crop={crop}
-            zoom={zoom}
-            aspect={1}
-            onCropChange={onCropChange}
-            onZoomChange={onZoomChange}
-            onCropComplete={handleCropComplete}
-            cropShape="round"
-            showGrid={false}
-          />
-        </div>
-        <div className="p-6 pt-0 space-y-4">
-            <div className="space-y-2">
-                <label htmlFor="zoom" className="text-sm font-medium">Zoom</label>
-                <Slider
-                    id="zoom"
-                    min={1}
-                    max={3}
-                    step={0.1}
-                    value={[zoom]}
-                    onValueChange={(value) => onZoomChange(value[0])}
-                />
+        <div className={cn("transition-opacity duration-300", isContentVisible ? "opacity-100" : "opacity-0")}>
+            <DialogHeader className="p-6 pb-0">
+              <DialogTitle>Recadrer l'image</DialogTitle>
+            </DialogHeader>
+            <div className="relative w-full aspect-square">
+              <Cropper
+                image={imageSrc}
+                crop={crop}
+                zoom={zoom}
+                aspect={1}
+                onCropChange={onCropChange}
+                onZoomChange={onZoomChange}
+                onCropComplete={handleCropComplete}
+                cropShape="round"
+                showGrid={false}
+              />
             </div>
-             <DialogFooter>
-                <Button variant="ghost" onClick={onClose}>Annuler</Button>
-                <Button onClick={showCroppedImage}>Recadrer</Button>
-            </DialogFooter>
+            <div className="p-6 pt-0 space-y-4">
+                <div className="space-y-2">
+                    <label htmlFor="zoom" className="text-sm font-medium">Zoom</label>
+                    <Slider
+                        id="zoom"
+                        min={1}
+                        max={3}
+                        step={0.1}
+                        value={[zoom]}
+                        onValueChange={(value) => onZoomChange(value[0])}
+                    />
+                </div>
+                 <DialogFooter>
+                    <Button variant="ghost" onClick={onClose}>Annuler</Button>
+                    <Button onClick={showCroppedImage}>Recadrer</Button>
+                </DialogFooter>
+            </div>
         </div>
       </DialogContent>
     </Dialog>

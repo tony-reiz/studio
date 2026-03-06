@@ -33,6 +33,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   const [isComponentOpen, setIsComponentOpen] = useState(!!ebook);
   const [isSheetMounted, setIsSheetMounted] = useState(!!ebook);
   const [isAnimationOpen, setIsAnimationOpen] = useState(false);
+  const [isContentVisible, setIsContentVisible] = useState(false);
   const [activeEbook, setActiveEbook] = useState<Ebook | null>(ebook);
 
   const [isDragging, setIsDragging] = useState(false);
@@ -58,14 +59,22 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
     if (isComponentOpen) {
       document.body.style.overflow = 'hidden';
       setIsSheetMounted(true);
+      setIsContentVisible(false);
       const timer = setTimeout(() => {
         setIsAnimationOpen(true);
         setTranslateY(0);
       }, 10);
-      return () => clearTimeout(timer);
+      const contentTimer = setTimeout(() => {
+        setIsContentVisible(true);
+      }, 500);
+      return () => {
+        clearTimeout(timer);
+        clearTimeout(contentTimer);
+      };
     } else {
       document.body.style.overflow = 'auto';
       setIsAnimationOpen(false);
+      setIsContentVisible(false);
       const timer = setTimeout(() => {
         setIsSheetMounted(false);
       }, 500); // This must match the animation duration
@@ -186,7 +195,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-        className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none"
+        className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none pt-8"
         style={{
           transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
           transition: isDragging ? 'none' : 'transform 0.5s ease-in-out',
@@ -194,7 +203,8 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
       >
         <h2 id="sheet-title" className="sr-only">Acheter l'ebook {activeEbook?.title}</h2>
         
-        <div className="overflow-y-auto pt-4" onClick={(e) => e.stopPropagation()}>
+        <div className="overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+          <div className={cn("transition-opacity duration-300", isContentVisible ? "opacity-100" : "opacity-0")}>
             {activeEbook && (
                 <main className="w-full flex flex-col items-center pt-2 pb-16 gap-8 px-4">
                 <div className="w-full max-w-5xl flex flex-col md:flex-row md:items-start md:justify-center md:gap-4">
@@ -289,6 +299,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
                 </div>
                 </main>
             )}
+          </div>
         </div>
       </div>
     </div>
