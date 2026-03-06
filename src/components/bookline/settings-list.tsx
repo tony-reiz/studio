@@ -38,7 +38,7 @@ const settingsItems: SettingsItem[] = [
   { icon: CircleDollarSign, labelKey: 'currency' },
   { icon: Landmark, labelKey: 'transfer' },
   { icon: Receipt, labelKey: 'invoices' },
-  { icon: HelpCircle, labelKey: 'help' },
+  { icon: HelpCircle, labelKey: 'help', href: '/settings/help', id: 'help' },
   { icon: Trash2, labelKey: 'delete_account', isDestructive: true },
   { icon: LogOut, labelKey: 'logout', isDestructive: true },
 ];

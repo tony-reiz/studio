@@ -42,6 +42,18 @@ export const translations = {
     'search_language': 'Rechercher une langue...',
     'selected_language': 'Langue sélectionnée',
 
+    // Help Page
+    'help_center_title': "Centre d'aide",
+    'help_center_subtitle': "Trouvez les réponses à vos questions.",
+    'faq_q1': "Comment publier un ebook ?",
+    'faq_a1': "Rendez-vous dans l'onglet 'Vendre', importez votre PDF, remplissez les détails comme le titre, la description et le prix, puis cliquez sur 'Publier'. Votre ebook sera soumis à une brève vérification avant d'être mis en ligne.",
+    'faq_q2': "Comment suis-je payé ?",
+    'faq_a2': "Les paiements sont traités via notre partenaire sécurisé Stripe. Vous pouvez configurer vos informations de virement dans les paramètres de votre compte. Les virements sont effectués automatiquement une fois par mois, à condition que votre solde atteigne le seuil minimum.",
+    'faq_q3': "Quels sont les frais de service ?",
+    'faq_a3': "Nous prélevons une commission de 3€ sur chaque vente pour couvrir les frais de transaction, l'hébergement des fichiers et la maintenance de la plateforme. Pour le client, des frais de service de 3.50€ sont ajoutés au prix de l'ebook.",
+    'faq_q4': "Comment contacter le support ?",
+    'faq_a4': "Si vous ne trouvez pas de réponse à votre question ici, vous pouvez nous contacter par e-mail à l'adresse support@bookline.app. Notre équipe vous répondra dans les plus brefs délais.",
+
     // New keys
     'seller': 'vendeur',
     'ebook_price': "prix de l'ebook",
@@ -206,6 +218,18 @@ export const translations = {
     // Language Page
     'search_language': 'Search for a language...',
     'selected_language': 'Selected language',
+
+    // Help Page
+    'help_center_title': 'Help Center',
+    'help_center_subtitle': 'Find answers to your questions.',
+    'faq_q1': 'How do I publish an ebook?',
+    'faq_a1': "Go to the 'Sell' tab, upload your PDF, fill in details like title, description, and price, then click 'Publish'. Your ebook will undergo a brief review before going live.",
+    'faq_q2': 'How do I get paid?',
+    'faq_a2': "Payments are processed through our secure partner, Stripe. You can set up your bank transfer information in your account settings. Payouts are made automatically once a month, provided your balance meets the minimum threshold.",
+    'faq_q3': 'What are the service fees?',
+    'faq_a3': "We take a €3 commission on each sale to cover transaction fees, file hosting, and platform maintenance. For the customer, a service fee of €3.50 is added to the ebook price.",
+    'faq_q4': 'How can I contact support?',
+    'faq_a4': "If you can't find an answer to your question here, you can email us at support@bookline.app. Our team will get back to you as soon as possible.",
 
     // New keys
     'seller': 'seller',
