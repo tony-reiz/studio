@@ -10,7 +10,7 @@ import {
 import type { CarouselApi } from '@/components/ui/carousel';
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
-import { Lightbulb, BadgeCheck, Handshake } from 'lucide-react';
+import { Lightbulb, BadgeCheck, DollarSign } from 'lucide-react';
 
 const infoCards = [
   {
@@ -23,7 +23,7 @@ const infoCards = [
   },
   {
     title: "Gagnez de l'argent ensemble",
-    icon: Handshake,
+    icon: DollarSign,
   },
 ];
 
