@@ -6,11 +6,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from '@/components/ui/carousel';
 import type { CarouselApi } from '@/components/ui/carousel';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { EbookCard } from './ebook-card';
 import { cn } from '@/lib/utils';
 
@@ -78,12 +75,6 @@ export function EbookDisplayArea() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="hidden sm:inline-flex text-foreground h-12 w-12 md:h-20 md:w-20 rounded-none absolute left-0 top-1/2 -translate-y-1/2 z-10 border-0 bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-6 [&_svg]:w-6 md:[&_svg]:h-10 md:[&_svg]:w-10">
-          <ChevronLeft />
-        </CarouselPrevious>
-        <CarouselNext className="hidden sm:inline-flex text-foreground h-12 w-12 md:h-20 md:w-20 rounded-none absolute right-0 top-1/2 -translate-y-1/2 z-10 border-0 bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:h-6 [&_svg]:w-6 md:[&_svg]:h-10 md:[&_svg]:w-10">
-          <ChevronRight />
-        </CarouselNext>
       </Carousel>
     </div>
   );
