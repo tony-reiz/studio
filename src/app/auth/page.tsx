@@ -6,8 +6,10 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Mail } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { TermsSheet } from '@/components/bookline/terms-sheet';
-import { PrivacySheet } from '@/components/bookline/privacy-sheet';
+import dynamic from 'next/dynamic';
+
+const TermsSheet = dynamic(() => import('@/components/bookline/terms-sheet').then(mod => mod.TermsSheet), { ssr: false });
+const PrivacySheet = dynamic(() => import('@/components/bookline/privacy-sheet').then(mod => mod.PrivacySheet), { ssr: false });
 
 // SVG for Google Icon
 const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
