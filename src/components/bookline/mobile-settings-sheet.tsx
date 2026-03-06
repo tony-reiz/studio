@@ -396,7 +396,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             onTouchStart={handleTouchStart}
                             onTouchMove={handleTouchMove}
                             onTouchEnd={handleTouchEnd}
-                            className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-auto flex-col bg-background rounded-t-[40px] pt-6"
+                            className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-auto flex-col bg-background rounded-t-[50px] pt-6"
                             style={{
                                 transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
                                 transition: `transform 0.8s ${animationCurve}`,
