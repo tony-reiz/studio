@@ -75,7 +75,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 setIsSheetMounted(false);
                 setView('main'); // Reset view when sheet is fully closed
                 setSearchQuery('');
-            }, 800); // Animation duration
+            }, 800);
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
@@ -97,6 +97,13 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     }
 
     const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
+        const target = e.target as HTMLElement;
+        const scrollableContent = target.closest('[data-scrollable-sheet="true"]');
+
+        if (scrollableContent && scrollableContent.scrollTop > 0) {
+            return;
+        }
+
         if (!sheetRef.current) return;
         setIsDragging(true);
         setDragStartY(e.touches[0].clientY);
@@ -108,10 +115,12 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
         if (!isDragging) return;
         const currentY = e.touches[0].clientY;
-        let deltaY = currentY - dragStartY;
+        const deltaY = currentY - dragStartY;
+
         if (deltaY < 0) {
-            deltaY = 0;
+            return;
         }
+        e.preventDefault();
         setTranslateY(deltaY);
     };
     
@@ -165,7 +174,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         <div className="w-full h-full flex flex-col flex-shrink-0">
             {isMobile && <h2 id="sheet-title" className="sr-only">{t('settings')}</h2>}
             {!isMobile && <h2 className="text-xl font-bold text-center p-4 pt-6">{t('settings')}</h2>}
-            <div className="flex-1 overflow-y-auto px-4 pt-4 pb-4">
+            <div data-scrollable-sheet="true" className="flex-1 overflow-y-auto px-4 pt-4 pb-4">
                 <SettingsList onItemClick={onItemClick} />
             </div>
         </div>
@@ -198,7 +207,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
                 </div>
             </div>
-            <div className="flex-1 overflow-y-auto px-4 pb-4">
+            <div data-scrollable-sheet="true" className="flex-1 overflow-y-auto px-4 pb-4">
                 {searchQuery && (
                     <ul className="w-full space-y-2">
                         {filteredLanguages.map((lang) => (
@@ -238,7 +247,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     <p className="text-muted-foreground text-sm mt-1">{t('help_center_subtitle')}</p>
                 </div>
             </div>
-            <div className="flex-1 overflow-y-auto px-4 pb-4">
+            <div data-scrollable-sheet="true" className="flex-1 overflow-y-auto px-4 pb-4">
                 <Accordion type="single" collapsible className="w-full">
                     {faqs.map(faq => (
                       <AccordionItem value={faq.id} key={faq.id}>
@@ -267,7 +276,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     <p className="text-muted-foreground text-sm mt-1">{t('manage_account_security')}</p>
                 </div>
             </div>
-            <div className="flex-1 overflow-y-auto px-4 pb-4">
+            <div data-scrollable-sheet="true" className="flex-1 overflow-y-auto px-4 pb-4">
                 <ul className="w-full space-y-2">
                     <li>
                         <button className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors">
@@ -350,10 +359,10 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             onTouchStart={handleTouchStart}
                             onTouchMove={handleTouchMove}
                             onTouchEnd={handleTouchEnd}
-                            className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-auto flex-col bg-background rounded-t-[40px] touch-none pt-6"
+                            className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-auto flex-col bg-background rounded-t-[40px] pt-6"
                             style={{
                                 transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-                                transition: isDragging ? 'none' : 'transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)',
+                                transition: isDragging ? 'none' : 'transform 0.8s cubic-bezier(0.32, 0.72, 0, 1)',
                             }}
                         >
                             

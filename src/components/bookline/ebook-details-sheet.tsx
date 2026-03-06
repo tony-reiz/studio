@@ -39,6 +39,7 @@ interface EbookDetailsSheetProps {
 
 export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsSheetProps) {
     const sheetRef = useRef<HTMLDivElement>(null);
+    const scrollRef = useRef<HTMLDivElement>(null);
     const [isSheetMounted, setIsSheetMounted] = useState(open);
     const [isAnimationOpen, setIsAnimationOpen] = useState(false);
     const [isContentVisible, setIsContentVisible] = useState(false);
@@ -86,6 +87,9 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
     };
     
     const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
+        if (scrollRef.current && scrollRef.current.scrollTop > 0) {
+            return;
+        }
         if (!sheetRef.current) return;
         setIsDragging(true);
         setDragStartY(e.touches[0].clientY);
@@ -97,10 +101,12 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
     const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
         if (!isDragging) return;
         const currentY = e.touches[0].clientY;
-        let deltaY = currentY - dragStartY;
+        const deltaY = currentY - dragStartY;
+        
         if (deltaY < 0) {
-            deltaY = 0;
+            return;
         }
+        e.preventDefault();
         setTranslateY(deltaY);
     };
     
@@ -144,15 +150,15 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
-                className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none pt-6"
+                className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] pt-6"
                 style={{
                     transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-                    transition: isDragging ? 'none' : 'transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)',
+                    transition: isDragging ? 'none' : 'transform 0.8s cubic-bezier(0.32, 0.72, 0, 1)',
                 }}
             >
                 <h2 id="sheet-title" className="sr-only">Détails de l'ebook</h2>
                 
-                <div className="overflow-y-auto p-4" onClick={(e) => e.stopPropagation()}>
+                <div ref={scrollRef} className="overflow-y-auto p-4" onClick={(e) => e.stopPropagation()}>
                     <div className={cn("transition-opacity duration-300 pt-4", isContentVisible ? "opacity-100" : "opacity-0")}>
                         {activeEbook && (
                             <main className="w-full space-y-6 pb-12">

@@ -30,6 +30,7 @@ interface BuyEbookSheetProps {
 
 export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   const sheetRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const [isComponentOpen, setIsComponentOpen] = useState(!!ebook);
   const [isSheetMounted, setIsSheetMounted] = useState(!!ebook);
   const [isAnimationOpen, setIsAnimationOpen] = useState(false);
@@ -77,7 +78,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
       setIsContentVisible(false);
       const timer = setTimeout(() => {
         setIsSheetMounted(false);
-      }, 800); // This must match the animation duration
+      }, 800);
       return () => clearTimeout(timer);
     }
   }, [isComponentOpen]);
@@ -87,6 +88,9 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   };
   
   const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
+    if (scrollRef.current && scrollRef.current.scrollTop > 0) {
+      return;
+    }
     if (!sheetRef.current) return;
     setIsDragging(true);
     setDragStartY(e.touches[0].clientY);
@@ -98,12 +102,12 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
     if (!isDragging) return;
     const currentY = e.touches[0].clientY;
-    let deltaY = currentY - dragStartY;
-    
-    // Only allow dragging down
+    const deltaY = currentY - dragStartY;
+
     if (deltaY < 0) {
-      deltaY = 0;
+        return;
     }
+    e.preventDefault();
     setTranslateY(deltaY);
   };
 
@@ -112,11 +116,9 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
     setIsDragging(false);
     
     const sheetHeight = sheetRef.current?.clientHeight || 0;
-    // If dragged more than a quarter of the way down, close it
     if (translateY > sheetHeight / 4) {
       closeSheet();
     } else {
-      // Otherwise, snap it back to the top
       setTranslateY(0);
     }
   };
@@ -195,15 +197,15 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-        className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none pt-6"
+        className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] pt-6"
         style={{
           transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-          transition: isDragging ? 'none' : 'transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)',
+          transition: isDragging ? 'none' : 'transform 0.8s cubic-bezier(0.32, 0.72, 0, 1)',
         }}
       >
         <h2 id="sheet-title" className="sr-only">Acheter l'ebook {activeEbook?.title}</h2>
         
-        <div className="overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <div ref={scrollRef} className="overflow-y-auto" onClick={(e) => e.stopPropagation()}>
           <div className={cn("transition-opacity duration-300 pt-4", isContentVisible ? "opacity-100" : "opacity-0")}>
             {activeEbook && (
                 <main className="w-full flex flex-col items-center pt-2 pb-16 gap-8 px-4">
