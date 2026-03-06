@@ -142,8 +142,8 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
                 }}
             >
                 <h2 id="sheet-title" className="sr-only">Détails de l'ebook</h2>
-                <div className="mx-auto w-20 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/50 my-3" />
-                <div className="overflow-y-auto p-4 pt-0" onClick={(e) => e.stopPropagation()}>
+                
+                <div className="overflow-y-auto p-4 pt-4" onClick={(e) => e.stopPropagation()}>
                     {activeEbook && (
                         <main className="w-full space-y-6 pb-12">
                             <div className="border-0 shadow-none bg-transparent">

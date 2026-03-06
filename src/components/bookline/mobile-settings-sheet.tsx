@@ -347,7 +347,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                                 transition: isDragging ? 'none' : 'transform 0.5s ease-in-out',
                             }}
                         >
-                            <div className="mx-auto w-20 h-1.5 flex-shrink-0 rounded-full bg-muted-foreground/50 my-3" />
+                            
                             {SettingsContent}
                         </div>
                     </div>
