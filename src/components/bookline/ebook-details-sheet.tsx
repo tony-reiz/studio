@@ -45,6 +45,7 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
     const [isContentVisible, setIsContentVisible] = useState(false);
     const [activeEbook, setActiveEbook] = useState<Ebook | null>(ebook);
 
+    const [animationCurve, setAnimationCurve] = useState('cubic-bezier(0.32, 0.72, 0, 1)');
     const [translateY, setTranslateY] = useState(0);
     const dragState = useRef({ isDragging: false, startY: 0, isSheetDrag: false });
 
@@ -59,6 +60,7 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
             document.body.style.overflow = 'hidden';
             setIsSheetMounted(true);
             setIsContentVisible(false);
+            setAnimationCurve('cubic-bezier(0.32, 0.72, 0, 1)'); // Entry curve
             const timer = setTimeout(() => {
                 setIsAnimationOpen(true);
                 setTranslateY(0);
@@ -71,7 +73,9 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
                 clearTimeout(contentTimer);
             };
         } else {
+            if (!isSheetMounted) return;
             document.body.style.overflow = 'auto';
+            setAnimationCurve('cubic-bezier(0.55, 0.085, 0.68, 0.53)'); // Exit curve
             setIsAnimationOpen(false);
             setIsContentVisible(false);
             const timer = setTimeout(() => {
@@ -79,7 +83,7 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
             }, 800);
             return () => clearTimeout(timer);
         }
-    }, [open]);
+    }, [open, isSheetMounted]);
 
     const closeSheet = () => {
         onOpenChange(false);
@@ -174,13 +178,13 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
                 className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] pt-6"
                 style={{
                     transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-                    transition: 'transform 0.8s cubic-bezier(0.32, 0.72, 0, 1)',
+                    transition: `transform 0.8s ${animationCurve}`,
                 }}
             >
                 <h2 id="sheet-title" className="sr-only">Détails de l'ebook</h2>
                 
                 <div ref={scrollRef} data-scrollable-sheet="true" className="overflow-y-auto p-4" onClick={(e) => e.stopPropagation()}>
-                    <div className={cn("transition-opacity pt-4", isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-700")}>
+                    <div className={cn("transition-opacity pt-4", isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-[800ms]")}>
                         {activeEbook && (
                             <main className="w-full space-y-6 pb-12">
                                 <div className="border-0 shadow-none bg-transparent">

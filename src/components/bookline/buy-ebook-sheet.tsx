@@ -37,6 +37,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   const [isContentVisible, setIsContentVisible] = useState(false);
   const [activeEbook, setActiveEbook] = useState<Ebook | null>(ebook);
 
+  const [animationCurve, setAnimationCurve] = useState('cubic-bezier(0.32, 0.72, 0, 1)');
   const [translateY, setTranslateY] = useState(0);
   const dragState = useRef({ isDragging: false, startY: 0, isSheetDrag: false });
 
@@ -60,6 +61,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
       document.body.style.overflow = 'hidden';
       setIsSheetMounted(true);
       setIsContentVisible(false);
+      setAnimationCurve('cubic-bezier(0.32, 0.72, 0, 1)'); // Entry curve
       const timer = setTimeout(() => {
         setIsAnimationOpen(true);
         setTranslateY(0);
@@ -72,7 +74,9 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
         clearTimeout(contentTimer);
       };
     } else {
+      if (!isSheetMounted) return;
       document.body.style.overflow = 'auto';
+      setAnimationCurve('cubic-bezier(0.55, 0.085, 0.68, 0.53)'); // Exit curve
       setIsAnimationOpen(false);
       setIsContentVisible(false);
       const timer = setTimeout(() => {
@@ -80,7 +84,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
       }, 800);
       return () => clearTimeout(timer);
     }
-  }, [isComponentOpen]);
+  }, [isComponentOpen, isSheetMounted]);
 
   const closeSheet = () => {
     onOpenChange(false);
@@ -221,13 +225,13 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
         className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] pt-6"
         style={{
           transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-          transition: 'transform 0.8s cubic-bezier(0.32, 0.72, 0, 1)',
+          transition: `transform 0.8s ${animationCurve}`,
         }}
       >
         <h2 id="sheet-title" className="sr-only">Acheter l'ebook {activeEbook?.title}</h2>
         
         <div ref={scrollRef} data-scrollable-sheet="true" className="overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-          <div className={cn("transition-opacity pt-4", isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-700")}>
+          <div className={cn("transition-opacity pt-4", isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-[800ms]")}>
             {activeEbook && (
                 <main className="w-full flex flex-col items-center pt-2 pb-16 gap-8 px-4">
                 <div className="w-full max-w-5xl flex flex-col md:flex-row md:items-start md:justify-center md:gap-4">
