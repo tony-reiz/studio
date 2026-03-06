@@ -156,7 +156,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         <div className="w-full h-full flex flex-col flex-shrink-0">
             {isMobile && <h2 id="sheet-title" className="sr-only">{t('settings')}</h2>}
             {!isMobile && <h2 className="text-xl font-bold text-center p-4 pt-6">{t('settings')}</h2>}
-            <div className="flex-1 overflow-y-auto px-4 pb-4">
+            <div className="flex-1 overflow-y-auto px-4 pt-4 pb-4">
                 <SettingsList onItemClick={onItemClick} />
             </div>
         </div>
@@ -341,7 +341,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             onTouchStart={handleTouchStart}
                             onTouchMove={handleTouchMove}
                             onTouchEnd={handleTouchEnd}
-                            className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-auto flex-col bg-background rounded-t-[40px] touch-none"
+                            className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-auto flex-col bg-background rounded-t-[40px] touch-none pt-4"
                             style={{
                                 transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
                                 transition: isDragging ? 'none' : 'transform 0.5s ease-in-out',
