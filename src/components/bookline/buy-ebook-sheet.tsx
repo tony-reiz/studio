@@ -77,7 +77,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
       setIsContentVisible(false);
       const timer = setTimeout(() => {
         setIsSheetMounted(false);
-      }, 600); // This must match the animation duration
+      }, 800); // This must match the animation duration
       return () => clearTimeout(timer);
     }
   }, [isComponentOpen]);
@@ -198,13 +198,13 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
         className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none pt-6"
         style={{
           transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-          transition: isDragging ? 'none' : 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+          transition: isDragging ? 'none' : 'transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)',
         }}
       >
         <h2 id="sheet-title" className="sr-only">Acheter l'ebook {activeEbook?.title}</h2>
         
         <div className="overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-          <div className={cn("transition-opacity duration-300", isContentVisible ? "opacity-100" : "opacity-0")}>
+          <div className={cn("transition-opacity duration-300 pt-4", isContentVisible ? "opacity-100" : "opacity-0")}>
             {activeEbook && (
                 <main className="w-full flex flex-col items-center pt-2 pb-16 gap-8 px-4">
                 <div className="w-full max-w-5xl flex flex-col md:flex-row md:items-start md:justify-center md:gap-4">

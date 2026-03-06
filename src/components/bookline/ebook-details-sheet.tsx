@@ -76,7 +76,7 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
             setIsContentVisible(false);
             const timer = setTimeout(() => {
                 setIsSheetMounted(false);
-            }, 600);
+            }, 800);
             return () => clearTimeout(timer);
         }
     }, [open]);
@@ -147,13 +147,13 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
                 className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] touch-none pt-6"
                 style={{
                     transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-                    transition: isDragging ? 'none' : 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                    transition: isDragging ? 'none' : 'transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)',
                 }}
             >
                 <h2 id="sheet-title" className="sr-only">Détails de l'ebook</h2>
                 
                 <div className="overflow-y-auto p-4" onClick={(e) => e.stopPropagation()}>
-                    <div className={cn("transition-opacity duration-300", isContentVisible ? "opacity-100" : "opacity-0")}>
+                    <div className={cn("transition-opacity duration-300 pt-4", isContentVisible ? "opacity-100" : "opacity-0")}>
                         {activeEbook && (
                             <main className="w-full space-y-6 pb-12">
                                 <div className="border-0 shadow-none bg-transparent">

@@ -75,7 +75,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 setIsSheetMounted(false);
                 setView('main'); // Reset view when sheet is fully closed
                 setSearchQuery('');
-            }, 600); // Animation duration
+            }, 800); // Animation duration
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
@@ -306,7 +306,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     );
 
     const SettingsContent = (
-        <div className={cn("flex-1 overflow-hidden transition-opacity duration-300", isContentVisible ? "opacity-100" : "opacity-0")} onClick={(e) => e.stopPropagation()}>
+        <div className={cn("flex-1 overflow-hidden transition-opacity duration-300 pt-4", isContentVisible ? "opacity-100" : "opacity-0")} onClick={(e) => e.stopPropagation()}>
             <div className={cn(
                 "flex h-full w-[200%]",
                 "transition-transform duration-500 ease-in-out",
@@ -353,7 +353,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             className="absolute bottom-0 left-0 right-0 flex max-h-[70vh] w-auto flex-col bg-background rounded-t-[40px] touch-none pt-6"
                             style={{
                                 transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-                                transition: isDragging ? 'none' : 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                                transition: isDragging ? 'none' : 'transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)',
                             }}
                         >
                             
