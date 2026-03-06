@@ -31,6 +31,11 @@ interface MobileSettingsSheetProps {
 
 export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const sheetRef = useRef<HTMLDivElement>(null);
+    const mainViewRef = useRef<HTMLDivElement>(null);
+    const languageViewRef = useRef<HTMLDivElement>(null);
+    const helpViewRef = useRef<HTMLDivElement>(null);
+    const securityViewRef = useRef<HTMLDivElement>(null);
+
     const [isOpen, setIsOpen] = useState(false);
     const [isSheetMounted, setIsSheetMounted] = useState(false);
     const [isAnimationOpen, setIsAnimationOpen] = useState(false);
@@ -97,32 +102,51 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
     const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
         if (dragState.current.isDragging) return;
-        dragState.current = { isDragging: true, startY: e.touches[0].clientY, isSheetDrag: false };
+        
+        let currentViewRef;
+        switch (view) {
+            case 'language': currentViewRef = languageViewRef; break;
+            case 'help': currentViewRef = helpViewRef; break;
+            case 'security': currentViewRef = securityViewRef; break;
+            default: currentViewRef = mainViewRef; break;
+        }
+
+        const scrollableContent = currentViewRef.current;
+        dragState.current = { isDragging: true, startY: e.touches[0].clientY, isSheetDrag: !scrollableContent || scrollableContent.scrollTop === 0 };
     };
     
     const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
         if (!dragState.current.isDragging) return;
-
-        const target = e.target as HTMLElement;
-        const scrollableContent = target.closest<HTMLElement>('[data-scrollable-sheet="true"]');
+        
+        let currentViewRef;
+        switch (view) {
+            case 'language': currentViewRef = languageViewRef; break;
+            case 'help': currentViewRef = helpViewRef; break;
+            case 'security': currentViewRef = securityViewRef; break;
+            default: currentViewRef = mainViewRef; break;
+        }
+        const scrollableContent = currentViewRef.current;
 
         const currentY = e.touches[0].clientY;
         const deltaY = currentY - dragState.current.startY;
 
-        if (
-            !dragState.current.isSheetDrag &&
-            (!scrollableContent || scrollableContent.scrollTop === 0) &&
-            deltaY > 0
-        ) {
-            dragState.current.isSheetDrag = true;
-            if (sheetRef.current) {
-                sheetRef.current.style.transition = 'none';
-            }
-        }
-
         if (dragState.current.isSheetDrag) {
             e.preventDefault();
-            setTranslateY(Math.max(0, deltaY));
+            if (deltaY > 0) {
+              if (sheetRef.current) {
+                sheetRef.current.style.transition = 'none';
+              }
+              setTranslateY(deltaY);
+            }
+        } else {
+            if (scrollableContent && scrollableContent.scrollTop === 0 && deltaY > 0) {
+                dragState.current.isSheetDrag = true;
+                dragState.current.startY = currentY;
+                if (sheetRef.current) {
+                    sheetRef.current.style.transition = 'none';
+                }
+                e.preventDefault();
+            }
         }
     };
     
@@ -183,7 +207,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         <div className="w-full h-full flex flex-col flex-shrink-0">
             {isMobile && <h2 id="sheet-title" className="sr-only">{t('settings')}</h2>}
             {!isMobile && <h2 className="text-xl font-bold text-center p-4 pt-6">{t('settings')}</h2>}
-            <div data-scrollable-sheet="true" className="flex-1 overflow-y-auto px-4 pt-4 pb-4">
+            <div ref={mainViewRef} className="flex-1 overflow-y-auto px-4 pt-4 pb-4">
                 <SettingsList onItemClick={onItemClick} />
             </div>
         </div>
@@ -216,7 +240,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
                 </div>
             </div>
-            <div data-scrollable-sheet="true" className="flex-1 overflow-y-auto px-4 pb-4">
+            <div ref={languageViewRef} className="flex-1 overflow-y-auto px-4 pb-4">
                 {searchQuery && (
                     <ul className="w-full space-y-2">
                         {filteredLanguages.map((lang) => (
@@ -256,7 +280,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     <p className="text-muted-foreground text-sm mt-1">{t('help_center_subtitle')}</p>
                 </div>
             </div>
-            <div data-scrollable-sheet="true" className="flex-1 overflow-y-auto px-4 pb-4">
+            <div ref={helpViewRef} className="flex-1 overflow-y-auto px-4 pb-4">
                 <Accordion type="single" collapsible className="w-full">
                     {faqs.map(faq => (
                       <AccordionItem value={faq.id} key={faq.id}>
@@ -285,7 +309,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     <p className="text-muted-foreground text-sm mt-1">{t('manage_account_security')}</p>
                 </div>
             </div>
-            <div data-scrollable-sheet="true" className="flex-1 overflow-y-auto px-4 pb-4">
+            <div ref={securityViewRef} className="flex-1 overflow-y-auto px-4 pb-4">
                 <ul className="w-full space-y-2">
                     <li>
                         <button className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors">
@@ -324,7 +348,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     );
 
     const SettingsContent = (
-        <div className={cn("flex-1 overflow-hidden transition-opacity duration-300 pt-4", isContentVisible ? "opacity-100" : "opacity-0")} onClick={(e) => e.stopPropagation()}>
+        <div className={cn("flex-1 overflow-hidden pt-4", "transition-opacity", isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-700")} onClick={(e) => e.stopPropagation()}>
             <div className={cn(
                 "flex h-full w-[200%]",
                 "transition-transform duration-500 ease-in-out",

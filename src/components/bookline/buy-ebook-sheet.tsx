@@ -88,28 +88,43 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   
   const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
     if (dragState.current.isDragging) return;
-    dragState.current = { isDragging: true, startY: e.touches[0].clientY, isSheetDrag: false };
+    const target = e.target as HTMLElement;
+    const scrollableContent = target.closest<HTMLElement>('[data-scrollable-sheet="true"]');
+    dragState.current = { isDragging: true, startY: e.touches[0].clientY, isSheetDrag: !scrollableContent || scrollableContent.scrollTop === 0 };
   };
 
   const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
     if (!dragState.current.isDragging) return;
-
+  
     const currentY = e.touches[0].clientY;
     const deltaY = currentY - dragState.current.startY;
-
-    if (!dragState.current.isSheetDrag && scrollRef.current && scrollRef.current.scrollTop === 0 && deltaY > 0) {
-      dragState.current.isSheetDrag = true;
-      if (sheetRef.current) {
-        sheetRef.current.style.transition = 'none';
+  
+    if (dragState.current.isSheetDrag) {
+      // If we are dragging the sheet, prevent default to stop content scroll
+      e.preventDefault();
+      // Only allow dragging down
+      if (deltaY > 0) {
+        if (sheetRef.current) {
+          sheetRef.current.style.transition = 'none';
+        }
+        setTranslateY(deltaY);
+      }
+    } else {
+      // If we are not dragging the sheet, it means we are scrolling content.
+      // We check if the scroll hits the top, and if so, we switch to sheet dragging.
+      const target = e.target as HTMLElement;
+      const scrollableContent = target.closest<HTMLElement>('[data-scrollable-sheet="true"]');
+      if (scrollableContent && scrollableContent.scrollTop === 0 && deltaY > 0) {
+        dragState.current.isSheetDrag = true;
+        dragState.current.startY = currentY; // Reset startY to prevent jump
+        if (sheetRef.current) {
+          sheetRef.current.style.transition = 'none';
+        }
+        e.preventDefault(); // Prevent scroll bounce
       }
     }
-
-    if (dragState.current.isSheetDrag) {
-      e.preventDefault();
-      setTranslateY(Math.max(0, deltaY));
-    }
   };
-
+  
   const handleTouchEnd = () => {
     if (!dragState.current.isDragging) return;
 
@@ -211,8 +226,8 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
       >
         <h2 id="sheet-title" className="sr-only">Acheter l'ebook {activeEbook?.title}</h2>
         
-        <div ref={scrollRef} className="overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-          <div className={cn("transition-opacity duration-300 pt-4", isContentVisible ? "opacity-100" : "opacity-0")}>
+        <div ref={scrollRef} data-scrollable-sheet="true" className="overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+          <div className={cn("transition-opacity pt-4", isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-700")}>
             {activeEbook && (
                 <main className="w-full flex flex-col items-center pt-2 pb-16 gap-8 px-4">
                 <div className="w-full max-w-5xl flex flex-col md:flex-row md:items-start md:justify-center md:gap-4">
