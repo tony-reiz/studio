@@ -8,8 +8,24 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel';
 import type { CarouselApi } from '@/components/ui/carousel';
-import { EbookCard } from './ebook-card';
 import { cn } from '@/lib/utils';
+import { Card, CardContent } from '@/components/ui/card';
+import { Lightbulb, BadgeCheck, Handshake } from 'lucide-react';
+
+const infoCards = [
+  {
+    title: "Idées d'Ebooks",
+    icon: Lightbulb,
+  },
+  {
+    title: 'Devenez Vendeur Certifié',
+    icon: BadgeCheck,
+  },
+  {
+    title: "Gagnez de l'argent ensemble",
+    icon: Handshake,
+  },
+];
 
 export function EbookDisplayArea() {
   const [api, setApi] = React.useState<CarouselApi>();
@@ -60,20 +76,31 @@ export function EbookDisplayArea() {
         className="w-full max-w-4xl px-36 sm:px-4 md:px-14 relative"
       >
         <CarouselContent className="-ml-8">
-          {displayItems.map((_, index) => (
-            <CarouselItem key={index} className="pl-8 basis-full sm:basis-1/2 md:basis-1/3">
-              <div className="p-1">
-                <EbookCard
-                  isActive={index === current}
-                  className={`transition-transform duration-500 ease-in-out ${
-                    index === current
-                      ? 'transform scale-100'
-                      : 'hidden sm:block sm:transform sm:scale-75 sm:opacity-40'
-                  }`}
-                />
-              </div>
-            </CarouselItem>
-          ))}
+          {displayItems.map((_, index) => {
+            const card = infoCards[index % 3];
+            return (
+              <CarouselItem key={index} className="pl-8 basis-full sm:basis-1/2 md:basis-1/3">
+                <div className="p-1">
+                  <Card
+                    className={cn('bg-transparent border-0 rounded-[25px] glass-form-element transition-transform duration-500 ease-in-out',
+                      index === current
+                        ? 'transform scale-100'
+                        : 'hidden sm:block sm:transform sm:scale-75 sm:opacity-40'
+                    )}
+                  >
+                    <CardContent
+                      className={cn(
+                        'aspect-[210/297] p-6 flex flex-col items-center justify-center rounded-[25px] overflow-hidden relative text-center'
+                      )}
+                    >
+                      <card.icon className="w-16 h-16 text-foreground mb-4" />
+                      <h3 className="text-xl font-bold text-foreground">{card.title}</h3>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            );
+          })}
         </CarouselContent>
       </Carousel>
     </div>
