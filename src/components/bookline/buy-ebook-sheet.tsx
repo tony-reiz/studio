@@ -35,7 +35,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   const [activeEbook, setActiveEbook] = useState<Ebook | null>(ebook);
   const [view, setView] = useState<'purchase' | 'seller'>('purchase');
   const { handleNavigate } = useTransitionRouter();
-  const { purchasedEbooks, purchaseEbook, t, allEbooks, publishedEbooks, userProfile } = useEbooks();
+  const { purchasedEbooks, purchaseEbook, t, allEbooks, publishedEbooks, userProfile, theme } = useEbooks();
   const [numPages, setNumPages] = useState<number | null>(null);
   const { toast } = useToast();
   const [isCopied, setIsCopied] = useState(false);
@@ -123,8 +123,8 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
     });
   };
 
-  const inputClasses = "pl-11 pr-4 h-12 w-full text-base rounded-full flex items-center glass-form-element";
-  const textareaClasses = "pl-11 pr-4 h-[148px] w-full text-base rounded-[30px] py-3.5 leading-snug flex items-start overflow-y-auto glass-form-element";
+  const inputClasses = "pl-11 pr-4 h-12 w-full text-base rounded-full flex items-center";
+  const textareaClasses = "pl-11 pr-4 h-[148px] w-full text-base rounded-[30px] py-3.5 leading-snug flex items-start overflow-y-auto";
 
   return (
     <FluidSheet 
@@ -181,19 +181,19 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
                                   <div className="w-full space-y-4">
                                       <div className="relative w-full">
                                           <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground">T</span>
-                                          <div className={cn(inputClasses, "overflow-x-auto scrollbar-hide")}>
+                                          <div className={cn(inputClasses, "overflow-x-auto scrollbar-hide", theme === 'dark' ? 'glass-form-element' : 'bg-[#DFDFDF]')}>
                                           <p className="text-foreground whitespace-nowrap">{activeEbook.title}</p>
                                           </div>
                                       </div>
                                       <div className="relative w-full">
                                           <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-foreground">D</span>
-                                          <div className={cn(textareaClasses, 'whitespace-pre-wrap')}>
+                                          <div className={cn(textareaClasses, 'whitespace-pre-wrap', theme === 'dark' ? 'glass-form-element' : 'bg-[#DFDFDF]')}>
                                           <p className="text-foreground">{activeEbook.description}</p>
                                           </div>
                                       </div>
                                       <div className="relative w-full">
                                           <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground z-10">M</span>
-                                          <div className="h-12 w-full text-base rounded-full flex items-center p-0 overflow-hidden glass-form-element">
+                                          <div className={cn("h-12 w-full text-base rounded-full flex items-center p-0 overflow-hidden", theme === 'dark' ? 'glass-form-element' : 'bg-[#DFDFDF]')}>
                                           <div className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-4 scrollbar-hide">
                                               {activeEbook.keywords.split(',').map((keyword, index) => (
                                               <Badge key={index} variant="default" className="flex-shrink-0 whitespace-nowrap rounded-full py-1 px-3">
@@ -205,7 +205,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
                                       </div>
                                   </div>
 
-                                  <div className="w-full rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden glass-form-element">
+                                  <div className={cn("w-full rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden", theme === 'dark' ? 'glass-form-element' : 'bg-[#DFDFDF]')}>
                                       <div className='pl-6 py-4 text-sm text-foreground space-y-1 flex flex-col justify-center'>
                                           <p>{t('ebook_price')}</p>
                                           <p>{t('service_fee')}</p>
