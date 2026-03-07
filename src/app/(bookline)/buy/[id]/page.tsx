@@ -218,8 +218,8 @@ export default function BuyEbookPage() {
                   <Star className="w-8 h-8 text-black fill-black" />
                   <Star className="w-8 h-8 text-black fill-black" />
                   <Star className="w-8 h-8 text-black fill-black" />
-                  <Star className={cn("w-8 h-8", theme === 'light' ? 'text-[#DFDFDF] fill-[#DFDFDF]' : 'text-white fill-white')} />
-                  <Star className={cn("w-8 h-8", theme === 'light' ? 'text-[#DFDFDF] fill-[#DFDFDF]' : 'text-white fill-white')} />
+                  <Star className={cn("w-8 h-8", theme === 'light' ? 'text-[#DFDFDF] fill-[#DFDFDF]' : 'text-[#171717] fill-[#171717]')} />
+                  <Star className={cn("w-8 h-8", theme === 'light' ? 'text-[#DFDFDF] fill-[#DFDFDF]' : 'text-[#171717] fill-[#171717]')} />
               </div>
               <EbookCard ebook={ebook} onCardClick={handleCardClick} />
             </div>
@@ -344,5 +344,3 @@ export default function BuyEbookPage() {
     </div>
   );
 }
-
-    

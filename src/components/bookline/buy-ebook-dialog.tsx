@@ -154,8 +154,8 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
                             <Star className="w-8 h-8 text-black fill-black" />
                             <Star className="w-8 h-8 text-black fill-black" />
                             <Star className="w-8 h-8 text-black fill-black" />
-                            <Star className={cn("w-8 h-8", theme === 'light' ? 'text-[#DFDFDF] fill-[#DFDFDF]' : 'text-white fill-white')} />
-                            <Star className={cn("w-8 h-8", theme === 'light' ? 'text-[#DFDFDF] fill-[#DFDFDF]' : 'text-white fill-white')} />
+                            <Star className={cn("w-8 h-8", theme === 'light' ? 'text-[#DFDFDF] fill-[#DFDFDF]' : 'text-[#171717] fill-[#171717]')} />
+                            <Star className={cn("w-8 h-8", theme === 'light' ? 'text-[#DFDFDF] fill-[#DFDFDF]' : 'text-[#171717] fill-[#171717]')} />
                         </div>
                         <EbookCard ebook={currentEbook} onCardClick={handleCardClick} />
                       </div>
@@ -289,5 +289,3 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
     </>
   );
 }
-
-    
