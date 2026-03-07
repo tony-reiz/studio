@@ -214,7 +214,7 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
                       </div>
                     </div>
                   </div>
-                  <div className="max-w-[16rem] w-full">
+                  <div className="max-w-[16rem] w-full mt-auto">
                     <Button
                       onClick={handlePayment}
                       className={cn(
@@ -237,7 +237,7 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
                           <ChevronLeft className="h-6 w-6" />
                       </Button>
                   </header>
-                  <main className="flex-1 w-full flex flex-col items-center justify-center overflow-y-auto scrollbar-hide">
+                  <main className="flex-1 w-full flex flex-col items-center overflow-y-auto scrollbar-hide pt-12">
                       <div className="flex flex-col items-center">
                           <Avatar className="h-28 w-28 bg-foreground dark:bg-[#393939]">
                               <AvatarImage src={sellerProfile.avatarUrl || ''} alt="Photo de profil du vendeur" />
