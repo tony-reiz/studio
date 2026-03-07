@@ -244,9 +244,9 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
                           <ChevronLeft className="h-6 w-6" />
                       </Button>
                   </header>
-                  <main className="flex-1 w-full flex flex-col items-center pt-20 overflow-y-auto scrollbar-hide">
+                  <main className="flex-1 w-full flex flex-col items-center pt-8 overflow-y-auto scrollbar-hide">
                       <div className="flex flex-col items-center">
-                          <Avatar className="h-28 w-28 bg-foreground dark:bg-[#393939]">
+                          <Avatar className="h-28 w-28 bg-foreground dark:bg-black">
                               <AvatarImage src={sellerProfile.avatarUrl || ''} alt="Photo de profil du vendeur" />
                               <AvatarFallback className="bg-transparent">
                                   <User className="h-12 w-12 text-background dark:text-foreground" />

@@ -121,7 +121,7 @@ export default function CreateProfilePage() {
                 accept="image/*"
                 className="hidden"
               />
-              <Avatar className="h-32 w-32 bg-foreground dark:bg-[#393939]">
+              <Avatar className="h-32 w-32 bg-foreground dark:bg-black">
                 {avatarUrl ? (
                   <AvatarImage src={avatarUrl} alt="Photo de profil de l'utilisateur" style={{ objectFit: 'cover' }} />
                 ) : (
