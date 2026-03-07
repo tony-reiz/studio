@@ -95,36 +95,30 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   
   const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
     if (dragState.current.isDragging) return;
-    const target = e.target as HTMLElement;
-    const scrollableContent = target.closest<HTMLElement>('[data-scrollable-sheet="true"]');
-    dragState.current = { isDragging: true, startY: e.touches[0].clientY, isSheetDrag: !scrollableContent || scrollableContent.scrollTop === 0 };
+    dragState.current = { isDragging: true, startY: e.touches[0].clientY, isSheetDrag: false };
   };
 
   const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
     if (!dragState.current.isDragging) return;
-  
+
     const currentY = e.touches[0].clientY;
     const deltaY = currentY - dragState.current.startY;
-  
-    if (dragState.current.isSheetDrag) {
-      e.preventDefault();
-      if (deltaY > 0) {
+
+    const target = e.target as HTMLElement;
+    const scrollableContent = target.closest<HTMLElement>('[data-scrollable-sheet="true"]');
+    const isAtTop = !scrollableContent || scrollableContent.scrollTop <= 0;
+
+    if (isAtTop && deltaY > 0) {
+        dragState.current.isSheetDrag = true;
         if (sheetRef.current) {
-          sheetRef.current.style.transition = 'none';
+            sheetRef.current.style.transition = 'none';
         }
         setTranslateY(deltaY);
-      }
-    } else {
-      const target = e.target as HTMLElement;
-      const scrollableContent = target.closest<HTMLElement>('[data-scrollable-sheet="true"]');
-      if (scrollableContent && scrollableContent.scrollTop === 0 && deltaY > 0) {
-        dragState.current.isSheetDrag = true;
-        dragState.current.startY = currentY; 
-        if (sheetRef.current) {
-          sheetRef.current.style.transition = 'none';
-        }
-        e.preventDefault();
-      }
+        
+        if (e.cancelable) e.preventDefault(); 
+    } 
+    else {
+        dragState.current.isSheetDrag = false;
     }
   };
   
