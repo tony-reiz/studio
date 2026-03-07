@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, type ReactNode, useRef, type TouchEvent } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { SettingsList } from './settings-list';
 import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut } from 'lucide-react';
@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/accordion";
 import { useEbooks } from '@/context/ebook-provider';
 import type { Locale } from '@/lib/translations';
+import { FluidSheet } from './fluid-sheet';
 
 type View = 'main' | 'language' | 'help' | 'security';
 
@@ -38,15 +39,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const isMobile = useIsMobile();
     const [isClient, setIsClient] = useState(false);
 
-    const sheetRef = useRef<HTMLDivElement>(null);
-    const mainViewRef = useRef<HTMLDivElement>(null);
-
-    const [isSheetMounted, setIsSheetMounted] = useState(false);
-    const [isAnimationOpen, setIsAnimationOpen] = useState(false);
     const [isContentVisible, setIsContentVisible] = useState(false);
-    const [animationCurve, setAnimationCurve] = useState('cubic-bezier(0.32, 0.72, 0, 1)');
-    const [translateY, setTranslateY] = useState(0);
-    const dragState = useRef({ isDragging: false, startY: 0, isSheetDrag: false });
 
     useEffect(() => {
         setIsClient(true);
@@ -54,101 +47,21 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
     useEffect(() => {
         if (isOpen) {
-            if (isMobile) {
-                document.body.style.overflow = 'hidden';
-                setIsSheetMounted(true);
-                setIsContentVisible(false);
-                setAnimationCurve('cubic-bezier(0.32, 0.72, 0, 1)');
-                const timer = setTimeout(() => {
-                    setIsAnimationOpen(true);
-                    setTranslateY(0);
-                }, 10);
-                const contentTimer = setTimeout(() => {
-                    setIsContentVisible(true);
-                }, 700);
-                return () => {
-                    clearTimeout(timer);
-                    clearTimeout(contentTimer);
-                };
-            } else {
-                // For desktop, just handle content visibility
-                setIsContentVisible(false);
-                const timer = setTimeout(() => setIsContentVisible(true), 100);
-                return () => clearTimeout(timer);
-            }
+            // For desktop, just handle content visibility
+            setIsContentVisible(false);
+            const timer = setTimeout(() => setIsContentVisible(true), isMobile ? 700 : 100);
+            return () => clearTimeout(timer);
         } else {
             // Universal close logic
             setIsContentVisible(false);
             const timer = setTimeout(() => {
                 setView('main');
                 setSearchQuery('');
-                if (isMobile) {
-                    setIsSheetMounted(false);
-                }
             }, 500);
-
-            if (isMobile) {
-                if (!isSheetMounted) return;
-                document.body.style.overflow = 'auto';
-                setAnimationCurve('cubic-bezier(0.55, 0.085, 0.68, 0.53)');
-                setIsAnimationOpen(false);
-            }
-
             return () => clearTimeout(timer);
         }
-    }, [isOpen, isMobile, isSheetMounted]);
+    }, [isOpen, isMobile]);
 
-    const closeSheet = () => {
-        setIsOpen(false);
-    };
-
-    const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
-        if (dragState.current.isDragging) return;
-        dragState.current = { isDragging: true, startY: e.touches[0].clientY, isSheetDrag: false };
-    };
-
-    const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
-        if (!dragState.current.isDragging) return;
-
-        const currentY = e.touches[0].clientY;
-        const deltaY = currentY - dragState.current.startY;
-
-        const target = e.target as HTMLElement;
-        const scrollableContent = target.closest<HTMLElement>('[data-scrollable-sheet="true"]');
-        const isAtTop = !scrollableContent || scrollableContent.scrollTop <= 0;
-
-        if (isAtTop && deltaY > 0) {
-            dragState.current.isSheetDrag = true;
-            if (sheetRef.current) {
-                sheetRef.current.style.transition = 'none';
-            }
-            setTranslateY(deltaY);
-            
-            if (e.cancelable) e.preventDefault(); 
-        } 
-        else {
-            dragState.current.isSheetDrag = false;
-        }
-    };
-    
-    const handleTouchEnd = () => {
-        if (!dragState.current.isDragging) return;
-
-        if (sheetRef.current) {
-            sheetRef.current.style.transition = '';
-        }
-
-        if (dragState.current.isSheetDrag) {
-            const sheetHeight = sheetRef.current?.clientHeight || 0;
-            if (translateY > sheetHeight / 4) {
-                closeSheet();
-            } else {
-                setTranslateY(0);
-            }
-        }
-        
-        dragState.current = { isDragging: false, startY: 0, isSheetDrag: false };
-    };
     
     if (!isClient) {
         return <div>{children}</div>;
@@ -189,7 +102,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
           {isMobile && <h2 id="sheet-title" className="sr-only">{t('settings')}</h2>}
           {!isMobile && <h2 className="text-xl font-bold text-center p-4 pt-6">{t('settings')}</h2>}
           <div 
-              ref={mainViewRef} 
               data-scrollable-sheet="true" 
               className="flex-1 overflow-y-auto overscroll-contain px-4 pt-4 pb-20 touch-pan-y"
           >
@@ -339,7 +251,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
               "transition-opacity", 
               isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-[800ms]"
           )} 
-          onClick={(e) => e.stopPropagation()}
       >
           <div className={cn(
               "flex flex-1 w-[200%] min-h-0",
@@ -362,34 +273,9 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <div onClick={() => setIsOpen(true)}>
                     {children}
                 </div>
-                {isSheetMounted && (
-                    <div 
-                        className="fixed inset-0 z-50"
-                        role="dialog"
-                        aria-modal="true"
-                    >
-                        <div
-                            className={cn(
-                              "fixed inset-0 bg-black/60 transition-opacity duration-500",
-                              isAnimationOpen ? 'opacity-100' : 'opacity-0'
-                            )}
-                            onClick={closeSheet}
-                        />
-                        <div
-                            ref={sheetRef}
-                            onTouchStart={handleTouchStart}
-                            onTouchMove={handleTouchMove}
-                            onTouchEnd={handleTouchEnd}
-                            className="absolute bottom-0 left-0 right-0 flex h-[70vh] w-full flex-col bg-background rounded-t-[50px] pt-2"
-                            style={{
-                              transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-                              transition: `transform 0.8s ${animationCurve}`,
-                            }}
-                        >
-                            {SettingsContent}
-                        </div>
-                    </div>
-                )}
+                <FluidSheet open={isOpen} onOpenChange={setIsOpen} className="h-[70vh]">
+                    {SettingsContent}
+                </FluidSheet>
             </>
         );
     }
