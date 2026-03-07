@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, type TouchEvent } from 'react';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { Star, ChevronLeft, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -41,6 +41,11 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   const { toast } = useToast();
   const [isCopied, setIsCopied] = useState(false);
   
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const [translateY, setTranslateY] = useState(0);
+  const dragState = useRef({ isDragging: false, startY: 0, isSheetDrag: false });
+  const [animationCurve, setAnimationCurve] = useState('cubic-bezier(0.32, 0.72, 0, 1)');
+  
   useEffect(() => {
     if (ebook) {
       setActiveEbook(ebook);
@@ -49,28 +54,85 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
   }, [ebook]);
 
   useEffect(() => {
-    setIsSheetMounted(!!ebook);
-  }, [ebook]);
-
-  useEffect(() => {
-    if (isSheetMounted) {
-      document.body.style.overflow = 'hidden';
-      const openTimer = setTimeout(() => setIsAnimationOpen(true), 10);
-      const contentTimer = setTimeout(() => setIsContentVisible(true), 300);
-
-      return () => {
-        clearTimeout(openTimer);
-        clearTimeout(contentTimer);
-      };
+    if (ebook) {
+        document.body.style.overflow = 'hidden';
+        setIsSheetMounted(true);
+        setIsContentVisible(false);
+        setAnimationCurve('cubic-bezier(0.32, 0.72, 0, 1)');
+        const timer = setTimeout(() => {
+            setIsAnimationOpen(true);
+            setTranslateY(0);
+        }, 10);
+        const contentTimer = setTimeout(() => {
+            setIsContentVisible(true);
+        }, 700);
+        return () => {
+            clearTimeout(timer);
+            clearTimeout(contentTimer);
+        };
     } else {
-      document.body.style.overflow = 'auto';
-      setIsAnimationOpen(false);
-      setIsContentVisible(false);
+        if (!isSheetMounted) return;
+        document.body.style.overflow = 'auto';
+        setAnimationCurve('cubic-bezier(0.55, 0.085, 0.68, 0.53)');
+        setIsAnimationOpen(false);
+        setIsContentVisible(false);
+        const timer = setTimeout(() => {
+            setIsSheetMounted(false);
+        }, 500); 
+        return () => clearTimeout(timer);
     }
-  }, [isSheetMounted]);
+  }, [ebook, isSheetMounted]);
 
   const closeSheet = () => {
     onOpenChange(false);
+  };
+
+  const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
+      if (dragState.current.isDragging) return;
+      dragState.current = { isDragging: true, startY: e.touches[0].clientY, isSheetDrag: false };
+  };
+
+  const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
+      if (!dragState.current.isDragging) return;
+
+      const currentY = e.touches[0].clientY;
+      const deltaY = currentY - dragState.current.startY;
+
+      const target = e.target as HTMLElement;
+      const scrollableContent = target.closest<HTMLElement>('[data-scrollable-sheet="true"]');
+      const isAtTop = !scrollableContent || scrollableContent.scrollTop <= 0;
+
+      if (isAtTop && deltaY > 0) {
+          dragState.current.isSheetDrag = true;
+          if (sheetRef.current) {
+              sheetRef.current.style.transition = 'none';
+          }
+          setTranslateY(deltaY);
+          
+          if (e.cancelable) e.preventDefault(); 
+      } 
+      else {
+          dragState.current.isSheetDrag = false;
+      }
+  };
+  
+  const handleTouchEnd = () => {
+      if (!dragState.current.isDragging) return;
+
+      if (sheetRef.current) {
+          sheetRef.current.style.transition = '';
+      }
+
+      if (dragState.current.isSheetDrag) {
+          const sheetHeight = sheetRef.current?.clientHeight || 0;
+          if (translateY > sheetHeight / 4) {
+              closeSheet();
+          } else {
+              setTranslateY(0);
+          }
+      }
+      
+      dragState.current = { isDragging: false, startY: 0, isSheetDrag: false };
   };
   
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
@@ -165,10 +227,15 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
       />
       
       <div
-        className={cn(
-          "absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] pt-6 transition-transform duration-500 ease-in-out",
-          isAnimationOpen ? 'translate-y-0' : 'translate-y-full'
-        )}
+        ref={sheetRef}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        className="absolute bottom-0 left-0 right-0 flex h-[80vh] w-full flex-col bg-background rounded-t-[50px] pt-6"
+        style={{
+            transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
+            transition: `transform 0.8s ${animationCurve}`,
+        }}
       >
         <h2 id="sheet-title" className="sr-only">{t('buy_ebook')} {activeEbook?.title}</h2>
         
@@ -178,7 +245,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
             {/* Purchase View */}
             <div className={cn("w-1/2 h-full flex-shrink-0 flex flex-col transition-opacity", isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-[800ms]")}>
               {activeEbook && (
-                  <div className="overflow-y-auto">
+                  <div data-scrollable-sheet="true" className="overflow-y-auto">
                       <main className="w-full flex flex-col items-center pt-2 pb-16 gap-8 px-4">
                       <div className="w-full max-w-5xl flex flex-col md:flex-row md:items-start md:justify-center md:gap-4">
                           <div className="flex justify-center md:justify-end">
@@ -282,7 +349,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
                         <ChevronLeft className="h-6 w-6" />
                     </Button>
                 </header>
-                <main className="flex-1 w-full flex flex-col items-center pt-8 overflow-y-auto px-4 pb-8">
+                <main data-scrollable-sheet="true" className="flex-1 w-full flex flex-col items-center pt-8 overflow-y-auto px-4 pb-8">
                     <div className="flex flex-col items-center">
                         <Avatar className="h-28 w-28 bg-foreground dark:bg-white">
                             <AvatarImage src={sellerProfile.avatarUrl || ''} alt="Photo de profil du vendeur" />
