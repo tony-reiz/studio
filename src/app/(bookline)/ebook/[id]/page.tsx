@@ -22,7 +22,7 @@ import { EbookDetailsSheet } from '@/components/bookline/ebook-details-sheet';
 const Document = dynamic(
   () =>
     import('react-pdf').then((mod) => {
-      mod.pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${mod.pdfjs.version}/build/pdf.worker.js`;
+      mod.pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${mod.pdfjs.version}/build/pdf.worker.min.js`;
       return mod.Document;
     }),
   {
@@ -230,7 +230,7 @@ export default function EbookViewerPage() {
         )}
 
         <main ref={viewerRef} className="flex-1 overflow-y-auto" style={{ paddingTop: `calc(env(safe-area-inset-top) + 4rem)`, paddingBottom: '8rem' }}>
-            <div ref={widthRef} className="w-full md:max-w-4xl mx-auto">
+            <div ref={widthRef} className="w-full md:max-w-xl mx-auto">
                 <Document
                     file={ebook.pdfDataUrl}
                     onLoadSuccess={onDocumentLoadSuccess}
