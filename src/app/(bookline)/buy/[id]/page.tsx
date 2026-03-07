@@ -17,6 +17,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import {
   Dialog,
   DialogContent,
+  DialogTitle,
 } from "@/components/ui/dialog";
 
 const Document = dynamic(
@@ -217,6 +218,7 @@ export default function BuyEbookPage() {
       {!isMobile ? (
         <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
           <DialogContent className="max-w-4xl w-full p-0 bg-transparent border-none shadow-xl">
+            <DialogTitle className="sr-only">Acheter l'ebook {ebook.title}</DialogTitle>
             <div className="h-auto flex flex-col bg-background rounded-[50px] overflow-hidden p-8">
               {PurchaseDetailsContent}
             </div>
