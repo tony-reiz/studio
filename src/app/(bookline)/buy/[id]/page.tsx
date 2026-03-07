@@ -226,7 +226,7 @@ export default function BuyEbookPage() {
           </div>
           <div className="flex justify-center md:justify-start">
             <div className="w-full max-w-[18rem] md:max-w-xs flex flex-col items-center">
-              <button onClick={() => { if(isMobile) { setView('seller'); } else { handleDialogChange(false); handleNavigate('/seller/1'); } }} className="w-full group">
+              <button onClick={() => { if(isMobile) { setView('seller'); } else { onOpenChange(false); handleNavigate('/seller/1'); } }} className="w-full group">
                 <div className="w-full bg-black text-white rounded-full py-2 text-sm font-semibold text-center mb-4 group-hover:bg-black/90 transition-colors">
                     {t('seller')}
                 </div>
@@ -246,19 +246,19 @@ export default function BuyEbookPage() {
               <div className="w-full space-y-4">
                 <div className="relative w-full">
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground">T</span>
-                  <div className={cn(inputClasses, "overflow-x-auto scrollbar-hide", theme === 'dark' ? 'glass-form-element' : 'bg-[#DFDFDF]')}>
+                  <div className={cn(inputClasses, "overflow-x-auto scrollbar-hide", theme === 'dark' ? 'bg-[#393939]' : 'bg-[#DFDFDF]')}>
                     <p className="text-foreground whitespace-nowrap">{ebook.title}</p>
                   </div>
                 </div>
                 <div className="relative w-full">
                   <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-foreground">D</span>
-                  <div className={cn(textareaClasses, 'whitespace-pre-wrap', theme === 'dark' ? 'glass-form-element' : 'bg-[#DFDFDF]')}>
+                  <div className={cn(textareaClasses, 'whitespace-pre-wrap', theme === 'dark' ? 'bg-[#393939]' : 'bg-[#DFDFDF]')}>
                     <p className="text-foreground">{ebook.description}</p>
                   </div>
                 </div>
                 <div className="relative w-full">
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground z-10">M</span>
-                  <div className={cn("h-12 w-full text-base border-0 rounded-full flex items-center p-0 overflow-hidden", theme === 'dark' ? 'glass-form-element' : 'bg-[#DFDFDF]')}>
+                  <div className={cn("h-12 w-full text-base border-0 rounded-full flex items-center p-0 overflow-hidden", theme === 'dark' ? 'bg-[#393939]' : 'bg-[#DFDFDF]')}>
                     <div className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-4 scrollbar-hide">
                       {ebook.keywords.split(',').map((keyword, index) => (
                         <Badge key={index} variant="default" className="flex-shrink-0 whitespace-nowrap rounded-full py-1 px-3">
@@ -270,7 +270,7 @@ export default function BuyEbookPage() {
                 </div>
               </div>
 
-              <div className={cn("w-full rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden", theme === 'dark' ? 'glass-form-element' : 'bg-[#DFDFDF]')}>
+              <div className={cn("w-full rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden", theme === 'dark' ? 'bg-[#393939]' : 'bg-[#DFDFDF]')}>
                 <div className='pl-6 py-4 text-sm text-foreground space-y-1 flex flex-col justify-center'>
                   <p>{t('ebook_price')}</p>
                   <p>{t('service_fee')}</p>
@@ -344,5 +344,6 @@ export default function BuyEbookPage() {
     </div>
   );
 }
-
-    
+function onOpenChange(arg0: boolean) {
+    throw new Error('Function not implemented.');
+}

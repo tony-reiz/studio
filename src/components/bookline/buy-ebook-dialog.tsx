@@ -182,19 +182,19 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
                         <div className="w-full space-y-4">
                           <div className="relative w-full">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground">T</span>
-                            <div className={cn(inputClasses, "overflow-x-auto scrollbar-hide", theme === 'dark' ? 'glass-form-element' : 'bg-[#DFDFDF]')}>
+                            <div className={cn(inputClasses, "overflow-x-auto scrollbar-hide", theme === 'dark' ? 'bg-[#393939]' : 'bg-[#DFDFDF]')}>
                               <p className="text-foreground whitespace-nowrap">{currentEbook.title}</p>
                             </div>
                           </div>
                           <div className="relative w-full">
                             <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-foreground">D</span>
-                            <div className={cn(textareaClasses, 'whitespace-pre-wrap', theme === 'dark' ? 'glass-form-element' : 'bg-[#DFDFDF]')}>
+                            <div className={cn(textareaClasses, 'whitespace-pre-wrap', theme === 'dark' ? 'bg-[#393939]' : 'bg-[#DFDFDF]')}>
                               <p className="text-foreground">{currentEbook.description}</p>
                             </div>
                           </div>
                           <div className="relative w-full">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground z-10">M</span>
-                            <div className={cn("h-12 w-full text-base border-0 rounded-full flex items-center p-0 overflow-hidden", theme === 'dark' ? 'glass-form-element' : 'bg-[#DFDFDF]')}>
+                            <div className={cn("h-12 w-full text-base border-0 rounded-full flex items-center p-0 overflow-hidden", theme === 'dark' ? 'bg-[#393939]' : 'bg-[#DFDFDF]')}>
                               <div className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-4 scrollbar-hide">
                                 {currentEbook.keywords.split(',').map((keyword, index) => (
                                   <Badge key={index} variant="default" className="flex-shrink-0 whitespace-nowrap rounded-full py-1 px-3">
@@ -206,7 +206,7 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
                           </div>
                         </div>
 
-                        <div className={cn("w-full rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden", theme === 'dark' ? 'glass-form-element' : 'bg-[#DFDFDF]')}>
+                        <div className={cn("w-full rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden", theme === 'dark' ? 'bg-[#393939]' : 'bg-[#DFDFDF]')}>
                           <div className='pl-6 py-4 text-sm text-foreground space-y-1 flex flex-col justify-center'>
                             <p>{t('ebook_price')}</p>
                             <p>{t('service_fee')}</p>
@@ -289,5 +289,3 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
     </>
   );
 }
-
-    
