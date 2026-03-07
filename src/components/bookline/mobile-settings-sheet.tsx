@@ -53,35 +53,47 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     }, []);
 
     useEffect(() => {
-        if (isOpen && isMobile) {
-            document.body.style.overflow = 'hidden';
-            setIsSheetMounted(true);
+        if (isOpen) {
+            if (isMobile) {
+                document.body.style.overflow = 'hidden';
+                setIsSheetMounted(true);
+                setIsContentVisible(false);
+                setAnimationCurve('cubic-bezier(0.32, 0.72, 0, 1)');
+                const timer = setTimeout(() => {
+                    setIsAnimationOpen(true);
+                    setTranslateY(0);
+                }, 10);
+                const contentTimer = setTimeout(() => {
+                    setIsContentVisible(true);
+                }, 700);
+                return () => {
+                    clearTimeout(timer);
+                    clearTimeout(contentTimer);
+                };
+            } else {
+                // For desktop, just handle content visibility
+                setIsContentVisible(false);
+                const timer = setTimeout(() => setIsContentVisible(true), 100);
+                return () => clearTimeout(timer);
+            }
+        } else {
+            // Universal close logic
             setIsContentVisible(false);
-            setAnimationCurve('cubic-bezier(0.32, 0.72, 0, 1)');
             const timer = setTimeout(() => {
-                setIsAnimationOpen(true);
-                setTranslateY(0);
-            }, 10);
-            const contentTimer = setTimeout(() => {
-                setIsContentVisible(true);
-            }, 700);
-            return () => {
-                clearTimeout(timer);
-                clearTimeout(contentTimer);
-            };
-        } else if (!isOpen) {
-            if (!isSheetMounted) return;
-            document.body.style.overflow = 'auto';
-            setAnimationCurve('cubic-bezier(0.55, 0.085, 0.68, 0.53)');
-            setIsAnimationOpen(false);
-            setIsContentVisible(false);
-            const timer = setTimeout(() => {
-                setIsSheetMounted(false);
-                setTimeout(() => {
-                    setView('main');
-                    setSearchQuery('');
-                }, 300);
+                setView('main');
+                setSearchQuery('');
+                if (isMobile) {
+                    setIsSheetMounted(false);
+                }
             }, 500);
+
+            if (isMobile) {
+                if (!isSheetMounted) return;
+                document.body.style.overflow = 'auto';
+                setAnimationCurve('cubic-bezier(0.55, 0.085, 0.68, 0.53)');
+                setIsAnimationOpen(false);
+            }
+
             return () => clearTimeout(timer);
         }
     }, [isOpen, isMobile, isSheetMounted]);
