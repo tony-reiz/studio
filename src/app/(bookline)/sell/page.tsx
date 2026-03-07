@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Menu, User, Loader2 } from 'lucide-react';
+import { User, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
@@ -14,7 +14,6 @@ import { cn } from '@/lib/utils';
 import { useEbooks } from '@/context/ebook-provider';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { PDFDocument } from 'pdf-lib';
-import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 
@@ -148,18 +147,6 @@ export default function SellPage() {
   const isFormComplete = form.formState.isValid && !!pdfFile;
   const isButtonDisabled = isProcessing || !isFormComplete;
 
-  const menuButton = (
-    <Button
-      type="button"
-      variant="ghost"
-      size="icon"
-      aria-label={t('menu')}
-      className="w-11 h-11 rounded-full glass-icon-button -mt-2 sm:mt-0"
-    >
-      <Menu className="h-6 w-6" />
-    </Button>
-  );
-
   const getButtonText = () => {
     if (submissionStep === 'publishing') return t('publishing');
     if (submissionStep === 'compressing') return t('compressing');
@@ -176,8 +163,7 @@ export default function SellPage() {
           </>
         )}
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8 overflow-y-auto scrollbar-hide">
-          <header className="sticky top-0 z-10 flex items-start justify-between w-full pb-6" style={{ paddingTop: `calc(1.5rem + env(safe-area-inset-top))` }}>
-            {isClient ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
+          <header className="sticky top-0 z-10 flex items-start justify-end w-full pb-6" style={{ paddingTop: `calc(1.5rem + env(safe-area-inset-top))` }}>
             <Button type="button" onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="-mt-2 sm:mt-0 w-11 h-11 rounded-full glass-icon-button" aria-label={t('user_profile')}>
               <User className="h-6 w-6" />
             </Button>
