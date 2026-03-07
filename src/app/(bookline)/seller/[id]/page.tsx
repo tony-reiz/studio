@@ -76,15 +76,11 @@ export default function SellerProfilePage() {
       }
     } catch (error) {
       try {
+        // Fallback to copying
         await navigator.clipboard.writeText(window.location.href);
         toast({ title: t('link_copied') });
       } catch (copyError) {
-        console.error("Error sharing or copying:", error, copyError);
-        toast({
-          variant: "destructive",
-          title: t('error'),
-          description: t('error_try_again'),
-        });
+        // If everything fails, just ignore it and don't show an error.
       }
     }
   };
