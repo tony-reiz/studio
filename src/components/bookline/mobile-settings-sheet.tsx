@@ -39,6 +39,8 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const [isClient, setIsClient] = useState(false);
 
     const sheetRef = useRef<HTMLDivElement>(null);
+    const mainViewRef = useRef<HTMLDivElement>(null);
+
     const [isSheetMounted, setIsSheetMounted] = useState(false);
     const [isAnimationOpen, setIsAnimationOpen] = useState(false);
     const [isContentVisible, setIsContentVisible] = useState(false);
@@ -70,7 +72,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         } else if (!isOpen) {
             if (!isSheetMounted) return;
             document.body.style.overflow = 'auto';
-            setAnimationCurve('cubic-bezier(0.32, 0.72, 0, 1)');
+            setAnimationCurve('cubic-bezier(0.55, 0.085, 0.68, 0.53)');
             setIsAnimationOpen(false);
             setIsContentVisible(false);
             const timer = setTimeout(() => {
@@ -90,36 +92,30 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
     const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
         if (dragState.current.isDragging) return;
-        const target = e.target as HTMLElement;
-        const scrollableContent = target.closest<HTMLElement>('[data-scrollable-sheet="true"]');
-        dragState.current = { isDragging: true, startY: e.touches[0].clientY, isSheetDrag: !scrollableContent || scrollableContent.scrollTop === 0 };
+        dragState.current = { isDragging: true, startY: e.touches[0].clientY, isSheetDrag: false };
     };
 
     const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
         if (!dragState.current.isDragging) return;
-      
+
         const currentY = e.touches[0].clientY;
         const deltaY = currentY - dragState.current.startY;
-      
-        if (dragState.current.isSheetDrag) {
-          e.preventDefault();
-          if (deltaY > 0) {
+
+        const target = e.target as HTMLElement;
+        const scrollableContent = target.closest<HTMLElement>('[data-scrollable-sheet="true"]');
+        const isAtTop = !scrollableContent || scrollableContent.scrollTop <= 0;
+
+        if (isAtTop && deltaY > 0) {
+            dragState.current.isSheetDrag = true;
             if (sheetRef.current) {
-              sheetRef.current.style.transition = 'none';
+                sheetRef.current.style.transition = 'none';
             }
             setTranslateY(deltaY);
-          }
-        } else {
-          const target = e.target as HTMLElement;
-          const scrollableContent = target.closest<HTMLElement>('[data-scrollable-sheet="true"]');
-          if (scrollableContent && scrollableContent.scrollTop === 0 && deltaY > 0) {
-            dragState.current.isSheetDrag = true;
-            dragState.current.startY = currentY;
-            if (sheetRef.current) {
-              sheetRef.current.style.transition = 'none';
-            }
-            e.preventDefault();
-          }
+            
+            if (e.cancelable) e.preventDefault(); 
+        } 
+        else {
+            dragState.current.isSheetDrag = false;
         }
     };
     
@@ -138,55 +134,12 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 setTranslateY(0);
             }
         }
-
+        
         dragState.current = { isDragging: false, startY: 0, isSheetDrag: false };
     };
     
     if (!isClient) {
         return <div>{children}</div>;
-    }
-
-    if (isMobile) {
-        return (
-            <>
-                <div onClick={() => setIsOpen(true)}>
-                    {children}
-                </div>
-                {isSheetMounted && (
-                    <div 
-                        className="fixed inset-0 z-50"
-                        role="dialog"
-                        aria-modal="true"
-                        aria-labelledby="sheet-title"
-                    >
-                        <div
-                            className={cn(
-                              "fixed inset-0 bg-black/60 transition-opacity duration-500",
-                              isAnimationOpen ? 'opacity-100' : 'opacity-0'
-                            )}
-                            onClick={closeSheet}
-                        />
-                        <div
-                            ref={sheetRef}
-                            onTouchStart={handleTouchStart}
-                            onTouchMove={handleTouchMove}
-                            onTouchEnd={handleTouchEnd}
-                            className="absolute bottom-0 left-0 right-0 flex h-[70vh] w-full flex-col bg-background rounded-t-[50px] pt-2"
-                            style={{
-                              transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-                              transition: `transform 0.8s ${animationCurve}`,
-                            }}
-                        >
-                            <h2 id="sheet-title" className="sr-only">{t('settings')}</h2>
-                            <div className={cn("flex-1 flex flex-col min-h-0 transition-opacity", isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-[800ms]")}>
-                                {/* Contenu vidé */}
-                                <div className="flex-1" />
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </>
-        );
     }
     
     const onItemClick = (id: string) => {
@@ -220,12 +173,17 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     ];
     
     const MainView = (
-        <div className="w-full h-full flex flex-col flex-shrink-0">
-            <h2 className="text-xl font-bold text-center p-4 pt-6">{t('settings')}</h2>
-            <div data-scrollable-sheet="true" className="flex-1 overflow-y-auto px-4 pt-4 pb-4">
-                <SettingsList onItemClick={onItemClick} />
-            </div>
-        </div>
+      <div className="w-full flex-1 flex flex-col min-h-0 overflow-hidden">
+          {isMobile && <h2 id="sheet-title" className="sr-only">{t('settings')}</h2>}
+          {!isMobile && <h2 className="text-xl font-bold text-center p-4 pt-6">{t('settings')}</h2>}
+          <div 
+              ref={mainViewRef} 
+              data-scrollable-sheet="true" 
+              className="flex-1 overflow-y-auto overscroll-contain px-4 pt-4 pb-20 touch-pan-y"
+          >
+              <SettingsList onItemClick={onItemClick} />
+          </div>
+      </div>
     );
 
     const LanguageView = (
@@ -363,21 +321,66 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     );
 
     const SettingsContent = (
-        <div className={cn("flex-1 overflow-hidden pt-4 flex flex-col")} onClick={(e) => e.stopPropagation()}>
-            <div className={cn(
-                "flex h-full w-[200%]",
-                "transition-transform duration-500 ease-in-out",
-                view !== 'main' ? "-translate-x-1/2" : "translate-x-0"
-            )}>
-                <div className="w-1/2 h-full flex-shrink-0">{MainView}</div>
-                <div className="w-1/2 h-full flex-shrink-0">
-                    {view === 'language' && LanguageView}
-                    {view === 'help' && HelpView}
-                    {view === 'security' && SecurityView}
-                </div>
-            </div>
-        </div>
+      <div 
+          className={cn(
+              "flex-1 flex flex-col min-h-0",
+              "transition-opacity", 
+              isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-[800ms]"
+          )} 
+          onClick={(e) => e.stopPropagation()}
+      >
+          <div className={cn(
+              "flex flex-1 w-[200%] min-h-0",
+              "transition-transform duration-500 ease-in-out",
+              view !== 'main' ? "-translate-x-1/2" : "translate-x-0"
+          )}>
+              <div className="w-1/2 h-full flex flex-col flex-shrink-0">{MainView}</div>
+              <div className="w-1/2 h-full flex flex-col flex-shrink-0">
+                  {view === 'language' && LanguageView}
+                  {view === 'help' && HelpView}
+                  {view === 'security' && SecurityView}
+              </div>
+          </div>
+      </div>
     );
+    
+    if (isMobile) {
+        return (
+            <>
+                <div onClick={() => setIsOpen(true)}>
+                    {children}
+                </div>
+                {isSheetMounted && (
+                    <div 
+                        className="fixed inset-0 z-50"
+                        role="dialog"
+                        aria-modal="true"
+                    >
+                        <div
+                            className={cn(
+                              "fixed inset-0 bg-black/60 transition-opacity duration-500",
+                              isAnimationOpen ? 'opacity-100' : 'opacity-0'
+                            )}
+                            onClick={closeSheet}
+                        />
+                        <div
+                            ref={sheetRef}
+                            onTouchStart={handleTouchStart}
+                            onTouchMove={handleTouchMove}
+                            onTouchEnd={handleTouchEnd}
+                            className="absolute bottom-0 left-0 right-0 flex h-[70vh] w-full flex-col bg-background rounded-t-[50px] pt-2"
+                            style={{
+                              transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
+                              transition: `transform 0.8s ${animationCurve}`,
+                            }}
+                        >
+                            {SettingsContent}
+                        </div>
+                    </div>
+                )}
+            </>
+        );
+    }
     
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
