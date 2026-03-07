@@ -21,7 +21,7 @@ export default function SellerProfilePage() {
   const router = useRouter();
   const id = params.id as string;
   const { handleNavigate, handleBack } = useTransitionRouter();
-  const { publishedEbooks, allEbooks, userProfile, theme } = useEbooks();
+  const { publishedEbooks, allEbooks, userProfile, theme, t } = useEbooks();
   const { toast } = useToast();
   const [isCopied, setIsCopied] = useState(false);
   const isMobile = useIsMobile();
@@ -40,7 +40,7 @@ export default function SellerProfilePage() {
   // The seller profile is static for now, but uses the user's bio and avatar.
   const sellerProfile = {
       username: 'bookline',
-      bio: userProfile.bio || 'Découvrez notre collection d\'ebooks exclusifs sur des sujets variés.',
+      bio: userProfile.bio || t('seller_default_bio'),
       avatarUrl: userProfile.avatarUrl
   };
 
@@ -54,10 +54,34 @@ export default function SellerProfilePage() {
       console.error("Failed to copy username: ", err);
       toast({
         variant: "destructive",
-        title: "Erreur",
-        description: "Impossible de copier le nom d'utilisateur.",
+        title: t('error'),
+        description: t('cannot_copy_username'),
       });
     });
+  };
+
+  const handleShare = async () => {
+    const shareData = {
+      title: `Profil de ${sellerProfile.username} sur BookLine`,
+      text: `Découvrez le profil de ${sellerProfile.username} sur BookLine !`,
+      url: window.location.href,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        toast({ title: t('link_copied') });
+      }
+    } catch (error) {
+      console.error("Error sharing profile:", error);
+      toast({
+        variant: "destructive",
+        title: t('error'),
+        description: t('error_try_again'),
+      });
+    }
   };
 
   const handleEbookClick = (ebook: Ebook) => {
@@ -94,14 +118,14 @@ export default function SellerProfilePage() {
       <div className={cn("flex flex-col min-h-screen text-foreground bg-transparent")}>
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
           <header className="flex items-start justify-between w-full py-6">
-            <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label="Retour">
+            <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label={t('back')}>
               <ChevronLeft className="h-6 w-6" />
             </Button>
             <div className="flex flex-col items-center gap-3">
-              <Button variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label="Partager le profil">
+              <Button onClick={handleShare} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label={t('share_profile')}>
                 <Share2 className="h-6 w-6" />
               </Button>
-              <Button variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label="Signaler le profil">
+              <Button variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label={t('report_profile')}>
                 <AlertCircle className="h-6 w-6" />
               </Button>
             </div>
@@ -139,7 +163,7 @@ export default function SellerProfilePage() {
                 </div>
               ) : (
                 <div className="text-center text-muted-foreground mt-8">
-                  Ce vendeur n'a aucune publication pour le moment.
+                  {t('seller_no_publications')}
                 </div>
               )}
             </div>

@@ -30,7 +30,7 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<ActiveTab>(initialTab);
   const [displayedTab, setDisplayedTab] = useState<ActiveTab>(initialTab);
   const [isContentVisible, setIsContentVisible] = useState(true);
-  const { publishedEbooks, favoritedEbooks, userProfile, purchasedEbooks, theme } = useEbooks();
+  const { publishedEbooks, favoritedEbooks, userProfile, purchasedEbooks, theme, t } = useEbooks();
   const { handleNavigate, handleBack } = useTransitionRouter();
   const userPublications = publishedEbooks;
   const { toast } = useToast();
@@ -54,10 +54,34 @@ export default function ProfilePage() {
       console.error("Failed to copy username: ", err);
       toast({
         variant: "destructive",
-        title: "Erreur",
-        description: "Impossible de copier le nom d'utilisateur.",
+        title: t('error'),
+        description: t('cannot_copy_username'),
       });
     });
+  };
+
+  const handleShare = async () => {
+    const shareData = {
+      title: `Profil de ${userProfile.username} sur BookLine`,
+      text: `Découvrez le profil de ${userProfile.username} sur BookLine !`,
+      url: window.location.href,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        toast({ title: t('link_copied') });
+      }
+    } catch (error) {
+      console.error("Error sharing profile:", error);
+      toast({
+        variant: "destructive",
+        title: t('error'),
+        description: t('error_try_again'),
+      });
+    }
   };
 
   const handleTabChange = (newTab: ActiveTab) => {
@@ -111,7 +135,7 @@ export default function ProfilePage() {
           </div>
         ) : (
           <div className="text-center text-muted-foreground mt-8">
-            Vous n’avez aucun ebook acheté
+            {t('no_purchased_ebooks')}
           </div>
         );
       case 'publications':
@@ -123,7 +147,7 @@ export default function ProfilePage() {
           </div>
         ) : (
           <div className="text-center text-muted-foreground mt-8">
-            Vous n’avez aucun ebook publié
+            {t('no_published_ebooks')}
           </div>
         );
       case 'favoris':
@@ -135,7 +159,7 @@ export default function ProfilePage() {
           </div>
         ) : (
           <div className="text-center text-muted-foreground mt-8">
-            Vous n’avez aucun ebook en favoris
+            {t('no_favorited_ebooks')}
           </div>
         );
       default:
@@ -154,11 +178,11 @@ export default function ProfilePage() {
       <div className={cn("flex flex-col min-h-screen text-foreground bg-transparent")}>
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
           <header className="flex items-start justify-between w-full py-6">
-            <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label="Retour">
+            <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label={t('back')}>
                 <ChevronLeft className="h-6 w-6" />
             </Button>
             <div className="flex flex-col items-center gap-3">
-              <Button variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label="Partager le profil">
+              <Button onClick={handleShare} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label={t('share_profile')}>
                 <Share2 className="h-6 w-6" />
               </Button>
             </div>
