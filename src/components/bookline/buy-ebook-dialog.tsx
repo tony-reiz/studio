@@ -45,7 +45,7 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
 
   useEffect(() => {
     if (open) {
-      setTimeout(() => setView('purchase'), 500); // Reset after transition
+      setView('purchase');
     }
   }, [open]);
 
