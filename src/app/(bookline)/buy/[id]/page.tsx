@@ -82,12 +82,17 @@ export default function BuyEbookPage() {
         toast({ title: t('link_copied') });
       }
     } catch (error) {
-      console.error("Error sharing ebook:", error);
-      toast({
-        variant: "destructive",
-        title: t('error'),
-        description: t('error_try_again'),
-      });
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        toast({ title: t('link_copied') });
+      } catch (copyError) {
+        console.error("Error sharing or copying:", error, copyError);
+        toast({
+          variant: "destructive",
+          title: t('error'),
+          description: t('error_try_again'),
+        });
+      }
     }
   };
 

@@ -43,7 +43,7 @@ export default function EbookViewerPage() {
   const params = useParams();
   const id = params.id as string;
   const { handleNavigate, handleBack } = useTransitionRouter();
-  const { publishedEbooks, removePublishedEbook } = useEbooks();
+  const { publishedEbooks, removePublishedEbook, t } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
   const { toast } = useToast();
 
@@ -144,27 +144,40 @@ export default function EbookViewerPage() {
     if (ebook) {
       removePublishedEbook(ebook.id);
       toast({
-        title: "Ebook supprimé",
-        description: "Votre ebook a été supprimé de vos publications.",
+        title: t('ebook_deleted'),
+        description: t('ebook_deleted_description'),
       });
       handleNavigate('/profile');
     }
   };
   
   const handleShare = async () => {
-    if (navigator.share && ebook) {
-      try {
-        await navigator.share({
-          title: ebook.title,
-          text: `Découvrez cet ebook : ${ebook.title}`,
-          url: window.location.href,
-        });
-      } catch (error) {
-        console.error("Error sharing:", error);
+    if (!ebook) return;
+    const shareData = {
+      title: ebook.title,
+      text: `Découvrez cet ebook : ${ebook.title}`,
+      url: window.location.href,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        toast({ title: t('link_copied') });
       }
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      toast({ title: "Lien copié dans le presse-papiers !" });
+    } catch (error) {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        toast({ title: t('link_copied') });
+      } catch (copyError) {
+        console.error("Error sharing or copying:", error, copyError);
+        toast({
+          variant: "destructive",
+          title: t('error'),
+          description: t('error_try_again'),
+        });
+      }
     }
   };
 
@@ -194,12 +207,12 @@ export default function EbookViewerPage() {
               <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={handleShare}>
                   <Share2 className="mr-2 h-4 w-4" />
-                  <span>Partager</span>
+                  <span>{t('share')}</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleDelete} className="text-destructive focus:text-destructive focus:bg-destructive/10">
                   <Trash2 className="mr-2 h-4 w-4" />
-                  <span>Supprimer</span>
+                  <span>{t('delete')}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -250,11 +263,11 @@ export default function EbookViewerPage() {
           <div className="w-full max-w-[16rem] mx-auto">
               {isClient && isMobile ? (
                   <Button onClick={() => setIsSheetOpen(true)} className="glass-button rounded-full w-full h-12 text-lg font-semibold">
-                      Détail
+                      {t('details')}
                   </Button>
                 ) : (
                   <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="glass-button rounded-full w-full h-12 text-lg font-semibold">
-                      Détail
+                      {t('details')}
                   </Button>
               )}
           </div>
