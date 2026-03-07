@@ -16,7 +16,7 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import dynamic from 'next/dynamic';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useIsMobile } from '@/hooks/use-is-mobile';
 import { EbookDetailsSheet } from '@/components/bookline/ebook-details-sheet';
 
 const Document = dynamic(
@@ -265,11 +265,11 @@ export default function EbookViewerPage() {
           <footer className="fixed bottom-8 left-0 right-0 z-30 p-4 md:bottom-2 md:mb-4" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
             <div className="w-full max-w-[16rem] mx-auto">
                 {isClient && isMobile ? (
-                    <Button onClick={() => setIsSheetOpen(true)} className="glass-button rounded-full w-full h-12 text-lg font-semibold">
+                    <Button onClick={() => setIsSheetOpen(true)} className="bg-black text-white hover:bg-black/90 rounded-full w-full h-12 text-lg font-semibold">
                         {t('details')}
                     </Button>
                   ) : (
-                    <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="glass-button rounded-full w-full h-12 text-lg font-semibold">
+                    <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="bg-black text-white hover:bg-black/90 rounded-full w-full h-12 text-lg font-semibold">
                         {t('details')}
                     </Button>
                 )}
