@@ -3,7 +3,7 @@
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { ChevronLeft, Share2, AlertCircle, Star } from 'lucide-react';
+import { ChevronLeft, Share2, AlertCircle, Star, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
@@ -19,6 +19,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const Document = dynamic(
   () =>
@@ -37,13 +38,15 @@ export default function BuyEbookPage() {
   const params = useParams();
   const id = params.id as string;
   const { handleBack, handleNavigate } = useTransitionRouter();
-  const { allEbooks, purchasedEbooks, purchaseEbook, theme, t, favoritedEbooks } = useEbooks();
+  const { allEbooks, purchasedEbooks, purchaseEbook, theme, t, publishedEbooks, userProfile } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
   const [numPages, setNumPages] = useState<number | null>(null);
   const { toast } = useToast();
   const [isClient, setIsClient] = useState(false);
   const isMobile = useIsMobile();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [view, setView] = useState<'purchase' | 'seller'>('purchase');
+  const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -83,17 +86,20 @@ export default function BuyEbookPage() {
       }
     } catch (error) {
       try {
-        // Fallback to copying
         await navigator.clipboard.writeText(window.location.href);
         toast({ title: t('link_copied') });
       } catch (copyError) {
-        // If everything fails, just ignore it and don't show an error.
+        // silent fail
       }
     }
   };
 
   const handleCardClick = (ebook: Ebook) => {
     // On this page, clicking the card does nothing.
+  };
+  
+  const handleSellerEbookClick = (selectedEbook: Ebook) => {
+    handleNavigate(`/buy/${selectedEbook.id}`);
   };
 
   const isPurchased = ebook ? purchasedEbooks.some(p => p.id === ebook.id) : false;
@@ -115,7 +121,6 @@ export default function BuyEbookPage() {
   
   const handleDialogChange = (open: boolean) => {
     if (!open && !isMobile) {
-      // Use a timeout to allow animation to finish before navigating
       setTimeout(() => handleBack(), 300);
     }
     setIsDialogOpen(open);
@@ -138,6 +143,71 @@ export default function BuyEbookPage() {
 
   const inputClasses = "pl-11 pr-4 h-12 w-full text-base rounded-full flex items-center glass-form-element";
   const textareaClasses = "pl-11 pr-4 h-[148px] w-full text-base rounded-[30px] py-3.5 leading-snug flex items-start overflow-y-auto glass-form-element";
+  
+  // --- Seller Logic ---
+  const publishedEbookIds = new Set(publishedEbooks.map(e => e.id));
+  const sellerEbooks = allEbooks.filter(e => !publishedEbookIds.has(e.id));
+  const sellerProfile = {
+      username: 'bookline',
+      bio: userProfile.bio || t('seller_default_bio'),
+      avatarUrl: userProfile.avatarUrl
+  };
+
+  const handleCopyUsername = () => {
+    if (isCopied) return;
+    if (!sellerProfile.username) return;
+    navigator.clipboard.writeText(sellerProfile.username).then(() => {
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 1000);
+    }).catch(err => {
+      toast({
+        variant: "destructive",
+        title: t('error'),
+        description: t('cannot_copy_username'),
+      });
+    });
+  };
+  // --- End Seller Logic ---
+
+  const SellerContent = (
+    <main className="flex-1 w-full flex flex-col items-center pt-8 overflow-y-auto px-4 pb-8 scrollbar-hide">
+      <div className="flex flex-col items-center">
+          <Avatar className="h-28 w-28 bg-foreground dark:bg-white">
+              <AvatarImage src={sellerProfile.avatarUrl || ''} alt="Photo de profil du vendeur" />
+              <AvatarFallback className="bg-transparent">
+                  <User className="h-12 w-12 text-background dark:text-black" />
+              </AvatarFallback>
+          </Avatar>
+          <div 
+              className={cn(
+              "text-sm font-semibold rounded-full px-16 py-1.5 mt-4 cursor-pointer select-none transition-colors duration-300",
+              isCopied ? 'bg-green-500 text-white' : 'bg-foreground text-background'
+              )}
+              onClick={handleCopyUsername}
+              onContextMenu={(e) => e.preventDefault()}
+          >
+              {sellerProfile.username}
+          </div>
+          {sellerProfile.bio && (
+              <p className="text-center text-muted-foreground mt-4 max-w-sm break-words">{sellerProfile.bio}</p>
+          )}
+      </div>
+      
+      <div className="w-full max-w-sm md:max-w-4xl mt-8">
+          {sellerEbooks.length > 0 ? (
+              <div className="grid grid-cols-2 gap-4">
+              {sellerEbooks.map((ebook) => (
+                  <EbookCard key={ebook.id} ebook={ebook} onCardClick={() => handleSellerEbookClick(ebook)} />
+              ))}
+              </div>
+          ) : (
+              <div className="text-center text-muted-foreground mt-8">
+                {t('seller_no_publications')}
+              </div>
+          )}
+      </div>
+    </main>
+  );
 
   const PurchaseDetailsContent = (
       <main className="flex-1 w-full flex flex-col items-center pt-2 sm:pt-0 pb-8 sm:pb-0 gap-8">
@@ -156,7 +226,7 @@ export default function BuyEbookPage() {
           </div>
           <div className="flex justify-center md:justify-start">
             <div className="w-full max-w-[18rem] md:max-w-xs flex flex-col items-center">
-              <button onClick={() => { if(!isMobile) handleDialogChange(false); handleNavigate('/seller/1'); }} className="w-full group">
+              <button onClick={() => { if(isMobile) { setView('seller'); } else { onOpenChange(false); handleNavigate('/seller/1'); } }} className="w-full group">
                 <div className="w-full bg-black text-white rounded-full py-2 text-sm font-semibold text-center mb-4 group-hover:bg-black/90 transition-colors">
                     {t('seller')}
                 </div>
@@ -251,9 +321,9 @@ export default function BuyEbookPage() {
           </DialogContent>
         </Dialog>
       ) : (
-        <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8 overflow-hidden">
           <header className="flex items-start justify-between w-full py-6">
-            <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label={t('back')}>
+            <Button onClick={view === 'purchase' ? handleBack : () => setView('purchase')} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label={t('back')}>
               <ChevronLeft className="h-6 w-6" />
             </Button>
             <div className="flex flex-col items-center gap-3">
@@ -265,7 +335,10 @@ export default function BuyEbookPage() {
               </Button>
             </div>
           </header>
-          {PurchaseDetailsContent}
+          <div className={cn("flex-1 flex w-[200%] h-full transition-transform duration-500 ease-in-out", view === 'seller' ? '-translate-x-1/2' : 'translate-x-0')}>
+            <div className="w-1/2 h-full flex-shrink-0 flex flex-col">{PurchaseDetailsContent}</div>
+            <div className="w-1/2 h-full flex-shrink-0 flex flex-col">{SellerContent}</div>
+          </div>
         </div>
       )}
     </div>
