@@ -318,7 +318,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
                         "rounded-full w-full h-12 text-lg font-semibold",
                         isPurchased 
                             ? "bg-green-600 text-white hover:bg-green-700"
-                            : "bg-background text-foreground hover:bg-muted"
+                            : "bg-black text-white hover:bg-black/90"
                     )}
                     >
                     {isPurchased ? 'Voir' : 'Payer'}
