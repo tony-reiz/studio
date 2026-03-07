@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef, type TouchEvent } from 'react';
+import { useEffect, useState } from 'react';
 import type { Ebook } from '@/context/ebook-provider';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell } from "recharts";
@@ -38,16 +38,12 @@ interface EbookDetailsSheetProps {
 }
 
 export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsSheetProps) {
-    const sheetRef = useRef<HTMLDivElement>(null);
-    const scrollRef = useRef<HTMLDivElement>(null);
     const [isSheetMounted, setIsSheetMounted] = useState(open);
     const [isAnimationOpen, setIsAnimationOpen] = useState(false);
     const [isContentVisible, setIsContentVisible] = useState(false);
     const [activeEbook, setActiveEbook] = useState<Ebook | null>(ebook);
 
     const [animationCurve, setAnimationCurve] = useState('cubic-bezier(0.32, 0.72, 0, 1)');
-    const [translateY, setTranslateY] = useState(0);
-    const dragState = useRef({ isDragging: false, startY: 0, isSheetDrag: false });
 
     useEffect(() => {
         if (ebook) {
@@ -63,7 +59,6 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
             setAnimationCurve('cubic-bezier(0.32, 0.72, 0, 1)'); // Entry curve
             const timer = setTimeout(() => {
                 setIsAnimationOpen(true);
-                setTranslateY(0);
             }, 10);
             const contentTimer = setTimeout(() => {
                 setIsContentVisible(true);
@@ -87,64 +82,6 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
 
     const closeSheet = () => {
         onOpenChange(false);
-    };
-    
-    const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
-        if (dragState.current.isDragging) return;
-        const target = e.target as HTMLElement;
-        const scrollableContent = target.closest<HTMLElement>('[data-scrollable-sheet="true"]');
-        dragState.current = { isDragging: true, startY: e.touches[0].clientY, isSheetDrag: !scrollableContent || scrollableContent.scrollTop === 0 };
-    };
-    
-    const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
-        if (!dragState.current.isDragging) return;
-      
-        const currentY = e.touches[0].clientY;
-        const deltaY = currentY - dragState.current.startY;
-      
-        if (dragState.current.isSheetDrag) {
-          // If we are dragging the sheet, prevent default to stop content scroll
-          e.preventDefault();
-          // Only allow dragging down
-          if (deltaY > 0) {
-            if (sheetRef.current) {
-              sheetRef.current.style.transition = 'none';
-            }
-            setTranslateY(deltaY);
-          }
-        } else {
-          // If we are not dragging the sheet, it means we are scrolling content.
-          // We check if the scroll hits the top, and if so, we switch to sheet dragging.
-          const target = e.target as HTMLElement;
-          const scrollableContent = target.closest<HTMLElement>('[data-scrollable-sheet="true"]');
-          if (scrollableContent && scrollableContent.scrollTop === 0 && deltaY > 0) {
-            dragState.current.isSheetDrag = true;
-            dragState.current.startY = currentY; // Reset startY to prevent jump
-            if (sheetRef.current) {
-              sheetRef.current.style.transition = 'none';
-            }
-            e.preventDefault(); // Prevent scroll bounce
-          }
-        }
-    };
-    
-    const handleTouchEnd = () => {
-        if (!dragState.current.isDragging) return;
-
-        if (sheetRef.current) {
-            sheetRef.current.style.transition = ''; // Re-enable CSS transition
-        }
-
-        if (dragState.current.isSheetDrag) {
-            const sheetHeight = sheetRef.current?.clientHeight || 0;
-            if (translateY > sheetHeight / 4) {
-                closeSheet();
-            } else {
-                setTranslateY(0);
-            }
-        }
-
-        dragState.current = { isDragging: false, startY: 0, isSheetDrag: false };
     };
 
     const numberOfSales = 0;
@@ -171,19 +108,15 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
                 onClick={closeSheet}
             />
             <div
-                ref={sheetRef}
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
                 className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] pt-6"
                 style={{
-                    transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
+                    transform: `translateY(${isAnimationOpen ? 0 : window.innerHeight}px)`,
                     transition: `transform 0.8s ${animationCurve}`,
                 }}
             >
                 <h2 id="sheet-title" className="sr-only">Détails de l'ebook</h2>
                 
-                <div ref={scrollRef} data-scrollable-sheet="true" className="overflow-y-auto p-4" onClick={(e) => e.stopPropagation()}>
+                <div className="overflow-y-auto p-4" onClick={(e) => e.stopPropagation()}>
                     <div className={cn("transition-opacity pt-4", isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-[800ms]")}>
                         {activeEbook && (
                             <main className="w-full space-y-6 pb-12">
