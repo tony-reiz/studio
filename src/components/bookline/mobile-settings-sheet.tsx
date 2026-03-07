@@ -12,8 +12,14 @@ import {
   Dialog,
   DialogContent,
   DialogTrigger,
-  DialogTitle,
+  DialogTitle as UIDialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerTrigger,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 import {
   Accordion,
   AccordionContent,
@@ -22,7 +28,6 @@ import {
 } from "@/components/ui/accordion";
 import { useEbooks } from '@/context/ebook-provider';
 import type { Locale } from '@/lib/translations';
-import { FluidSheet } from './fluid-sheet';
 
 type View = 'main' | 'language' | 'help' | 'security';
 
@@ -102,7 +107,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
           {isMobile && <h2 id="sheet-title" className="sr-only">{t('settings')}</h2>}
           {!isMobile && <h2 className="text-xl font-bold text-center p-4 pt-6">{t('settings')}</h2>}
           <div 
-              data-scrollable-sheet="true" 
               className="flex-1 overflow-y-auto overscroll-contain px-4 pt-4 pb-20 touch-pan-y"
           >
               <SettingsList onItemClick={onItemClick} />
@@ -137,7 +141,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
                 </div>
             </div>
-            <div data-scrollable-sheet="true" className="flex-1 overflow-y-auto px-4 pb-4">
+            <div className="flex-1 overflow-y-auto px-4 pb-4">
                 {searchQuery && (
                     <ul className="w-full space-y-2">
                         {filteredLanguages.map((lang) => (
@@ -177,7 +181,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     <p className="text-muted-foreground text-sm mt-1">{t('help_center_subtitle')}</p>
                 </div>
             </div>
-            <div data-scrollable-sheet="true" className="flex-1 overflow-y-auto px-4 pb-4">
+            <div className="flex-1 overflow-y-auto px-4 pb-4">
                 <Accordion type="single" collapsible className="w-full">
                     {faqs.map(faq => (
                       <AccordionItem value={faq.id} key={faq.id}>
@@ -206,7 +210,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     <p className="text-muted-foreground text-sm mt-1">{t('manage_account_security')}</p>
                 </div>
             </div>
-            <div data-scrollable-sheet="true" className="flex-1 overflow-y-auto px-4 pb-4">
+            <div className="flex-1 overflow-y-auto px-4 pb-4">
                 <ul className="w-full space-y-2">
                     <li>
                         <button className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors">
@@ -269,14 +273,16 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     
     if (isMobile) {
         return (
-            <>
-                <div onClick={() => setIsOpen(true)}>
+            <Drawer open={isOpen} onOpenChange={setIsOpen}>
+                <DrawerTrigger asChild>
                     {children}
-                </div>
-                <FluidSheet open={isOpen} onOpenChange={setIsOpen} className="h-[70vh]">
-                    {SettingsContent}
-                </FluidSheet>
-            </>
+                </DrawerTrigger>
+                <DrawerContent className="rounded-t-[50px] h-[70vh] flex flex-col bg-background border-0 p-0">
+                    <div className="relative flex-1 pt-4">
+                        {SettingsContent}
+                    </div>
+                </DrawerContent>
+            </Drawer>
         );
     }
     
@@ -286,7 +292,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 {children}
             </DialogTrigger>
             <DialogContent className="max-w-2xl w-full p-0 bg-transparent border-none shadow-xl">
-                 <DialogTitle className="sr-only">{t('settings')}</DialogTitle>
+                 <UIDialogTitle className="sr-only">{t('settings')}</UIDialogTitle>
                  <div className="h-[60vh] flex flex-col bg-background rounded-[50px] overflow-hidden">
                     {SettingsContent}
                  </div>
