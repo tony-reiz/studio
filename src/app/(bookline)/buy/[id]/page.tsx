@@ -120,10 +120,10 @@ export default function BuyEbookPage() {
   };
   
   const handleDialogChange = (open: boolean) => {
+    setIsDialogOpen(open);
     if (!open && !isMobile) {
       setTimeout(() => handleBack(), 300);
     }
-    setIsDialogOpen(open);
   };
 
   if (!isClient || !ebook) {
@@ -215,18 +215,18 @@ export default function BuyEbookPage() {
           <div className="flex justify-center md:justify-end">
             <div className="w-full max-w-[18rem] md:max-w-xs">
               <div className="flex justify-center gap-1 mb-4">
-                  <Star className="w-8 h-8 text-black fill-black" />
-                  <Star className="w-8 h-8 text-black fill-black" />
-                  <Star className="w-8 h-8 text-black fill-black" />
-                  <Star className="w-8 h-8 text-white fill-white stroke-white" />
-                  <Star className="w-8 h-8 text-white fill-white stroke-white" />
+                  <Star className="w-8 h-8 text-foreground fill-foreground" />
+                  <Star className="w-8 h-8 text-foreground fill-foreground" />
+                  <Star className="w-8 h-8 text-foreground fill-foreground" />
+                  <Star className={cn("w-8 h-8", theme === 'light' ? 'text-[#DFDFDF] fill-[#DFDFDF]' : 'text-white fill-white')} />
+                  <Star className={cn("w-8 h-8", theme === 'light' ? 'text-[#DFDFDF] fill-[#DFDFDF]' : 'text-white fill-white')} />
               </div>
               <EbookCard ebook={ebook} onCardClick={handleCardClick} />
             </div>
           </div>
           <div className="flex justify-center md:justify-start">
             <div className="w-full max-w-[18rem] md:max-w-xs flex flex-col items-center">
-              <button onClick={() => { if(isMobile) { setView('seller'); } else { onOpenChange(false); handleNavigate('/seller/1'); } }} className="w-full group">
+              <button onClick={() => { if(isMobile) { setView('seller'); } else { handleDialogChange(false); handleNavigate('/seller/1'); } }} className="w-full group">
                 <div className="w-full bg-black text-white rounded-full py-2 text-sm font-semibold text-center mb-4 group-hover:bg-black/90 transition-colors">
                     {t('seller')}
                 </div>
@@ -344,3 +344,5 @@ export default function BuyEbookPage() {
     </div>
   );
 }
+
+    
