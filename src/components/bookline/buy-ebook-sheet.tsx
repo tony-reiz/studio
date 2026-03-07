@@ -16,7 +16,7 @@ import { FluidSheet } from './fluid-sheet';
 const Document = dynamic(
   () =>
     import('react-pdf').then((mod) => {
-      mod.pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
+      mod.pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${mod.pdfjs.version}/build/pdf.worker.min.mjs`;
       return mod.Document;
     }),
   {
