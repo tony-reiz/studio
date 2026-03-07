@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
@@ -226,7 +227,7 @@ export default function BuyEbookPage() {
           </div>
           <div className="flex justify-center md:justify-start">
             <div className="w-full max-w-[18rem] md:max-w-xs flex flex-col items-center">
-              <button onClick={() => { if(isMobile) { setView('seller'); } else { onOpenChange(false); handleNavigate('/seller/1'); } }} className="w-full group">
+              <button onClick={() => { if(isMobile) { setView('seller'); } else { setIsDialogOpen(false); handleNavigate('/seller/1'); } }} className="w-full group">
                 <div className="w-full bg-black text-white rounded-full py-2 text-sm font-semibold text-center mb-4 group-hover:bg-black/90 transition-colors">
                     {t('seller')}
                 </div>
