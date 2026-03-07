@@ -301,7 +301,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
                                     <p>frais de service</p>
                                     <p>total de l'ebook</p>
                                 </div>
-                                <div className='bg-background text-foreground rounded-l-[30px] px-8 py-4 text-sm flex flex-col justify-center text-right space-y-1'>
+                                <div className='bg-black text-white rounded-l-[30px] px-8 py-4 text-sm flex flex-col justify-center text-right space-y-1'>
                                     <p>{formatPrice(ebookPriceNumber)}</p>
                                     <p>{formatPrice(CUSTOMER_FEE)}</p>
                                     <p>{formatPrice(totalPriceForCustomer)}</p>
