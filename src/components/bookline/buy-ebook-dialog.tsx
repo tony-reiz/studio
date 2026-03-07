@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { Share2, AlertCircle, Star, ChevronLeft, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
-import { useTransitionRouter } => '@/app/(bookline)/layout';
+import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { cn } from '@/lib/utils';
 import dynamic from 'next/dynamic';
 import { Badge } from '@/components/ui/badge';
