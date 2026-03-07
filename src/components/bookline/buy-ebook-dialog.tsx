@@ -42,44 +42,51 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
   const { toast } = useToast();
   const [view, setView] = useState<'purchase' | 'seller'>('purchase');
   const [isCopied, setIsCopied] = useState(false);
+  const [currentEbook, setCurrentEbook] = useState<Ebook | null>(ebook);
 
   useEffect(() => {
     if (open) {
+      setCurrentEbook(ebook);
       setView('purchase');
     }
-  }, [open]);
-
+  }, [ebook, open]);
+  
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
+  };
+  
+  const handleSellerEbookClick = (selectedEbook: Ebook) => {
+    setCurrentEbook(selectedEbook);
+    setView('purchase');
   };
 
   const handleCardClick = (ebook: Ebook) => {
     // On this page, clicking the card does nothing.
   };
 
-  const isPurchased = ebook ? purchasedEbooks.some(p => p.id === ebook.id) : false;
+  const isPurchased = currentEbook ? purchasedEbooks.some(p => p.id === currentEbook.id) : false;
 
   const handlePayment = () => {
-    if (!ebook) return;
+    if (!currentEbook) return;
 
     if (isPurchased) {
       onOpenChange(false);
-      handleNavigate(`/ebook/${ebook.id}`);
+      handleNavigate(`/ebook/${currentEbook.id}`);
     } else {
-      purchaseEbook(ebook);
+      purchaseEbook(currentEbook);
       toast({
         title: t('payment_successful'),
-        description: `${t('you_can_now_read')} "${ebook.title}".`,
+        description: `${t('you_can_now_read')} "${currentEbook.title}".`,
       });
     }
   };
   
-  if (!ebook) {
+  if (!currentEbook) {
     return null;
   }
 
   const CUSTOMER_FEE = 3.5;
-  const ebookPriceNumber = parseFloat(ebook.price.replace(',', '.')) || 0;
+  const ebookPriceNumber = parseFloat(currentEbook.price.replace(',', '.')) || 0;
   const totalPriceForCustomer = ebookPriceNumber + CUSTOMER_FEE;
 
   const formatPrice = (value: number | null): string => {
@@ -121,15 +128,15 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
 
   return (
     <>
-       {ebook.pdfDataUrl.startsWith('data:application/pdf') && (
+       {currentEbook.pdfDataUrl.startsWith('data:application/pdf') && (
         <div className="hidden">
-          <Document file={ebook.pdfDataUrl} onLoadSuccess={onDocumentLoadSuccess} />
+          <Document file={currentEbook.pdfDataUrl} onLoadSuccess={onDocumentLoadSuccess} />
         </div>
       )}
       
       <Dialog open={open} onOpenChange={handleDialogChange}>
         <DialogContent className="max-w-4xl w-full p-0 bg-transparent border-none shadow-xl">
-          <DialogTitle className="sr-only">{t('buy_ebook')} {ebook.title}</DialogTitle>
+          <DialogTitle className="sr-only">{t('buy_ebook')} {currentEbook.title}</DialogTitle>
           <div className="h-[80vh] max-h-[800px] bg-background rounded-[50px] overflow-hidden">
             <div
               className={cn(
@@ -150,7 +157,7 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
                             <Star className="w-8 h-8 text-white fill-white stroke-white" />
                             <Star className="w-8 h-8 text-white fill-white stroke-white" />
                         </div>
-                        <EbookCard ebook={ebook} onCardClick={handleCardClick} />
+                        <EbookCard ebook={currentEbook} onCardClick={handleCardClick} />
                       </div>
                     </div>
                     <div className="flex justify-center md:justify-start">
@@ -176,20 +183,20 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
                           <div className="relative w-full">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground">T</span>
                             <div className={cn(inputClasses, "overflow-x-auto scrollbar-hide")}>
-                              <p className="text-foreground whitespace-nowrap">{ebook.title}</p>
+                              <p className="text-foreground whitespace-nowrap">{currentEbook.title}</p>
                             </div>
                           </div>
                           <div className="relative w-full">
                             <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-foreground">D</span>
                             <div className={cn(textareaClasses, 'whitespace-pre-wrap')}>
-                              <p className="text-foreground">{ebook.description}</p>
+                              <p className="text-foreground">{currentEbook.description}</p>
                             </div>
                           </div>
                           <div className="relative w-full">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground z-10">M</span>
                             <div className="h-12 w-full text-base border-0 rounded-full flex items-center p-0 overflow-hidden glass-form-element">
                               <div className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-4 scrollbar-hide">
-                                {ebook.keywords.split(',').map((keyword, index) => (
+                                {currentEbook.keywords.split(',').map((keyword, index) => (
                                   <Badge key={index} variant="default" className="flex-shrink-0 whitespace-nowrap rounded-full py-1 px-3">
                                     {keyword.trim()}
                                   </Badge>
@@ -237,7 +244,7 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
                           <ChevronLeft className="h-6 w-6" />
                       </Button>
                   </header>
-                  <main className="flex-1 w-full flex flex-col items-center overflow-y-auto scrollbar-hide pt-20">
+                  <main className="flex-1 w-full flex flex-col items-center pt-20 overflow-y-auto scrollbar-hide">
                       <div className="flex flex-col items-center">
                           <Avatar className="h-28 w-28 bg-foreground dark:bg-[#393939]">
                               <AvatarImage src={sellerProfile.avatarUrl || ''} alt="Photo de profil du vendeur" />
@@ -264,7 +271,7 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
                           {sellerEbooks.length > 0 ? (
                               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
                               {sellerEbooks.map((ebook) => (
-                                  <EbookCard key={ebook.id} ebook={ebook} onCardClick={() => {}} />
+                                  <EbookCard key={ebook.id} ebook={ebook} onCardClick={() => handleSellerEbookClick(ebook)} />
                               ))}
                               </div>
                           ) : (
