@@ -24,7 +24,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 const Document = dynamic(
   () =>
     import('react-pdf').then((mod) => {
-      mod.pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${mod.pdfjs.version}/build/pdf.worker.min.mjs`;
+      mod.pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${mod.pdfjs.version}/build/pdf.worker.min.mjs`;
       return mod.Document;
     }),
   {
@@ -226,7 +226,7 @@ export default function BuyEbookPage() {
           </div>
           <div className="flex justify-center md:justify-start">
             <div className="w-full max-w-[18rem] md:max-w-xs flex flex-col items-center">
-              <button onClick={() => { if(isMobile) { setView('seller'); } else { handleDialogChange(false); setTimeout(() => handleNavigate('/seller/1'), 500); } }} className="w-full group">
+              <button onClick={() => { if(isMobile) { setView('seller'); } else { handleDialogChange(false); setTimeout(() => handleNavigate('/seller/1'), 300); } }} className="w-full group">
                 <div className="w-full bg-black text-white rounded-full py-2 text-sm font-semibold text-center mb-4 group-hover:bg-black/90 transition-colors">
                     {t('seller')}
                 </div>
