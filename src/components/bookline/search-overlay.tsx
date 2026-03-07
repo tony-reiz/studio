@@ -10,6 +10,7 @@ import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { BuyEbookSheet } from './buy-ebook-sheet';
+import { BuyEbookDialog } from './buy-ebook-dialog';
 import { useRouter } from 'next/navigation';
 
 interface SearchOverlayProps {
@@ -32,6 +33,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
   const { publishedEbooks, selectedInterests } = useEbooks();
   const isMobile = useIsMobile();
   const [selectedEbook, setSelectedEbook] = useState<Ebook | null>(null);
+  const [isBuyDialogOpen, setIsBuyDialogOpen] = useState(false);
 
   // This effect handles visibility, animations, and remounting of content
   useEffect(() => {
@@ -123,16 +125,23 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
         onClose();
         setTimeout(() => handleNavigate(`/ebook/${ebook.id}`), 500);
     } else {
+        setSelectedEbook(ebook);
         if (isMobile) {
-            setSelectedEbook(ebook);
+            // The BuyEbookSheet component handles its own visibility
         } else {
-            onClose();
-            router.push(`/buy/${ebook.id}`);
+            setIsBuyDialogOpen(true);
         }
     }
   };
 
   const handleSheetOpenChange = (open: boolean) => {
+    if (!open) {
+        setSelectedEbook(null);
+    }
+  };
+
+  const handleDialogOpenChange = (open: boolean) => {
+    setIsBuyDialogOpen(open);
     if (!open) {
         setSelectedEbook(null);
     }
@@ -272,7 +281,11 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
           </div>
         </div>
       </div>
-      <BuyEbookSheet ebook={selectedEbook} onOpenChange={handleSheetOpenChange} />
+      {isMobile ? (
+        <BuyEbookSheet ebook={selectedEbook} onOpenChange={handleSheetOpenChange} />
+      ) : (
+        <BuyEbookDialog ebook={selectedEbook} open={isBuyDialogOpen} onOpenChange={handleDialogOpenChange} />
+      )}
     </>
   );
 }

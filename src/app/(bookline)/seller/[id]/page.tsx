@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { BuyEbookSheet } from '@/components/bookline/buy-ebook-sheet';
+import { BuyEbookDialog } from '@/components/bookline/buy-ebook-dialog';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 
@@ -26,6 +27,7 @@ export default function SellerProfilePage() {
   const isMobile = useIsMobile();
   const [selectedEbook, setSelectedEbook] = useState<Ebook | null>(null);
   const [isClient, setIsClient] = useState(false);
+  const [isBuyDialogOpen, setIsBuyDialogOpen] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -59,14 +61,22 @@ export default function SellerProfilePage() {
   };
 
   const handleEbookClick = (ebook: Ebook) => {
+    setSelectedEbook(ebook);
     if (isMobile) {
-        setSelectedEbook(ebook);
+      // The BuyEbookSheet component handles its own visibility based on the 'ebook' prop.
     } else {
-        router.push(`/buy/${ebook.id}`);
+      setIsBuyDialogOpen(true);
     }
   };
 
   const handleSheetOpenChange = (open: boolean) => {
+    if (!open) {
+        setSelectedEbook(null);
+    }
+  };
+  
+  const handleDialogOpenChange = (open: boolean) => {
+    setIsBuyDialogOpen(open);
     if (!open) {
         setSelectedEbook(null);
     }
@@ -136,7 +146,11 @@ export default function SellerProfilePage() {
           </main>
         </div>
       </div>
-      <BuyEbookSheet ebook={selectedEbook} onOpenChange={handleSheetOpenChange} />
+      {isMobile ? (
+        <BuyEbookSheet ebook={selectedEbook} onOpenChange={handleSheetOpenChange} />
+      ) : (
+        <BuyEbookDialog ebook={selectedEbook} open={isBuyDialogOpen} onOpenChange={handleDialogOpenChange} />
+      )}
     </>
   );
 }
