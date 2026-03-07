@@ -123,11 +123,11 @@ export default function BuyEbookPage() {
             <div className="flex justify-center md:justify-end">
               <div className="w-full max-w-[18rem] md:max-w-xs">
                 <div className="flex justify-center gap-1 mb-4">
-                    <Star className="w-8 h-8 text-foreground fill-foreground" />
-                    <Star className="w-8 h-8 text-foreground fill-foreground" />
-                    <Star className="w-8 h-8 text-foreground fill-foreground" />
-                    <Star className="w-8 h-8 text-foreground fill-background" />
-                    <Star className="w-8 h-8 text-foreground fill-background" />
+                    <Star className="w-8 h-8 text-black fill-black" />
+                    <Star className="w-8 h-8 text-black fill-black" />
+                    <Star className="w-8 h-8 text-black fill-black" />
+                    <Star className="w-8 h-8 text-white fill-white" />
+                    <Star className="w-8 h-8 text-white fill-white" />
                 </div>
                 <EbookCard ebook={ebook} onCardClick={handleCardClick} />
               </div>
