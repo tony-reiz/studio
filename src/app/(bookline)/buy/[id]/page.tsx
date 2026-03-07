@@ -37,7 +37,7 @@ export default function BuyEbookPage() {
   const params = useParams();
   const id = params.id as string;
   const { handleBack, handleNavigate } = useTransitionRouter();
-  const { allEbooks, purchasedEbooks, purchaseEbook, theme, t } = useEbooks();
+  const { allEbooks, purchasedEbooks, purchaseEbook, theme, t, favoritedEbooks } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
   const [numPages, setNumPages] = useState<number | null>(null);
   const { toast } = useToast();

@@ -21,7 +21,7 @@ export default function SellerProfilePage() {
   const router = useRouter();
   const id = params.id as string;
   const { handleNavigate, handleBack } = useTransitionRouter();
-  const { publishedEbooks, allEbooks, userProfile, theme, t } = useEbooks();
+  const { favoritedEbooks, publishedEbooks, allEbooks, userProfile, theme, t } = useEbooks();
   const { toast } = useToast();
   const [isCopied, setIsCopied] = useState(false);
   const isMobile = useIsMobile();

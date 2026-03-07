@@ -37,7 +37,7 @@ interface BuyEbookDialogProps {
 
 export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProps) {
   const { handleNavigate } = useTransitionRouter();
-  const { purchasedEbooks, purchaseEbook, allEbooks, publishedEbooks, userProfile, t } = useEbooks();
+  const { favoritedEbooks, purchasedEbooks, purchaseEbook, allEbooks, publishedEbooks, userProfile, t } = useEbooks();
   const [numPages, setNumPages] = useState<number | null>(null);
   const { toast } = useToast();
   const [view, setView] = useState<'purchase' | 'seller'>('purchase');
