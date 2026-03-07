@@ -74,13 +74,7 @@ export default function ProfilePage() {
         toast({ title: t('link_copied') });
       }
     } catch (error) {
-      try {
-        // Fallback to copying
-        await navigator.clipboard.writeText(window.location.href);
-        toast({ title: t('link_copied') });
-      } catch (copyError) {
-        // If everything fails, just ignore it and don't show an error.
-      }
+      // Silently fail
     }
   };
 
@@ -125,46 +119,41 @@ export default function ProfilePage() {
   };
 
   const renderContent = () => {
+    let ebooksToShow: Ebook[] = [];
+    let emptyMessage: string = '';
+    let clickAction: 'buy' | 'read' = 'read';
+
     switch (displayedTab) {
-      case 'achats':
-        return purchasedEbooks.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-            {purchasedEbooks.map((ebook) => (
-              <EbookCard key={`achat-${ebook.id}`} ebook={ebook} onCardClick={(e) => handleEbookClick(e, 'read')} />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center text-muted-foreground mt-8">
-            {t('no_purchased_ebooks')}
-          </div>
-        );
-      case 'publications':
-        return userPublications.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-            {userPublications.map((ebook) => (
-              <EbookCard key={ebook.id} ebook={ebook} onCardClick={(e) => handleEbookClick(e, 'read')} />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center text-muted-foreground mt-8">
-            {t('no_published_ebooks')}
-          </div>
-        );
-      case 'favoris':
-        return favoritedEbooks.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-            {favoritedEbooks.map((ebook) => (
-              <EbookCard key={`fav-${ebook.id}`} ebook={ebook} onCardClick={(e) => handleEbookClick(e, 'buy')} />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center text-muted-foreground mt-8">
-            {t('no_favorited_ebooks')}
-          </div>
-        );
-      default:
-        return null;
+        case 'achats':
+            ebooksToShow = purchasedEbooks;
+            emptyMessage = t('no_purchased_ebooks');
+            clickAction = 'read';
+            break;
+        case 'publications':
+            ebooksToShow = userPublications;
+            emptyMessage = t('no_published_ebooks');
+            clickAction = 'read';
+            break;
+        case 'favoris':
+            ebooksToShow = favoritedEbooks;
+            emptyMessage = t('no_favorited_ebooks');
+            clickAction = 'buy';
+            break;
+        default:
+            return null;
     }
+
+    return ebooksToShow.length > 0 ? (
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
+            {ebooksToShow.map((ebook) => (
+                <EbookCard key={`${displayedTab}-${ebook.id}`} ebook={ebook} onCardClick={(e) => handleEbookClick(e, clickAction)} />
+            ))}
+        </div>
+    ) : (
+        <div className="text-center text-muted-foreground mt-8">
+            {emptyMessage}
+        </div>
+    );
   };
 
   return (
@@ -190,7 +179,7 @@ export default function ProfilePage() {
 
           <main className="flex-1 w-full flex flex-col items-center pb-8">
             <div className="flex flex-col items-center">
-              <Avatar className="h-28 w-28 bg-foreground dark:bg-black">
+              <Avatar className="h-28 w-28 bg-foreground dark:bg-[#171717]">
                 <AvatarImage src={userProfile.avatarUrl || ''} alt="Photo de profil de l'utilisateur" />
                 <AvatarFallback className="bg-transparent">
                   <User className="h-12 w-12 text-background dark:text-foreground" />

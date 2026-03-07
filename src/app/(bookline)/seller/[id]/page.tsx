@@ -74,13 +74,7 @@ export default function SellerProfilePage() {
         toast({ title: t('link_copied') });
       }
     } catch (error) {
-      try {
-        // Fallback to copying
-        await navigator.clipboard.writeText(window.location.href);
-        toast({ title: t('link_copied') });
-      } catch (copyError) {
-        // If everything fails, just ignore it and don't show an error.
-      }
+      // Silently fail
     }
   };
 
@@ -133,7 +127,7 @@ export default function SellerProfilePage() {
 
           <main className="flex-1 w-full flex flex-col items-center pt-16 pb-8">
             <div className="flex flex-col items-center">
-              <Avatar className="h-28 w-28 bg-foreground dark:bg-black">
+              <Avatar className="h-28 w-28 bg-foreground dark:bg-[#171717]">
                 <AvatarImage src={sellerProfile.avatarUrl || ''} alt="Photo de profil du vendeur" />
                 <AvatarFallback className="bg-transparent">
                   <User className="h-12 w-12 text-background dark:text-foreground" />

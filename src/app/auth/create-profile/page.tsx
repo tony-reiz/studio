@@ -20,12 +20,12 @@ export default function CreateProfilePage() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [imageToCrop, setImageToCrop] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { updateUserProfile, userProfile } = useEbooks();
+  const { updateUserProfile, userProfile, t } = useEbooks();
   const { toast } = useToast();
 
   useEffect(() => {
     setIsMounted(true);
-    if (userProfile.username !== 'utilisateur') {
+    if (userProfile.username !== 'utilisateur' && userProfile.username !== 'user') {
       setUsername(userProfile.username);
     }
     if (userProfile.bio) {
@@ -52,8 +52,8 @@ export default function CreateProfilePage() {
     if (existingUsernames.includes(newUsername.toLowerCase())) {
       toast({
         variant: "destructive",
-        title: "Nom d'utilisateur non disponible",
-        description: "Ce nom d'utilisateur est déjà pris. Veuillez en choisir un autre.",
+        title: t('username_not_available'),
+        description: t('username_taken'),
       });
       return;
     }
@@ -105,8 +105,8 @@ export default function CreateProfilePage() {
         <header className="w-full py-6">
             <div className="flex flex-col items-start">
               <div>
-                <p className="text-[24px] font-bold tracking-widest text-foreground">FINALISEZ</p>
-                <h1 className="text-[46px] sm:text-[58px] font-extrabold -mt-4 bg-gradient-to-r from-primary via-foreground to-primary bg-clip-text text-transparent bg-[200%_auto] animate-shimmer">L’INSCRIPTION !</h1>
+                <p className="text-[24px] font-bold tracking-widest text-foreground">{t('finalize')}</p>
+                <h1 className="text-[46px] sm:text-[58px] font-extrabold -mt-4 bg-gradient-to-r from-primary via-foreground to-primary bg-clip-text text-transparent bg-[200%_auto] animate-shimmer">{t('registration')}</h1>
               </div>
             </div>
         </header>
@@ -121,7 +121,7 @@ export default function CreateProfilePage() {
                 accept="image/*"
                 className="hidden"
               />
-              <Avatar className="h-32 w-32 bg-foreground dark:bg-black">
+              <Avatar className="h-32 w-32 bg-foreground dark:bg-[#171717]">
                 {avatarUrl ? (
                   <AvatarImage src={avatarUrl} alt="Photo de profil de l'utilisateur" style={{ objectFit: 'cover' }} />
                 ) : (
@@ -140,7 +140,7 @@ export default function CreateProfilePage() {
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">N</span>
                 <Input
                   type="text"
-                  placeholder="Nom d'utilisateur"
+                  placeholder={t('username_placeholder')}
                   value={username}
                   onChange={handleUsernameChange}
                   className={inputClasses}
@@ -150,7 +150,7 @@ export default function CreateProfilePage() {
                 <div className="relative w-full">
                   <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-muted-foreground">B</span>
                   <Textarea
-                    placeholder="Biographie (optionnel)"
+                    placeholder={t('bio_placeholder')}
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
                     onKeyDown={(e) => {
@@ -180,7 +180,7 @@ export default function CreateProfilePage() {
                     !isSaveDisabled && "animate-pulse-subtle"
                 )}
             >
-                Enregistrer
+                {t('save')}
             </Button>
         </div>
       </div>
