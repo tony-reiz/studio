@@ -18,6 +18,7 @@ import {
   Drawer,
   DrawerContent,
   DrawerTrigger,
+  DrawerTitle,
 } from "@/components/ui/drawer";
 import {
   Accordion,
@@ -100,21 +101,19 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     ];
     
     const MainView = (
-      <div className="w-full h-full flex flex-col">
-          <div className="shrink-0">
+      <>
+          <div className="px-4 pt-6 shrink-0">
             {isMobile && <h2 id="sheet-title" className="sr-only">{t('settings')}</h2>}
             {!isMobile && <h2 className="text-xl font-bold text-center p-4 pt-6">{t('settings')}</h2>}
           </div>
-          <div 
-              className="flex-1 overflow-y-auto px-4 pt-4 pb-20"
-          >
+          <div className="flex-1 overflow-y-auto px-4 pt-4 pb-20">
               <SettingsList onItemClick={onItemClick} />
           </div>
-      </div>
+      </>
     );
 
     const LanguageView = (
-        <div className="w-full h-full flex flex-col flex-shrink-0">
+        <>
             <div className="px-4 pt-6 shrink-0">
                 <div className="flex items-center justify-center relative mb-2">
                     <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
@@ -163,11 +162,11 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </ul>
                 )}
             </div>
-        </div>
+        </>
     );
     
     const HelpView = (
-        <div className="w-full h-full flex flex-col flex-shrink-0">
+        <>
              <div className="px-4 pt-6 shrink-0">
                 <div className="flex items-center justify-center relative mb-2">
                     <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
@@ -192,11 +191,11 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     ))}
                 </Accordion>
             </div>
-        </div>
+        </>
     );
 
     const SecurityView = (
-        <div className="w-full h-full flex flex-col flex-shrink-0">
+        <>
              <div className="px-4 pt-6 shrink-0">
                 <div className="flex items-center justify-center relative mb-2">
                     <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
@@ -244,7 +243,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </li>
                 </ul>
             </div>
-        </div>
+        </>
     );
 
     const SettingsContent = (
@@ -260,8 +259,8 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
               "transition-transform duration-500 ease-in-out",
               view !== 'main' ? "-translate-x-1/2" : "translate-x-0"
           )}>
-              <div className="w-1/2 h-full">{MainView}</div>
-              <div className="w-1/2 h-full">
+              <div className="w-1/2 h-full flex flex-col">{MainView}</div>
+              <div className="w-1/2 h-full flex flex-col">
                   {view === 'language' && LanguageView}
                   {view === 'help' && HelpView}
                   {view === 'security' && SecurityView}
@@ -276,7 +275,8 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <DrawerTrigger asChild>
                     {children}
                 </DrawerTrigger>
-                <DrawerContent className="rounded-t-[50px] h-[70vh] flex flex-col bg-background border-0 p-0 pt-4">
+                <DrawerContent className="rounded-t-[50px] h-[70vh] flex flex-col bg-background border-0 p-0">
+                    <DrawerTitle className="sr-only">{t('settings')}</DrawerTitle>
                     {SettingsContent}
                 </DrawerContent>
             </Drawer>
