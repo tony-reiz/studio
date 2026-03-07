@@ -257,13 +257,13 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
                                 </button>
                             </div>
                             <div className="w-full grid grid-cols-3 gap-2 mb-4">
-                                <div className="bg-background text-foreground rounded-full py-2 text-sm font-semibold text-center">
+                                <div className="bg-black text-white rounded-full py-2 text-sm font-semibold text-center">
                                     {formatPrice(totalPriceForCustomer)}
                                 </div>
-                                <div className="bg-background text-foreground rounded-full py-2 text-sm font-semibold text-center">
+                                <div className="bg-black text-white rounded-full py-2 text-sm font-semibold text-center">
                                     {numPages ? `${numPages} p` : '178 p'}
                                 </div>
-                                <div className="bg-background text-foreground rounded-full py-2 text-sm font-semibold text-center">
+                                <div className="bg-black text-white rounded-full py-2 text-sm font-semibold text-center">
                                     12/07/2024
                                 </div>
                             </div>
