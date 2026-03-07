@@ -70,13 +70,19 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
             open={open}
             onOpenChange={onOpenChange}
             aria-labelledby="sheet-title"
-            className="max-h-[80vh]"
+            className="max-h-[80vh] flex flex-col"
         >
-            <h2 id="sheet-title" className="sr-only">Détails de l'ebook</h2>
-            <div data-scrollable-sheet="true" className="overflow-y-auto p-4">
-                <div className={cn("transition-opacity pt-4", isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-[800ms]")}>
+            <div className='h-full flex flex-col'>
+                <h2 id="sheet-title" className="sr-only shrink-0">Détails de l'ebook</h2>
+                <div 
+                    data-scrollable-sheet="true" 
+                    className={cn(
+                        "flex-1 overflow-y-auto p-4 transition-opacity", 
+                        isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-[800ms]"
+                    )}
+                >
                     {activeEbook && (
-                        <main className="w-full space-y-6 pb-12">
+                        <main className="w-full space-y-6 pt-4 pb-12">
                             <div className="border-0 shadow-none bg-transparent">
                                 <div className="p-0 pb-4">
                                     <h2 className="text-2xl font-semibold leading-none tracking-tight">{activeEbook.title}</h2>
