@@ -369,7 +369,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                         >
                             <h2 id="sheet-title" className="sr-only">{t('settings')}</h2>
                             <div className={cn("flex-1 flex flex-col min-h-0 transition-opacity", isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-[800ms]")}>
-                                {SettingsContent}
+                                <div className="flex-1" />
                             </div>
                         </div>
                     </div>
