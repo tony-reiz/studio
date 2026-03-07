@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { Share2, AlertCircle, Star, ChevronLeft, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
-import { useTransitionRouter } from '@/app/(bookline)/layout';
+import { useTransitionRouter } => '@/app/(bookline)/layout';
 import { cn } from '@/lib/utils';
 import dynamic from 'next/dynamic';
 import { Badge } from '@/components/ui/badge';
@@ -20,7 +20,7 @@ import {
 const Document = dynamic(
   () =>
     import('react-pdf').then((mod) => {
-      mod.pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${mod.pdfjs.version}/build/pdf.worker.min.mjs`;
+      mod.pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${mod.pdfjs.version}/build/pdf.worker.min.js`;
       return mod.Document;
     }),
   {
