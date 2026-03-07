@@ -22,7 +22,7 @@ import { EbookDetailsSheet } from '@/components/bookline/ebook-details-sheet';
 const Document = dynamic(
   () =>
     import('react-pdf').then((mod) => {
-      mod.pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${mod.pdfjs.version}/build/pdf.worker.min.js`;
+      mod.pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${mod.pdfjs.version}/build/pdf.worker.js`;
       return mod.Document;
     }),
   {
@@ -53,6 +53,7 @@ export default function EbookViewerPage() {
   const [isPdfVisible, setIsPdfVisible] = useState(false);
   
   const viewerRef = useRef<HTMLDivElement>(null);
+  const widthRef = useRef<HTMLDivElement>(null);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
@@ -76,8 +77,8 @@ export default function EbookViewerPage() {
     pageRefs.current = Array(numPages).fill(null);
 
     const setWidth = () => {
-      if (viewerRef.current) {
-        setContainerWidth(viewerRef.current.clientWidth);
+      if (widthRef.current) {
+        setContainerWidth(widthRef.current.clientWidth);
       }
     };
     setWidth();
@@ -229,36 +230,38 @@ export default function EbookViewerPage() {
         )}
 
         <main ref={viewerRef} className="flex-1 overflow-y-auto" style={{ paddingTop: `calc(env(safe-area-inset-top) + 4rem)`, paddingBottom: '8rem' }}>
-            <Document
-                file={ebook.pdfDataUrl}
-                onLoadSuccess={onDocumentLoadSuccess}
-                loading={
-                  <div className="flex h-full w-full items-center justify-center pt-20">
-                    <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-                  </div>
-                }
-                className={cn(
-                    "flex flex-col items-center transition-opacity duration-500 ease-in-out",
-                    isPdfVisible ? "opacity-100" : "opacity-0"
-                )}
-            >
-                {Array.from(new Array(numPages || 0), (el, index) => (
-                    <div
-                        key={`page_${index + 1}`}
-                        ref={(el) => (pageRefs.current[index] = el)}
-                        data-page-number={index + 1}
-                        className="w-full px-0 sm:px-4 mb-4 flex justify-center"
-                    >
-                        <Page
-                            pageNumber={index + 1}
-                            width={containerWidth ? containerWidth : undefined}
-                            className={cn(!containerWidth && 'invisible')}
-                            renderTextLayer={false}
-                            renderAnnotationLayer={false}
-                        />
-                    </div>
-                ))}
-            </Document>
+            <div ref={widthRef} className="w-full md:max-w-4xl mx-auto">
+                <Document
+                    file={ebook.pdfDataUrl}
+                    onLoadSuccess={onDocumentLoadSuccess}
+                    loading={
+                      <div className="flex h-full w-full items-center justify-center pt-20">
+                        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                      </div>
+                    }
+                    className={cn(
+                        "flex flex-col items-center transition-opacity duration-500 ease-in-out",
+                        isPdfVisible ? "opacity-100" : "opacity-0"
+                    )}
+                >
+                    {Array.from(new Array(numPages || 0), (el, index) => (
+                        <div
+                            key={`page_${index + 1}`}
+                            ref={(el) => (pageRefs.current[index] = el)}
+                            data-page-number={index + 1}
+                            className="w-full px-0 sm:px-4 mb-4 flex justify-center"
+                        >
+                            <Page
+                                pageNumber={index + 1}
+                                width={containerWidth ? containerWidth : undefined}
+                                className={cn(!containerWidth && 'invisible')}
+                                renderTextLayer={false}
+                                renderAnnotationLayer={false}
+                            />
+                        </div>
+                    ))}
+                </Document>
+            </div>
         </main>
 
         {isOwner && (
