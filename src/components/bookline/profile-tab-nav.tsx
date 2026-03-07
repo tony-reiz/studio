@@ -26,7 +26,7 @@ export function ProfileTabNav({ activeTab, setActiveTab }: ProfileTabNavProps) {
   return (
     <div className="glass-form-element rounded-full flex relative items-center w-full max-w-sm md:max-w-lg mx-auto mt-4 mb-4">
       <div
-        className="absolute top-0 h-full w-1/3 rounded-full bg-foreground dark:bg-[#393939] transition-all duration-500 ease-in-out"
+        className="absolute top-0 h-full w-1/3 rounded-full bg-foreground dark:bg-[#171717] transition-all duration-500 ease-in-out"
         style={{ left: getLeftPosition() }}
       />
       <button
