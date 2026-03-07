@@ -154,7 +154,7 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
                       className={cn(
                         'h-7 w-7 transition-colors drop-shadow-md',
                         isFavorited
-                          ? 'text-foreground fill-foreground'
+                          ? 'text-black fill-black'
                           : 'text-white fill-white'
                       )}
                     />
