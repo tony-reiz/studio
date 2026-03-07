@@ -141,7 +141,54 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
         dragState.current = { isDragging: false, startY: 0, isSheetDrag: false };
     };
+    
+    if (!isClient) {
+        return <div>{children}</div>;
+    }
 
+    if (isMobile) {
+        return (
+            <>
+                <div onClick={() => setIsOpen(true)}>
+                    {children}
+                </div>
+                {isSheetMounted && (
+                    <div 
+                        className="fixed inset-0 z-50"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="sheet-title"
+                    >
+                        <div
+                            className={cn(
+                              "fixed inset-0 bg-black/60 transition-opacity duration-500",
+                              isAnimationOpen ? 'opacity-100' : 'opacity-0'
+                            )}
+                            onClick={closeSheet}
+                        />
+                        <div
+                            ref={sheetRef}
+                            onTouchStart={handleTouchStart}
+                            onTouchMove={handleTouchMove}
+                            onTouchEnd={handleTouchEnd}
+                            className="absolute bottom-0 left-0 right-0 flex h-[70vh] w-full flex-col bg-background rounded-t-[50px] pt-2"
+                            style={{
+                              transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
+                              transition: `transform 0.8s ${animationCurve}`,
+                            }}
+                        >
+                            <h2 id="sheet-title" className="sr-only">{t('settings')}</h2>
+                            <div className={cn("flex-1 flex flex-col min-h-0 transition-opacity", isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-[800ms]")}>
+                                {/* Contenu vidé */}
+                                <div className="flex-1" />
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </>
+        );
+    }
+    
     const onItemClick = (id: string) => {
         if (id === 'language') setView('language');
         else if (id === 'help') setView('help');
@@ -331,52 +378,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             </div>
         </div>
     );
-    
-    if (!isClient) {
-        return <div>{children}</div>;
-    }
-
-    if (isMobile) {
-        return (
-            <>
-                <div onClick={() => setIsOpen(true)}>
-                    {children}
-                </div>
-                {isSheetMounted && (
-                    <div 
-                        className="fixed inset-0 z-50"
-                        role="dialog"
-                        aria-modal="true"
-                        aria-labelledby="sheet-title"
-                    >
-                        <div
-                            className={cn(
-                              "fixed inset-0 bg-black/60 transition-opacity duration-500",
-                              isAnimationOpen ? 'opacity-100' : 'opacity-0'
-                            )}
-                            onClick={closeSheet}
-                        />
-                        <div
-                            ref={sheetRef}
-                            onTouchStart={handleTouchStart}
-                            onTouchMove={handleTouchMove}
-                            onTouchEnd={handleTouchEnd}
-                            className="absolute bottom-0 left-0 right-0 flex max-h-[80vh] w-full flex-col bg-background rounded-t-[50px] pt-2"
-                            style={{
-                              transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
-                              transition: `transform 0.8s ${animationCurve}`,
-                            }}
-                        >
-                            <h2 id="sheet-title" className="sr-only">{t('settings')}</h2>
-                            <div className={cn("flex-1 flex flex-col min-h-0 transition-opacity", isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-[800ms]")}>
-                                <div className="flex-1" />
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </>
-        );
-    }
     
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
