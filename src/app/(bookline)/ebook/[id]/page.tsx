@@ -16,7 +16,7 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import dynamic from 'next/dynamic';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
-import { useIsMobile } from '@/hooks/use-is-mobile';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { EbookDetailsSheet } from '@/components/bookline/ebook-details-sheet';
 
 const Document = dynamic(
