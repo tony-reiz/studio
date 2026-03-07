@@ -251,7 +251,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
                         <div className="w-full max-w-[18rem] md:max-w-xs flex flex-col items-center">
                             <div className="w-full">
                                 <button onClick={handleSellerNavigate} className="w-full group">
-                                    <div className="w-full bg-background text-foreground rounded-full py-2 text-sm font-semibold text-center mb-4 group-hover:bg-muted transition-colors">
+                                    <div className="w-full bg-black text-white rounded-full py-2 text-sm font-semibold text-center mb-4 group-hover:bg-black/90 transition-colors">
                                         vendeur
                                     </div>
                                 </button>
