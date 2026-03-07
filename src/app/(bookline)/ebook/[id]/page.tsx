@@ -43,7 +43,7 @@ export default function EbookViewerPage() {
   const params = useParams();
   const id = params.id as string;
   const { handleNavigate, handleBack } = useTransitionRouter();
-  const { publishedEbooks, removePublishedEbook, t } = useEbooks();
+  const { publishedEbooks, removePublishedEbook, t, allEbooks } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
   const { toast } = useToast();
 
@@ -62,12 +62,14 @@ export default function EbookViewerPage() {
     setIsClient(true);
   }, []);
 
+  const isOwner = ebook ? publishedEbooks.some(p => p.id === ebook.id) : false;
+
   useEffect(() => {
-    if (id && publishedEbooks.length > 0) {
-      const foundEbook = publishedEbooks.find((e) => e.id === id);
+    if (id && allEbooks.length > 0) {
+      const foundEbook = allEbooks.find((e) => e.id === id);
       setEbook(foundEbook);
     }
-  }, [id, publishedEbooks]);
+  }, [id, allEbooks]);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -205,11 +207,15 @@ export default function EbookViewerPage() {
                   <Share2 className="mr-2 h-4 w-4" />
                   <span>{t('share')}</span>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleDelete} className="text-destructive focus:text-destructive focus:bg-destructive/10">
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  <span>{t('delete')}</span>
-                </DropdownMenuItem>
+                {isOwner && (
+                  <>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleDelete} className="text-destructive focus:text-destructive focus:bg-destructive/10">
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      <span>{t('delete')}</span>
+                    </DropdownMenuItem>
+                  </>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -255,21 +261,23 @@ export default function EbookViewerPage() {
             </Document>
         </main>
 
-        <footer className="fixed bottom-8 left-0 right-0 z-30 p-4 md:bottom-2 md:mb-4" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
-          <div className="w-full max-w-[16rem] mx-auto">
-              {isClient && isMobile ? (
-                  <Button onClick={() => setIsSheetOpen(true)} className="glass-button rounded-full w-full h-12 text-lg font-semibold">
-                      {t('details')}
-                  </Button>
-                ) : (
-                  <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="glass-button rounded-full w-full h-12 text-lg font-semibold">
-                      {t('details')}
-                  </Button>
-              )}
-          </div>
-        </footer>
+        {isOwner && (
+          <footer className="fixed bottom-8 left-0 right-0 z-30 p-4 md:bottom-2 md:mb-4" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
+            <div className="w-full max-w-[16rem] mx-auto">
+                {isClient && isMobile ? (
+                    <Button onClick={() => setIsSheetOpen(true)} className="glass-button rounded-full w-full h-12 text-lg font-semibold">
+                        {t('details')}
+                    </Button>
+                  ) : (
+                    <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="glass-button rounded-full w-full h-12 text-lg font-semibold">
+                        {t('details')}
+                    </Button>
+                )}
+            </div>
+          </footer>
+        )}
       </div>
-      {isClient && isMobile && (
+      {isOwner && isClient && isMobile && (
         <EbookDetailsSheet ebook={ebook} open={isSheetOpen} onOpenChange={setIsSheetOpen} />
       )}
     </>
