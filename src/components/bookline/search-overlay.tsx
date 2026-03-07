@@ -10,6 +10,7 @@ import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { BuyEbookSheet } from './buy-ebook-sheet';
+import { useRouter } from 'next/navigation';
 
 interface SearchOverlayProps {
   isOpen: boolean;
@@ -27,6 +28,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
   const [overlayRunId, setOverlayRunId] = useState(0); // This will be used to force remount
   const inputRef = useRef<HTMLInputElement>(null);
   const { handleNavigate } = useTransitionRouter();
+  const router = useRouter();
   const { publishedEbooks, selectedInterests } = useEbooks();
   const isMobile = useIsMobile();
   const [selectedEbook, setSelectedEbook] = useState<Ebook | null>(null);
@@ -125,7 +127,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
             setSelectedEbook(ebook);
         } else {
             onClose();
-            setTimeout(() => handleNavigate(`/buy/${ebook.id}`), 500);
+            router.push(`/buy/${ebook.id}`);
         }
     }
   };

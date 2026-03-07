@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { ChevronLeft, User, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
@@ -20,6 +20,7 @@ type ActiveTab = 'achats' | 'publications' | 'favoris';
 
 export default function ProfilePage() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const initialTabQuery = searchParams.get('tab');
   const initialTab: ActiveTab = initialTabQuery === 'achats' || initialTabQuery === 'publications' || initialTabQuery === 'favoris' 
                                     ? initialTabQuery 
@@ -76,7 +77,7 @@ export default function ProfilePage() {
         if (isMobile) {
             setSelectedEbook(ebook);
         } else {
-            handleNavigate(`/buy/${ebook.id}`);
+            router.push(`/buy/${ebook.id}`);
         }
     } else {
         handleNavigate(`/ebook/${ebook.id}`);

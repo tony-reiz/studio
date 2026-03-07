@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { User, Share2, ChevronLeft, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
@@ -17,6 +17,7 @@ import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background
 
 export default function SellerProfilePage() {
   const params = useParams();
+  const router = useRouter();
   const id = params.id as string;
   const { handleNavigate, handleBack } = useTransitionRouter();
   const { publishedEbooks, allEbooks, userProfile, theme } = useEbooks();
@@ -61,7 +62,7 @@ export default function SellerProfilePage() {
     if (isMobile) {
         setSelectedEbook(ebook);
     } else {
-        handleNavigate(`/buy/${ebook.id}`);
+        router.push(`/buy/${ebook.id}`);
     }
   };
 
