@@ -2,7 +2,7 @@
 
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import { useEffect, useState } from 'react';
-import { Share2, AlertCircle, Star } from 'lucide-react';
+import { Share2, AlertCircle, Star, ChevronLeft, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookCard } from '@/components/bookline/ebook-card';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 import dynamic from 'next/dynamic';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Dialog,
   DialogContent,
@@ -36,9 +37,17 @@ interface BuyEbookDialogProps {
 
 export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProps) {
   const { handleNavigate } = useTransitionRouter();
-  const { purchasedEbooks, purchaseEbook } = useEbooks();
+  const { purchasedEbooks, purchaseEbook, allEbooks, publishedEbooks, userProfile, t } = useEbooks();
   const [numPages, setNumPages] = useState<number | null>(null);
   const { toast } = useToast();
+  const [view, setView] = useState<'purchase' | 'seller'>('purchase');
+
+  useEffect(() => {
+    if (open) {
+      // Reset to purchase view with a small delay to avoid animation glitch on open
+      setTimeout(() => setView('purchase'), 0);
+    }
+  }, [open]);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -59,12 +68,12 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
     } else {
       purchaseEbook(ebook);
       toast({
-        title: "Achat réussi !",
-        description: `Vous pouvez maintenant lire "${ebook.title}".`,
+        title: t('payment_successful'),
+        description: `${t('you_can_now_read')} "${ebook.title}".`,
       });
     }
   };
-
+  
   if (!ebook) {
     return null;
   }
@@ -86,16 +95,10 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
   const handleDialogChange = (isOpen: boolean) => {
     onOpenChange(isOpen);
   };
-  
-  const handleSellerNavigate = () => {
-      onOpenChange(false);
-      // Use a timeout to ensure dialog closes before navigation starts
-      setTimeout(() => handleNavigate('/seller/1'), 300);
-  }
 
   const PurchaseDetailsContent = (
-      <main className="flex-1 w-full flex flex-col items-center pt-2 sm:pt-0 pb-8 sm:pb-0 gap-8">
-        <div className="grid md:grid-cols-2 items-start gap-4 w-full max-w-5xl">
+      <main className="flex-1 w-full flex flex-col items-center pt-2 sm:pt-0 gap-8">
+        <div className="grid md:grid-cols-2 items-start gap-4 w-full">
           <div className="flex justify-center md:justify-end">
             <div className="w-full max-w-[18rem] md:max-w-xs">
               <div className="flex justify-center gap-1 mb-4">
@@ -110,9 +113,9 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
           </div>
           <div className="flex justify-center md:justify-start">
             <div className="w-full max-w-[18rem] md:max-w-xs flex flex-col items-center">
-              <button onClick={handleSellerNavigate} className="w-full group">
+              <button onClick={() => setView('seller')} className="w-full group">
                 <div className="w-full bg-black text-white rounded-full py-2 text-sm font-semibold text-center mb-4 group-hover:bg-black/90 transition-colors">
-                    vendeur
+                    {t('seller')}
                 </div>
               </button>
               <div className="w-full grid grid-cols-3 gap-2 mb-4">
@@ -156,9 +159,9 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
 
               <div className="w-full rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden glass-form-element">
                 <div className='pl-6 py-4 text-sm text-foreground space-y-1 flex flex-col justify-center'>
-                  <p>prix de l'ebook</p>
-                  <p>frais de service</p>
-                  <p>total de l'ebook</p>
+                  <p>{t('ebook_price')}</p>
+                  <p>{t('service_fee')}</p>
+                  <p>{t('total_ebook_price')}</p>
                 </div>
                 <div className='bg-black text-white rounded-l-[30px] px-8 py-4 text-sm flex flex-col justify-center text-right space-y-1'>
                   <p>{formatPrice(ebookPriceNumber)}</p>
@@ -169,7 +172,7 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
             </div>
           </div>
         </div>
-        <div className="max-w-[16rem] w-full">
+        <div className="max-w-[16rem] w-full mt-8">
           <Button
             onClick={handlePayment}
             className={cn(
@@ -179,11 +182,84 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
                   : "bg-black text-white hover:bg-black/90"
             )}
           >
-            {isPurchased ? 'Voir' : 'Payer'}
+            {isPurchased ? t('view') : t('pay')}
           </Button>
         </div>
       </main>
   );
+
+  const SellerDetailsContent = () => {
+    const publishedEbookIds = new Set(publishedEbooks.map(e => e.id));
+    const sellerEbooks = allEbooks.filter(e => !publishedEbookIds.has(e.id));
+    const sellerProfile = {
+        username: 'bookline',
+        bio: userProfile.bio || t('seller_default_bio'),
+        avatarUrl: userProfile.avatarUrl
+    };
+    const [isCopied, setIsCopied] = useState(false);
+
+    const handleCopyUsername = () => {
+      if (isCopied) return;
+      if (!sellerProfile.username) return;
+      navigator.clipboard.writeText(sellerProfile.username).then(() => {
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 1000);
+      }).catch(err => {
+        toast({
+          variant: "destructive",
+          title: t('error'),
+          description: t('cannot_copy_username'),
+        });
+      });
+    };
+    
+    return (
+        <div className="w-full flex flex-col h-full">
+            <header className="flex items-center w-full pb-4 shrink-0">
+                <Button onClick={() => setView('purchase')} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label={t('back')}>
+                    <ChevronLeft className="h-6 w-6" />
+                </Button>
+            </header>
+            <main className="flex-1 w-full flex flex-col items-center overflow-y-auto scrollbar-hide">
+                <div className="flex flex-col items-center">
+                    <Avatar className="h-28 w-28 bg-foreground dark:bg-[#393939]">
+                        <AvatarImage src={sellerProfile.avatarUrl || ''} alt="Photo de profil du vendeur" />
+                        <AvatarFallback className="bg-transparent">
+                            <User className="h-12 w-12 text-background dark:text-foreground" />
+                        </AvatarFallback>
+                    </Avatar>
+                    <div 
+                        className={cn(
+                        "text-sm font-semibold rounded-full px-16 py-1.5 mt-4 cursor-pointer select-none transition-colors duration-300",
+                        isCopied ? 'bg-green-500 text-white' : 'bg-foreground text-background'
+                        )}
+                        onClick={handleCopyUsername}
+                        onContextMenu={(e) => e.preventDefault()}
+                    >
+                        {sellerProfile.username}
+                    </div>
+                    {sellerProfile.bio && (
+                        <p className="text-center text-muted-foreground mt-4 max-w-sm break-words">{sellerProfile.bio}</p>
+                    )}
+                </div>
+                
+                <div className="w-full max-w-sm md:max-w-4xl mt-8">
+                    {sellerEbooks.length > 0 ? (
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
+                        {sellerEbooks.map((ebook) => (
+                            <EbookCard key={ebook.id} ebook={ebook} onCardClick={() => {}} />
+                        ))}
+                        </div>
+                    ) : (
+                        <div className="text-center text-muted-foreground mt-8">
+                        {t('seller_no_publications')}
+                        </div>
+                    )}
+                </div>
+            </main>
+        </div>
+    );
+  }
 
   return (
     <>
@@ -195,9 +271,20 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
       
       <Dialog open={open} onOpenChange={handleDialogChange}>
         <DialogContent className="max-w-4xl w-full p-0 bg-transparent border-none shadow-xl">
-          <DialogTitle className="sr-only">Acheter l'ebook {ebook.title}</DialogTitle>
-          <div className="h-auto flex flex-col bg-background rounded-[50px] overflow-hidden p-8">
-            {PurchaseDetailsContent}
+          <DialogTitle className="sr-only">{t('buy_ebook')} {ebook.title}</DialogTitle>
+          <div className="h-[80vh] max-h-[800px] flex flex-col bg-background rounded-[50px] overflow-hidden p-8 relative">
+            <div className={cn(
+                "absolute inset-8 transition-all duration-500 ease-in-out",
+                view === 'seller' ? 'opacity-0 -translate-x-16' : 'opacity-100 translate-x-0'
+            )}>
+              {PurchaseDetailsContent}
+            </div>
+            <div className={cn(
+                "absolute inset-8 transition-all duration-500 ease-in-out",
+                view === 'purchase' ? 'opacity-0 translate-x-16' : 'opacity-100 translate-x-0'
+            )}>
+              {view === 'seller' && <SellerDetailsContent />}
+            </div>
           </div>
         </DialogContent>
       </Dialog>
