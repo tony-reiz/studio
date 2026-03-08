@@ -7,6 +7,7 @@ import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/f
 import { cn } from '@/lib/utils';
 import { KeywordInput } from './keyword-input';
 import { useEbooks } from '@/context/ebook-provider';
+import { BVCouleur } from './BVCouleur';
 
 export function SellForm() {
     const { control, watch } = useFormContext();
@@ -118,10 +119,13 @@ export function SellForm() {
                 <p>{t('your_net_gain')}</p>
                 <p>{t('total_ebook_price')}</p>
             </div>
-            <div className='bg-foreground text-background rounded-l-[30px] px-8 py-4 text-sm flex flex-col justify-center text-right space-y-1'>
-                <p className="font-semibold">{formatPrice(ebookPrice)}</p>
-                <p className="font-semibold">{formatPrice(netGain)}</p>
-                <p className="font-semibold">{formatPrice(totalPriceForCustomer)}</p>
+            <div className='relative overflow-hidden rounded-l-[30px] flex flex-col justify-center'>
+                <BVCouleur id="sell-form-price-canvas" className="bv-couleur-canvas" />
+                <div className='relative z-[2] px-8 py-4 text-sm text-right space-y-1'>
+                    <p className="font-semibold text-white">{formatPrice(ebookPrice)}</p>
+                    <p className="font-semibold text-white">{formatPrice(netGain)}</p>
+                    <p className="font-semibold text-white">{formatPrice(totalPriceForCustomer)}</p>
+                </div>
             </div>
         </div>
     </div>
