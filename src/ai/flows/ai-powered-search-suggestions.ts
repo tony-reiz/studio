@@ -33,7 +33,9 @@ const prompt = ai.definePrompt({
   input: {schema: EbookSearchSuggestionInputSchema},
   output: {schema: EbookSearchSuggestionOutputSchema},
   prompt: `You are an AI assistant that provides autocomplete for ebook keywords.
-Based on the user's partial input, generate up to 5 keyword suggestions that start with the provided partial query. The suggestions should be relevant for ebooks. Do not suggest keywords that do not start with the partial query.
+Based on the user's partial input, generate up to 5 keyword suggestions that start with the provided partial query. The suggestions should be relevant for ebooks.
+IMPORTANT: Only suggest keywords that begin with the exact partial query provided.
+If you cannot find any relevant suggestions that start with the partial query, or if the partial query seems like a made-up word (like 'trkltrkltrkl'), you MUST return only the partial query itself as the single suggestion.
 
 Partial Query: {{{partialQuery}}}`,
 });
