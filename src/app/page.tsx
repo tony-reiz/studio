@@ -39,7 +39,7 @@ export default function LandingPage() {
   const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
   const [chartData, setChartData] = useState(initialChartData);
-  const { theme } = useEbooks();
+  const { theme, t } = useEbooks();
 
   useEffect(() => {
     setIsMounted(true);
@@ -97,14 +97,14 @@ export default function LandingPage() {
             "text-5xl md:text-7xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 transition-all duration-700 ease-out",
             isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
           )}>
-            La Matrice de Vente
+            {t('sales_matrix')}
           </h2>
 
           <p className={cn(
             "mt-6 max-w-xl text-lg text-muted-foreground transition-all duration-700 ease-out delay-200",
             isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
           )}>
-            Libérez votre potentiel. Publiez vos ebooks, partagez votre savoir et générez des revenus en toute simplicité.
+            {t('hero_subtitle')}
           </p>
 
           <Button
@@ -116,7 +116,7 @@ export default function LandingPage() {
               isMounted && "delay-300"
             )}
           >
-            Commencer
+            {t('get_started')}
           </Button>
         </section>
 
@@ -129,33 +129,33 @@ export default function LandingPage() {
                 "flex flex-col items-center transition-all duration-700 ease-out delay-[400ms]",
                 isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"
               )}>
-                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-background mb-6 transition-transform duration-300 hover:scale-110">
-                    <Feather className="w-8 h-8 text-primary" />
+                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-black mb-6 transition-transform duration-300 hover:scale-110">
+                    <Feather className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Publication Facile</h3>
-                <p className="text-muted-foreground">Mettez en ligne vos ebooks en quelques clics grâce à notre interface intuitive.</p>
+                <h3 className="text-xl font-semibold mb-2">{t('easy_publication')}</h3>
+                <p className="text-muted-foreground">{t('easy_publication_desc')}</p>
               </div>
 
               <div className={cn(
                 "flex flex-col items-center transition-all duration-700 ease-out delay-[550ms]",
                 isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"
               )}>
-                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-background mb-6 transition-transform duration-300 hover:scale-110">
-                    <DollarSign className="w-8 h-8 text-primary" />
+                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-black mb-6 transition-transform duration-300 hover:scale-110">
+                    <DollarSign className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Monétisation Simple</h3>
-                <p className="text-muted-foreground">Fixez votre prix et suivez vos revenus directement depuis votre tableau de bord.</p>
+                <h3 className="text-xl font-semibold mb-2">{t('simple_monetization')}</h3>
+                <p className="text-muted-foreground">{t('simple_monetization_desc')}</p>
               </div>
 
               <div className={cn(
                 "flex flex-col items-center transition-all duration-700 ease-out delay-[700ms]",
                 isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"
               )}>
-                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-background mb-6 transition-transform duration-300 hover:scale-110">
-                    <ShieldCheck className="w-8 h-8 text-primary" />
+                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-black mb-6 transition-transform duration-300 hover:scale-110">
+                    <ShieldCheck className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Paiements Sécurisés</h3>
-                <p className="text-muted-foreground">Toutes les transactions sont sécurisées par notre partenaire de confiance, Stripe.</p>
+                <h3 className="text-xl font-semibold mb-2">{t('secure_payments')}</h3>
+                <p className="text-muted-foreground">{t('secure_payments_desc')}</p>
               </div>
             </div>
           </div>
@@ -168,13 +168,13 @@ export default function LandingPage() {
                     "text-4xl font-bold tracking-tight transition-all duration-700 ease-out delay-[800ms]",
                     isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
                 )}>
-                    Visualisez Votre Succès
+                    {t('visualize_success')}
                 </h2>
                 <p className={cn(
                     "mt-4 max-w-2xl mx-auto text-lg text-muted-foreground transition-all duration-700 ease-out delay-[900ms]",
                     isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
                 )}>
-                    Notre tableau de bord intuitif vous permet de suivre vos ventes, revenus et engagement en temps réel.
+                    {t('visualize_success_desc')}
                 </p>
                 <div className={cn(
                     "mt-12 max-w-4xl mx-auto h-[24rem] transition-all duration-1000 ease-out delay-[1000ms]",
@@ -217,12 +217,12 @@ export default function LandingPage() {
             <h2 className={cn(
                 "text-4xl font-bold tracking-tight transition-all duration-700 ease-out delay-300",
                 isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
-            )}>Prêt à vous lancer ?</h2>
+            )}>{t('ready_to_start')}</h2>
             <p className={cn(
                 "mt-4 max-w-2xl mx-auto text-lg text-muted-foreground transition-all duration-700 ease-out delay-500",
                 isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
             )}>
-                Rejoignez des milliers de créateurs et commencez à vendre vos ebooks dès aujourd'hui.
+                {t('ready_to_start_desc')}
             </p>
             <Button 
                 onClick={() => handleNavigate('/auth')} 
@@ -232,29 +232,29 @@ export default function LandingPage() {
                     isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
                 )}
             >
-                Publier mon premier ebook
+                {t('publish_first_ebook')}
             </Button>
         </section>
       </main>
       
       <footer className="border-t">
         <div className="container mx-auto text-center text-muted-foreground py-6 text-sm">
-          <p>&copy; {new Date().getFullYear()} BookLine. Tous droits réservés.</p>
+          <p>&copy; {new Date().getFullYear()} BookLine. {t('all_rights_reserved')}</p>
           <div className="mt-2">
             {isClient && isMobile ? (
               <TermsSheet>
-                <button className="underline hover:text-foreground mx-2">Conditions d'utilisation</button>
+                <button className="underline hover:text-foreground mx-2">{t('terms_of_use')}</button>
               </TermsSheet>
             ) : (
-              <a href="/terms" className="underline hover:text-foreground mx-2">Conditions d'utilisation</a>
+              <a href="/terms" className="underline hover:text-foreground mx-2">{t('terms_of_use')}</a>
             )}
             <span className="mx-2">|</span>
             {isClient && isMobile ? (
               <PrivacySheet>
-                <button className="underline hover:text-foreground mx-2">Politique de confidentialité</button>
+                <button className="underline hover:text-foreground mx-2">{t('privacy_policy')}</button>
               </PrivacySheet>
             ) : (
-              <a href="/privacy" className="hover:text-foreground mx-2">Politique de confidentialité</a>
+              <a href="/privacy" className="hover:text-foreground mx-2">{t('privacy_policy')}</a>
             )}
           </div>
         </div>
