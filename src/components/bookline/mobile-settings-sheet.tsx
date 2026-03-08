@@ -434,22 +434,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
                 </div>
             </div>
-             <div className={cn("p-4 bg-transparent", isMobile ? 'fixed bottom-6 left-0 right-0' : 'absolute bottom-6 left-0 right-0')}>
-                <div className="w-full max-w-[16rem] mx-auto">
-                    <button
-                        onClick={handleSave}
-                        disabled={isSaveDisabled}
-                        className={cn(
-                            "rounded-full w-full h-12 text-lg font-semibold",
-                            isSaveDisabled 
-                            ? "bg-muted text-muted-foreground cursor-not-allowed" 
-                            : "glass-button"
-                        )}
-                    >
-                        <span>{t('save')}</span>
-                    </button>
-                </div>
-            </div>
         </>
     );
 
@@ -476,6 +460,25 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
           </div>
       </div>
     );
+
+    const SaveButton = (
+        <div className={cn("p-4 bg-transparent", isMobile ? 'fixed bottom-2 left-0 right-0' : 'absolute bottom-2 left-0 right-0')}>
+            <div className="w-full max-w-[16rem] mx-auto">
+                <button
+                    onClick={handleSave}
+                    disabled={isSaveDisabled}
+                    className={cn(
+                        "rounded-full w-full h-12 text-lg font-semibold",
+                        isSaveDisabled 
+                        ? "bg-muted text-muted-foreground cursor-not-allowed" 
+                        : "glass-button"
+                    )}
+                >
+                    <span>{t('save')}</span>
+                </button>
+            </div>
+        </div>
+    );
     
     if (isMobile) {
         return (
@@ -486,6 +489,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <DrawerContent className="rounded-t-[50px] h-[90vh] flex flex-col bg-background border-0 p-0">
                     <DrawerTitle className="sr-only">{t('settings')}</DrawerTitle>
                     {SettingsContent}
+                    {view === 'account' && SaveButton}
                 </DrawerContent>
             </Drawer>
         );
@@ -498,8 +502,9 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             </DialogTrigger>
             <DialogContent className="max-w-2xl w-full p-0 bg-transparent border-none shadow-xl">
                  <UIDialogTitle className="sr-only">{t('settings')}</UIDialogTitle>
-                 <div className="h-[70vh] flex flex-col bg-background rounded-[50px] overflow-hidden">
+                 <div className="h-[70vh] flex flex-col bg-background rounded-[50px] overflow-hidden relative">
                     {SettingsContent}
+                    {view === 'account' && SaveButton}
                  </div>
             </DialogContent>
         </Dialog>
