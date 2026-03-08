@@ -92,7 +92,7 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
                                 <div className="space-y-4 p-0">
                                     <div>
                                         <h3 className="font-semibold text-foreground mb-1 text-sm">{t('description')}</h3>
-                                        <p className="text-sm leading-relaxed whitespace-pre-line">{activeEbook.description}</p>
+                                        <p className="text-sm leading-relaxed whitespace-pre-line break-words">{activeEbook.description}</p>
                                     </div>
                                     <div>
                                         <h3 className="font-semibold text-foreground mb-2 text-sm">{t('keywords')}</h3>
