@@ -76,7 +76,7 @@ export default function BuyEbookPage() {
 
     if (isPurchased) {
       if (!isMobile) setIsDialogOpen(false);
-      handleNavigate(`/ebook/${ebook.id}`);
+      handleNavigate(`/ebook/${ebook.id}`, { replace: true });
     } else {
       purchaseEbook(ebook);
       toast({

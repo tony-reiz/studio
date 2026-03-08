@@ -109,7 +109,7 @@ export default function BuyEbookPage() {
 
     if (isPurchased) {
       if (!isMobile) setIsDialogOpen(false);
-      handleNavigate(`/ebook/${ebook.id}`);
+      handleNavigate(`/ebook/${ebook.id}`, { replace: true });
     } else {
       purchaseEbook(ebook);
       toast({
@@ -226,7 +226,7 @@ export default function BuyEbookPage() {
           </div>
           <div className="flex justify-center md:justify-start">
             <div className="w-full max-w-[18rem] md:max-w-xs flex flex-col items-center">
-              <button onClick={() => { if(isMobile) { setView('seller'); } else { onOpenChange(false); setTimeout(() => handleNavigate('/seller/1'), 300); } }} className="w-full group">
+              <button onClick={() => { if(isMobile) { setView('seller'); } else { handleDialogChange(false); setTimeout(() => handleNavigate('/seller/1'), 300); } }} className="w-full group">
                 <div className="w-full bg-black text-white rounded-full py-2 text-sm font-semibold text-center mb-4 group-hover:bg-black/90 transition-colors">
                     {t('seller')}
                 </div>
