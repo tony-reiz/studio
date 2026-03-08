@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { User, Loader2 } from 'lucide-react';
+import { User, Loader2, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
@@ -17,6 +17,7 @@ import { PDFDocument } from 'pdf-lib';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 import { BVCouleur } from '@/components/bookline/BVCouleur';
+import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
 
 
 export default function SellPage() {
@@ -155,6 +156,17 @@ export default function SellPage() {
     if (submissionStep === 'compressing') return t('compressing');
     return t('publish');
   }
+  
+  const menuButton = (
+    <Button
+      variant="ghost"
+      size="icon"
+      aria-label={t('menu')}
+      className="w-11 h-11 rounded-full glass-icon-button -mt-2 sm:mt-0"
+    >
+      <Menu className="h-6 w-6" />
+    </Button>
+  );
 
   return (
     <Form {...form}>
@@ -166,7 +178,10 @@ export default function SellPage() {
           </>
         )}
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8 overflow-y-auto scrollbar-hide">
-          <header className="sticky top-0 z-10 flex items-start justify-end w-full pb-6" style={{ paddingTop: `calc(1.5rem + env(safe-area-inset-top))` }}>
+          <header className="sticky top-0 z-10 flex items-start justify-between w-full pb-6" style={{ paddingTop: `calc(1.5rem + env(safe-area-inset-top))` }}>
+            <div className="flex flex-col items-start gap-3">
+              {isClient ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
+            </div>
             <Button type="button" onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="-mt-2 sm:mt-0 w-11 h-11 rounded-full glass-icon-button" aria-label={t('user_profile')}>
               <User className="h-6 w-6" />
             </Button>
