@@ -3,7 +3,7 @@ import withPWAInit from '@ducanh2912/next-pwa';
 
 const withPWA = withPWAInit({
   dest: 'public',
-  disable: false,
+  disable: false, // Set to false to enable PWA in development
 });
 
 const nextConfig: NextConfig = {
