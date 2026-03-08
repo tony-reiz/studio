@@ -163,6 +163,8 @@ export const translations = {
     'search_suggestions': 'Suggestions de recherche',
     'user': 'utilisateur',
     'download': 'Télécharger',
+    'download_error_title': 'Erreur de téléchargement',
+    'download_error_desc': 'Impossible de télécharger le fichier.',
     // interests
     'business': 'Business 💼',
     'fiction': 'Histoires Fictives 📖',
@@ -350,6 +352,8 @@ export const translations = {
     'search_suggestions': 'Search suggestions',
     'user': 'user',
     'download': 'Download',
+    'download_error_title': 'Download Error',
+    'download_error_desc': 'Failed to download the file.',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',
