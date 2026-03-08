@@ -116,6 +116,7 @@ export default function BuyEbookPage() {
         title: t('payment_successful'),
         description: `${t('you_can_now_read')} "${ebook.title}".`,
       });
+      handleNavigate(`/ebook/${ebook.id}`, { replace: true });
     }
   };
   

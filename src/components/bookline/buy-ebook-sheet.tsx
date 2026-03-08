@@ -81,6 +81,8 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
         title: t('payment_successful'),
         description: `${t('you_can_now_read')} "${activeEbook.title}".`,
       });
+      onOpenChange(false);
+      handleNavigate(`/ebook/${activeEbook.id}`);
     }
   };
 

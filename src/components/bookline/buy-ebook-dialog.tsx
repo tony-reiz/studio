@@ -78,6 +78,8 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
         title: t('payment_successful'),
         description: `${t('you_can_now_read')} "${currentEbook.title}".`,
       });
+      onOpenChange(false);
+      handleNavigate(`/ebook/${currentEbook.id}`);
     }
   };
   
