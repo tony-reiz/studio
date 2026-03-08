@@ -434,17 +434,20 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
                 </div>
             </div>
-             <div className={cn("p-4 shrink-0 bg-background", isMobile ? 'fixed bottom-0 left-0 right-0' : 'absolute bottom-0 left-0 right-0')}>
+             <div className={cn("p-4", isMobile ? 'fixed bottom-0 left-0 right-0' : 'absolute bottom-0 left-0 right-0')}>
                 <div className="w-full max-w-[16rem] mx-auto">
-                    <Button 
+                    <button
                         onClick={handleSave}
                         disabled={isSaveDisabled}
                         className={cn(
-                            "bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90 disabled:bg-[#DFDFDF] disabled:text-muted-foreground",
+                            "rounded-full w-full h-12 text-lg font-semibold",
+                            isSaveDisabled 
+                            ? "bg-muted text-muted-foreground cursor-not-allowed" 
+                            : "glass-button"
                         )}
                     >
-                        {t('save')}
-                    </Button>
+                        <span>{t('save')}</span>
+                    </button>
                 </div>
             </div>
         </>
