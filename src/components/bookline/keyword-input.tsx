@@ -100,7 +100,12 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
         setSuggestions([]);
       }
     }
-    fetchSuggestions();
+    if(debouncedInputValue.length > 0) {
+      fetchSuggestions();
+    } else {
+      setSuggestions([]);
+      setIsLoading(false);
+    }
   }, [debouncedInputValue, keywords, toast, t, allEbooks]);
 
 
@@ -241,7 +246,7 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
         </div>
 
         {isSuggestionsVisible && (suggestions.length > 0) && (
-            <div className="absolute z-10 w-full mt-2 bg-secondary rounded-xl p-2 shadow-lg animate-in fade-in-0 slide-in-from-top-2 duration-300">
+            <div className="absolute z-20 w-full mt-2 bg-secondary rounded-xl p-2 shadow-lg animate-in fade-in-0 slide-in-from-top-2 duration-300">
                 <p className="px-2 py-1 text-xs text-muted-foreground">{t('search_suggestions')}</p>
                 <ul className="space-y-1">
                     {suggestions.map((suggestion, index) => (
