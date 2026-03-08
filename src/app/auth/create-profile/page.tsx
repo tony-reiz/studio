@@ -20,7 +20,7 @@ export default function CreateProfilePage() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [imageToCrop, setImageToCrop] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { updateUserProfile, userProfile, t } = useEbooks();
+  const { updateUserProfile, userProfile, t, theme } = useEbooks();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -91,7 +91,7 @@ export default function CreateProfilePage() {
     setAvatarUrl(croppedImageUrl);
   };
 
-  const inputClasses = "pl-11 pr-4 h-12 w-full text-base border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 glass-form-element placeholder:text-muted-foreground";
+  const inputClasses = "pl-11 pr-4 h-12 w-full text-base border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground";
   const isSaveDisabled = !username.trim();
 
   return (
@@ -143,7 +143,7 @@ export default function CreateProfilePage() {
                   placeholder={t('username_placeholder')}
                   value={username}
                   onChange={handleUsernameChange}
-                  className={inputClasses}
+                  className={cn(inputClasses, theme === 'light' ? 'bg-[#DFDFDF]' : 'bg-[#393939]')}
                 />
               </div>
               <div>
@@ -158,7 +158,7 @@ export default function CreateProfilePage() {
                         e.preventDefault();
                       }
                     }}
-                    className={cn(inputClasses, "h-24 rounded-[30px] py-3.5 leading-snug resize-none")}
+                    className={cn(inputClasses, "h-24 rounded-[30px] py-3.5 leading-snug resize-none", theme === 'light' ? 'bg-[#DFDFDF]' : 'bg-[#393939]')}
                     maxLength={80}
                   />
                 </div>
