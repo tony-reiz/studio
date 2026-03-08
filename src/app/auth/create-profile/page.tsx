@@ -143,7 +143,7 @@ export default function CreateProfilePage() {
                   placeholder={t('username_placeholder')}
                   value={username}
                   onChange={handleUsernameChange}
-                  className={cn(inputClasses, "bg-muted")}
+                  className={cn(inputClasses, "bg-secondary")}
                 />
               </div>
               <div>
@@ -158,7 +158,7 @@ export default function CreateProfilePage() {
                         e.preventDefault();
                       }
                     }}
-                    className={cn(inputClasses, "h-24 rounded-[30px] py-3.5 leading-snug resize-none", "bg-muted")}
+                    className={cn(inputClasses, "h-24 rounded-[30px] py-3.5 leading-snug resize-none", "bg-secondary")}
                     maxLength={80}
                   />
                 </div>
