@@ -194,7 +194,7 @@ export default function EbookViewerPage() {
   return (
     <>
       <div className="h-screen bg-secondary flex flex-col">
-        <header className="fixed top-0 left-0 right-0 z-30 bg-background/80 backdrop-blur-xl" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+        <header className="fixed top-0 left-0 right-0 z-30 bg-background/60 backdrop-blur-xl" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
           <div className="flex items-center justify-between px-2 sm:px-4 h-16">
             <Button onClick={handleBack} variant="ghost" size="icon" className="text-foreground">
               <ChevronLeft className="h-6 w-6" />
