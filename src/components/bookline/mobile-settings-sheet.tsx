@@ -43,7 +43,7 @@ interface MobileSettingsSheetProps {
 export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [view, setView] = useState<View>('main');
-    const { locale, setLocale, t, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, theme } = useEbooks();
+    const { locale, setLocale, t, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, theme, canChangeUsername } = useEbooks();
     const [searchQuery, setSearchQuery] = useState('');
     
     const isMobile = useIsMobile();
@@ -194,6 +194,24 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     
     const inputClasses = "pl-11 pr-4 h-12 w-full text-base border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground";
     const isSaveDisabled = !username.trim();
+
+    const isUsernameDisabled = !canChangeUsername;
+
+    const getUsernameNote = () => {
+        if (canChangeUsername || !userProfile.usernameLastChanged) {
+            return t('username_change_note');
+        }
+        
+        const thirtyDaysInMillis = 30 * 24 * 60 * 60 * 1000;
+        const timeLeft = userProfile.usernameLastChanged + thirtyDaysInMillis - Date.now();
+        const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
+        
+        if (daysLeft > 0) {
+            return `Modifiable dans ${daysLeft} jour${daysLeft > 1 ? 's' : ''}.`;
+        }
+        
+        return t('username_change_note');
+    }
     // --- End Account View Logic ---
     
     const MainView = (
@@ -391,9 +409,10 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             value={username}
                             onChange={handleUsernameChange}
                             className={cn(inputClasses, 'bg-secondary')}
+                            disabled={isUsernameDisabled}
                           />
                         </div>
-                        <p className="text-xs text-muted-foreground text-right w-full pr-4 pt-1">{t('username_change_note')}</p>
+                        <p className="text-xs text-muted-foreground text-right w-full pr-4 pt-1">{getUsernameNote()}</p>
                       </div>
                       <div>
                         <div className="relative w-full">

@@ -22,6 +22,7 @@ export interface UserProfile {
   username: string;
   bio: string;
   avatarUrl: string | null;
+  usernameLastChanged?: number;
 }
 
 const placeholderEbooks: Ebook[] = PlaceHolderImages.map((img, index) => ({
@@ -53,6 +54,7 @@ interface EbookContextType {
   setTheme: (theme: 'light' | 'dark') => void;
   locale: Locale;
   setLocale: (locale: Locale) => void;
+  canChangeUsername: boolean;
   t: (key: TranslationKeys) => string;
 }
 
@@ -68,6 +70,7 @@ export function EbookProvider({ children }: { children: ReactNode }) {
     username: 'user',
     bio: '',
     avatarUrl: null,
+    usernameLastChanged: undefined,
   });
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
   const [theme, setThemeState] = useState<'light' | 'dark'>('light');
@@ -136,8 +139,23 @@ export function EbookProvider({ children }: { children: ReactNode }) {
     return translations[locale]?.[key] || translations['en']?.[key] || key;
   };
 
+  const canChangeUsername = (() => {
+    if (!userProfile.usernameLastChanged) {
+      return true;
+    }
+    const thirtyDaysInMillis = 30 * 24 * 60 * 60 * 1000;
+    const now = Date.now();
+    return (now - userProfile.usernameLastChanged) > thirtyDaysInMillis;
+  })();
+
   const updateUserProfile = (profileUpdate: Partial<UserProfile>) => {
-    setUserProfile((prev) => ({ ...prev, ...profileUpdate }));
+    setUserProfile((prev) => {
+      const newProfile = { ...prev, ...profileUpdate };
+      if (profileUpdate.username && profileUpdate.username.trim() !== '' && profileUpdate.username !== prev.username) {
+        newProfile.usernameLastChanged = Date.now();
+      }
+      return newProfile;
+    });
   };
 
   const updateSelectedInterests = (interests: string[]) => {
@@ -193,7 +211,7 @@ export function EbookProvider({ children }: { children: ReactNode }) {
 
 
   return (
-    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook, favoritedEbooks, toggleFavoriteEbook, allEbooks, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, purchasedEbooks, purchaseEbook, theme, setTheme, locale, setLocale, t }}>
+    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook, favoritedEbooks, toggleFavoriteEbook, allEbooks, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, purchasedEbooks, purchaseEbook, theme, setTheme, locale, setLocale, canChangeUsername, t }}>
       {children}
     </EbookContext.Provider>
   );
