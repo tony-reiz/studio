@@ -205,11 +205,7 @@ export default function EbookViewerPage() {
         await navigator.clipboard.writeText(window.location.href);
         toast({ title: t('link_copied') });
       } catch (copyError) {
-        toast({
-            variant: "destructive",
-            title: t('error'),
-            description: t('sharing_not_supported'),
-        });
+        // Silently fail as requested.
       }
     }
   };
@@ -270,10 +266,12 @@ export default function EbookViewerPage() {
                   <Share2 className="mr-2 h-4 w-4" />
                   <span>{t('share')}</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleDownload}>
-                  <Download className="mr-2 h-4 w-4" />
-                  <span>{t('download')}</span>
-                </DropdownMenuItem>
+                {isClient && !isMobile && (
+                  <DropdownMenuItem onClick={handleDownload}>
+                    <Download className="mr-2 h-4 w-4" />
+                    <span>{t('download')}</span>
+                  </DropdownMenuItem>
+                )}
                 {isOwner && (
                   <>
                     <DropdownMenuSeparator />
