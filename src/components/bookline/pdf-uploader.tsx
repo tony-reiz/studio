@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { CloudUpload, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { BVCouleur } from './BVCouleur';
 
 interface PdfUploaderProps {
   pdfFile: File | null;
@@ -44,7 +45,7 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
   }, [pdfFile]);
 
   useEffect(() => {
-    if (previewUrl) {
+    if (previewUrl && !isCompressing) {
       const timer = setTimeout(() => {
         setIsPdfVisible(true);
       }, 50);
@@ -52,10 +53,11 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
     } else {
       setIsPdfVisible(false);
     }
-  }, [previewUrl]);
+  }, [previewUrl, isCompressing]);
 
 
   const handleUploadClick = () => {
+    if (isCompressing) return;
     fileInputRef.current?.click();
   };
   
@@ -74,7 +76,11 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
 
   return (
     <div
-      className={cn("w-full max-w-[18rem] md:w-80 cursor-pointer group rounded-[25px]", className)}
+      className={cn(
+        "w-full max-w-[18rem] md:w-80 group rounded-[25px]",
+        isCompressing ? "cursor-wait" : "cursor-pointer",
+        className
+      )}
       onClick={handleUploadClick}
     >
        <input
@@ -83,15 +89,20 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
         onChange={handleFileChange}
         accept="application/pdf"
         className="hidden"
+        disabled={isCompressing}
       />
       <div
         className={cn(
           'aspect-[210/297] p-0 flex items-center justify-center rounded-[25px] overflow-hidden relative transition-colors',
-          !pdfFile ? 'glass-form-element' : 'bg-[#DFDFDF]'
+          {
+            'glass-form-element': !pdfFile,
+            'bg-transparent': isCompressing,
+            'bg-[#DFDFDF]': pdfFile && !isCompressing,
+          }
         )}
       >
         {originalSize && (
-            <div className="absolute top-3 left-3 z-10 bg-black/60 text-white text-[10px] font-semibold rounded-full px-2.5 py-1 backdrop-blur-sm flex items-center gap-1.5">
+            <div className="absolute top-3 left-3 z-20 bg-black/60 text-white text-[10px] font-semibold rounded-full px-2.5 py-1 backdrop-blur-sm flex items-center gap-1.5">
                 <span>{formatBytes(originalSize)}</span>
                 
                 {isCompressing && (
@@ -109,7 +120,13 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
                 )}
             </div>
         )}
-        {previewUrl ? (
+        
+        {isCompressing ? (
+            <>
+                <BVCouleur id="pdf-uploader-canvas" className="bv-couleur-canvas !z-0" />
+                <Loader2 className="h-10 w-10 text-white animate-spin z-10" />
+            </>
+        ) : previewUrl ? (
           <object 
             data={`${previewUrl}#toolbar=0&navpanes=0&scrollbar=0`} 
             type="application/pdf" 
