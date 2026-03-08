@@ -22,12 +22,6 @@ const EbookSearchSuggestionOutputSchema = z.object({
 });
 export type EbookSearchSuggestionOutput = z.infer<typeof EbookSearchSuggestionOutputSchema>;
 
-export async function getEbookSearchSuggestions(
-  input: EbookSearchSuggestionInput
-): Promise<EbookSearchSuggestionOutput> {
-  return ebookSearchSuggestionFlow(input);
-}
-
 const prompt = ai.definePrompt({
   name: 'ebookSearchSuggestionPrompt',
   input: {schema: EbookSearchSuggestionInputSchema},
@@ -40,7 +34,7 @@ If you cannot find any relevant suggestions that start with the partial query, o
 Partial Query: {{{partialQuery}}}`,
 });
 
-const ebookAnalysisFlow = ai.defineFlow(
+const ebookSearchSuggestionFlow = ai.defineFlow(
   {
     name: 'ebookSearchSuggestionFlow',
     inputSchema: EbookSearchSuggestionInputSchema,
@@ -51,3 +45,9 @@ const ebookAnalysisFlow = ai.defineFlow(
     return output!;
   }
 );
+
+export async function getEbookSearchSuggestions(
+  input: EbookSearchSuggestionInput
+): Promise<EbookSearchSuggestionOutput> {
+  return ebookSearchSuggestionFlow(input);
+}
