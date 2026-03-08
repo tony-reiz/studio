@@ -372,7 +372,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                           <AvatarImage src={avatarUrl} alt={t('user_profile')} style={{ objectFit: 'cover' }} />
                         ) : (
                           <AvatarFallback className="bg-transparent">
-                            <UserIcon className="h-10 w-10 text-background dark:text-black mt-3" />
+                            <UserIcon className="h-10 w-10 text-background dark:text-black mt-6" />
                           </AvatarFallback>
                         )}
                       </Avatar>
@@ -382,15 +382,18 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
 
                     <div className="w-full space-y-4 mb-8">
-                      <div className="relative w-full">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">N</span>
-                        <Input
-                          type="text"
-                          placeholder={t('username_placeholder')}
-                          value={username}
-                          onChange={handleUsernameChange}
-                          className={cn(inputClasses, 'bg-muted')}
-                        />
+                      <div>
+                        <div className="relative w-full">
+                          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">N</span>
+                          <Input
+                            type="text"
+                            placeholder={t('username_placeholder')}
+                            value={username}
+                            onChange={handleUsernameChange}
+                            className={cn(inputClasses, 'bg-secondary')}
+                          />
+                        </div>
+                        <p className="text-xs text-muted-foreground text-right w-full pr-4 pt-1">{t('username_change_note')}</p>
                       </div>
                       <div>
                         <div className="relative w-full">
@@ -402,7 +405,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             onKeyDown={(e) => {
                               if (e.key === 'Enter') e.preventDefault();
                             }}
-                            className={cn(inputClasses, "h-24 rounded-[30px] py-3.5 leading-snug resize-none", 'bg-muted')}
+                            className={cn(inputClasses, "h-24 rounded-[30px] py-3.5 leading-snug resize-none", 'bg-secondary')}
                             maxLength={80}
                           />
                         </div>

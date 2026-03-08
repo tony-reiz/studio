@@ -111,7 +111,7 @@ export default function CreateProfilePage() {
             </div>
         </header>
 
-       <main className="flex-1 w-full flex flex-col items-center pt-28 md:pt-40 pb-28">
+       <main className="flex-1 w-full flex flex-col items-center pt-28 md:pt-20 pb-28">
           <div className="flex flex-col items-center w-full max-w-[18rem] sm:max-w-sm">
             <div className="relative mb-6 animate-float">
               <input
@@ -126,7 +126,7 @@ export default function CreateProfilePage() {
                   <AvatarImage src={avatarUrl} alt="Photo de profil de l'utilisateur" style={{ objectFit: 'cover' }} />
                 ) : (
                   <AvatarFallback className="bg-transparent">
-                    <User className="h-12 w-12 text-background dark:text-black mt-3" />
+                    <User className="h-12 w-12 text-background dark:text-black mt-6" />
                   </AvatarFallback>
                 )}
               </Avatar>
@@ -136,15 +136,18 @@ export default function CreateProfilePage() {
             </div>
 
             <div className="w-full space-y-4 mb-8">
-              <div className="relative w-full">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">N</span>
-                <Input
-                  type="text"
-                  placeholder={t('username_placeholder')}
-                  value={username}
-                  onChange={handleUsernameChange}
-                  className={cn(inputClasses, "bg-secondary")}
-                />
+              <div>
+                <div className="relative w-full">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">N</span>
+                  <Input
+                    type="text"
+                    placeholder={t('username_placeholder')}
+                    value={username}
+                    onChange={handleUsernameChange}
+                    className={cn(inputClasses, "bg-secondary")}
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground text-right w-full pr-4 pt-1">{t('username_change_note')}</p>
               </div>
               <div>
                 <div className="relative w-full">
