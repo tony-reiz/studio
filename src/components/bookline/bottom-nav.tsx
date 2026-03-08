@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { useState, useEffect } from 'react';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useEbooks } from '@/context/ebook-provider';
+import { BVCouleur } from './BVCouleur';
 
 export function BottomNav() {
   const pathname = usePathname();
@@ -41,15 +42,17 @@ export function BottomNav() {
       <div className="glass-form-element rounded-full flex relative items-center max-w-[16rem] mx-auto">
         <div
           className={cn(
-            'absolute top-0 h-full w-1/2 rounded-full bg-foreground transition-all duration-500 ease-in-out',
+            'absolute top-0 h-full w-1/2 rounded-full transition-all duration-500 ease-in-out overflow-hidden',
             isAcheter ? 'left-0' : 'left-1/2'
           )}
-        />
+        >
+          <BVCouleur id="bottom-nav-canvas" className="bv-couleur-canvas" />
+        </div>
         <button
           onClick={() => handleNavigation('acheter')}
           className={cn(
             'relative z-10 w-1/2 py-3 text-center text-base font-semibold transition-colors duration-150',
-            isAcheter ? 'text-background' : 'text-foreground'
+            isAcheter ? 'text-white' : 'text-foreground'
           )}
         >
           {t('buy')}
@@ -58,7 +61,7 @@ export function BottomNav() {
           onClick={() => handleNavigation('vendre')}
           className={cn(
             'relative z-10 w-1/2 py-3 text-center text-base font-semibold transition-colors duration-150',
-            !isAcheter ? 'text-background' : 'text-foreground'
+            !isAcheter ? 'text-white' : 'text-foreground'
           )}
         >
           {t('sell')}
