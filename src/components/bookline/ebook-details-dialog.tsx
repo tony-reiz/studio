@@ -84,21 +84,21 @@ export function EbookDetailsDialog({ ebook, open, onOpenChange }: EbookDetailsDi
                             </div>
                             <div className="space-y-6 p-0">
                                 <div className="grid grid-cols-3 gap-4 text-left">
-                                <div className="bg-secondary p-4 rounded-lg">
+                                <div className="bg-secondary p-3 rounded-lg">
                                     <p className="text-sm text-muted-foreground">{t('number_of_sales')}</p>
-                                    <p className="text-3xl font-bold">{numberOfSales}</p>
+                                    <p className="text-2xl font-bold">{numberOfSales}</p>
                                 </div>
-                                <div className="bg-secondary p-4 rounded-lg">
+                                <div className="bg-secondary p-3 rounded-lg">
                                     <p className="text-sm text-muted-foreground">{t('generated_revenue')}</p>
-                                    <p className="text-3xl font-bold">{totalRevenue.toFixed(2).replace('.', ',')} €</p>
+                                    <p className="text-2xl font-bold">{totalRevenue.toFixed(2).replace('.', ',')} €</p>
                                 </div>
-                                <div className="bg-secondary p-4 rounded-lg">
+                                <div className="bg-secondary p-3 rounded-lg">
                                     <p className="text-sm text-muted-foreground">{t('ebook_price')}</p>
-                                    <p className="text-3xl font-bold">{ebook.price} €</p>
+                                    <p className="text-2xl font-bold">{ebook.price} €</p>
                                 </div>
                             </div>
                                 <ChartContainer config={chartConfig} className="w-full h-[250px]">
-                                    <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 20, bottom: 5, left: -30 }}>
+                                    <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 20, bottom: 5, left: -20 }}>
                                         <CartesianGrid vertical={false} />
                                         <XAxis
                                             dataKey="metric"
