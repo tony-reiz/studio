@@ -434,7 +434,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
                 </div>
             </div>
-             <div className={cn("p-4 bg-transparent", isMobile ? 'fixed bottom-8 left-0 right-0' : 'absolute bottom-8 left-0 right-0')}>
+             <div className={cn("p-4 bg-transparent", isMobile ? 'fixed bottom-6 left-0 right-0' : 'absolute bottom-6 left-0 right-0')}>
                 <div className="w-full max-w-[16rem] mx-auto">
                     <button
                         onClick={handleSave}
