@@ -31,7 +31,6 @@ import type { Locale, TranslationKeys } from '@/lib/translations';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
 import { ImageCropper } from './image-cropper';
 
 type View = 'main' | 'language' | 'help' | 'security' | 'account';
@@ -58,7 +57,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const [localSelectedInterests, setLocalSelectedInterests] = useState<string[]>([]);
     const [imageToCrop, setImageToCrop] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const { toast } = useToast();
+    const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
     const interestKeys: TranslationKeys[] = [
       'business', 'fiction', 'biographies', 'courses_revisions', 
@@ -169,27 +168,23 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     };
 
     const handleSave = () => {
+        if (saveStatus !== 'idle') return;
+
         const existingUsernames = ['admin', 'bookline', 'kaizer'];
         const newUsername = username.trim();
 
         if (!newUsername) return;
 
         if (existingUsernames.includes(newUsername.toLowerCase()) && newUsername.toLowerCase() !== userProfile.username.toLowerCase()) {
-          toast({
-            variant: "destructive",
-            title: t('username_not_available'),
-            description: t('username_taken'),
-          });
+          setSaveStatus('error');
+          setTimeout(() => setSaveStatus('idle'), 2000);
           return;
         }
 
         updateUserProfile({ username: newUsername, bio, avatarUrl });
         updateSelectedInterests(localSelectedInterests);
-        toast({
-            title: t('profile_updated'),
-            description: t('profile_updated_desc'),
-        });
-        setIsOpen(false);
+        setSaveStatus('success');
+        setTimeout(() => setSaveStatus('idle'), 2000);
     };
     
     const inputClasses = "pl-11 pr-4 h-12 w-full text-base border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground";
@@ -455,13 +450,18 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     <div className="w-full max-w-[16rem] mx-auto pb-4">
                         <Button
                             onClick={handleSave}
-                            disabled={isSaveDisabled}
+                            disabled={isSaveDisabled || saveStatus !== 'idle'}
                             className={cn(
-                                "rounded-full w-full h-12 text-lg font-semibold",
-                                !isSaveDisabled ? 'bg-foreground text-background hover:bg-foreground/90' : 'bg-muted text-muted-foreground'
+                                "rounded-full w-full h-12 text-lg font-semibold transition-colors duration-300",
+                                {
+                                    'bg-foreground text-background hover:bg-foreground/90': saveStatus === 'idle' && !isSaveDisabled,
+                                    'bg-muted text-muted-foreground': saveStatus === 'idle' && isSaveDisabled,
+                                    'bg-green-600 text-white hover:bg-green-700 cursor-default': saveStatus === 'success',
+                                    'bg-red-600 text-white hover:bg-red-700 cursor-default': saveStatus === 'error',
+                                }
                             )}
                         >
-                            {t('save')}
+                            {saveStatus === 'success' ? 'Enregistré !' : saveStatus === 'error' ? t('error') : t('save')}
                         </Button>
                     </div>
                 </div>
