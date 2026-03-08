@@ -82,10 +82,8 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             const fullInterests: string[] = [];
             interestKeys.forEach(key => {
                 const translated = t(key);
-                const lastSpaceIndex = translated.lastIndexOf(' ');
-                const cleaned = (lastSpaceIndex === -1 ? translated : translated.substring(0, lastSpaceIndex).trim()).toLowerCase();
-                if (selectedInterests.includes(cleaned)) {
-                    fullInterests.push(translated);
+                if (selectedInterests.some(si => t(key as TranslationKeys).toLowerCase().includes(si))) {
+                  fullInterests.push(translated);
                 }
             });
             setLocalSelectedInterests(fullInterests);
@@ -432,17 +430,17 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                            })}
                         </div>
                     </div>
-                    <div className="w-full max-w-[16rem] mx-auto">
-                        <button
+                    <div className="w-full max-w-[16rem] mx-auto pb-4">
+                        <Button
                             onClick={handleSave}
                             disabled={isSaveDisabled}
                             className={cn(
-                                "rounded-full w-full h-12 text-lg font-semibold glass-button",
-                                 isSaveDisabled && "bg-muted text-muted-foreground cursor-not-allowed"
+                                "rounded-full w-full h-12 text-lg font-semibold",
+                                !isSaveDisabled ? 'bg-foreground text-background hover:bg-foreground/90' : 'bg-muted text-muted-foreground cursor-not-allowed'
                             )}
                         >
-                            <span>{t('save')}</span>
-                        </button>
+                            {t('save')}
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -452,7 +450,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const SettingsContent = (
       <div 
           className={cn(
-              "h-full",
+              "h-full flex flex-col",
               "transition-opacity", 
               isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-[800ms]"
           )} 
@@ -479,7 +477,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <DrawerTrigger asChild>
                     {children}
                 </DrawerTrigger>
-                <DrawerContent className="rounded-t-[50px] h-[80vh] flex flex-col bg-background border-0 p-0">
+                <DrawerContent className="rounded-t-[50px] h-[75vh] flex flex-col bg-background border-0 p-0">
                     <DrawerTitle className="sr-only">{t('settings')}</DrawerTitle>
                     {SettingsContent}
                 </DrawerContent>
