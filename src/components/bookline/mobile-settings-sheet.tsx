@@ -456,8 +456,8 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                                 {
                                     'bg-foreground text-background hover:bg-foreground/90': saveStatus === 'idle' && !isSaveDisabled,
                                     'bg-muted text-muted-foreground': saveStatus === 'idle' && isSaveDisabled,
-                                    'bg-green-600 text-white hover:bg-green-700 cursor-default': saveStatus === 'success',
-                                    'bg-red-600 text-white hover:bg-red-700 cursor-default': saveStatus === 'error',
+                                    'bg-green-600 text-white cursor-default !opacity-100': saveStatus === 'success',
+                                    'bg-red-600 text-white cursor-default !opacity-100': saveStatus === 'error',
                                 }
                             )}
                         >
