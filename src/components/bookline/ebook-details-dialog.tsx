@@ -6,6 +6,10 @@ import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell } from "recharts";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
+import { analyzeEbookListing, type EbookAnalysisOutput } from '@/ai/flows/ebook-analysis';
+import { useEffect, useState } from "react";
 
 const chartData = [
   { metric: "Clics", value: 0, fill: "var(--color-clics)" },
@@ -39,6 +43,29 @@ interface EbookDetailsDialogProps {
 
 export function EbookDetailsDialog({ ebook, open, onOpenChange }: EbookDetailsDialogProps) {
     const { t } = useEbooks();
+    const [analysis, setAnalysis] = useState<EbookAnalysisOutput | null>(null);
+    const [isLoadingAnalysis, setIsLoadingAnalysis] = useState(false);
+
+    useEffect(() => {
+        if (open && ebook) {
+            const getAnalysis = async () => {
+                setIsLoadingAnalysis(true);
+                setAnalysis(null);
+                try {
+                    const result = await analyzeEbookListing({
+                        title: ebook.title,
+                        description: ebook.description,
+                    });
+                    setAnalysis(result);
+                } catch (error) {
+                    console.error("Failed to get ebook analysis:", error);
+                } finally {
+                    setIsLoadingAnalysis(false);
+                }
+            };
+            getAnalysis();
+        }
+    }, [open, ebook]);
 
     const formatBytes = (bytes: number | null | undefined, decimals = 2) => {
         if (bytes === null || bytes === undefined) return 'N/A';
@@ -142,6 +169,52 @@ export function EbookDetailsDialog({ ebook, open, onOpenChange }: EbookDetailsDi
                                         </Bar>
                                     </BarChart>
                                 </ChartContainer>
+                            </div>
+                        </div>
+
+                        <Separator />
+
+                        <div className="border-0 shadow-none bg-transparent">
+                            <div className="p-0 pb-4">
+                                <h2 className="text-2xl font-semibold leading-none tracking-tight">{t('ai_analysis')}</h2>
+                                <p className="text-sm text-muted-foreground">{t('ai_analysis_subtitle')}</p>
+                            </div>
+                            <div className="space-y-4 p-0">
+                                {isLoadingAnalysis ? (
+                                    <div className="space-y-4">
+                                        <div>
+                                            <Skeleton className="h-5 w-32 mb-2" />
+                                            <div className="flex flex-wrap gap-2">
+                                                <Skeleton className="h-7 w-24 rounded-full" />
+                                                <Skeleton className="h-7 w-28 rounded-full" />
+                                                <Skeleton className="h-7 w-20 rounded-full" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <Skeleton className="h-5 w-40 mb-2" />
+                                            <Skeleton className="h-10 w-full" />
+                                        </div>
+                                    </div>
+                                ) : analysis ? (
+                                    <>
+                                        <div>
+                                            <h3 className="font-semibold text-foreground mb-2 text-sm">{t('suggested_keywords')}</h3>
+                                            <div className="flex flex-wrap gap-2">
+                                                {analysis.suggestedKeywords.map((keyword, index) => (
+                                                    <Badge key={index} variant="secondary" className="rounded-full py-1 px-3">
+                                                        {keyword.trim()}
+                                                    </Badge>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h3 className="font-semibold text-foreground mb-1 text-sm">{t('description_feedback')}</h3>
+                                            <p className="text-sm leading-relaxed whitespace-pre-line break-words">{analysis.descriptionFeedback}</p>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <p className="text-sm text-muted-foreground">{t('ai_analysis_failed')}</p>
+                                )}
                             </div>
                         </div>
                     </main>

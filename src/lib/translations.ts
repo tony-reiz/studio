@@ -170,6 +170,11 @@ export const translations = {
     'discover_this_ebook': "Découvrez cet ebook :",
     'file_size': 'Taille du fichier',
     'file_size_details': 'Original → Compressé',
+    'ai_analysis': 'Analyse IA',
+    'ai_analysis_subtitle': 'Suggestions pour améliorer votre publication.',
+    'suggested_keywords': 'Mots-clés suggérés',
+    'description_feedback': 'Avis sur la description',
+    'ai_analysis_failed': "L'analyse IA n'a pas pu être effectuée.",
     // interests
     'business': 'Business 💼',
     'fiction': 'Histoires Fictives 📖',
@@ -364,6 +369,11 @@ export const translations = {
     'discover_this_ebook': 'Check out this ebook:',
     'file_size': 'File Size',
     'file_size_details': 'Original → Compressed',
+    'ai_analysis': 'AI Analysis',
+    'ai_analysis_subtitle': 'Suggestions to improve your listing.',
+    'suggested_keywords': 'Suggested Keywords',
+    'description_feedback': 'Description Feedback',
+    'ai_analysis_failed': 'AI analysis could not be performed.',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',
