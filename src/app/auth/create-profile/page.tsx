@@ -20,7 +20,7 @@ export default function CreateProfilePage() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [imageToCrop, setImageToCrop] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { updateUserProfile, userProfile, t, theme } = useEbooks();
+  const { updateUserProfile, userProfile, t, theme, canChangeUsername } = useEbooks();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -126,7 +126,7 @@ export default function CreateProfilePage() {
                   <AvatarImage src={avatarUrl} alt="Photo de profil de l'utilisateur" style={{ objectFit: 'cover' }} />
                 ) : (
                   <AvatarFallback className="bg-transparent">
-                    <User className="h-12 w-12 text-background dark:text-black mt-6" />
+                    <User className="h-12 w-12 text-background dark:text-black" />
                   </AvatarFallback>
                 )}
               </Avatar>

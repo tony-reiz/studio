@@ -371,7 +371,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 </div>
             </div>
             <div className="flex-1 overflow-y-auto px-4 pb-8">
-                 <div className="flex flex-col items-center w-full max-w-sm mx-auto pt-8">
+                 <div className="flex flex-col items-center w-full max-w-sm mx-auto pt-4">
                     <div className="relative mb-6">
                       <input
                         type="file"
@@ -385,7 +385,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                           <AvatarImage src={avatarUrl} alt={t('user_profile')} style={{ objectFit: 'cover' }} />
                         ) : (
                           <AvatarFallback className="bg-transparent">
-                            <UserIcon className="h-10 w-10 text-background dark:text-black mt-6" />
+                            <UserIcon className="h-10 w-10 text-background dark:text-black" />
                           </AvatarFallback>
                         )}
                       </Avatar>
