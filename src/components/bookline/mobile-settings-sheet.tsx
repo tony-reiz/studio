@@ -436,7 +436,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             disabled={isSaveDisabled}
                             className={cn(
                                 "rounded-full w-full h-12 text-lg font-semibold",
-                                !isSaveDisabled ? 'bg-foreground text-background hover:bg-foreground/90' : 'bg-muted text-muted-foreground cursor-not-allowed'
+                                !isSaveDisabled ? 'bg-foreground text-background hover:bg-foreground/90' : 'glass-button'
                             )}
                         >
                             {t('save')}
@@ -477,7 +477,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <DrawerTrigger asChild>
                     {children}
                 </DrawerTrigger>
-                <DrawerContent className="rounded-t-[50px] h-[75vh] flex flex-col bg-background border-0 p-0">
+                <DrawerContent className="rounded-t-[50px] h-[70vh] flex flex-col bg-background border-0 p-0">
                     <DrawerTitle className="sr-only">{t('settings')}</DrawerTitle>
                     {SettingsContent}
                 </DrawerContent>
