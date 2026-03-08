@@ -102,7 +102,6 @@
     -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.1);
     backdrop-filter: blur(28px) saturate(200%) brightness(1.1);
     border: none;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
     color: hsl(var(--foreground));
   }
 
@@ -119,7 +118,6 @@
   
   .dark .liquid-glass-base {
     background: rgba(20, 20, 20, 0.1);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
   }
 
   .dark .liquid-glass-base::after {
