@@ -162,6 +162,7 @@ export const translations = {
     'cant_fetch_suggestions': 'Impossible de récupérer les suggestions de recherche.',
     'search_suggestions': 'Suggestions de recherche',
     'user': 'utilisateur',
+    'download': 'Télécharger',
     // interests
     'business': 'Business 💼',
     'fiction': 'Histoires Fictives 📖',
@@ -348,6 +349,7 @@ export const translations = {
     'cant_fetch_suggestions': 'Could not fetch search suggestions.',
     'search_suggestions': 'Search suggestions',
     'user': 'user',
+    'download': 'Download',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',

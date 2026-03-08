@@ -1,7 +1,7 @@
 'use client';
 
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
-import { Loader2, Share2, Trash2, ChevronLeft, MoreHorizontal, FileText } from 'lucide-react';
+import { Loader2, Share2, Trash2, ChevronLeft, MoreHorizontal, FileText, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -182,6 +182,20 @@ export default function EbookViewerPage() {
       }
     }
   };
+  
+  const handleDownload = () => {
+    if (!ebook) return;
+
+    const link = document.createElement('a');
+    link.href = ebook.pdfDataUrl;
+
+    const fileName = ebook.title.replace(/[^a-z0-9\s-]/gi, '').trim().replace(/\s+/g, '-').toLowerCase();
+    link.download = `${fileName || 'ebook'}.pdf`;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   if (!ebook) {
     return (
@@ -194,7 +208,7 @@ export default function EbookViewerPage() {
   return (
     <>
       <div className="h-screen bg-secondary flex flex-col">
-        <header className="fixed top-0 left-0 right-0 z-30 bg-background/60 backdrop-blur-xl" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+        <header className="fixed top-0 left-0 right-0 z-30 bg-background/80 backdrop-blur-xl" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
           <div className="flex items-center justify-between px-2 sm:px-4 h-16">
             <Button onClick={handleBack} variant="ghost" size="icon" className="text-foreground">
               <ChevronLeft className="h-6 w-6" />
@@ -210,6 +224,10 @@ export default function EbookViewerPage() {
                 <DropdownMenuItem onClick={handleShare}>
                   <Share2 className="mr-2 h-4 w-4" />
                   <span>{t('share')}</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleDownload}>
+                  <Download className="mr-2 h-4 w-4" />
+                  <span>{t('download')}</span>
                 </DropdownMenuItem>
                 {isOwner && (
                   <>
