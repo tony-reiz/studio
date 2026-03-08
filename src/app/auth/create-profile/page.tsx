@@ -91,7 +91,7 @@ export default function CreateProfilePage() {
     setAvatarUrl(croppedImageUrl);
   };
 
-  const inputClasses = "pl-11 pr-4 h-12 w-full text-base border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 glass-form-element";
+  const inputClasses = "pl-11 pr-4 h-12 w-full text-base border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 glass-form-element placeholder:text-muted-foreground";
   const isSaveDisabled = !username.trim();
 
   return (
@@ -111,7 +111,7 @@ export default function CreateProfilePage() {
             </div>
         </header>
 
-       <main className="flex-1 w-full flex flex-col items-center pt-8 md:pt-12 pb-28">
+       <main className="flex-1 w-full flex flex-col items-center pt-28 md:pt-40 pb-28">
           <div className="flex flex-col items-center w-full max-w-[18rem] sm:max-w-sm">
             <div className="relative mb-6 animate-float">
               <input
@@ -126,7 +126,7 @@ export default function CreateProfilePage() {
                   <AvatarImage src={avatarUrl} alt="Photo de profil de l'utilisateur" style={{ objectFit: 'cover' }} />
                 ) : (
                   <AvatarFallback className="bg-transparent">
-                    <User className="h-12 w-12 text-background dark:text-black" />
+                    <User className="h-12 w-12 text-background dark:text-black mt-3" />
                   </AvatarFallback>
                 )}
               </Avatar>

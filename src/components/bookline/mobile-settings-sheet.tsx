@@ -192,7 +192,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         setIsOpen(false);
     };
     
-    const inputClasses = "pl-11 pr-4 h-12 w-full text-base border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 glass-form-element";
+    const inputClasses = "pl-11 pr-4 h-12 w-full text-base border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 glass-form-element placeholder:text-muted-foreground";
     const isSaveDisabled = !username.trim();
     // --- End Account View Logic ---
     
@@ -372,7 +372,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                           <AvatarImage src={avatarUrl} alt={t('user_profile')} style={{ objectFit: 'cover' }} />
                         ) : (
                           <AvatarFallback className="bg-transparent">
-                            <UserIcon className="h-10 w-10 text-background dark:text-black" />
+                            <UserIcon className="h-10 w-10 text-background dark:text-black mt-3" />
                           </AvatarFallback>
                         )}
                       </Avatar>
