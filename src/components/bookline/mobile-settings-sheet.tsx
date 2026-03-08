@@ -371,7 +371,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 </div>
             </div>
             <div className="flex-1 overflow-y-auto px-4 pb-8">
-                 <div className="flex flex-col items-center w-full max-w-sm mx-auto pt-4">
+                 <div className="flex flex-col items-center w-full max-w-sm mx-auto pt-8">
                     <div className="relative mb-6">
                       <input
                         type="file"
@@ -453,12 +453,16 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             disabled={isSaveDisabled || saveStatus !== 'idle'}
                             className={cn(
                                 "rounded-full w-full h-12 text-lg font-semibold transition-colors duration-300",
-                                {
-                                    'bg-foreground text-background hover:bg-foreground/90': saveStatus === 'idle' && !isSaveDisabled,
-                                    'bg-muted text-muted-foreground': saveStatus === 'idle' && isSaveDisabled,
-                                    'bg-green-600 text-white cursor-default !opacity-100': saveStatus === 'success',
-                                    'bg-red-600 text-white cursor-default !opacity-100': saveStatus === 'error',
-                                }
+                                // Default enabled state
+                                "bg-foreground text-background hover:bg-foreground/90",
+                                // Default disabled state (e.g., empty username)
+                                "disabled:bg-muted disabled:text-muted-foreground",
+                                // Success state override
+                                saveStatus === 'success' && "disabled:bg-green-700 disabled:text-white",
+                                // Error state override
+                                saveStatus === 'error' && "disabled:bg-red-600 disabled:text-white",
+                                // Make sure opacity is full in all disabled states
+                                "disabled:opacity-100"
                             )}
                         >
                             {saveStatus === 'success' ? 'Enregistré !' : saveStatus === 'error' ? t('error') : t('save')}
