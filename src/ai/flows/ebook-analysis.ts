@@ -19,10 +19,10 @@ export type EbookAnalysisInput = z.infer<typeof EbookAnalysisInputSchema>;
 const EbookAnalysisOutputSchema = z.object({
   suggestedKeywords: z
     .array(z.string())
-    .describe('A list of 3 to 5 relevant keywords to improve discoverability.'),
+    .describe('Une liste de 3 à 5 mots-clés pertinents pour améliorer la découvrabilité.'),
   descriptionFeedback: z
     .string()
-    .describe('A short, actionable feedback sentence to improve the description.'),
+    .describe('Une courte phrase de feedback actionnable pour améliorer la description.'),
 });
 export type EbookAnalysisOutput = z.infer<typeof EbookAnalysisOutputSchema>;
 
@@ -36,14 +36,14 @@ const prompt = ai.definePrompt({
   name: 'ebookAnalysisPrompt',
   input: {schema: EbookAnalysisInputSchema},
   output: {schema: EbookAnalysisOutputSchema},
-  prompt: `You are an expert in SEO and marketing for digital books.
-Based on the ebook title and description provided, please perform the following analysis:
+  prompt: `Vous êtes un expert en SEO et marketing pour les livres numériques.
+En vous basant sur le titre et la description de l'ebook fournis, veuillez effectuer l'analyse suivante en français :
 
-1.  Generate a list of 3 to 5 highly relevant keywords that would help potential buyers discover this ebook on a marketplace. The keywords should be concise and popular search terms.
-2.  Provide one single sentence of actionable feedback to improve the current description. Focus on making it more compelling or clear for a potential buyer.
+1.  Générez une liste de 3 à 5 mots-clés très pertinents qui aideraient les acheteurs potentiels à découvrir cet ebook sur une marketplace. Les mots-clés doivent être concis et correspondre à des termes de recherche populaires.
+2.  Fournissez une seule phrase de feedback actionnable pour améliorer la description actuelle. Concentrez-vous sur la manière de la rendre plus convaincante ou plus claire pour un acheteur potentiel.
 
-Ebook Title: {{{title}}}
-Ebook Description: {{{description}}}`,
+Titre de l'ebook : {{{title}}}
+Description de l'ebook : {{{description}}}`,
 });
 
 const ebookAnalysisFlow = ai.defineFlow(
