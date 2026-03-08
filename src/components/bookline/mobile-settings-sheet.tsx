@@ -358,7 +358,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 </div>
             </div>
             <div className="flex-1 overflow-y-auto px-4 pb-8">
-                 <div className="flex flex-col items-center w-full max-w-sm mx-auto">
+                 <div className="flex flex-col items-center w-full max-w-sm mx-auto pt-8">
                     <div className="relative mb-6">
                       <input
                         type="file"
