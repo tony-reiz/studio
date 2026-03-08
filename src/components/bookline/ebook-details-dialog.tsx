@@ -57,7 +57,7 @@ export function EbookDetailsDialog({ ebook, open, onOpenChange }: EbookDetailsDi
                     <main className="w-full space-y-6 overflow-y-auto scrollbar-hide">
                         <div className="border-0 shadow-none bg-transparent">
                             <div className="p-0 pb-4">
-                                <h2 className="text-2xl font-semibold leading-none tracking-tight">{ebook.title}</h2>
+                                <h2 className="text-2xl font-semibold leading-none tracking-tight break-words">{ebook.title}</h2>
                             </div>
                             <div className="space-y-4 p-0">
                                 <div>
