@@ -18,6 +18,8 @@ import dynamic from 'next/dynamic';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { EbookDetailsSheet } from '@/components/bookline/ebook-details-sheet';
+import { EbookDetailsDialog } from '@/components/bookline/ebook-details-dialog';
+
 
 const Document = dynamic(
   () =>
@@ -42,7 +44,7 @@ const Page = dynamic(() => import('react-pdf').then((mod) => mod.Page), {
 export default function EbookViewerPage() {
   const params = useParams();
   const id = params.id as string;
-  const { handleNavigate, handleBack } = useTransitionRouter();
+  const { handleBack } = useTransitionRouter();
   const { publishedEbooks, removePublishedEbook, t, allEbooks } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
   const { toast } = useToast();
@@ -58,6 +60,7 @@ export default function EbookViewerPage() {
   const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -150,7 +153,7 @@ export default function EbookViewerPage() {
         title: t('ebook_deleted'),
         description: t('ebook_deleted_description'),
       });
-      handleNavigate('/profile');
+      handleBack();
     }
   };
   
@@ -267,14 +270,16 @@ export default function EbookViewerPage() {
         {isOwner && (
           <footer className="fixed bottom-8 left-0 right-0 z-30 p-4 md:bottom-2 md:mb-4" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
             <div className="w-full max-w-[16rem] mx-auto">
-                {isClient && isMobile ? (
-                    <Button onClick={() => setIsSheetOpen(true)} className="bg-black text-white hover:bg-black/90 rounded-full w-full h-12 text-lg font-semibold">
-                        {t('details')}
-                    </Button>
-                  ) : (
-                    <Button onClick={() => handleNavigate(`/ebook/${ebook!.id}/details`)} className="bg-black text-white hover:bg-black/90 rounded-full w-full h-12 text-lg font-semibold">
-                        {t('details')}
-                    </Button>
+                {isClient && (
+                    isMobile ? (
+                        <Button onClick={() => setIsSheetOpen(true)} className="bg-black text-white hover:bg-black/90 rounded-full w-full h-12 text-lg font-semibold">
+                            {t('details')}
+                        </Button>
+                    ) : (
+                        <Button onClick={() => setIsDetailsDialogOpen(true)} className="bg-black text-white hover:bg-black/90 rounded-full w-full h-12 text-lg font-semibold">
+                            {t('details')}
+                        </Button>
+                    )
                 )}
             </div>
           </footer>
@@ -282,6 +287,9 @@ export default function EbookViewerPage() {
       </div>
       {isOwner && isClient && isMobile && (
         <EbookDetailsSheet ebook={ebook} open={isSheetOpen} onOpenChange={setIsSheetOpen} />
+      )}
+      {isOwner && isClient && !isMobile && (
+        <EbookDetailsDialog ebook={ebook} open={isDetailsDialogOpen} onOpenChange={setIsDetailsDialogOpen} />
       )}
     </>
   );
