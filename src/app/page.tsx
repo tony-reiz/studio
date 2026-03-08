@@ -13,6 +13,7 @@ import { PrivacySheet } from '@/components/bookline/privacy-sheet';
 import { useEbooks } from '@/context/ebook-provider';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
+import { BVCouleur } from '@/components/bookline/BVCouleur';
 
 
 // Chart data and config
@@ -110,12 +111,13 @@ export default function LandingPage() {
           <Button 
             onClick={() => handleNavigate('/auth')} 
             className={cn(
-                "mt-10 bg-black text-white rounded-full h-14 px-12 text-lg font-semibold transform transition-all duration-700 ease-out delay-300",
-                "hover:bg-black/90 hover:scale-105",
-                isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
+                "mt-10 rounded-[40px] h-[78px] w-[280px] p-0",
+                "bv-couleur-button",
+                isMounted ? "opacity-100" : "opacity-0"
             )}
           >
-            Commencer
+            <BVCouleur id="btn-canvas" className="bv-couleur-canvas" />
+            <span>Commencer</span>
           </Button>
         </section>
 
