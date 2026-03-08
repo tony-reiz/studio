@@ -91,7 +91,7 @@ export default function LandingPage() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative flex flex-col items-center justify-center text-center min-h-[85vh] pt-40 pb-20 px-4 overflow-hidden">
+        <section className="relative flex flex-col items-center justify-center text-center min-h-[95vh] pt-40 pb-20 px-4 overflow-hidden">
           
           <h2 className={cn(
             "text-5xl md:text-7xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 transition-all duration-700 ease-out",
