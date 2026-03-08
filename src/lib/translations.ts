@@ -175,6 +175,8 @@ export const translations = {
     'suggested_keywords': 'Mots-clés suggérés',
     'description_feedback': 'Avis sur la description',
     'ai_analysis_failed': "L'analyse IA n'a pas pu être effectuée.",
+    'profile_updated': 'Profil mis à jour',
+    'profile_updated_desc': 'Vos informations ont été enregistrées.',
     // interests
     'business': 'Business 💼',
     'fiction': 'Histoires Fictives 📖',
@@ -374,6 +376,8 @@ export const translations = {
     'suggested_keywords': 'Suggested Keywords',
     'description_feedback': 'Description Feedback',
     'ai_analysis_failed': 'AI analysis could not be performed.',
+    'profile_updated': 'Profile updated',
+    'profile_updated_desc': 'Your information has been saved.',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',

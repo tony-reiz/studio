@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { SettingsList } from './settings-list';
-import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut } from 'lucide-react';
+import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut, Plus, User as UserIcon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { languages } from '@/lib/languages';
@@ -27,9 +27,14 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useEbooks } from '@/context/ebook-provider';
-import type { Locale } from '@/lib/translations';
+import type { Locale, TranslationKeys } from '@/lib/translations';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
+import { ImageCropper } from './image-cropper';
 
-type View = 'main' | 'language' | 'help' | 'security';
+type View = 'main' | 'language' | 'help' | 'security' | 'account';
 
 interface MobileSettingsSheetProps {
     children: ReactNode;
@@ -38,7 +43,7 @@ interface MobileSettingsSheetProps {
 export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [view, setView] = useState<View>('main');
-    const { locale, setLocale, t } = useEbooks();
+    const { locale, setLocale, t, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests } = useEbooks();
     const [searchQuery, setSearchQuery] = useState('');
     
     const isMobile = useIsMobile();
@@ -46,12 +51,46 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
     const [isContentVisible, setIsContentVisible] = useState(false);
 
+    // State for Account View
+    const [username, setUsername] = useState('');
+    const [bio, setBio] = useState('');
+    const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+    const [localSelectedInterests, setLocalSelectedInterests] = useState<string[]>([]);
+    const [imageToCrop, setImageToCrop] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const { toast } = useToast();
+
+    const interestKeys: TranslationKeys[] = [
+      'business', 'fiction', 'biographies', 'courses_revisions', 
+      'career', 'sport', 'motivation', 'driving_code', 'prep_courses',
+      'personal_development', 'science_fiction', 'technology', 
+      'health_wellness', 'cooking', 'art_photography', 'travel',
+      'history', 'psychology', 'finance', 'marketing', 'other'
+    ];
+
     useEffect(() => {
         setIsClient(true);
     }, []);
 
     useEffect(() => {
         if (isOpen) {
+            // Reset states when sheet opens
+            setUsername(userProfile.username !== 'utilisateur' && userProfile.username !== 'user' ? userProfile.username : '');
+            setBio(userProfile.bio || '');
+            setAvatarUrl(userProfile.avatarUrl);
+            
+            const fullInterests: string[] = [];
+            interestKeys.forEach(key => {
+                const translated = t(key);
+                const lastSpaceIndex = translated.lastIndexOf(' ');
+                const cleaned = (lastSpaceIndex === -1 ? translated : translated.substring(0, lastSpaceIndex).trim()).toLowerCase();
+                if (selectedInterests.includes(cleaned)) {
+                    fullInterests.push(translated);
+                }
+            });
+            setLocalSelectedInterests(fullInterests);
+
+
             setIsContentVisible(false);
             const timer = setTimeout(() => setIsContentVisible(true), isMobile ? 700 : 100);
             return () => clearTimeout(timer);
@@ -63,17 +102,14 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             }, 500);
             return () => clearTimeout(timer);
         }
-    }, [isOpen, isMobile]);
+    }, [isOpen, isMobile, userProfile, selectedInterests, t]);
 
-    
-    if (!isClient) {
-        return <div>{children}</div>;
-    }
     
     const onItemClick = (id: string) => {
         if (id === 'language') setView('language');
         else if (id === 'help') setView('help');
         else if (id === 'security') setView('security');
+        else if (id === 'account') setView('account');
     };
 
     const handleLanguageSelect = (code: Locale) => {
@@ -99,6 +135,68 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       { id: "faq-3", question: t('faq_q3'), answer: t('faq_a3') },
       { id: "faq-4", question: t('faq_q4'), answer: t('faq_a4') },
     ];
+
+    // --- Account View Logic ---
+    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setImageToCrop(reader.result as string);
+          };
+          reader.readAsDataURL(file);
+        }
+        if (e.target) {
+            e.target.value = "";
+        }
+    };
+
+    const onCropComplete = (croppedImageUrl: string) => {
+        setAvatarUrl(croppedImageUrl);
+    };
+
+    const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        const valueWithoutSpaces = value.replace(/\s/g, '');
+        const truncatedValue = valueWithoutSpaces.slice(0, 10);
+        setUsername(truncatedValue);
+    };
+    
+    const toggleInterest = (interest: string) => {
+        setLocalSelectedInterests((prev) =>
+          prev.includes(interest)
+            ? prev.filter((i) => i !== interest)
+            : [...prev, interest]
+        );
+    };
+
+    const handleSave = () => {
+        const existingUsernames = ['admin', 'bookline', 'kaizer'];
+        const newUsername = username.trim();
+
+        if (!newUsername) return;
+
+        if (existingUsernames.includes(newUsername.toLowerCase()) && newUsername.toLowerCase() !== userProfile.username.toLowerCase()) {
+          toast({
+            variant: "destructive",
+            title: t('username_not_available'),
+            description: t('username_taken'),
+          });
+          return;
+        }
+
+        updateUserProfile({ username: newUsername, bio, avatarUrl });
+        updateSelectedInterests(localSelectedInterests);
+        toast({
+            title: t('profile_updated'),
+            description: t('profile_updated_desc'),
+        });
+        setIsOpen(false);
+    };
+    
+    const inputClasses = "pl-11 pr-4 h-12 w-full text-base border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 glass-form-element";
+    const isSaveDisabled = !username.trim();
+    // --- End Account View Logic ---
     
     const MainView = (
       <>
@@ -246,6 +344,112 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         </>
     );
 
+    const AccountView = (
+        <>
+            <ImageCropper 
+              imageSrc={imageToCrop}
+              onCropComplete={onCropComplete}
+              onClose={() => setImageToCrop(null)}
+            />
+            <div className="px-4 pt-6 shrink-0">
+                <div className="flex items-center justify-center relative mb-2">
+                    <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
+                        <ChevronLeft className="h-6 w-6" />
+                    </button>
+                    <h1 className="text-xl font-bold text-center">{t('account_settings')}</h1>
+                </div>
+            </div>
+            <div className="flex-1 overflow-y-auto px-4 pb-28">
+                 <div className="flex flex-col items-center w-full max-w-sm mx-auto">
+                    <div className="relative mb-6">
+                      <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleAvatarChange}
+                        accept="image/*"
+                        className="hidden"
+                      />
+                      <Avatar className="h-24 w-24 bg-foreground dark:bg-white">
+                        {avatarUrl ? (
+                          <AvatarImage src={avatarUrl} alt={t('user_profile')} style={{ objectFit: 'cover' }} />
+                        ) : (
+                          <AvatarFallback className="bg-transparent">
+                            <UserIcon className="h-10 w-10 text-background dark:text-black" />
+                          </AvatarFallback>
+                        )}
+                      </Avatar>
+                      <Button onClick={() => fileInputRef.current?.click()} size="icon" className="absolute bottom-0 right-0 rounded-full bg-primary text-primary-foreground w-8 h-8 border-2 border-background hover:bg-primary/90">
+                        <Plus className="h-5 w-5" strokeWidth={3} />
+                      </Button>
+                    </div>
+
+                    <div className="w-full space-y-4 mb-8">
+                      <div className="relative w-full">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">N</span>
+                        <Input
+                          type="text"
+                          placeholder={t('username_placeholder')}
+                          value={username}
+                          onChange={handleUsernameChange}
+                          className={inputClasses}
+                        />
+                      </div>
+                      <div>
+                        <div className="relative w-full">
+                          <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-muted-foreground">B</span>
+                          <Textarea
+                            placeholder={t('bio_placeholder')}
+                            value={bio}
+                            onChange={(e) => setBio(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') e.preventDefault();
+                            }}
+                            className={cn(inputClasses, "h-24 rounded-[30px] py-3.5 leading-snug resize-none")}
+                            maxLength={80}
+                          />
+                        </div>
+                        <p className="text-xs text-muted-foreground text-right w-full pr-4 pt-1">
+                          {bio.length} / 80
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="w-full">
+                        <p className="text-muted-foreground text-center mb-4 text-sm">{t('select_5_interests')}</p>
+                        <div className="flex flex-wrap justify-center gap-2">
+                           {interestKeys.map((interestKey) => {
+                                const translatedInterest = t(interestKey);
+                                return (
+                                  <Button
+                                    key={interestKey}
+                                    variant={localSelectedInterests.includes(translatedInterest) ? 'default' : 'secondary'}
+                                    onClick={() => toggleInterest(translatedInterest)}
+                                    className="rounded-full h-9 px-4 text-xs sm:h-10 sm:px-5 sm:text-sm font-semibold transition-all duration-200"
+                                  >
+                                    {translatedInterest}
+                                  </Button>
+                                );
+                           })}
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div className={cn("p-4 shrink-0 border-t border-border bg-background", isMobile && 'fixed bottom-0 left-0 right-0')}>
+                <div className="w-full max-w-[16rem] mx-auto">
+                    <Button 
+                        onClick={handleSave}
+                        disabled={isSaveDisabled}
+                        className={cn(
+                            "bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90 disabled:bg-[#DFDFDF] disabled:text-muted-foreground",
+                        )}
+                    >
+                        {t('save')}
+                    </Button>
+                </div>
+            </div>
+        </>
+    );
+
     const SettingsContent = (
       <div 
           className={cn(
@@ -264,6 +468,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                   {view === 'language' && LanguageView}
                   {view === 'help' && HelpView}
                   {view === 'security' && SecurityView}
+                  {view === 'account' && AccountView}
               </div>
           </div>
       </div>
@@ -275,7 +480,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <DrawerTrigger asChild>
                     {children}
                 </DrawerTrigger>
-                <DrawerContent className="rounded-t-[50px] h-[70vh] flex flex-col bg-background border-0 p-0">
+                <DrawerContent className="rounded-t-[50px] h-[90vh] flex flex-col bg-background border-0 p-0">
                     <DrawerTitle className="sr-only">{t('settings')}</DrawerTitle>
                     {SettingsContent}
                 </DrawerContent>
@@ -290,7 +495,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             </DialogTrigger>
             <DialogContent className="max-w-2xl w-full p-0 bg-transparent border-none shadow-xl">
                  <UIDialogTitle className="sr-only">{t('settings')}</UIDialogTitle>
-                 <div className="h-[60vh] flex flex-col bg-background rounded-[50px] overflow-hidden">
+                 <div className="h-[70vh] flex flex-col bg-background rounded-[50px] overflow-hidden">
                     {SettingsContent}
                  </div>
             </DialogContent>

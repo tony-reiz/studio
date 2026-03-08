@@ -31,7 +31,7 @@ interface SettingsItem {
 }
 
 const settingsItems: SettingsItem[] = [
-  { icon: User, labelKey: 'account_settings' },
+  { icon: User, labelKey: 'account_settings', id: 'account' },
   { icon: Bell, labelKey: 'notifications' },
   { icon: ShieldCheck, labelKey: 'security', href: '/settings/security', id: 'security' },
   { icon: Languages, labelKey: 'language', href: '/settings/language', id: 'language' },
