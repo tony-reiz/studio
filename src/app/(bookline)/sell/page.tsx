@@ -16,6 +16,7 @@ import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { PDFDocument } from 'pdf-lib';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
+import { BVCouleur } from '@/components/bookline/BVCouleur';
 
 
 export default function SellPage() {
@@ -188,17 +189,20 @@ export default function SellPage() {
             </div>
             <div className="max-w-[16rem] w-full">
                 <Button
-                type="submit"
-                disabled={isButtonDisabled}
-                className={cn(
-                    "w-full h-12 text-lg font-semibold rounded-full",
-                    !isFormComplete && !isProcessing ? 'glass-button' : '',
-                    isProcessing ? 'bg-[#DFDFDF] text-muted-foreground cursor-not-allowed' : '',
-                    isFormComplete && !isProcessing ? 'bg-foreground text-background hover:bg-foreground/90' : ''
-                )}
+                    type="submit"
+                    disabled={isButtonDisabled}
+                    className={cn(
+                        "w-full h-12 text-lg font-semibold rounded-full",
+                        {
+                            "bv-couleur-button p-0": isFormComplete && !isProcessing,
+                            "glass-button": !isFormComplete && !isProcessing,
+                            "bg-[#DFDFDF] text-muted-foreground cursor-not-allowed": isProcessing
+                        }
+                    )}
                 >
-                {isProcessing && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
-                <span>{getButtonText()}</span>
+                    {isFormComplete && !isProcessing && <BVCouleur id="sell-button-canvas" className="bv-couleur-canvas" />}
+                    {isProcessing && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+                    <span>{getButtonText()}</span>
                 </Button>
             </div>
           </main>
