@@ -197,9 +197,11 @@ export default function EbookViewerPage() {
         document.body.appendChild(link);
         link.click();
         
-        // Clean up
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
+        // Clean up with a delay to support mobile browsers
+        setTimeout(() => {
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+        }, 100);
     } catch (error) {
         console.error("Download failed:", error);
         toast({
