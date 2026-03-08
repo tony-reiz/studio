@@ -71,9 +71,25 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         setIsClient(true);
     }, []);
 
+    // Effect for animations and view reset on open/close
     useEffect(() => {
         if (isOpen) {
-            // Reset states when sheet opens
+            setIsContentVisible(false);
+            const timer = setTimeout(() => setIsContentVisible(true), isMobile ? 700 : 100);
+            return () => clearTimeout(timer);
+        } else {
+            setIsContentVisible(false);
+            const timer = setTimeout(() => {
+                setView('main');
+                setSearchQuery('');
+            }, 500);
+            return () => clearTimeout(timer);
+        }
+    }, [isOpen, isMobile]);
+    
+    // Effect to sync local state with context when sheet opens or context data changes
+    useEffect(() => {
+        if (isOpen) {
             setUsername(userProfile.username !== 'utilisateur' && userProfile.username !== 'user' ? userProfile.username : '');
             setBio(userProfile.bio || '');
             setAvatarUrl(userProfile.avatarUrl);
@@ -86,20 +102,8 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 }
             });
             setLocalSelectedInterests(fullInterests);
-
-
-            setIsContentVisible(false);
-            const timer = setTimeout(() => setIsContentVisible(true), isMobile ? 700 : 100);
-            return () => clearTimeout(timer);
-        } else {
-            setIsContentVisible(false);
-            const timer = setTimeout(() => {
-                setView('main');
-                setSearchQuery('');
-            }, 500);
-            return () => clearTimeout(timer);
         }
-    }, [isOpen, isMobile, userProfile, selectedInterests, t]);
+    }, [isOpen, userProfile, selectedInterests, t]);
 
     
     const onItemClick = (id: string) => {
