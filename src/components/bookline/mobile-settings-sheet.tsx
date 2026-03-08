@@ -358,7 +358,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 </div>
             </div>
             <div className="flex-1 overflow-y-auto px-4 pb-8">
-                 <div className="flex flex-col items-center w-full max-w-sm mx-auto pt-12">
+                 <div className="flex flex-col items-center w-full max-w-sm mx-auto pt-20">
                     <div className="relative mb-6">
                       <input
                         type="file"
@@ -436,7 +436,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             disabled={isSaveDisabled}
                             className={cn(
                                 "rounded-full w-full h-12 text-lg font-semibold",
-                                !isSaveDisabled ? 'bg-foreground text-background hover:bg-foreground/90' : 'glass-button'
+                                !isSaveDisabled ? 'bg-foreground text-background hover:bg-foreground/90' : 'bg-muted text-muted-foreground'
                             )}
                         >
                             {t('save')}
