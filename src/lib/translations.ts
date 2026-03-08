@@ -165,6 +165,9 @@ export const translations = {
     'download': 'Télécharger',
     'download_error_title': 'Erreur de téléchargement',
     'download_error_desc': 'Impossible de télécharger le fichier.',
+    'sharing_not_supported': "Le partage n'est pas supporté sur votre appareil.",
+    'heres_the_ebook': "Voici l'ebook :",
+    'discover_this_ebook': "Découvrez cet ebook :",
     // interests
     'business': 'Business 💼',
     'fiction': 'Histoires Fictives 📖',
@@ -354,6 +357,9 @@ export const translations = {
     'download': 'Download',
     'download_error_title': 'Download Error',
     'download_error_desc': 'Failed to download the file.',
+    'sharing_not_supported': 'Sharing is not supported on your device.',
+    'heres_the_ebook': 'Here is the ebook:',
+    'discover_this_ebook': 'Check out this ebook:',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',

@@ -73,7 +73,7 @@ export default function BuyEbookPage() {
     if (!ebook) return;
     const shareData = {
       title: ebook.title,
-      text: `Découvrez cet ebook : ${ebook.title}`,
+      text: `${t('discover_this_ebook')} ${ebook.title}`,
       url: window.location.href,
     };
 

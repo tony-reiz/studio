@@ -159,26 +159,57 @@ export default function EbookViewerPage() {
   
   const handleShare = async () => {
     if (!ebook) return;
-    const shareData = {
+
+    const isPdf = ebook.pdfDataUrl.startsWith('data:application/pdf');
+
+    // On mobile, try to share the file directly if it's a PDF
+    if (isMobile && isPdf && navigator.share && navigator.canShare) {
+      try {
+        const response = await fetch(ebook.pdfDataUrl);
+        const blob = await response.blob();
+        const fileName = ebook.title.replace(/[^a-z0-9\s-]/gi, '').trim().replace(/\s+/g, '-').toLowerCase();
+        const file = new File([blob], `${fileName || 'ebook'}.pdf`, { type: 'application/pdf' });
+        
+        const shareData = {
+          files: [file],
+          title: ebook.title,
+          text: `${t('heres_the_ebook')} ${ebook.title}`,
+        };
+
+        if (navigator.canShare(shareData)) {
+          await navigator.share(shareData);
+          return; // Exit if successful
+        }
+      } catch (error) {
+        console.error("File sharing failed, falling back to URL sharing:", error);
+      }
+    }
+
+    // Fallback for desktop or if file sharing fails/is not supported
+    const urlShareData = {
       title: ebook.title,
-      text: `Découvrez cet ebook : ${ebook.title}`,
+      text: `${t('discover_this_ebook')} ${ebook.title}`,
       url: window.location.href,
     };
-
+    
     try {
       if (navigator.share) {
-        await navigator.share(shareData);
+        await navigator.share(urlShareData);
       } else {
         await navigator.clipboard.writeText(window.location.href);
         toast({ title: t('link_copied') });
       }
     } catch (error) {
+      // Final fallback to clipboard
       try {
-        // Fallback to copying
         await navigator.clipboard.writeText(window.location.href);
         toast({ title: t('link_copied') });
       } catch (copyError) {
-        // If everything fails, just ignore it and don't show an error.
+        toast({
+            variant: "destructive",
+            title: t('error'),
+            description: t('sharing_not_supported'),
+        });
       }
     }
   };
@@ -240,10 +271,12 @@ export default function EbookViewerPage() {
                   <Share2 className="mr-2 h-4 w-4" />
                   <span>{t('share')}</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleDownload}>
-                  <Download className="mr-2 h-4 w-4" />
-                  <span>{t('download')}</span>
-                </DropdownMenuItem>
+                {!isMobile && (
+                  <DropdownMenuItem onClick={handleDownload}>
+                    <Download className="mr-2 h-4 w-4" />
+                    <span>{t('download')}</span>
+                  </DropdownMenuItem>
+                )}
                 {isOwner && (
                   <>
                     <DropdownMenuSeparator />
