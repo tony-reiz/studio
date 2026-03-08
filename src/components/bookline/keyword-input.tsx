@@ -3,9 +3,26 @@
 import { useState, useEffect, KeyboardEvent, useRef } from 'react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { X } from 'lucide-react';
+import { X, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useFormField } from '@/components/ui/form';
+import { getEbookSearchSuggestions } from '@/ai/flows/ai-powered-search-suggestions';
+import { useToast } from '@/hooks/use-toast';
+import { useEbooks } from '@/context/ebook-provider';
+
+// Debounce hook
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+  return debouncedValue;
+}
 
 type KeywordState = 'entering' | 'visible' | 'removing';
 interface Keyword {
@@ -22,13 +39,22 @@ interface KeywordInputProps {
 
 export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps) {
   const { error } = useFormField();
+  const { t } = useEbooks();
   const [keywords, setKeywords] = useState<Keyword[]>(() =>
     value ? value.split(',').map(k => ({ id: k.trim(), text: k.trim(), state: 'visible' })).filter(k => k.text) : []
   );
   const [inputValue, setInputValue] = useState('');
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(false);
+  
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const internalValueRef = useRef(value);
+
+  const debouncedInputValue = useDebounce(inputValue, 300);
+  const { toast } = useToast();
 
   // Sync from parent if value changes externally
   useEffect(() => {
@@ -41,13 +67,42 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
     }
   }, [value]);
 
+  // Fetch suggestions from AI flow
+  useEffect(() => {
+    async function fetchSuggestions() {
+      if (debouncedInputValue.trim().length > 1) {
+        setIsLoading(true);
+        setSuggestions([]);
+        try {
+          const result = await getEbookSearchSuggestions({ partialQuery: debouncedInputValue });
+          const existingKeywords = new Set(keywords.map(k => k.text.toLowerCase()));
+          const filteredSuggestions = result.suggestions.filter(s => !existingKeywords.has(s.toLowerCase()));
+          setSuggestions(filteredSuggestions);
+        } catch (error) {
+          console.error('Failed to fetch keyword suggestions:', error);
+          toast({
+            variant: "destructive",
+            title: t('error'),
+            description: t('cant_fetch_suggestions'),
+          });
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        setSuggestions([]);
+      }
+    }
+    fetchSuggestions();
+  }, [debouncedInputValue, keywords, toast, t]);
+
+
   // Handle entry animation
   useEffect(() => {
     const hasEntering = keywords.some(k => k.state === 'entering');
     if (hasEntering) {
       const timer = setTimeout(() => {
         setKeywords(current => current.map(k => (k.state === 'entering' ? { ...k, state: 'visible' } : k)));
-      }, 10); // Short delay to allow initial render at opacity-0
+      }, 10);
       return () => clearTimeout(timer);
     }
   }, [keywords]);
@@ -55,9 +110,7 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
   const updateParent = (newKeywords: Keyword[]) => {
     const newValue = newKeywords.filter(k => k.state !== 'removing').map(k => k.text).join(', ');
     internalValueRef.current = newValue;
-    setTimeout(() => {
-      onChange(newValue);
-    }, 0);
+    onChange(newValue);
   };
 
   useEffect(() => {
@@ -66,23 +119,25 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
     }
   }, [keywords.length]);
 
-  const handleAddKeyword = () => {
-    let newKeywordText = inputValue.trim();
+
+  const addKeyword = (text: string) => {
+    let newKeywordText = text.trim();
     if (newKeywordText.endsWith(',')) {
       newKeywordText = newKeywordText.slice(0, -1).trim();
     }
-    if (newKeywordText && !keywords.some(k => k.text === newKeywordText)) {
+    if (newKeywordText && !keywords.some(k => k.text.toLowerCase() === newKeywordText.toLowerCase())) {
       const newKeywords = [...keywords, { id: crypto.randomUUID(), text: newKeywordText, state: 'entering' }];
       setKeywords(newKeywords);
       updateParent(newKeywords);
     }
     setInputValue('');
-  };
+    setSuggestions([]);
+  }
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' || event.key === ',') {
       event.preventDefault();
-      handleAddKeyword();
+      addKeyword(inputValue);
     } else if (event.key === 'Backspace' && inputValue === '' && keywords.length > 0) {
       const lastKeyword = keywords.findLast(k => k.state !== 'removing');
       if (lastKeyword) {
@@ -103,51 +158,98 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
         updateParent(newKeywords);
         return newKeywords;
       });
-    }, 500); // This duration must match the CSS transition duration
+    }, 500);
   };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    addKeyword(suggestion);
+    inputRef.current?.focus();
+  };
+
+  const handleFocus = () => {
+    setIsSuggestionsVisible(true);
+  }
+
+  const handleBlur = () => {
+    setTimeout(() => {
+        if(containerRef.current && !containerRef.current.contains(document.activeElement)) {
+            setIsSuggestionsVisible(false);
+            if (inputValue.trim()) {
+                addKeyword(inputValue);
+            }
+        }
+    }, 200);
+  }
   
   return (
-    <div 
-        className={cn(
-            "flex items-center h-12 w-full rounded-full p-0 overflow-hidden glass-form-element",
-            error ? 'ring-2 ring-destructive ring-offset-2' : ''
-        )}
-        onClick={() => inputRef.current?.focus()}
-    >
-        <div ref={scrollContainerRef} className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-2 scrollbar-hide">
-            {keywords.map((keyword) => (
-                <Badge 
-                    key={keyword.id} 
-                    variant="default" 
-                    className={cn(
-                        "flex-shrink-0 whitespace-nowrap rounded-full py-1 px-3 transition-opacity duration-500",
-                        keyword.state !== 'visible' && 'opacity-0'
-                    )}
-                >
-                {keyword.text}
-                <button 
-                    type="button"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        removeKeyword(keyword.id);
-                    }} 
-                    className="ml-1.5 rounded-full outline-none hover:bg-primary/80 ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                >
-                    <X className="h-3 w-3" />
-                </button>
-                </Badge>
-            ))}
-            <Input
-                ref={inputRef}
-                type="text"
-                placeholder={keywords.length === 0 ? placeholder : ''}
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={handleKeyDown}
-                onBlur={handleAddKeyword}
-                className="bg-transparent border-0 h-full p-0 m-0 text-base shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 min-w-[100px] flex-grow"
-            />
+    <div ref={containerRef} className="relative">
+        <div 
+            className={cn(
+                "flex items-center h-12 w-full rounded-full p-0 overflow-hidden glass-form-element",
+                error ? 'ring-2 ring-destructive ring-offset-2' : ''
+            )}
+            onClick={() => inputRef.current?.focus()}
+        >
+            <div ref={scrollContainerRef} className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-12 scrollbar-hide">
+                {keywords.map((keyword) => (
+                    <Badge 
+                        key={keyword.id} 
+                        variant="default" 
+                        className={cn(
+                            "flex-shrink-0 whitespace-nowrap rounded-full py-1 px-3 transition-opacity duration-500",
+                            keyword.state !== 'visible' && 'opacity-0'
+                        )}
+                    >
+                    {keyword.text}
+                    <button 
+                        type="button"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            removeKeyword(keyword.id);
+                        }} 
+                        className="ml-1.5 rounded-full outline-none hover:bg-primary/80 ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    >
+                        <X className="h-3 w-3" />
+                    </button>
+                    </Badge>
+                ))}
+                <Input
+                    ref={inputRef}
+                    type="text"
+                    placeholder={keywords.length === 0 ? placeholder : ''}
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    className="bg-transparent border-0 h-full p-0 m-0 text-base shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 min-w-[100px] flex-grow"
+                />
+            </div>
+            {isLoading && (
+                <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                    <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+                </div>
+            )}
         </div>
+
+        {isSuggestionsVisible && (suggestions.length > 0) && (
+            <div className="absolute z-10 w-full mt-2 bg-secondary rounded-xl p-2 shadow-lg animate-in fade-in-0 slide-in-from-top-2 duration-300">
+                <p className="px-2 py-1 text-xs text-muted-foreground">{t('search_suggestions')}</p>
+                <ul className="space-y-1">
+                    {suggestions.map((suggestion, index) => (
+                    <li key={index}>
+                        <button
+                        type="button"
+                        onClick={() => handleSuggestionClick(suggestion)}
+                        className="w-full text-left px-2 py-1.5 text-sm rounded-md hover:bg-background/70 transition-colors"
+                        >
+                        {suggestion}
+                        </button>
+                    </li>
+                    ))}
+                </ul>
+            </div>
+        )}
     </div>
   );
 }
