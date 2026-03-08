@@ -345,7 +345,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     );
 
     const AccountView = (
-        <>
+         <div className="flex flex-col h-full">
             <ImageCropper 
               imageSrc={imageToCrop}
               onCropComplete={onCropComplete}
@@ -432,16 +432,13 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                            })}
                         </div>
                     </div>
-
                     <div className="w-full max-w-[16rem] mx-auto">
                         <button
                             onClick={handleSave}
                             disabled={isSaveDisabled}
                             className={cn(
-                                "rounded-full w-full h-12 text-lg font-semibold",
-                                isSaveDisabled 
-                                ? "bg-muted text-muted-foreground cursor-not-allowed" 
-                                : "glass-button"
+                                "rounded-full w-full h-12 text-lg font-semibold glass-button",
+                                 isSaveDisabled && "bg-muted text-muted-foreground cursor-not-allowed"
                             )}
                         >
                             <span>{t('save')}</span>
@@ -449,7 +446,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 
     const SettingsContent = (
@@ -482,7 +479,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <DrawerTrigger asChild>
                     {children}
                 </DrawerTrigger>
-                <DrawerContent className="rounded-t-[50px] h-[90vh] flex flex-col bg-background border-0 p-0">
+                <DrawerContent className="rounded-t-[50px] h-[80vh] flex flex-col bg-background border-0 p-0">
                     <DrawerTitle className="sr-only">{t('settings')}</DrawerTitle>
                     {SettingsContent}
                 </DrawerContent>
