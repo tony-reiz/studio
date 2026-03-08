@@ -434,7 +434,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
                 </div>
             </div>
-             <div className={cn("p-4 shrink-0 border-t border-border bg-background", isMobile && 'fixed bottom-0 left-0 right-0')}>
+             <div className={cn("p-4 shrink-0 bg-background", isMobile ? 'fixed bottom-0 left-0 right-0' : 'absolute bottom-0 left-0 right-0')}>
                 <div className="w-full max-w-[16rem] mx-auto">
                     <Button 
                         onClick={handleSave}
@@ -464,7 +464,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
               view !== 'main' ? "-translate-x-1/2" : "translate-x-0"
           )}>
               <div className="w-1/2 h-full flex flex-col">{MainView}</div>
-              <div className="w-1/2 h-full flex flex-col">
+              <div className="w-1/2 h-full flex flex-col relative">
                   {view === 'language' && LanguageView}
                   {view === 'help' && HelpView}
                   {view === 'security' && SecurityView}
