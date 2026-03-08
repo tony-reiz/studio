@@ -98,7 +98,7 @@ export function EbookDetailsDialog({ ebook, open, onOpenChange }: EbookDetailsDi
                                 </div>
                             </div>
                                 <ChartContainer config={chartConfig} className="w-full h-[250px]">
-                                    <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
+                                    <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 20, bottom: 5, left: -16 }}>
                                         <CartesianGrid vertical={false} />
                                         <XAxis
                                             dataKey="metric"

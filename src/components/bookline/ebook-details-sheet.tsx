@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import type { Ebook } from '@/context/ebook-provider';
+import { useEbooks } from '@/context/ebook-provider';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell } from "recharts";
 import { cn } from '@/lib/utils';
@@ -39,6 +40,7 @@ interface EbookDetailsSheetProps {
 }
 
 export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsSheetProps) {
+    const { t } = useEbooks();
     const [isContentVisible, setIsContentVisible] = useState(false);
     const [activeEbook, setActiveEbook] = useState<Ebook | null>(ebook);
 
@@ -73,7 +75,7 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
             className="max-h-[80vh] flex flex-col"
         >
             <div className='h-full flex flex-col'>
-                <h2 id="sheet-title" className="sr-only shrink-0">Détails de l'ebook</h2>
+                <h2 id="sheet-title" className="sr-only shrink-0">{t('ebook_details')}</h2>
                 <div 
                     data-scrollable-sheet="true" 
                     className={cn(
@@ -89,11 +91,11 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
                                 </div>
                                 <div className="space-y-4 p-0">
                                     <div>
-                                        <h3 className="font-semibold text-foreground mb-1 text-sm">Description</h3>
+                                        <h3 className="font-semibold text-foreground mb-1 text-sm">{t('description')}</h3>
                                         <p className="text-sm leading-relaxed whitespace-pre-line">{activeEbook.description}</p>
                                     </div>
                                     <div>
-                                        <h3 className="font-semibold text-foreground mb-2 text-sm">Mots-clés</h3>
+                                        <h3 className="font-semibold text-foreground mb-2 text-sm">{t('keywords')}</h3>
                                         <div className="flex flex-wrap gap-2">
                                             {activeEbook.keywords.split(',').map((keyword, index) => (
                                                 <Badge key={index} variant="default" className="rounded-full py-1 px-3">
@@ -106,26 +108,26 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
                             </div>
                             <div className="border-0 shadow-none bg-transparent">
                                 <div className="p-0 pb-4">
-                                    <h2 className="text-2xl font-semibold leading-none tracking-tight">Statistiques</h2>
-                                    <p className="text-sm text-muted-foreground">Performance de votre ebook.</p>
+                                    <h2 className="text-2xl font-semibold leading-none tracking-tight">{t('statistics')}</h2>
+                                    <p className="text-sm text-muted-foreground">{t('ebook_performance')}</p>
                                 </div>
                                 <div className="space-y-6 p-0">
                                     <div className="grid grid-cols-3 gap-4 text-left">
                                         <div className="bg-secondary p-4 rounded-lg">
-                                            <p className="text-sm text-muted-foreground">Nombre de ventes</p>
+                                            <p className="text-sm text-muted-foreground">{t('number_of_sales')}</p>
                                             <p className="text-3xl font-bold">{numberOfSales}</p>
                                         </div>
                                         <div className="bg-secondary p-4 rounded-lg">
-                                            <p className="text-sm text-muted-foreground">Revenus générés</p>
+                                            <p className="text-sm text-muted-foreground">{t('generated_revenue')}</p>
                                             <p className="text-3xl font-bold">{totalRevenue.toFixed(2).replace('.', ',')} €</p>
                                         </div>
                                         <div className="bg-secondary p-4 rounded-lg">
-                                            <p className="text-sm text-muted-foreground">Prix de l'ebook</p>
+                                            <p className="text-sm text-muted-foreground">{t('ebook_price')}</p>
                                             <p className="text-3xl font-bold">{activeEbook.price} €</p>
                                         </div>
                                     </div>
                                     <ChartContainer config={chartConfig} className="w-full h-[250px]">
-                                        <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
+                                        <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 20, bottom: 5, left: -16 }}>
                                             <CartesianGrid vertical={false} />
                                             <XAxis
                                                 dataKey="metric"
