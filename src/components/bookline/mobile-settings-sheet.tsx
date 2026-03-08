@@ -43,7 +43,7 @@ interface MobileSettingsSheetProps {
 export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [view, setView] = useState<View>('main');
-    const { locale, setLocale, t, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests } = useEbooks();
+    const { locale, setLocale, t, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, theme } = useEbooks();
     const [searchQuery, setSearchQuery] = useState('');
     
     const isMobile = useIsMobile();
@@ -192,7 +192,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         setIsOpen(false);
     };
     
-    const inputClasses = "pl-11 pr-4 h-12 w-full text-base border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 glass-form-element placeholder:text-muted-foreground";
+    const inputClasses = "pl-11 pr-4 h-12 w-full text-base border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground";
     const isSaveDisabled = !username.trim();
     // --- End Account View Logic ---
     
@@ -389,7 +389,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                           placeholder={t('username_placeholder')}
                           value={username}
                           onChange={handleUsernameChange}
-                          className={inputClasses}
+                          className={cn(inputClasses, 'bg-muted')}
                         />
                       </div>
                       <div>
@@ -402,7 +402,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             onKeyDown={(e) => {
                               if (e.key === 'Enter') e.preventDefault();
                             }}
-                            className={cn(inputClasses, "h-24 rounded-[30px] py-3.5 leading-snug resize-none")}
+                            className={cn(inputClasses, "h-24 rounded-[30px] py-3.5 leading-snug resize-none", 'bg-muted')}
                             maxLength={80}
                           />
                         </div>

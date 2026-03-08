@@ -143,7 +143,7 @@ export default function CreateProfilePage() {
                   placeholder={t('username_placeholder')}
                   value={username}
                   onChange={handleUsernameChange}
-                  className={cn(inputClasses, theme === 'light' ? 'bg-[#DFDFDF]' : 'bg-[#393939]')}
+                  className={cn(inputClasses, "bg-muted")}
                 />
               </div>
               <div>
@@ -158,7 +158,7 @@ export default function CreateProfilePage() {
                         e.preventDefault();
                       }
                     }}
-                    className={cn(inputClasses, "h-24 rounded-[30px] py-3.5 leading-snug resize-none", theme === 'light' ? 'bg-[#DFDFDF]' : 'bg-[#393939]')}
+                    className={cn(inputClasses, "h-24 rounded-[30px] py-3.5 leading-snug resize-none", "bg-muted")}
                     maxLength={80}
                   />
                 </div>
@@ -170,13 +170,13 @@ export default function CreateProfilePage() {
           </div>
         </main>
        </div>
-       <div className="fixed bottom-8 left-0 right-0 p-4 md:bottom-2 md:mb-4">
+       <div className="fixed bottom-12 left-0 right-0 p-4 md:bottom-8">
         <div className="w-full max-w-[16rem] mx-auto">
             <Button 
                 onClick={handleSaveProfile}
                 disabled={isSaveDisabled}
                 className={cn(
-                    "bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90 disabled:bg-[#DFDFDF] disabled:text-muted-foreground",
+                    "bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90 disabled:bg-muted disabled:text-muted-foreground",
                     !isSaveDisabled && "animate-pulse-subtle"
                 )}
             >
