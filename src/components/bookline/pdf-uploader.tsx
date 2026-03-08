@@ -93,12 +93,8 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
       />
       <div
         className={cn(
-          'aspect-[210/297] p-0 flex items-center justify-center rounded-[25px] overflow-hidden relative transition-colors',
-          {
-            'glass-form-element': !pdfFile,
-            'bg-transparent': isCompressing,
-            'bg-[#DFDFDF]': pdfFile && !isCompressing,
-          }
+          'aspect-[210/297] p-0 flex items-center justify-center rounded-[25px] overflow-hidden relative transition-colors duration-300',
+          !pdfFile ? 'glass-form-element' : (isCompressing ? 'bg-transparent' : 'bg-[#DFDFDF]')
         )}
       >
         {originalSize && (
@@ -121,24 +117,34 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
             </div>
         )}
         
-        {isCompressing ? (
-            <>
-                <BVCouleur id="pdf-uploader-canvas" className="bv-couleur-canvas !z-0" />
-                <Loader2 className="h-10 w-10 text-white animate-spin z-10" />
-            </>
-        ) : previewUrl ? (
-          <object 
-            data={`${previewUrl}#toolbar=0&navpanes=0&scrollbar=0`} 
-            type="application/pdf" 
-            className={cn(
-              "absolute inset-0 w-full h-full border-0 pointer-events-none scale-110 transition-opacity duration-500 ease-in-out",
-              isPdfVisible ? "opacity-100" : "opacity-0"
-            )} 
-            title="Aperçu du PDF" 
-          />
-        ) : (
-          <CloudUpload className="h-10 w-10 text-muted-foreground z-10" />
-        )}
+        {/* Loading state with fade */}
+        <div className={cn(
+            "absolute inset-0 flex items-center justify-center transition-opacity duration-300",
+            isCompressing ? "opacity-100" : "opacity-0 pointer-events-none"
+        )}>
+            <BVCouleur id="pdf-uploader-canvas" className="bv-couleur-canvas !z-0" />
+            <Loader2 className="h-10 w-10 text-white animate-spin z-10" />
+        </div>
+        
+        {/* Idle and loaded states with fade */}
+        <div className={cn(
+            "absolute inset-0 flex items-center justify-center transition-opacity duration-300",
+            !isCompressing ? "opacity-100" : "opacity-0 pointer-events-none"
+        )}>
+            {previewUrl ? (
+                <object 
+                    data={`${previewUrl}#toolbar=0&navpanes=0&scrollbar=0`} 
+                    type="application/pdf" 
+                    className={cn(
+                    "absolute inset-0 w-full h-full border-0 pointer-events-none scale-110 transition-opacity duration-500 ease-in-out",
+                    isPdfVisible ? "opacity-100" : "opacity-0"
+                    )} 
+                    title="Aperçu du PDF" 
+                />
+            ) : (
+                <CloudUpload className="h-10 w-10 text-muted-foreground z-10" />
+            )}
+        </div>
       </div>
     </div>
   );
