@@ -42,11 +42,10 @@ export function BottomNav() {
       <div className="glass-form-element rounded-full flex relative items-center max-w-[16rem] mx-auto">
         <div
           className={cn(
-            'absolute top-0 h-full w-1/2 rounded-full transition-all duration-500 ease-in-out overflow-hidden',
+            'absolute top-0 h-full w-1/2 rounded-full transition-all duration-500 ease-in-out bg-black',
             isAcheter ? 'left-0' : 'left-1/2'
           )}
         >
-          <BVCouleur id="bottom-nav-canvas" className="bv-couleur-canvas" />
         </div>
         <button
           onClick={() => handleNavigation('acheter')}
