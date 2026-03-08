@@ -98,10 +98,11 @@
   .liquid-glass-base {
     position: relative;
     overflow: hidden;
-    background: rgba(60, 60, 65, 0.1);
-    -webkit-backdrop-filter: blur(20px) saturate(150%);
-    backdrop-filter: blur(20px) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04);
+    -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.1);
+    backdrop-filter: blur(28px) saturate(200%) brightness(1.1);
+    border: none;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
     color: hsl(var(--foreground));
   }
 
@@ -112,17 +113,17 @@
     left: 0;
     right: 0;
     height: 50%;
-    background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.15) 0%, transparent 80%);
+    background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.1) 0%, transparent 75%);
     pointer-events: none;
   }
   
   .dark .liquid-glass-base {
-    background: rgba(20, 20, 20, 0.2);
-    border-color: rgba(255, 255, 255, 0.07);
+    background: rgba(20, 20, 20, 0.1);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
   }
 
   .dark .liquid-glass-base::after {
-    background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 80%);
+    background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.06) 0%, transparent 75%);
   }
 
   .glass-icon-button {
@@ -142,13 +143,12 @@
       z-index: 2;
   }
 
-  /* Resetting hover effects to be neutral */
   .glass-icon-button:hover, .glass-search:hover, .glass-button:hover, .glass-form-element:hover {
-    background: rgba(60, 60, 65, 0.15) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
   }
   
   .dark .glass-icon-button:hover, .dark .glass-search:hover, .dark .glass-button:hover, .dark .glass-form-element:hover {
-     background: rgba(20, 20, 20, 0.25) !important;
+     background: rgba(20, 20, 20, 0.18) !important;
   }
 
   .bv-couleur-button {
