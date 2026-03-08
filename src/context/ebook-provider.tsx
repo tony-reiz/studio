@@ -13,6 +13,8 @@ export interface Ebook {
   keywords: string;
   price: string;
   pdfDataUrl: string;
+  originalSize?: number | null;
+  compressedSize?: number | null;
 }
 
 // Define the shape of a user profile

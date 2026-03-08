@@ -168,6 +168,8 @@ export const translations = {
     'sharing_not_supported': "Le partage n'est pas supporté sur votre appareil.",
     'heres_the_ebook': "Voici l'ebook :",
     'discover_this_ebook': "Découvrez cet ebook :",
+    'file_size': 'Taille du fichier',
+    'file_size_details': 'Original → Compressé',
     // interests
     'business': 'Business 💼',
     'fiction': 'Histoires Fictives 📖',
@@ -360,6 +362,8 @@ export const translations = {
     'sharing_not_supported': 'Sharing is not supported on your device.',
     'heres_the_ebook': 'Here is the ebook:',
     'discover_this_ebook': 'Check out this ebook:',
+    'file_size': 'File Size',
+    'file_size_details': 'Original → Compressed',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',

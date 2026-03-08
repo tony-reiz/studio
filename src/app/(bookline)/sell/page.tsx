@@ -128,6 +128,8 @@ export default function SellPage() {
         keywords: values.keywords,
         price: values.price,
         pdfDataUrl: base64String,
+        originalSize: fileSize.original,
+        compressedSize: fileSize.compressed,
       });
         
       handleNavigate('/profile');

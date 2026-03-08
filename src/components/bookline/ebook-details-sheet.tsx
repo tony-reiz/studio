@@ -44,6 +44,16 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
     const [isContentVisible, setIsContentVisible] = useState(false);
     const [activeEbook, setActiveEbook] = useState<Ebook | null>(ebook);
 
+    const formatBytes = (bytes: number | null | undefined, decimals = 2) => {
+        if (bytes === null || bytes === undefined) return 'N/A';
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const dm = decimals < 0 ? 0 : decimals;
+        const sizes = ['Bytes', 'Ko', 'Mo', 'Go', 'To'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+    }
+
     useEffect(() => {
         if (ebook) {
             setActiveEbook(ebook);
@@ -126,6 +136,12 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
                                             <p className="text-2xl font-bold">{activeEbook.price} €</p>
                                         </div>
                                     </div>
+                                    {activeEbook.originalSize && activeEbook.compressedSize && (
+                                        <div className="bg-secondary p-3 rounded-lg">
+                                            <p className="text-sm text-muted-foreground">{t('file_size')} ({t('file_size_details')})</p>
+                                            <p className="text-xl font-bold">{formatBytes(activeEbook.originalSize)} &rarr; {formatBytes(activeEbook.compressedSize)}</p>
+                                        </div>
+                                    )}
                                     <ChartContainer config={chartConfig} className="w-full h-[250px]">
                                         <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 20, bottom: 5, left: -20 }}>
                                             <CartesianGrid vertical={false} />

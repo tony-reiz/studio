@@ -40,6 +40,16 @@ interface EbookDetailsDialogProps {
 export function EbookDetailsDialog({ ebook, open, onOpenChange }: EbookDetailsDialogProps) {
     const { t } = useEbooks();
 
+    const formatBytes = (bytes: number | null | undefined, decimals = 2) => {
+        if (bytes === null || bytes === undefined) return 'N/A';
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const dm = decimals < 0 ? 0 : decimals;
+        const sizes = ['Bytes', 'Ko', 'Mo', 'Go', 'To'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+    }
+
     if (!ebook) {
         return null;
     }
@@ -96,7 +106,13 @@ export function EbookDetailsDialog({ ebook, open, onOpenChange }: EbookDetailsDi
                                     <p className="text-sm text-muted-foreground">{t('ebook_price')}</p>
                                     <p className="text-2xl font-bold">{ebook.price} €</p>
                                 </div>
-                            </div>
+                                </div>
+                                {ebook.originalSize && ebook.compressedSize ? (
+                                    <div className="bg-secondary p-3 rounded-lg">
+                                        <p className="text-sm text-muted-foreground">{t('file_size')} ({t('file_size_details')})</p>
+                                        <p className="text-xl font-bold">{formatBytes(ebook.originalSize)} &rarr; {formatBytes(ebook.compressedSize)}</p>
+                                    </div>
+                                ) : null}
                                 <ChartContainer config={chartConfig} className="w-full h-[250px]">
                                     <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 20, bottom: 5, left: -20 }}>
                                         <CartesianGrid vertical={false} />
