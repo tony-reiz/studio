@@ -181,7 +181,7 @@ export default function EbookViewerPage() {
           return; // Exit if successful
         }
       } catch (error) {
-        console.error("File sharing failed, falling back to URL sharing:", error);
+        // Fallback to URL sharing is handled below, no need to log error for user cancellation.
       }
     }
 
@@ -234,7 +234,6 @@ export default function EbookViewerPage() {
             window.URL.revokeObjectURL(url);
         }, 100);
     } catch (error) {
-        console.error("Download failed:", error);
         toast({
             variant: "destructive",
             title: t('download_error_title'),
@@ -271,12 +270,10 @@ export default function EbookViewerPage() {
                   <Share2 className="mr-2 h-4 w-4" />
                   <span>{t('share')}</span>
                 </DropdownMenuItem>
-                {!isMobile && (
-                  <DropdownMenuItem onClick={handleDownload}>
-                    <Download className="mr-2 h-4 w-4" />
-                    <span>{t('download')}</span>
-                  </DropdownMenuItem>
-                )}
+                <DropdownMenuItem onClick={handleDownload}>
+                  <Download className="mr-2 h-4 w-4" />
+                  <span>{t('download')}</span>
+                </DropdownMenuItem>
                 {isOwner && (
                   <>
                     <DropdownMenuSeparator />
