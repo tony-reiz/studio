@@ -359,7 +359,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     <h1 className="text-xl font-bold text-center">{t('account_settings')}</h1>
                 </div>
             </div>
-            <div className="flex-1 overflow-y-auto px-4 pb-28">
+            <div className="flex-1 overflow-y-auto px-4 pb-8">
                  <div className="flex flex-col items-center w-full max-w-sm mx-auto">
                     <div className="relative mb-6">
                       <input
@@ -414,7 +414,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                       </div>
                     </div>
                     
-                    <div className="w-full">
+                    <div className="w-full mb-8">
                         <p className="text-muted-foreground text-center mb-4 text-sm">{t('select_5_interests')}</p>
                         <div className="flex flex-wrap justify-center gap-2">
                            {interestKeys.map((interestKey) => {
@@ -431,6 +431,21 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                                 );
                            })}
                         </div>
+                    </div>
+
+                    <div className="w-full max-w-[16rem] mx-auto">
+                        <button
+                            onClick={handleSave}
+                            disabled={isSaveDisabled}
+                            className={cn(
+                                "rounded-full w-full h-12 text-lg font-semibold",
+                                isSaveDisabled 
+                                ? "bg-muted text-muted-foreground cursor-not-allowed" 
+                                : "glass-button"
+                            )}
+                        >
+                            <span>{t('save')}</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -460,25 +475,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
           </div>
       </div>
     );
-
-    const SaveButton = (
-        <div className={cn("p-4 bg-transparent", isMobile ? 'fixed bottom-2 left-0 right-0' : 'absolute bottom-2 left-0 right-0')}>
-            <div className="w-full max-w-[16rem] mx-auto">
-                <button
-                    onClick={handleSave}
-                    disabled={isSaveDisabled}
-                    className={cn(
-                        "rounded-full w-full h-12 text-lg font-semibold",
-                        isSaveDisabled 
-                        ? "bg-muted text-muted-foreground cursor-not-allowed" 
-                        : "glass-button"
-                    )}
-                >
-                    <span>{t('save')}</span>
-                </button>
-            </div>
-        </div>
-    );
     
     if (isMobile) {
         return (
@@ -489,7 +485,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <DrawerContent className="rounded-t-[50px] h-[90vh] flex flex-col bg-background border-0 p-0">
                     <DrawerTitle className="sr-only">{t('settings')}</DrawerTitle>
                     {SettingsContent}
-                    {view === 'account' && SaveButton}
                 </DrawerContent>
             </Drawer>
         );
@@ -504,7 +499,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                  <UIDialogTitle className="sr-only">{t('settings')}</UIDialogTitle>
                  <div className="h-[70vh] flex flex-col bg-background rounded-[50px] overflow-hidden relative">
                     {SettingsContent}
-                    {view === 'account' && SaveButton}
                  </div>
             </DialogContent>
         </Dialog>
