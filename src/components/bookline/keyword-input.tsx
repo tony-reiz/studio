@@ -39,12 +39,12 @@ interface KeywordInputProps {
 
 export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps) {
   const { error } = useFormField();
-  const { t } = useEbooks();
+  const { t, allEbooks } = useEbooks();
   const [keywords, setKeywords] = useState<Keyword[]>(() =>
     value ? value.split(',').map(k => ({ id: k.trim(), text: k.trim(), state: 'visible' })).filter(k => k.text) : []
   );
   const [inputValue, setInputValue] = useState('');
-  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [suggestions, setSuggestions] = useState<Array<{ text: string; count: number }>>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(false);
   
@@ -70,14 +70,22 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
   // Fetch suggestions from AI flow
   useEffect(() => {
     async function fetchSuggestions() {
-      if (debouncedInputValue.trim().length > 1) {
+      if (debouncedInputValue.trim().length > 0) {
         setIsLoading(true);
         setSuggestions([]);
         try {
           const result = await getEbookSearchSuggestions({ partialQuery: debouncedInputValue });
           const existingKeywords = new Set(keywords.map(k => k.text.toLowerCase()));
           const filteredSuggestions = result.suggestions.filter(s => !existingKeywords.has(s.toLowerCase()));
-          setSuggestions(filteredSuggestions);
+          
+          const suggestionsWithCounts = filteredSuggestions.map(suggestion => {
+            const count = allEbooks.filter(ebook => 
+              ebook.keywords.split(',').map(k => k.trim().toLowerCase()).includes(suggestion.toLowerCase())
+            ).length;
+            return { text: suggestion, count };
+          });
+
+          setSuggestions(suggestionsWithCounts);
         } catch (error) {
           console.error('Failed to fetch keyword suggestions:', error);
           toast({
@@ -93,7 +101,7 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
       }
     }
     fetchSuggestions();
-  }, [debouncedInputValue, keywords, toast, t]);
+  }, [debouncedInputValue, keywords, toast, t, allEbooks]);
 
 
   // Handle entry animation
@@ -240,10 +248,11 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
                     <li key={index}>
                         <button
                         type="button"
-                        onClick={() => handleSuggestionClick(suggestion)}
-                        className="w-full text-left px-2 py-1.5 text-sm rounded-md hover:bg-background/70 transition-colors"
+                        onClick={() => handleSuggestionClick(suggestion.text)}
+                        className="w-full text-left px-2 py-1.5 text-sm rounded-md hover:bg-background/70 transition-colors flex justify-between items-center"
                         >
-                        {suggestion}
+                          <span>{suggestion.text}</span>
+                          <span className="text-xs text-muted-foreground">{suggestion.count} publications</span>
                         </button>
                     </li>
                     ))}
