@@ -56,7 +56,16 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
   const debouncedInputValue = useDebounce(inputValue, 300);
   const { toast } = useToast();
 
-  // Sync from parent if value changes externally
+  // Sync keywords state up to the parent form controller.
+  useEffect(() => {
+    const newValue = keywords.filter(k => k.state !== 'removing').map(k => k.text).join(', ');
+    if (newValue !== internalValueRef.current) {
+        internalValueRef.current = newValue;
+        onChange(newValue);
+    }
+  }, [keywords, onChange]);
+
+  // Sync from parent if value changes externally (e.g. form.reset())
   useEffect(() => {
     const newParentValue = value || '';
     if (newParentValue !== internalValueRef.current) {
@@ -76,7 +85,15 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
         try {
           const result = await getEbookSearchSuggestions({ partialQuery: debouncedInputValue });
           const existingKeywords = new Set(keywords.map(k => k.text.toLowerCase()));
-          const filteredSuggestions = result.suggestions.filter(s => !existingKeywords.has(s.toLowerCase()));
+          
+          let filteredSuggestions = result.suggestions.filter(s => !existingKeywords.has(s.toLowerCase()));
+
+          // If no suggestions match, but the user typed something, suggest what they typed.
+          if (filteredSuggestions.length === 0 && debouncedInputValue.trim().length > 0) {
+              if (!existingKeywords.has(debouncedInputValue.trim().toLowerCase())) {
+                  filteredSuggestions = [debouncedInputValue.trim()];
+              }
+          }
           
           const suggestionsWithCounts = filteredSuggestions.map(suggestion => {
             const count = allEbooks.filter(ebook => 
@@ -120,12 +137,6 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
     }
   }, [keywords]);
 
-  const updateParent = (newKeywords: Keyword[]) => {
-    const newValue = newKeywords.filter(k => k.state !== 'removing').map(k => k.text).join(', ');
-    internalValueRef.current = newValue;
-    onChange(newValue);
-  };
-
   useEffect(() => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollLeft = scrollContainerRef.current.scrollWidth;
@@ -141,7 +152,6 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
     if (newKeywordText && !keywords.some(k => k.text.toLowerCase() === newKeywordText.toLowerCase())) {
       const newKeywords = [...keywords, { id: crypto.randomUUID(), text: newKeywordText, state: 'entering' }];
       setKeywords(newKeywords);
-      updateParent(newKeywords);
     }
     setInputValue('');
     setSuggestions([]);
@@ -168,7 +178,6 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
     setTimeout(() => {
       setKeywords(current => {
         const newKeywords = current.filter(k => k.id !== idToRemove);
-        updateParent(newKeywords);
         return newKeywords;
       });
     }, 500);
