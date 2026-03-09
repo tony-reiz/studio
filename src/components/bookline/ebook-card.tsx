@@ -1,131 +1,114 @@
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
-import { Heart } from 'lucide-react';
+import { Heart, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
 import { useState, useRef, useEffect } from 'react';
-
-const Document = dynamic(() => import('react-pdf').then((mod) => mod.Document), {
-  ssr: false,
-});
-const Page = dynamic(() => import('react-pdf').then((mod) => mod.Page), {
-  ssr: false,
-});
-
+import { Document, Page } from 'react-pdf';
 
 interface EbookCardProps {
   ebook?: Ebook;
   className?: string;
-  isActive?: boolean;
   onCardClick?: (ebook: Ebook) => void;
 }
 
-export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCardProps) {
+export function EbookCard({ ebook, className, onCardClick }: EbookCardProps) {
   const { favoritedEbooks, toggleFavoriteEbook } = useEbooks();
-  const [containerWidth, setContainerWidth] = useState(0);
+  const [width, setWidth] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
+  // Set the width of the container for the PDF page
+  useEffect(() => {
+    const measureAndSetWidth = () => {
+      if (containerRef.current) {
+        setWidth(containerRef.current.offsetWidth);
+      }
+    };
+    measureAndSetWidth();
+    window.addEventListener('resize', measureAndSetWidth);
+    return () => window.removeEventListener('resize', measureAndSetWidth);
+  }, []);
+
   const isFavorited = ebook ? favoritedEbooks.some(favEbook => favEbook.id === ebook.id) : false;
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
-    e.preventDefault();
     e.stopPropagation();
     if (ebook) {
       toggleFavoriteEbook(ebook);
     }
   };
-  
+
   const handleCardClick = () => {
     if (ebook && onCardClick) {
       onCardClick(ebook);
     }
   };
 
-  useEffect(() => {
-    const setWidth = () => {
-      if (containerRef.current) {
-        setContainerWidth(containerRef.current.clientWidth);
-      }
-    };
+  const isPdf = ebook?.pdfDataUrl?.startsWith('data:application/pdf');
 
-    const element = containerRef.current;
-    if (!element) return;
-    
-    setWidth();
-    
-    const resizeObserver = new ResizeObserver(setWidth);
-    resizeObserver.observe(element);
+  // Simple loading state component
+  const LoadingState = () => (
+    <div className="w-full h-full flex items-center justify-center bg-secondary">
+      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+    </div>
+  );
 
-    return () => {
-        if (element) {
-            resizeObserver.unobserve(element);
-        }
-    };
-  }, []);
-
-  const isPdf = ebook?.pdfDataUrl.startsWith('data:application/pdf');
+  // Simple error state component
+  const ErrorState = () => (
+    <div className="w-full h-full flex items-center justify-center bg-secondary p-4">
+      <p className="text-center text-sm text-destructive">Impossible d'afficher le PDF.</p>
+    </div>
+  );
 
   return (
-    <div className={cn(ebook && onCardClick ? 'cursor-pointer' : '')} onClick={handleCardClick}>
-      <Card 
-        className={cn('bg-secondary border-0 rounded-[25px] overflow-hidden', !ebook && 'glass-form-element', className)}
-      >
-        <CardContent
-          ref={containerRef}
-          className={cn(
-            'aspect-[210/297] p-0 flex items-center justify-center relative'
-          )}
-        >
-          {ebook ? (
-              <>
-                  {ebook.pdfDataUrl && (
-                    <div className="absolute inset-0 w-full h-full">
-                      {isPdf ? (
-                        <Document
-                            file={ebook.pdfDataUrl}
-                            loading={<div className="w-full h-full bg-secondary" />}
-                            className="flex items-center justify-center overflow-hidden w-full h-full"
-                        >
-                            <Page
-                                pageNumber={1}
-                                width={containerWidth ? containerWidth : undefined}
-                                className={cn(!containerWidth && 'invisible')}
-                                renderTextLayer={false}
-                                renderAnnotationLayer={false}
-                            />
-                        </Document>
-                      ) : (
-                        <Image 
-                          src={ebook.pdfDataUrl} 
-                          alt={ebook.title || 'Ebook cover'} 
-                          fill 
-                          style={{ objectFit: 'cover' }}
-                          unoptimized
-                        />
-                      )}
-                    </div>
-                  )}
-                  
-                  <button
-                      onClick={handleFavoriteClick}
-                      className="absolute top-0 right-0 m-4 p-0 z-20"
-                      aria-label="Ajouter aux favoris"
-                  >
-                      <Heart
-                        className={cn(
-                          'h-7 w-7 transition-colors drop-shadow-md',
-                          isFavorited
-                            ? 'text-black fill-black'
-                            : 'text-white fill-white'
-                        )}
-                      />
-                  </button>
-              </>
-          ) : (
+    <div className={cn(ebook && onCardClick ? 'cursor-pointer' : '', className)} onClick={handleCardClick}>
+      <Card className='bg-secondary border-0 rounded-[25px] overflow-hidden'>
+        <CardContent ref={containerRef} className='aspect-[210/297] p-0 flex items-center justify-center relative'>
+          {!ebook ? (
             <div className="w-full h-full bg-secondary" />
+          ) : (
+            <>
+              <div className="absolute inset-0 w-full h-full">
+                {isPdf ? (
+                  <Document
+                    file={ebook.pdfDataUrl}
+                    loading={<LoadingState />}
+                    error={<ErrorState />}
+                    className="w-full h-full flex justify-center items-center"
+                  >
+                    <Page 
+                      pageNumber={1} 
+                      width={width > 0 ? width : undefined}
+                      renderTextLayer={false}
+                      renderAnnotationLayer={false}
+                      loading={<LoadingState />} 
+                    />
+                  </Document>
+                ) : (
+                  <Image
+                    src={ebook.pdfDataUrl}
+                    alt={ebook.title || 'Ebook cover'}
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    unoptimized
+                  />
+                )}
+              </div>
+              <button
+                onClick={handleFavoriteClick}
+                className="absolute top-0 right-0 m-4 p-0 z-20"
+                aria-label="Ajouter aux favoris"
+              >
+                <Heart
+                  className={cn(
+                    'h-7 w-7 transition-colors drop-shadow-md',
+                    isFavorited ? 'text-black fill-black' : 'text-white fill-white'
+                  )}
+                />
+              </button>
+            </>
           )}
         </CardContent>
       </Card>
