@@ -81,7 +81,7 @@ export default function AuthPage() {
         <div className="max-w-[18rem] sm:max-w-sm w-full space-y-8">
             <div className='overflow-hidden py-2'>
                 <h1 className={cn(
-                    "text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 transition-transform duration-700 ease-out",
+                    "text-4xl font-bold tracking-tight text-foreground transition-transform duration-700 ease-out",
                     isMounted ? "translate-y-0" : "translate-y-full"
                 )}>
                     Rejoignez BookLine
