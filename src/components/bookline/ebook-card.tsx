@@ -8,17 +8,10 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { useState, useRef, useEffect } from 'react';
 
-const Document = dynamic(
-  () =>
-    import('react-pdf').then((mod) => {
-      mod.pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${mod.pdfjs.version}/build/pdf.worker.min.js`;
-      return mod.Document;
-    }),
-  {
-    ssr: false,
-    loading: () => null,
-  }
-);
+const Document = dynamic(() => import('react-pdf').then((mod) => mod.Document), {
+  ssr: false,
+  loading: () => null,
+});
 const Page = dynamic(() => import('react-pdf').then((mod) => mod.Page), {
   ssr: false,
 });
@@ -171,3 +164,5 @@ export function EbookCard({ ebook, className, isActive, onCardClick }: EbookCard
     </div>
   );
 }
+
+    

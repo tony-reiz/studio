@@ -4,6 +4,9 @@ import { createContext, useContext, useState, ReactNode, useEffect } from 'react
 import { usePathname } from 'next/navigation';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { translations, type Locale } from '@/lib/translations';
+import { pdfjs } from 'react-pdf';
+
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 // Define the shape of an ebook
 export interface Ebook {
@@ -225,3 +228,5 @@ export function useEbooks() {
   }
   return context;
 }
+
+    

@@ -13,17 +13,10 @@ import { useToast } from '@/hooks/use-toast';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { FluidSheet } from './fluid-sheet';
 
-const Document = dynamic(
-  () =>
-    import('react-pdf').then((mod) => {
-      mod.pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${mod.pdfjs.version}/build/pdf.worker.min.js`;
-      return mod.Document;
-    }),
-  {
-    ssr: false,
-    loading: () => null,
-  }
-);
+const Document = dynamic(() => import('react-pdf').then((mod) => mod.Document), {
+  ssr: false,
+  loading: () => null,
+});
 
 interface BuyEbookSheetProps {
     ebook: Ebook | null;
@@ -290,3 +283,5 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
     </FluidSheet>
   );
 }
+
+    
