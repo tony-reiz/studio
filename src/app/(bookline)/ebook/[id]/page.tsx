@@ -1,7 +1,7 @@
 'use client';
 
 import { useEbooks, type Ebook } from '@/context/ebook-provider';
-import { Loader2, Share2, Trash2, ChevronLeft, MoreHorizontal, FileText, Download } from 'lucide-react';
+import { Loader2, Share2, Trash2, ChevronLeft, MoreHorizontal, FileText, Download, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -14,27 +14,11 @@ import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import dynamic from 'next/dynamic';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { EbookDetailsSheet } from '@/components/bookline/ebook-details-sheet';
 import { EbookDetailsDialog } from '@/components/bookline/ebook-details-dialog';
-
-
-const Document = dynamic(
-  () => import('react-pdf').then((mod) => mod.Document),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="flex h-full w-full items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-      </div>
-    ),
-  }
-);
-const Page = dynamic(() => import('react-pdf').then((mod) => mod.Page), {
-  ssr: false,
-});
+import { Document, Page } from 'react-pdf';
 
 
 export default function EbookViewerPage() {
@@ -46,13 +30,9 @@ export default function EbookViewerPage() {
   const { toast } = useToast();
 
   const [numPages, setNumPages] = useState<number | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
   const [containerWidth, setContainerWidth] = useState(0);
-  const [isPdfVisible, setIsPdfVisible] = useState(false);
   
-  const viewerRef = useRef<HTMLDivElement>(null);
   const widthRef = useRef<HTMLDivElement>(null);
-  const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -73,74 +53,19 @@ export default function EbookViewerPage() {
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
-    pageRefs.current = Array(numPages).fill(null);
+  };
 
+  // Set the width for the PDF pages
+  useEffect(() => {
     const setWidth = () => {
       if (widthRef.current) {
-        setContainerWidth(widthRef.current.clientWidth);
+        setContainerWidth(widthRef.current.offsetWidth);
       }
     };
     setWidth();
     window.addEventListener('resize', setWidth);
-
-    const timer = setTimeout(() => {
-        setIsPdfVisible(true);
-    }, 100);
-
-    return () => {
-        window.removeEventListener('resize', setWidth)
-        clearTimeout(timer);
-    };
-  };
-  
-  useEffect(() => {
-    const viewer = viewerRef.current;
-    if (!viewer || !numPages || !isPdfVisible) return;
-  
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visiblePages = entries.filter(entry => entry.isIntersecting);
-  
-        if (visiblePages.length > 0) {
-          const viewerRect = viewer.getBoundingClientRect();
-          const viewerCenterY = viewerRect.top + viewerRect.height / 2;
-  
-          let closestPage = 1;
-          let minDistance = Infinity;
-  
-          pageRefs.current.forEach((pageEl, index) => {
-            if (pageEl) {
-              const pageRect = pageEl.getBoundingClientRect();
-              const pageCenterY = pageRect.top + pageRect.height / 2;
-              const distance = Math.abs(viewerCenterY - pageCenterY);
-  
-              if (distance < minDistance) {
-                minDistance = distance;
-                closestPage = index + 1;
-              }
-            }
-          });
-          setCurrentPage(closestPage);
-        }
-      },
-      {
-        root: viewer,
-        threshold: [0.2, 0.5, 0.8],
-      }
-    );
-  
-    const currentRefs = pageRefs.current;
-    currentRefs.forEach((pageEl) => {
-      if (pageEl) observer.observe(pageEl);
-    });
-  
-    return () => {
-      currentRefs.forEach((pageEl) => {
-        if (pageEl) observer.unobserve(pageEl);
-      });
-    };
-  }, [numPages, isPdfVisible]);
-
+    return () => window.removeEventListener('resize', setWidth);
+  }, []);
 
   const handleDelete = () => {
     if (ebook) {
@@ -158,7 +83,6 @@ export default function EbookViewerPage() {
 
     const isPdf = ebook.pdfDataUrl.startsWith('data:application/pdf');
 
-    // On mobile, try to share the file directly if it's a PDF
     if (isMobile && isPdf && navigator.share && navigator.canShare) {
       try {
         const response = await fetch(ebook.pdfDataUrl);
@@ -174,14 +98,13 @@ export default function EbookViewerPage() {
 
         if (navigator.canShare(shareData)) {
           await navigator.share(shareData);
-          return; // Exit if successful
+          return;
         }
       } catch (error) {
-        // Fallback to URL sharing is handled below, no need to log error for user cancellation.
+        // Fallback
       }
     }
 
-    // Fallback for desktop or if file sharing fails/is not supported
     const urlShareData = {
       title: ebook.title,
       text: `${t('discover_this_ebook')} ${ebook.title}`,
@@ -196,19 +119,17 @@ export default function EbookViewerPage() {
         toast({ title: t('link_copied') });
       }
     } catch (error) {
-      // Final fallback to clipboard
       try {
         await navigator.clipboard.writeText(window.location.href);
         toast({ title: t('link_copied') });
       } catch (copyError) {
-        // Silently fail as requested.
+        // Silent fail
       }
     }
   };
   
   const handleDownload = async () => {
     if (!ebook?.pdfDataUrl) return;
-
     try {
         const response = await fetch(ebook.pdfDataUrl);
         const blob = await response.blob();
@@ -220,7 +141,6 @@ export default function EbookViewerPage() {
         document.body.appendChild(link);
         link.click();
         
-        // Clean up with a delay to support mobile browsers
         setTimeout(() => {
             document.body.removeChild(link);
             window.URL.revokeObjectURL(url);
@@ -234,7 +154,15 @@ export default function EbookViewerPage() {
     }
   };
 
-  if (!ebook) {
+  const PdfError = () => (
+    <div className="flex flex-col items-center justify-center text-center text-destructive p-8 h-full mt-20">
+        <AlertCircle className="w-12 h-12 mb-4" />
+        <h3 className="text-xl font-semibold">Erreur de chargement</h3>
+        <p className="text-sm">Impossible d'afficher le PDF. Le fichier est peut-être corrompu ou le format n'est pas supporté.</p>
+    </div>
+  );
+
+  if (!isClient) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-secondary">
         <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
@@ -242,6 +170,14 @@ export default function EbookViewerPage() {
     );
   }
 
+  if (!ebook) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-secondary">
+        <p>Ebook non trouvé.</p>
+      </div>
+    );
+  }
+  
   return (
     <>
       <div className="h-screen bg-secondary flex flex-col">
@@ -285,11 +221,11 @@ export default function EbookViewerPage() {
         {numPages && (
           <div className="fixed left-1/2 -translate-x-1/2 z-20 bg-background/80 backdrop-blur-xl rounded-full flex items-center gap-2 px-3 py-1.5" style={{ top: `calc(env(safe-area-inset-top) + 5rem)`}}>
             <FileText className="h-4 w-4 text-muted-foreground" />
-            <span className="text-sm font-medium text-foreground tabular-nums">{currentPage}/{numPages}</span>
+            <span className="text-sm font-medium text-foreground tabular-nums">{numPages} pages</span>
           </div>
         )}
 
-        <main ref={viewerRef} className="flex-1 overflow-y-auto" style={{ paddingTop: `calc(env(safe-area-inset-top) + 4rem)`, paddingBottom: '8rem' }}>
+        <main className="flex-1 overflow-y-auto" style={{ paddingTop: `calc(env(safe-area-inset-top) + 4rem)`, paddingBottom: '8rem' }}>
             <div ref={widthRef} className="w-full max-w-xl mx-auto">
                 <Document
                     file={ebook.pdfDataUrl}
@@ -299,22 +235,17 @@ export default function EbookViewerPage() {
                         <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
                       </div>
                     }
-                    className={cn(
-                        "flex flex-col items-center transition-opacity duration-500 ease-in-out",
-                        isPdfVisible ? "opacity-100" : "opacity-0"
-                    )}
+                    error={<PdfError />}
+                    className="flex flex-col items-center"
                 >
                     {Array.from(new Array(numPages || 0), (el, index) => (
                         <div
                             key={`page_${index + 1}`}
-                            ref={(el) => (pageRefs.current[index] = el)}
-                            data-page-number={index + 1}
-                            className="w-full px-0 sm:px-4 mb-4 flex justify-center"
+                            className="w-full mb-4 flex justify-center"
                         >
                             <Page
                                 pageNumber={index + 1}
-                                width={containerWidth ? containerWidth : undefined}
-                                className={cn(!containerWidth && 'invisible')}
+                                width={containerWidth > 0 ? containerWidth : undefined}
                                 renderTextLayer={false}
                                 renderAnnotationLayer={false}
                             />
