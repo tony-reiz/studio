@@ -7,7 +7,6 @@ export const metadata: Metadata = {
   applicationName: 'Bookline',
   title: 'Bookline',
   description: 'Achetez et vendez des ebooks.',
-  manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
