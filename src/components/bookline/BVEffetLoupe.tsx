@@ -29,17 +29,10 @@ const fragmentShader = `
 
     void main() {
         float aspect = uResolution.x / uResolution.y;
-        
-        // Les coordonnées de la souris sont déjà relatives au canvas (0,0 en haut à gauche)
-        // On les normalise et on inverse l'axe Y pour WebGL
         vec2 center = uMouse / uResolution;
-        center.y = 1.0 - center.y;
-
         vec2 p = (vUv - center);
         p.x *= aspect;
         
-        // Dimensions de la lentille basées sur la taille de l'élément
-        // Ici, uElementSize est égal à uResolution car le canvas remplit le conteneur
         float w = (uElementSize.x / uResolution.y) * 0.5;
         float h = (uElementSize.y / uResolution.y) * 0.5;
         float r = h; 
@@ -47,25 +40,20 @@ const fragmentShader = `
         vec2 q = abs(p) - vec2(w - r, h - r);
         float dist = length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - r;
 
-        vec4 bgColor = texture2D(tDiffuse, vUv) * 0.8;
-
         if (dist < 0.0) {
-            // Rendu intérieur : Calcul de la courbure du verre
             float normDist = clamp(-dist / r, 0.0, 1.0);
             float lensCurve = pow(sin(normDist * 1.5707), 1.2); 
             
             float refractionFactor = 0.55; 
             vec2 refraction = p * refractionFactor * lensCurve;
-            
-            // Déformation des UV pour zoomer/tordre l'image derrière
-            vec2 refractedUv = vUv - refraction / vec2(aspect, 1.0) / 2.1;
+            vec2 refractedUv = center + (p - refraction) / 2.1;
 
             float dispersionStrength = 0.045 * lensCurve;
             vec3 glassColor = applyDispersion(tDiffuse, refractedUv, normalize(p + 0.0001), dispersionStrength);
             
             gl_FragColor = vec4(glassColor * 1.15, 1.0);
         } else {
-            gl_FragColor = bgColor;
+            gl_FragColor = texture2D(tDiffuse, vUv) * 0.8;
         }
     }
 `;
@@ -130,7 +118,7 @@ export function BVEffetLoupe() {
             if (!mountNode) return;
             rect = mountNode.getBoundingClientRect();
             m.tx = e.clientX - rect.left;
-            m.ty = e.clientY - rect.top;
+            m.ty = rect.height - (e.clientY - rect.top);
         }
 
         function onMouseLeave() {
