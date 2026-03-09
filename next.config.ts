@@ -3,7 +3,8 @@ import withPWAInit from '@ducanh2912/next-pwa';
 
 const withPWA = withPWAInit({
   dest: 'public',
-  disable: false, // Set to false to enable PWA in development
+  disable: process.env.NODE_ENV === 'development' ? false : true,
+  reloadOnOnline: true,
   cacheOnFrontEndNav: true,
   aggressiveFrontEndNavCaching: true,
   runtimeCaching: [
@@ -31,16 +32,15 @@ const withPWA = withPWAInit({
     },
     {
       urlPattern: ({ url }) => url.pathname.startsWith('/'),
-      handler: 'NetworkFirst',
+      handler: 'StaleWhileRevalidate',
       options: {
         cacheName: 'pages-cache',
-        networkTimeoutSeconds: 3, // Fallback to cache if network is slow
         expiration: {
           maxEntries: 50,
           maxAgeSeconds: 24 * 60 * 60, // 1 Day
         },
         cacheableResponse: {
-          statuses: [0, 200], // Cache opaque responses and successful ones
+          statuses: [0, 200],
         },
       },
     },
