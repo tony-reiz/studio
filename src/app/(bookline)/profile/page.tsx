@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { ChevronLeft, User, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -19,7 +19,7 @@ import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background
 
 type ActiveTab = 'achats' | 'publications' | 'favoris';
 
-export default function ProfilePage() {
+function ProfilePageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialTabQuery = searchParams.get('tab');
@@ -214,5 +214,13 @@ export default function ProfilePage() {
         <BuyEbookDialog ebook={selectedEbook} open={isBuyDialogOpen} onOpenChange={handleDialogOpenChange} />
       )}
     </>
+  );
+}
+
+export default function ProfilePage() {
+  return (
+    <Suspense fallback={<div className="flex h-screen w-full items-center justify-center bg-background">Chargement...</div>}>
+      <ProfilePageContent />
+    </Suspense>
   );
 }
