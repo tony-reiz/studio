@@ -62,6 +62,11 @@ interface EbookContextType {
 // Create the context
 const EbookContext = createContext<EbookContextType | undefined>(undefined);
 
+if (typeof window !== 'undefined') {
+  pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.js`;
+}
+
+
 // Create the provider component
 export function EbookProvider({ children }: { children: ReactNode }) {
   const [publishedEbooks, setPublishedEbooks] = useState<Ebook[]>([]);
@@ -94,7 +99,6 @@ export function EbookProvider({ children }: { children: ReactNode }) {
       const browserLang = navigator.language.split('-')[0] as Locale;
       setLocale(translations[browserLang] ? browserLang : 'fr');
     }
-    pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
   }, []);
 
   useEffect(() => {
