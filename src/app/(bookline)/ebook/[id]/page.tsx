@@ -21,14 +21,21 @@ import { EbookDetailsSheet } from '@/components/bookline/ebook-details-sheet';
 import { EbookDetailsDialog } from '@/components/bookline/ebook-details-dialog';
 
 
-const Document = dynamic(() => import('react-pdf').then((mod) => mod.Document), {
-  ssr: false,
-  loading: () => (
-    <div className="flex h-full w-full items-center justify-center">
-      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-    </div>
-  ),
-});
+const Document = dynamic(
+  () =>
+    import('react-pdf').then((mod) => {
+      mod.pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${mod.pdfjs.version}/build/pdf.worker.min.js`;
+      return mod.Document;
+    }),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex h-full w-full items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    ),
+  }
+);
 const Page = dynamic(() => import('react-pdf').then((mod) => mod.Page), {
   ssr: false,
 });
@@ -348,5 +355,3 @@ export default function EbookViewerPage() {
     </>
   );
 }
-
-    

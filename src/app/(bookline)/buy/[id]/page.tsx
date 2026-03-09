@@ -21,10 +21,17 @@ import {
 } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-const Document = dynamic(() => import('react-pdf').then((mod) => mod.Document), {
-  ssr: false,
-  loading: () => null,
-});
+const Document = dynamic(
+  () =>
+    import('react-pdf').then((mod) => {
+      mod.pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${mod.pdfjs.version}/build/pdf.worker.min.js`;
+      return mod.Document;
+    }),
+  {
+    ssr: false,
+    loading: () => null,
+  }
+);
 
 
 export default function BuyEbookPage() {
@@ -338,5 +345,3 @@ export default function BuyEbookPage() {
     </div>
   );
 }
-
-    
