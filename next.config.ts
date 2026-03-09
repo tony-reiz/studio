@@ -4,6 +4,8 @@ import withPWAInit from '@ducanh2912/next-pwa';
 const withPWA = withPWAInit({
   dest: 'public',
   disable: false, // Set to false to enable PWA in development
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: true,
   runtimeCaching: [
     {
       urlPattern: /\.(?:jpg|jpeg|gif|png|svg|ico|webp)$/i,
@@ -29,9 +31,10 @@ const withPWA = withPWAInit({
     },
     {
       urlPattern: ({ url }) => url.pathname.startsWith('/'),
-      handler: 'StaleWhileRevalidate',
+      handler: 'NetworkFirst',
       options: {
         cacheName: 'pages-cache',
+        networkTimeoutSeconds: 3, // Fallback to cache if network is slow
         expiration: {
           maxEntries: 50,
           maxAgeSeconds: 24 * 60 * 60, // 1 Day
