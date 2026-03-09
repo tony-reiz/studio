@@ -19,7 +19,6 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { EbookDetailsSheet } from '@/components/bookline/ebook-details-sheet';
 import { EbookDetailsDialog } from '@/components/bookline/ebook-details-dialog';
 import { Document, Page } from 'react-pdf';
-import { BVEffetLoupe } from '@/components/bookline/BVEffetLoupe';
 
 
 export default function EbookViewerPage() {
@@ -261,9 +260,7 @@ export default function EbookViewerPage() {
             <div className="relative w-full max-w-[16rem] h-12 mx-auto">
                 {isClient && (
                     <>
-                        <div className="absolute inset-0 rounded-full overflow-hidden">
-                            <BVEffetLoupe />
-                        </div>
+                        <div className="absolute inset-0 rounded-full glass-form-element"></div>
                         <div className="absolute inset-0 z-10 flex items-center justify-around px-4">
                             <Button onClick={() => isMobile ? setIsSheetOpen(true) : setIsDetailsDialogOpen(true)} variant="ghost" size="icon" className="text-white hover:bg-transparent" aria-label={t('details')}>
                                 <FileText className="h-6 w-6" />
