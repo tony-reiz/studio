@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   /* config options here */
+  webpack: (config) => {
+    config.externals.push({
+      canvas: "commonjs canvas",
+    });
+    return config;
+  },
   typescript: {
     ignoreBuildErrors: true,
   },
