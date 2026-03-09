@@ -94,6 +94,7 @@ export function EbookProvider({ children }: { children: ReactNode }) {
       const browserLang = navigator.language.split('-')[0] as Locale;
       setLocale(translations[browserLang] ? browserLang : 'fr');
     }
+    pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
   }, []);
 
   useEffect(() => {

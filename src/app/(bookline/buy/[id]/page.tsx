@@ -20,11 +20,7 @@ import {
 } from "@/components/ui/dialog";
 
 const Document = dynamic(
-  () =>
-    import('react-pdf').then((mod) => {
-      mod.pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${mod.pdfjs.version}/build/pdf.worker.min.js`;
-      return mod.Document;
-    }),
+  () => import('react-pdf').then((mod) => mod.Document),
   {
     ssr: false,
     loading: () => null,
