@@ -7,11 +7,6 @@ export const metadata: Metadata = {
   applicationName: 'Bookline',
   title: 'Bookline',
   description: 'Achetez et vendez des ebooks.',
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'default',
-    title: 'Bookline',
-  },
   formatDetection: {
     telephone: false,
   },
