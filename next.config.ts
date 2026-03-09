@@ -3,7 +3,7 @@ import withPWAInit from '@ducanh2912/next-pwa';
 
 const withPWA = withPWAInit({
   dest: 'public',
-  disable: process.env.NODE_ENV === 'development' ? false : true,
+  disable: process.env.NODE_ENV === 'development',
   reloadOnOnline: true,
   cacheOnFrontEndNav: true,
   aggressiveFrontEndNavCaching: true,
@@ -32,9 +32,10 @@ const withPWA = withPWAInit({
     },
     {
       urlPattern: ({ url }) => url.pathname.startsWith('/'),
-      handler: 'StaleWhileRevalidate',
+      handler: 'NetworkFirst',
       options: {
         cacheName: 'pages-cache',
+        networkTimeoutSeconds: 3, // Important for NetworkFirst
         expiration: {
           maxEntries: 50,
           maxAgeSeconds: 24 * 60 * 60, // 1 Day
