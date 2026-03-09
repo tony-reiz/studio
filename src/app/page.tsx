@@ -94,7 +94,7 @@ export default function LandingPage() {
         <section className="relative flex flex-col items-center justify-center text-center min-h-[95vh] pt-40 pb-20 px-4 overflow-hidden">
           
           <h2 className={cn(
-            "text-5xl md:text-7xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 transition-all duration-700 ease-out",
+            "text-5xl md:text-7xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-violet-600 transition-all duration-700 ease-out",
             isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
           )}>
             {t('sales_matrix')}
