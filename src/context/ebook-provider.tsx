@@ -6,9 +6,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { translations, type Locale } from '@/lib/translations';
 import { pdfjs } from 'react-pdf';
 
-if (typeof window !== 'undefined') {
-  pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.js`;
-}
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 // Define the shape of an ebook
 export interface Ebook {
