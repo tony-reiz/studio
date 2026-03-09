@@ -259,15 +259,17 @@ export default function EbookViewerPage() {
           <footer className="fixed bottom-8 left-0 right-0 z-30 p-4 md:bottom-2 md:mb-4" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
             <div className="w-full max-w-[16rem] mx-auto">
                 {isClient && (
-                    isMobile ? (
-                        <Button onClick={() => setIsSheetOpen(true)} className="bg-black text-white hover:bg-black/90 rounded-full w-full h-12 text-lg font-semibold">
-                            {t('details')}
+                    <div className="glass-form-element rounded-full h-12 w-full flex items-center justify-around px-4">
+                        <Button onClick={() => isMobile ? setIsSheetOpen(true) : setIsDetailsDialogOpen(true)} variant="ghost" size="icon" className="text-foreground hover:bg-transparent" aria-label={t('details')}>
+                            <FileText className="h-6 w-6" />
                         </Button>
-                    ) : (
-                        <Button onClick={() => setIsDetailsDialogOpen(true)} className="bg-black text-white hover:bg-black/90 rounded-full w-full h-12 text-lg font-semibold">
-                            {t('details')}
+                        <Button onClick={handleShare} variant="ghost" size="icon" className="text-foreground hover:bg-transparent" aria-label={t('share')}>
+                            <Share2 className="h-6 w-6" />
                         </Button>
-                    )
+                        <Button onClick={handleDelete} variant="ghost" size="icon" className="text-destructive hover:bg-transparent hover:text-destructive/80" aria-label={t('delete')}>
+                            <Trash2 className="h-6 w-6" />
+                        </Button>
+                    </div>
                 )}
             </div>
           </footer>
