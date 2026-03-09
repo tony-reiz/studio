@@ -4,6 +4,44 @@ import withPWAInit from '@ducanh2912/next-pwa';
 const withPWA = withPWAInit({
   dest: 'public',
   disable: false, // Set to false to enable PWA in development
+  runtimeCaching: [
+    {
+      urlPattern: /\.(?:jpg|jpeg|gif|png|svg|ico|webp)$/i,
+      handler: 'CacheFirst',
+      options: {
+        cacheName: 'images',
+        expiration: {
+          maxEntries: 60,
+          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+        },
+      },
+    },
+    {
+      urlPattern: /\.(?:js|css)$/i,
+      handler: 'StaleWhileRevalidate',
+      options: {
+        cacheName: 'static-resources',
+        expiration: {
+          maxEntries: 60,
+          maxAgeSeconds: 24 * 60 * 60, // 1 Day
+        },
+      },
+    },
+    {
+      urlPattern: ({ url }) => url.pathname.startsWith('/'),
+      handler: 'StaleWhileRevalidate',
+      options: {
+        cacheName: 'pages-cache',
+        expiration: {
+          maxEntries: 50,
+          maxAgeSeconds: 24 * 60 * 60, // 1 Day
+        },
+        cacheableResponse: {
+          statuses: [0, 200], // Cache opaque responses and successful ones
+        },
+      },
+    },
+  ]
 });
 
 const nextConfig: NextConfig = {
