@@ -13,7 +13,7 @@ import { PrivacySheet } from '@/components/bookline/privacy-sheet';
 import { useEbooks } from '@/context/ebook-provider';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
-import { DraggableGlass } from '@/components/bookline/DraggableGlass';
+import { LiquidGlassDock } from '@/components/bookline/LiquidGlassDock';
 
 
 // Chart data and config
@@ -120,6 +120,9 @@ export default function LandingPage() {
           >
             <span>{t('get_started')}</span>
           </button>
+          
+          {isClient && <LiquidGlassDock />}
+
         </section>
 
         {/* Features Section */}
@@ -239,8 +242,6 @@ export default function LandingPage() {
         </section>
       </main>
       
-      {isClient && <DraggableGlass />}
-
       <footer className="border-t">
         <div className="container mx-auto text-center text-muted-foreground py-6 text-sm">
           <p>&copy; {new Date().getFullYear()} BookLine. {t('all_rights_reserved')}</p>

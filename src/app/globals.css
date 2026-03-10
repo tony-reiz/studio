@@ -212,4 +212,78 @@
   .bv-couleur-button:active {
       transform: scale(0.95);
   }
+
+  .liquidGlass-wrapper {
+      position: relative;
+      display: flex;
+      font-weight: 600;
+      overflow: hidden;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 0, 0, 0.05);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      min-width: 400px;
+      min-height: 80px;
+  }
+
+  .liquidGlass-effect {
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      backdrop-filter: blur(3px);
+      filter: url(#glass-distortion);
+      overflow: hidden;
+  }
+
+  .liquidGlass-tint {
+      z-index: 1;
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.60);
+  }
+
+  .dark .liquidGlass-tint {
+      background: rgba(20, 20, 20, 0.4);
+  }
+
+  .liquidGlass-shine {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      overflow: hidden;
+      box-shadow: inset 2px 2px 1px 0 rgba(255, 255, 255, 0.5),
+                  inset -1px -1px 1px 1px rgba(255, 255, 255, 0.3);
+  }
+
+  .dark .liquidGlass-shine {
+      box-shadow: inset 2px 2px 1px 0 rgba(255, 255, 255, 0.1),
+                  inset -1px -1px 1px 1px rgba(255, 255, 255, 0.05);
+  }
+
+  .liquidGlass-text {
+      z-index: 3;
+      position: relative;
+      width: 100%;
+      height: 100%;
+  }
+
+  .dock {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 2rem;
+      padding: 0.6rem;
+  }
+
+  .dock-content {
+      border-radius: 2rem;
+  }
+
+  .liquidGlass-wrapper.dock:hover {
+      border-radius: 2.5rem;
+      transform: scale(1.02);
+  }
+
+  .dock:hover > .dock-content {
+      border-radius: 2.5rem;
+  }
 }
