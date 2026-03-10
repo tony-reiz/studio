@@ -111,13 +111,13 @@ export default function LandingPage() {
             onClick={() => handleNavigate('/auth')}
             className={cn(
               "glass-container",
-              "mt-10 h-14 px-12 text-lg font-semibold",
+              "mt-10 h-14 px-12 text-lg",
               "transform",
               isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95",
               isMounted && "delay-300"
             )}
           >
-            {t('get_started')}
+            <span>{t('get_started')}</span>
           </button>
         </section>
 
