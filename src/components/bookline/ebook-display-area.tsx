@@ -65,7 +65,7 @@ export function EbookDisplayArea() {
         isVisible ? 'opacity-100' : 'opacity-0'
       )}
     >
-      <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+      <svg style={{ position: 'absolute', width: 0, height: 0, pointerEvents: 'none' }}>
         <filter id="glass-distortion">
           <feTurbulence 
             type="fractalNoise" 
@@ -81,7 +81,7 @@ export function EbookDisplayArea() {
               repeatCount="indefinite" 
             />
           </feTurbulence>
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="20" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="30" />
         </filter>
       </svg>
       <Carousel
@@ -109,24 +109,21 @@ export function EbookDisplayArea() {
                   >
                     {/* 1. Le calque "Vitre" amélioré */}
                     <div 
+                      className="absolute inset-0 z-1 overflow-hidden rounded-[25px] border border-white/20 bg-white/5 shadow-lg"
                       style={{ 
                         backdropFilter: 'blur(12px) saturate(150%)',
                         WebkitBackdropFilter: 'blur(12px) saturate(150%)',
-                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                        position: 'absolute',
-                        inset: 0,
-                        zIndex: 1,
-                        borderRadius: '25px',
-                        border: '1px solid rgba(255, 255, 255, 0.2)',
-                        overflow: 'hidden',
                       }} 
                     >
-                       <div style={{
-                          position: 'absolute',
-                          inset: -20,
+                      {/* Calque de distorsion : il doit AUSSI avoir un backdrop-filter pour "aspirer" le fond et le tordre */}
+                      <div 
+                        className="absolute -inset-10" // On déborde pour éviter les bords nets
+                        style={{
+                          backdropFilter: 'blur(12px) saturate(150%)',
+                          WebkitBackdropFilter: 'blur(12px) saturate(150%)',
                           filter: 'url(#glass-distortion)',
-                          zIndex: -1
-                        }} />
+                        }} 
+                      />
                     </div>
                     
                     {/* 2. Le contenu (Icône + Texte) par-dessus, non déformé */}
