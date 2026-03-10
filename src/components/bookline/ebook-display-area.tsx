@@ -81,7 +81,7 @@ export function EbookDisplayArea() {
               repeatCount="indefinite" 
             />
           </feTurbulence>
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="50" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="20" />
         </filter>
       </svg>
       <Carousel
@@ -110,18 +110,24 @@ export function EbookDisplayArea() {
                     {/* 1. Le calque "Vitre" amélioré */}
                     <div 
                       style={{ 
-                        filter: 'url(#glass-distortion)', 
                         backdropFilter: 'blur(12px) saturate(150%)',
                         WebkitBackdropFilter: 'blur(12px) saturate(150%)',
-                        backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
                         position: 'absolute',
                         inset: 0,
                         zIndex: 1,
                         borderRadius: '25px',
                         border: '1px solid rgba(255, 255, 255, 0.2)',
-                        boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.1)',
+                        overflow: 'hidden',
                       }} 
-                    />
+                    >
+                       <div style={{
+                          position: 'absolute',
+                          inset: -20,
+                          filter: 'url(#glass-distortion)',
+                          zIndex: -1
+                        }} />
+                    </div>
                     
                     {/* 2. Le contenu (Icône + Texte) par-dessus, non déformé */}
                     <CardContent
