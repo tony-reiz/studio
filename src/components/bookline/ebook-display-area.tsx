@@ -29,26 +29,27 @@ const infoCards = [
 
 const LiquidGlassSVG = () => (
     <svg style={{ position: 'absolute', width: 0, height: 0, pointerEvents: 'none' }}>
-      <filter id="glass-distortion" x="-20%" y="-20%" width="140%" height="140%">
+      <filter id="glass-distortion">
         <feTurbulence 
           type="fractalNoise" 
-          baseFrequency="0.03"
-          numOctaves="4" 
+          baseFrequency="0.015" 
+          numOctaves="3" 
           result="noise"
         >
           <animate 
-            attributeName="baseFrequency" 
-            dur="20s" 
-            values="0.03;0.01;0.03" 
+            attributeName="seed" 
+            from="1" 
+            to="1000" 
+            dur="40s" 
             repeatCount="indefinite" 
           />
         </feTurbulence>
         <feDisplacementMap 
           in="SourceGraphic" 
           in2="noise" 
-          scale="30"
-          xChannelSelector="R" 
-          yChannelSelector="G" 
+          scale="35"
+          xChannelSelector="R"
+          yChannelSelector="B"
         />
       </filter>
     </svg>
@@ -118,17 +119,16 @@ export function EbookDisplayArea() {
                         : 'hidden sm:block sm:transform sm:scale-75 sm:opacity-40'
                     )}
                   >
-                    {/* This div acts as the "glass pane". It blurs and distorts the background. */}
                     <div 
                       className="absolute inset-0 z-1"
                       style={{ 
                         backdropFilter: 'blur(8px) saturate(120%)',
                         WebkitBackdropFilter: 'blur(8px) saturate(120%)',
                         filter: 'url(#glass-distortion)',
+                        borderRadius: '25px',
                       }} 
                     />
                     
-                    {/* The content (icon + text) is placed on top and is not affected by the distortion. */}
                     <CardContent
                       className={cn(
                         'relative z-10 aspect-[210/297] p-6 flex flex-col items-center justify-center text-center'
