@@ -101,16 +101,28 @@ export function EbookDisplayArea() {
               <CarouselItem key={index} className="pl-8 basis-full sm:basis-1/2 md:basis-1/3">
                 <div className="p-1">
                   <Card
-                    className={cn('bg-transparent border-0 rounded-[25px] transition-transform duration-500 ease-in-out',
+                    className={cn('bg-transparent border-0 rounded-[25px] transition-transform duration-500 ease-in-out relative overflow-hidden',
                       index === current
                         ? 'transform scale-100'
                         : 'hidden sm:block sm:transform sm:scale-75 sm:opacity-40'
                     )}
                   >
+                    {/* 1. The "Glass" layer that distorts the background */}
+                    <div 
+                      style={{ 
+                        filter: 'url(#glass-distortion)', 
+                        backdropFilter: 'blur(10px)',
+                        WebkitBackdropFilter: 'blur(10px)',
+                        position: 'absolute',
+                        inset: 0,
+                        zIndex: 1
+                      }} 
+                    />
+                    
+                    {/* 2. The content (Icon + Text) on top, undistorted */}
                     <CardContent
-                      style={{ filter: 'url(#glass-distortion)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)' }}
                       className={cn(
-                        'aspect-[210/297] p-6 flex flex-col items-center justify-center rounded-[25px] overflow-hidden relative text-center'
+                        'relative z-10 aspect-[210/297] p-6 flex flex-col items-center justify-center text-center'
                       )}
                     >
                       <card.icon className="w-16 h-16 text-foreground mb-4" />
