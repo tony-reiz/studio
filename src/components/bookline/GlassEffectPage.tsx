@@ -47,8 +47,8 @@ export default function GlassEffectPage() {
         ...base,
         width: 200,
         height: 80,
-        displace: 0,
-        frost: 0,
+        displace: 0.2,
+        frost: 0.05,
         radius: 40,
       },
       bubble: {
@@ -74,11 +74,11 @@ export default function GlassEffectPage() {
     };
 
     const config = {
-      ...presets.dock,
+      ...presets.pill,
       theme: 'system',
       debug: false,
       top: false,
-      preset: 'dock',
+      preset: 'pill',
     };
 
     const ctrl = new Pane({

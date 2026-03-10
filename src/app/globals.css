@@ -531,40 +531,24 @@
       hsl(0 0% 0% / var(--frost, 0))
     );
     backdrop-filter: url(#filter) saturate(var(--saturation, 1));
-    box-shadow: 0 0 2px 1px
-        light-dark(
-          color-mix(in oklch, canvasText, #0000 85%),
-          color-mix(in oklch, canvasText, #0000 65%)
-        )
-        inset,
-      0 0 10px 4px
-        light-dark(
-          color-mix(in oklch, canvasText, #0000 90%),
-          color-mix(in oklch, canvasText, #0000 85%)
-        )
-        inset,
-      0px 4px 16px rgba(17, 17, 26, 0.05), 0px 8px 24px rgba(17, 17, 26, 0.05),
-      0px 16px 56px rgba(17, 17, 26, 0.05),
-      0px 4px 16px rgba(17, 17, 26, 0.05) inset,
-      0px 8px 24px rgba(17, 17, 26, 0.05) inset,
-      0px 16px 56px rgba(17, 17, 26, 0.05) inset;
+    box-shadow: unset;
   }
   .effect * {
       pointer-events: none;
     }
 
   .placeholder {
-    width: 336px;
-    height: 96px;
+    width: 200px;
+    height: 80px;
     max-width: 100%;
     position: relative;
     margin-bottom: 200px;
   }
 
   .dock-placeholder {
-    width: 336px;
-    height: 96px;
-    border-radius: 16px;
+    width: 200px;
+    height: 80px;
+    border-radius: 40px;
     position: absolute;
     top: 50%;
     left: 50%;
