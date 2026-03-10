@@ -42,7 +42,7 @@ export function BottomNav() {
       <div className="glass-form-element rounded-full flex relative items-center max-w-[16rem] mx-auto">
         <div
           className={cn(
-            'absolute top-0 h-full w-1/2 rounded-full transition-all duration-500 ease-in-out bg-black',
+            'absolute top-0 h-full w-1/2 rounded-full transition-all duration-500 ease-in-out bg-black dark:bg-white',
             isAcheter ? 'left-0' : 'left-1/2'
           )}
         >
@@ -51,7 +51,7 @@ export function BottomNav() {
           onClick={() => handleNavigation('acheter')}
           className={cn(
             'relative z-10 w-1/2 py-3 text-center text-base font-semibold transition-colors duration-150',
-            isAcheter ? 'text-white' : 'text-foreground'
+            isAcheter ? 'text-white dark:text-black' : 'text-foreground'
           )}
         >
           {t('buy')}
@@ -60,7 +60,7 @@ export function BottomNav() {
           onClick={() => handleNavigation('vendre')}
           className={cn(
             'relative z-10 w-1/2 py-3 text-center text-base font-semibold transition-colors duration-150',
-            !isAcheter ? 'text-white' : 'text-foreground'
+            !isAcheter ? 'text-white dark:text-black' : 'text-foreground'
           )}
         >
           {t('sell')}
