@@ -66,11 +66,11 @@ export function EbookDisplayArea() {
       )}
     >
       <svg style={{ position: 'absolute', width: 0, height: 0, pointerEvents: 'none' }}>
-        <filter id="glass-distortion">
+        <filter id="glass-distortion" x="-20%" y="-20%" width="140%" height="140%">
           <feTurbulence 
             type="fractalNoise" 
-            baseFrequency="0.012" 
-            numOctaves="3" 
+            baseFrequency="0.03" 
+            numOctaves="4" 
             result="noise"
           >
             <animate 
@@ -81,7 +81,13 @@ export function EbookDisplayArea() {
               repeatCount="indefinite" 
             />
           </feTurbulence>
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="30" />
+          <feDisplacementMap 
+            in="SourceGraphic" 
+            in2="noise" 
+            scale="60" 
+            xChannelSelector="R" 
+            yChannelSelector="G" 
+          />
         </filter>
       </svg>
       <Carousel
@@ -107,20 +113,14 @@ export function EbookDisplayArea() {
                         : 'hidden sm:block sm:transform sm:scale-75 sm:opacity-40'
                     )}
                   >
-                    {/* 1. Le calque "Vitre" amélioré */}
-                    <div 
-                      className="absolute inset-0 z-1 overflow-hidden rounded-[25px] border border-white/20 bg-white/5 shadow-lg"
-                      style={{ 
-                        backdropFilter: 'blur(12px) saturate(150%)',
-                        WebkitBackdropFilter: 'blur(12px) saturate(150%)',
-                      }} 
-                    >
-                      {/* Calque de distorsion : il doit AUSSI avoir un backdrop-filter pour "aspirer" le fond et le tordre */}
+                    {/* 1. Le calque "Vitre" */}
+                    <div className="absolute inset-0 z-1 overflow-hidden rounded-[25px] border border-white/30 bg-white/10">
                       <div 
-                        className="absolute -inset-10" // On déborde pour éviter les bords nets
+                        className="absolute -inset-10" 
                         style={{
-                          backdropFilter: 'blur(12px) saturate(150%)',
-                          WebkitBackdropFilter: 'blur(12px) saturate(150%)',
+                          // On applique tout ici pour que la déformation "torde" le flou en même temps
+                          backdropFilter: 'blur(8px) saturate(120%)',
+                          WebkitBackdropFilter: 'blur(8px) saturate(120%)',
                           filter: 'url(#glass-distortion)',
                         }} 
                       />
