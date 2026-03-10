@@ -81,7 +81,7 @@ export default function LandingPage() {
       )}
       <header className="absolute top-0 left-0 right-0 z-10">
         <div className="container mx-auto flex justify-between items-center p-6">
-            <h1 className="text-2xl font-bold">BookLine</h1>
+            <button onClick={() => handleNavigate('/glass')} className="text-2xl font-bold">BookLine</button>
             <div className="flex items-end gap-1.5 h-8 p-2">
               <span className={cn("w-2 bg-primary/40 rounded-full transition-all ease-out duration-500", isMounted ? "h-1/3" : "h-0")}></span>
               <span className={cn("w-2 bg-primary/70 rounded-full transition-all ease-out duration-500 delay-100", isMounted ? "h-full" : "h-0")}></span>
@@ -108,18 +108,19 @@ export default function LandingPage() {
             {t('hero_subtitle')}
           </p>
 
-          <button
+          <Button
             onClick={() => handleNavigate('/auth')}
             className={cn(
-              "glass-container",
+              "glass-form-element",
               "mt-10 h-14 px-12 text-lg",
               "transform",
+              "transition-all duration-700 ease-out",
               isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95",
               isMounted && "delay-300"
             )}
           >
             <span>{t('get_started')}</span>
-          </button>
+          </Button>
           
           {isClient && <LiquidGlassDock />}
 
