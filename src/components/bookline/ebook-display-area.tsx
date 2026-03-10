@@ -67,8 +67,20 @@ export function EbookDisplayArea() {
     >
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <filter id="glass-distortion">
-          <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="3" result="noise" />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="20" />
+          <feTurbulence 
+            type="fractalNoise" 
+            baseFrequency="0.012" 
+            numOctaves="3" 
+            result="noise"
+          >
+            <animate 
+              attributeName="baseFrequency" 
+              dur="60s" 
+              values="0.012;0.008;0.012" 
+              repeatCount="indefinite" 
+            />
+          </feTurbulence>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="25" />
         </filter>
       </svg>
       <Carousel
