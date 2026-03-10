@@ -233,6 +233,12 @@ export default function GlassEffectPage() {
       </header>
       <div className="effect">
         <div className="nav-wrap">
+          <nav>
+            <img src="https://assets.codepen.io/605876/finder.png" alt="" />
+            <img src="https://assets.codepen.io/605876/launch-control.png" alt="" />
+            <img src="https://assets.codepen.io/605876/safari.png" alt="" />
+            <img src="https://assets.codepen.io/605876/calendar.png" alt="" />
+          </nav>
         </div>
         <svg className="filter" xmlns="http://www.w3.org/2000/svg">
           <defs>
