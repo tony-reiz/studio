@@ -27,30 +27,21 @@ const infoCards = [
   },
 ];
 
+// SVG filter based on the user-provided text
 const LiquidGlassSVG = () => (
     <svg style={{ position: 'absolute', width: 0, height: 0, pointerEvents: 'none' }}>
-      <filter id="glass-distortion">
-        <feTurbulence 
-          type="fractalNoise" 
-          baseFrequency="0.2 0.5" 
-          numOctaves="1" 
-          result="noise"
-        >
-          <animate 
-            attributeName="seed"
-            dur="10s"
-            from="1"
-            to="200"
-            repeatCount="indefinite"
-          />
-        </feTurbulence>
-        <feDisplacementMap 
-          in="SourceGraphic" 
-          in2="noise" 
-          scale="20" 
-          xChannelSelector="R" 
-          yChannelSelector="B"
-        />
+      <filter id="liquid-glass-distortion">
+         <feTurbulence 
+            type="turbulence"
+            baseFrequency="0.05"
+            numOctaves="2"
+            result="noise" />
+         <feDisplacementMap 
+            in="SourceGraphic"
+            in2="noise"
+            scale="20"
+            xChannelSelector="R"
+            yChannelSelector="G" />
       </filter>
     </svg>
 );
@@ -120,12 +111,13 @@ export function EbookDisplayArea() {
                     )}
                   >
                     <div 
-                      className="absolute inset-0 z-1"
+                      className="absolute inset-0 z-0"
                       style={{ 
-                        backdropFilter: 'blur(8px) saturate(120%)',
-                        WebkitBackdropFilter: 'blur(8px) saturate(120%)',
-                        filter: 'url(#glass-distortion)',
+                        backdropFilter: 'url(#liquid-glass-distortion) blur(4px) brightness(1.1)',
+                        WebkitBackdropFilter: 'url(#liquid-glass-distortion) blur(4px) brightness(1.1)',
+                        border: '1px solid rgba(255, 255, 255, 0.2)',
                         borderRadius: '25px',
+                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
                       }} 
                     />
                     
