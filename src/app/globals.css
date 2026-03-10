@@ -98,15 +98,30 @@
   .liquid-glass-base {
     position: relative;
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.05);
-    -webkit-backdrop-filter: blur(4px) saturate(100%) brightness(0.95);
-    backdrop-filter: blur(4px) saturate(100%) brightness(0.95);
+    background: rgba(255, 255, 255, 0.04);
+    -webkit-backdrop-filter: blur(4px) saturate(140%) brightness(1.05);
+    backdrop-filter: blur(4px) saturate(140%) brightness(1.05);
     border: none;
     color: hsl(var(--foreground));
   }
+
+  .liquid-glass-base::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 75%);
+    pointer-events: none;
+  }
   
   .dark .liquid-glass-base {
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(20, 20, 20, 0.1);
+  }
+
+  .dark .liquid-glass-base::after {
+    background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.05) 0%, transparent 75%);
   }
 
   .glass-icon-button {
@@ -127,11 +142,11 @@
   }
 
   .glass-icon-button:hover, .glass-search:hover, .glass-button:hover, .glass-form-element:hover {
-    background: rgba(0, 0, 0, 0.1) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
   }
   
   .dark .glass-icon-button:hover, .dark .glass-search:hover, .dark .glass-button:hover, .dark .glass-form-element:hover {
-     background: rgba(0, 0, 0, 0.25) !important;
+     background: rgba(20, 20, 20, 0.18) !important;
   }
 
   .bv-couleur-button {
@@ -197,4 +212,33 @@
   .bv-couleur-button:active {
       transform: scale(0.95);
   }
+
+  .glass-container {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+    cursor: pointer;
+    background: hsla(0, 0%, 100%, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid hsla(0, 0%, 100%, 0.18);
+    border-radius: 9999px;
+    overflow: hidden;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.5);
+  }
+
+  .dark .glass-container {
+    background: hsla(0, 0%, 0%, 0.15);
+    border-color: hsla(0, 0%, 100%, 0.1);
+  }
+
+  .glass-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 0, 0, 0.2);
+  }
+
 }

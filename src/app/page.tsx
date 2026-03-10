@@ -107,17 +107,18 @@ export default function LandingPage() {
             {t('hero_subtitle')}
           </p>
 
-          <Button
+          <button
             onClick={() => handleNavigate('/auth')}
             className={cn(
-              "mt-10 bg-foreground text-background rounded-full h-14 px-12 text-lg font-semibold transform transition-all duration-700 ease-out",
-              "hover:bg-foreground/90 hover:scale-105",
+              "glass-container",
+              "mt-10 h-14 px-12 text-lg font-semibold",
+              "transform",
               isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95",
               isMounted && "delay-300"
             )}
           >
             {t('get_started')}
-          </Button>
+          </button>
         </section>
 
         {/* Features Section */}
