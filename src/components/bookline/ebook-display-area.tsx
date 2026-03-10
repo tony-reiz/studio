@@ -32,7 +32,7 @@ const LiquidGlassSVG = () => (
       <filter id="glass-distortion" x="-20%" y="-20%" width="140%" height="140%">
         <feTurbulence 
           type="fractalNoise" 
-          baseFrequency="0.03" 
+          baseFrequency="0.03"
           numOctaves="4" 
           result="noise"
         >
@@ -112,31 +112,23 @@ export function EbookDisplayArea() {
                 <div className="p-1">
                   <Card
                     className={cn(
-                      'bg-transparent border-0 rounded-[25px] transition-transform duration-500 ease-in-out relative overflow-hidden shadow-lg',
+                      'bg-transparent border-0 rounded-[25px] transition-transform duration-500 ease-in-out relative overflow-hidden',
                       index === current
                         ? 'transform scale-100'
                         : 'hidden sm:block sm:transform sm:scale-75 sm:opacity-40'
                     )}
                   >
-                    {/* Le calque "Vitre" qui déforme l'arrière-plan */}
+                    {/* This div acts as the "glass pane". It blurs and distorts the background. */}
                     <div 
-                      className="absolute inset-0 z-1 overflow-hidden rounded-[25px] border border-white/20 bg-white/5"
+                      className="absolute inset-0 z-1"
                       style={{ 
                         backdropFilter: 'blur(8px) saturate(120%)',
                         WebkitBackdropFilter: 'blur(8px) saturate(120%)',
+                        filter: 'url(#glass-distortion)',
                       }} 
-                    >
-                      <div 
-                        className="absolute -inset-10"
-                        style={{
-                          backdropFilter: 'blur(8px) saturate(120%)',
-                          WebkitBackdropFilter: 'blur(8px) saturate(120%)',
-                          filter: 'url(#glass-distortion)',
-                        }} 
-                      />
-                    </div>
+                    />
                     
-                    {/* Le contenu (Icône + Texte) par-dessus, non déformé */}
+                    {/* The content (icon + text) is placed on top and is not affected by the distortion. */}
                     <CardContent
                       className={cn(
                         'relative z-10 aspect-[210/297] p-6 flex flex-col items-center justify-center text-center'
