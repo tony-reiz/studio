@@ -31,24 +31,25 @@ const LiquidGlassSVG = () => (
     <svg style={{ position: 'absolute', width: 0, height: 0, pointerEvents: 'none' }}>
       <filter id="glass-distortion">
         <feTurbulence 
-          type="turbulence" 
-          baseFrequency="0.02 0.05"
-          numOctaves="2" 
-          seed="2"
-          result="turbulence"
+          type="fractalNoise" 
+          baseFrequency="0.2 0.5" 
+          numOctaves="1" 
+          result="noise"
         >
-            <animate 
-                attributeName="seed"
-                dur="40s"
-                from="2"
-                to="100"
-                repeatCount="indefinite"
-            />
+          <animate 
+            attributeName="seed"
+            dur="10s"
+            from="1"
+            to="200"
+            repeatCount="indefinite"
+          />
         </feTurbulence>
         <feDisplacementMap 
           in="SourceGraphic" 
-          in2="turbulence" 
-          scale="25"
+          in2="noise" 
+          scale="20" 
+          xChannelSelector="R" 
+          yChannelSelector="B"
         />
       </filter>
     </svg>
