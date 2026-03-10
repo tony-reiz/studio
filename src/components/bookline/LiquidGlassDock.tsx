@@ -1,9 +1,80 @@
 'use client';
 
+import { useState, useRef, useEffect, type MouseEvent, type TouchEvent } from 'react';
+import { cn } from '@/lib/utils';
+
 export function LiquidGlassDock() {
+  const nodeRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const dragStartPos = useRef({ x: 0, y: 0 });
+
+  const handleDragStart = (clientX: number, clientY: number) => {
+    if (nodeRef.current) {
+      setIsDragging(true);
+      dragStartPos.current = {
+        x: clientX - position.x,
+        y: clientY - position.y
+      };
+      nodeRef.current.style.cursor = 'grabbing';
+    }
+  };
+
+  const handleDragMove = (clientX: number, clientY: number) => {
+    if (isDragging) {
+      setPosition({
+        x: clientX - dragStartPos.current.x,
+        y: clientY - dragStartPos.current.y
+      });
+    }
+  };
+
+  const handleDragEnd = () => {
+    setIsDragging(false);
+    if (nodeRef.current) {
+        nodeRef.current.style.cursor = 'grab';
+    }
+  };
+
+  const onMouseDown = (e: MouseEvent) => {
+    e.preventDefault();
+    handleDragStart(e.clientX, e.clientY);
+  };
+
+  const onTouchStart = (e: TouchEvent) => {
+    handleDragStart(e.touches[0].clientX, e.touches[0].clientY);
+  };
+  
+  useEffect(() => {
+    const handleMove = (e: globalThis.MouseEvent) => handleDragMove(e.clientX, e.clientY);
+    const handleTouchMoveEvent = (e: globalThis.TouchEvent) => handleDragMove(e.touches[0].clientX, e.touches[0].clientY);
+    
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMove);
+      window.addEventListener('mouseup', handleDragEnd);
+      window.addEventListener('touchmove', handleTouchMoveEvent);
+      window.addEventListener('touchend', handleDragEnd);
+    }
+
+    return () => {
+      window.removeEventListener('mousemove', handleMove);
+      window.removeEventListener('mouseup', handleDragEnd);
+      window.removeEventListener('touchmove', handleTouchMoveEvent);
+      window.removeEventListener('touchend', handleDragEnd);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDragging]);
+
+
   return (
     <>
-      <div className="relative flex flex-col items-center justify-center mt-8">
+      <div 
+        ref={nodeRef}
+        className="relative flex flex-col items-center justify-center mt-8 cursor-grab"
+        style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
+        onMouseDown={onMouseDown}
+        onTouchStart={onTouchStart}
+      >
         <div className="liquidGlass-wrapper dock group">
           <div className="liquidGlass-effect"></div>
           <div className="liquidGlass-tint"></div>
