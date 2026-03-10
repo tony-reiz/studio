@@ -65,6 +65,12 @@ export function EbookDisplayArea() {
         isVisible ? 'opacity-100' : 'opacity-0'
       )}
     >
+      <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+        <filter id="glass-distortion">
+          <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="3" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="20" />
+        </filter>
+      </svg>
       <Carousel
         setApi={setApi}
         plugins={[plugin.current]}
@@ -82,7 +88,7 @@ export function EbookDisplayArea() {
               <CarouselItem key={index} className="pl-8 basis-full sm:basis-1/2 md:basis-1/3">
                 <div className="p-1">
                   <Card
-                    className={cn('bg-transparent border-0 rounded-[25px] glass-form-element transition-transform duration-500 ease-in-out',
+                    className={cn('bg-transparent border-0 rounded-[25px] liquid-glass-card transition-transform duration-500 ease-in-out',
                       index === current
                         ? 'transform scale-100'
                         : 'hidden sm:block sm:transform sm:scale-75 sm:opacity-40'
