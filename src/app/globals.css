@@ -124,12 +124,6 @@
     background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.05) 0%, transparent 75%);
   }
 
-  .liquid-glass-card {
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-    filter: url(#glass-distortion);
-  }
-
   .glass-icon-button {
     @apply liquid-glass-base flex justify-center items-center;
   }

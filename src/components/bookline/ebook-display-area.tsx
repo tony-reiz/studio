@@ -74,9 +74,10 @@ export function EbookDisplayArea() {
             result="noise"
           >
             <animate 
-              attributeName="baseFrequency" 
+              attributeName="seed" 
+              from="1" 
+              to="1000" 
               dur="60s" 
-              values="0.012;0.008;0.012" 
               repeatCount="indefinite" 
             />
           </feTurbulence>
@@ -100,13 +101,14 @@ export function EbookDisplayArea() {
               <CarouselItem key={index} className="pl-8 basis-full sm:basis-1/2 md:basis-1/3">
                 <div className="p-1">
                   <Card
-                    className={cn('bg-transparent border-0 rounded-[25px] liquid-glass-card transition-transform duration-500 ease-in-out',
+                    className={cn('bg-transparent border-0 rounded-[25px] transition-transform duration-500 ease-in-out',
                       index === current
                         ? 'transform scale-100'
                         : 'hidden sm:block sm:transform sm:scale-75 sm:opacity-40'
                     )}
                   >
                     <CardContent
+                      style={{ filter: 'url(#glass-distortion)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)' }}
                       className={cn(
                         'aspect-[210/297] p-6 flex flex-col items-center justify-center rounded-[25px] overflow-hidden relative text-center'
                       )}
