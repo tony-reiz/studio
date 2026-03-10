@@ -27,14 +27,48 @@ const infoCards = [
   },
 ];
 
-// SVG filter based on the user-provided code
 const LiquidGlassSVG = () => (
     <svg style={{ position: 'absolute', width: 0, height: 0, pointerEvents: 'none' }}>
-      <filter id="liquid-glass-distortion">
-        <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="92" result="noise" />
-        <feGaussianBlur in="noise" stdDeviation="0.02" result="blur" />
-        <feDisplacementMap in="SourceGraphic" in2="blur" scale="77" xChannelSelector="R" yChannelSelector="G" />
-      </filter>
+      <defs>
+          <filter id="liquid-glass-distortion" x="0%" y="0%" width="100%" height="100%" filterUnits="objectBoundingBox">
+              <feTurbulence 
+                  type="fractalNoise" 
+                  baseFrequency="0.01 0.01" 
+                  numOctaves="1" 
+                  seed="5" 
+                  result="turbulence" 
+              />
+              <feComponentTransfer in="turbulence" result="mapped">
+                  <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5" />
+                  <feFuncG type="gamma" amplitude="0" exponent="1" offset="0" />
+                  <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5" />
+              </feComponentTransfer>
+              <feGaussianBlur in="turbulence" stdDeviation="3" result="softMap" />
+              <feSpecularLighting 
+                  in="softMap" 
+                  surfaceScale="5" 
+                  specularConstant="1" 
+                  specularExponent="100" 
+                  lightingColor="white" 
+                  result="specLight"
+              >
+                  <fePointLight x="-200" y="-200" z="300" />
+              </feSpecularLighting>
+              <feComposite 
+                  in="specLight" 
+                  operator="arithmetic" 
+                  k1="0" k2="1" k3="1" k4="0" 
+                  result="litImage" 
+              />
+              <feDisplacementMap 
+                  in="SourceGraphic" 
+                  in2="softMap" 
+                  scale="150" 
+                  xChannelSelector="R" 
+                  yChannelSelector="G" 
+              />
+          </filter>
+        </defs>
     </svg>
 );
 
@@ -106,8 +140,8 @@ export function EbookDisplayArea() {
                     <div
                       className="absolute inset-0 z-0"
                       style={{
-                        backdropFilter: 'blur(2px)',
-                        WebkitBackdropFilter: 'blur(2px)',
+                        backdropFilter: 'blur(3px)',
+                        WebkitBackdropFilter: 'blur(3px)',
                         filter: 'url(#liquid-glass-distortion)',
                       }}
                     />
