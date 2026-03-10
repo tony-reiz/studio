@@ -27,6 +27,34 @@ const infoCards = [
   },
 ];
 
+const LiquidGlassSVG = () => (
+    <svg style={{ position: 'absolute', width: 0, height: 0, pointerEvents: 'none' }}>
+      <filter id="glass-distortion" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence 
+          type="fractalNoise" 
+          baseFrequency="0.03" 
+          numOctaves="4" 
+          result="noise"
+        >
+          <animate 
+            attributeName="baseFrequency" 
+            dur="20s" 
+            values="0.03;0.01;0.03" 
+            repeatCount="indefinite" 
+          />
+        </feTurbulence>
+        <feDisplacementMap 
+          in="SourceGraphic" 
+          in2="noise" 
+          scale="30"
+          xChannelSelector="R" 
+          yChannelSelector="G" 
+        />
+      </filter>
+    </svg>
+);
+
+
 export function EbookDisplayArea() {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(2);
@@ -65,6 +93,7 @@ export function EbookDisplayArea() {
         isVisible ? 'opacity-100' : 'opacity-0'
       )}
     >
+      <LiquidGlassSVG />
       <Carousel
         setApi={setApi}
         plugins={[plugin.current]}
@@ -83,13 +112,31 @@ export function EbookDisplayArea() {
                 <div className="p-1">
                   <Card
                     className={cn(
-                      'bg-background/30 dark:bg-background/10 border border-white/20 rounded-[25px] transition-transform duration-500 ease-in-out relative overflow-hidden shadow-lg',
-                      'backdrop-blur-md',
+                      'bg-transparent border-0 rounded-[25px] transition-transform duration-500 ease-in-out relative overflow-hidden shadow-lg',
                       index === current
                         ? 'transform scale-100'
                         : 'hidden sm:block sm:transform sm:scale-75 sm:opacity-40'
                     )}
                   >
+                    {/* Le calque "Vitre" qui déforme l'arrière-plan */}
+                    <div 
+                      className="absolute inset-0 z-1 overflow-hidden rounded-[25px] border border-white/20 bg-white/5"
+                      style={{ 
+                        backdropFilter: 'blur(8px) saturate(120%)',
+                        WebkitBackdropFilter: 'blur(8px) saturate(120%)',
+                      }} 
+                    >
+                      <div 
+                        className="absolute -inset-10"
+                        style={{
+                          backdropFilter: 'blur(8px) saturate(120%)',
+                          WebkitBackdropFilter: 'blur(8px) saturate(120%)',
+                          filter: 'url(#glass-distortion)',
+                        }} 
+                      />
+                    </div>
+                    
+                    {/* Le contenu (Icône + Texte) par-dessus, non déformé */}
                     <CardContent
                       className={cn(
                         'relative z-10 aspect-[210/297] p-6 flex flex-col items-center justify-center text-center'
