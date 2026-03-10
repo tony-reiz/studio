@@ -81,7 +81,7 @@ export function EbookDisplayArea() {
               repeatCount="indefinite" 
             />
           </feTurbulence>
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="25" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="50" />
         </filter>
       </svg>
       <Carousel
@@ -107,19 +107,23 @@ export function EbookDisplayArea() {
                         : 'hidden sm:block sm:transform sm:scale-75 sm:opacity-40'
                     )}
                   >
-                    {/* 1. The "Glass" layer that distorts the background */}
+                    {/* 1. Le calque "Vitre" amélioré */}
                     <div 
                       style={{ 
                         filter: 'url(#glass-distortion)', 
-                        backdropFilter: 'blur(10px)',
-                        WebkitBackdropFilter: 'blur(10px)',
+                        backdropFilter: 'blur(12px) saturate(150%)',
+                        WebkitBackdropFilter: 'blur(12px) saturate(150%)',
+                        backgroundColor: 'rgba(255, 255, 255, 0.08)',
                         position: 'absolute',
                         inset: 0,
-                        zIndex: 1
+                        zIndex: 1,
+                        borderRadius: '25px',
+                        border: '1px solid rgba(255, 255, 255, 0.2)',
+                        boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.1)',
                       }} 
                     />
                     
-                    {/* 2. The content (Icon + Text) on top, undistorted */}
+                    {/* 2. Le contenu (Icône + Texte) par-dessus, non déformé */}
                     <CardContent
                       className={cn(
                         'relative z-10 aspect-[210/297] p-6 flex flex-col items-center justify-center text-center'
