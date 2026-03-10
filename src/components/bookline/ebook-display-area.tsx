@@ -27,21 +27,13 @@ const infoCards = [
   },
 ];
 
-// SVG filter based on the user-provided text
+// SVG filter based on the user-provided code
 const LiquidGlassSVG = () => (
     <svg style={{ position: 'absolute', width: 0, height: 0, pointerEvents: 'none' }}>
       <filter id="liquid-glass-distortion">
-         <feTurbulence 
-            type="turbulence"
-            baseFrequency="0.05"
-            numOctaves="2"
-            result="noise" />
-         <feDisplacementMap 
-            in="SourceGraphic"
-            in2="noise"
-            scale="20"
-            xChannelSelector="R"
-            yChannelSelector="G" />
+        <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="92" result="noise" />
+        <feGaussianBlur in="noise" stdDeviation="0.02" result="blur" />
+        <feDisplacementMap in="SourceGraphic" in2="blur" scale="77" xChannelSelector="R" yChannelSelector="G" />
       </filter>
     </svg>
 );
@@ -110,20 +102,22 @@ export function EbookDisplayArea() {
                         : 'hidden sm:block sm:transform sm:scale-75 sm:opacity-40'
                     )}
                   >
-                    <div 
+                    {/* The glass effect layer */}
+                    <div
                       className="absolute inset-0 z-0"
-                      style={{ 
-                        backdropFilter: 'url(#liquid-glass-distortion) blur(4px) brightness(1.1)',
-                        WebkitBackdropFilter: 'url(#liquid-glass-distortion) blur(4px) brightness(1.1)',
-                        border: '1px solid rgba(255, 255, 255, 0.2)',
-                        borderRadius: '25px',
-                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                      }} 
+                      style={{
+                        backdropFilter: 'blur(2px)',
+                        WebkitBackdropFilter: 'blur(2px)',
+                        filter: 'url(#liquid-glass-distortion)',
+                      }}
                     />
+
+                    {/* The inner border */}
+                    <div className="absolute inset-0 z-10 rounded-[25px] shadow-[inset_2px_2px_0px_-2px_rgba(255,255,255,0.7),_inset_0_0_3px_1px_rgba(255,255,255,0.7)] pointer-events-none" />
                     
                     <CardContent
                       className={cn(
-                        'relative z-10 aspect-[210/297] p-6 flex flex-col items-center justify-center text-center'
+                        'relative z-20 aspect-[210/297] p-6 flex flex-col items-center justify-center text-center'
                       )}
                     >
                       <card.icon className="w-16 h-16 text-foreground mb-4" />
