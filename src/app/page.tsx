@@ -111,8 +111,8 @@ export default function LandingPage() {
           <Button
             onClick={() => handleNavigate('/auth')}
             className={cn(
-              "glass-form-element",
-              "mt-10 h-14 px-12 text-lg",
+              "bg-black text-white rounded-full hover:bg-black/90",
+              "mt-10 h-14 px-12 text-lg font-semibold",
               "transform",
               "transition-all duration-700 ease-out",
               isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95",
