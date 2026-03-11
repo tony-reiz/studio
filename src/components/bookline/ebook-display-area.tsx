@@ -62,7 +62,7 @@ export function EbookDisplayArea() {
   return (
       <div
         className={cn(
-          'flex-1 w-full flex flex-col justify-center items-center pb-20 transition-opacity duration-500',
+          'flex-1 w-full hidden md:flex flex-col justify-center items-center pb-20 transition-opacity duration-500',
           isVisible ? 'opacity-100' : 'opacity-0'
         )}
       >
