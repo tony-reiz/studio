@@ -80,7 +80,7 @@ export function EbookDisplayArea() {
             {displayItems.map((_, index) => {
               const card = infoCards[index % 3];
               return (
-                <CarouselItem key={index} className="pl-8 basis-full sm:basis-1/2 md:basis-1/3">
+                <CarouselItem key={index} className="pl-8 basis-1/2 sm:basis-1/2 md:basis-1/3">
                   <div className="p-1">
                     <Card
                       className={cn(
