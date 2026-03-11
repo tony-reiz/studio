@@ -180,8 +180,8 @@
     position: relative;
     overflow: hidden;
     background: rgba(255, 255, 255, 0.04);
-    -webkit-backdrop-filter: blur(4px) saturate(140%) brightness(1.05);
-    backdrop-filter: blur(4px) saturate(140%) brightness(1.05);
+    -webkit-backdrop-filter: blur(5px) saturate(140%) brightness(1.05);
+    backdrop-filter: blur(5px) saturate(140%) brightness(1.05);
     border: none;
     color: hsl(var(--foreground));
   }
@@ -198,7 +198,7 @@
   }
   
   .dark .liquid-glass-base {
-    background: rgba(20, 20, 20, 0.1);
+    background: rgba(25, 25, 25, 0.15);
   }
 
   .dark .liquid-glass-base::after {
@@ -227,7 +227,7 @@
   }
   
   .dark .glass-icon-button:hover, .dark .glass-search:hover, .dark .glass-button:hover, .dark .glass-form-element:hover {
-     background: rgba(20, 20, 20, 0.18) !important;
+     background: rgba(30, 30, 30, 0.22) !important;
   }
 
   .bv-couleur-button {
