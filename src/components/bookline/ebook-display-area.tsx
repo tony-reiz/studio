@@ -145,9 +145,6 @@ export function EbookDisplayArea() {
                         filter: 'url(#liquid-glass-distortion)',
                       }}
                     />
-
-                    {/* The inner border */}
-                    <div className="absolute inset-0 z-10 rounded-[25px] shadow-[inset_2px_2px_0px_-2px_rgba(255,255,255,0.7),_inset_0_0_3px_1px_rgba(255,255,255,0.7)] pointer-events-none" />
                     
                     <CardContent
                       className={cn(
