@@ -63,7 +63,7 @@ const LiquidGlassSVG = () => (
               <feDisplacementMap 
                   in="SourceGraphic" 
                   in2="softMap" 
-                  scale="20" 
+                  scale="50" 
                   xChannelSelector="R" 
                   yChannelSelector="G" 
               />
