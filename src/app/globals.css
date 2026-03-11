@@ -367,6 +367,18 @@
   .dock:hover > .dock-content {
       border-radius: 2.5rem;
   }
+  .pulsing-aurora-card {
+    @apply relative overflow-hidden bg-secondary/50;
+  }
+  .pulsing-aurora-card::before {
+    content: '';
+    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] h-[200%] z-0;
+    background-image: radial-gradient(circle, hsl(var(--primary) / 0.15), transparent 50%);
+    animation: pulse-aurora 4s ease-in-out infinite;
+  }
+  .pulsing-aurora-card > * {
+    @apply relative z-10;
+  }
 }
 
 @layer demo {

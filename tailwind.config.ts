@@ -106,7 +106,11 @@ export default {
         },
         'shimmer-card': {
           '100%': { transform: 'translateX(100%)' },
-        }
+        },
+        'pulse-aurora': {
+          '0%, 100%': { transform: 'scale(0.8)', opacity: '0.5' },
+          '50%': { transform: 'scale(1.2)', opacity: '0.8' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.3s ease-out',
@@ -116,6 +120,7 @@ export default {
         shimmer: 'shimmer 5s linear infinite',
         'pulse-subtle': 'pulse-subtle 3s ease-in-out infinite',
         'shimmer-card': 'shimmer-card 1.5s ease-in-out infinite',
+        'pulse-aurora': 'pulse-aurora 4s ease-in-out infinite',
       },
     },
   },
