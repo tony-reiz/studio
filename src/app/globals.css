@@ -202,4 +202,8 @@
   .glass-effect.right {
     @apply top-0 bottom-0 right-0 w-6 h-full;
   }
+  
+  button:has(.glass-container):hover {
+    background-color: transparent !important;
+  }
 }
