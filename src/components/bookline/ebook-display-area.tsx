@@ -11,6 +11,7 @@ import type { CarouselApi } from '@/components/ui/carousel';
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
 import { Lightbulb, BadgeCheck, DollarSign } from 'lucide-react';
+import { LiquidGlassEffect, LiquidGlassSVG } from './liquid-glass-effect';
 
 const infoCards = [
   {
@@ -59,51 +60,55 @@ export function EbookDisplayArea() {
   const displayItems = Array(5).fill(null);
 
   return (
-    <div
-      className={cn(
-        'flex-1 w-full flex flex-col justify-center items-center pb-20 transition-opacity duration-500',
-        isVisible ? 'opacity-100' : 'opacity-0'
-      )}
-    >
-      <Carousel
-        setApi={setApi}
-        plugins={[plugin.current]}
-        opts={{
-          align: 'center',
-          loop: true,
-          startIndex: 2,
-        }}
-        className="w-full max-w-4xl px-4"
+    <>
+      <LiquidGlassSVG />
+      <div
+        className={cn(
+          'flex-1 w-full flex flex-col justify-center items-center pb-20 transition-opacity duration-500',
+          isVisible ? 'opacity-100' : 'opacity-0'
+        )}
       >
-        <CarouselContent className="-ml-8">
-          {displayItems.map((_, index) => {
-            const card = infoCards[index % 3];
-            return (
-              <CarouselItem key={index} className="pl-8 basis-full sm:basis-1/2 md:basis-1/3">
-                <div className="p-1">
-                  <Card
-                    className={cn(
-                      'pulsing-aurora-card rounded-[25px] border-0 transition-transform duration-500 ease-in-out',
-                      index === current
-                        ? 'transform scale-100'
-                        : 'transform scale-75 opacity-40'
-                    )}
-                  >
-                    <CardContent
+        <Carousel
+          setApi={setApi}
+          plugins={[plugin.current]}
+          opts={{
+            align: 'center',
+            loop: true,
+            startIndex: 2,
+          }}
+          className="w-full max-w-4xl px-4"
+        >
+          <CarouselContent className="-ml-8">
+            {displayItems.map((_, index) => {
+              const card = infoCards[index % 3];
+              return (
+                <CarouselItem key={index} className="pl-8 basis-full sm:basis-1/2 md:basis-1/3">
+                  <div className="p-1">
+                    <Card
                       className={cn(
-                        'aspect-[210/297] p-6 flex flex-col items-center justify-center text-center bg-transparent'
+                        'liquid-glass-container rounded-[25px] transition-transform duration-500 ease-in-out',
+                        index === current
+                          ? 'transform scale-100'
+                          : 'transform scale-75 opacity-40'
                       )}
                     >
-                      <card.icon className="w-16 h-16 text-foreground mb-4" />
-                      <h3 className="text-xl font-bold text-foreground">{card.title}</h3>
-                    </CardContent>
-                  </Card>
-                </div>
-              </CarouselItem>
-            );
-          })}
-        </CarouselContent>
-      </Carousel>
-    </div>
+                      <LiquidGlassEffect />
+                      <CardContent
+                        className={cn(
+                          'relative z-20 aspect-[210/297] p-6 flex flex-col items-center justify-center text-center bg-transparent'
+                        )}
+                      >
+                        <card.icon className="w-16 h-16 text-foreground mb-4" />
+                        <h3 className="text-xl font-bold text-foreground">{card.title}</h3>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              );
+            })}
+          </CarouselContent>
+        </Carousel>
+      </div>
+    </>
   );
 }

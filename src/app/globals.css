@@ -367,17 +367,11 @@
   .dock:hover > .dock-content {
       border-radius: 2.5rem;
   }
-  .pulsing-aurora-card {
-    @apply relative overflow-hidden bg-secondary;
+  .liquid-glass-container {
+    @apply relative overflow-hidden isolate;
   }
-  .pulsing-aurora-card::before {
-    content: '';
-    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] h-[200%] z-0;
-    background-image: radial-gradient(circle, hsl(var(--chart-1) / 0.25), transparent 70%);
-    animation: pulse-aurora 4s ease-in-out infinite;
-  }
-  .pulsing-aurora-card > * {
-    @apply relative z-10;
+  .liquid-glass-effect-layer {
+    @apply absolute -inset-40 z-10 bg-white/10;
   }
 }
 
