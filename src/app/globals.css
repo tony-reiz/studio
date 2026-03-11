@@ -373,6 +373,44 @@
   .liquid-glass-effect-layer {
     @apply absolute -inset-40 z-10 bg-white/10;
   }
+
+  .glass-container {
+    @apply absolute inset-0 rounded-[inherit] overflow-hidden z-10;
+  }
+
+  .glass-effect-backdrop {
+    @apply absolute inset-0;
+    -webkit-backdrop-filter: blur(0.5px);
+    backdrop-filter: blur(0.5px);
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: inherit;
+  }
+  
+  .dark .glass-effect-backdrop {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-effect {
+    @apply absolute rounded-full;
+    -webkit-backdrop-filter: url(#distortion);
+    backdrop-filter: url(#distortion);
+  }
+
+  .glass-effect.top {
+    @apply top-0 left-0 right-0 h-3 w-full;
+  }
+
+  .glass-effect.bottom {
+    @apply bottom-0 left-0 right-0 h-3 w-full;
+  }
+
+  .glass-effect.left {
+    @apply top-0 bottom-0 left-0 w-3 h-full;
+  }
+
+  .glass-effect.right {
+    @apply top-0 bottom-0 right-0 w-3 h-full;
+  }
 }
 
 @layer demo {
