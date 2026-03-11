@@ -30,7 +30,7 @@ const infoCards = [
 const LiquidGlassSVG = () => (
     <svg style={{ position: 'absolute', width: 0, height: 0, pointerEvents: 'none' }}>
       <defs>
-          <filter id="liquid-glass-distortion" x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox">
+          <filter id="liquid-glass-distortion" x="-100%" y="-100%" width="300%" height="300%" filterUnits="objectBoundingBox">
               <feTurbulence 
                   type="fractalNoise" 
                   baseFrequency="0.01 0.01" 
@@ -138,7 +138,7 @@ export function EbookDisplayArea() {
                   >
                     {/* The glass effect layer */}
                     <div
-                      className="absolute -inset-16 z-0 bg-black/40"
+                      className="absolute -inset-40 z-0 bg-black/40"
                       style={{
                         backdropFilter: 'blur(3px)',
                         WebkitBackdropFilter: 'blur(3px)',
