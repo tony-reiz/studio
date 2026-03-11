@@ -68,7 +68,7 @@ export function EbookDisplayArea() {
         <svg style={{ position: 'absolute', width: 0, height: 0 }} aria-hidden="true">
             <filter id="distortion" colorInterpolationFilters="sRGB">
                 <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise" />
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="15" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="50" />
             </filter>
         </svg>
         <Carousel
