@@ -63,7 +63,7 @@ const LiquidGlassSVG = () => (
               <feDisplacementMap 
                   in="SourceGraphic" 
                   in2="softMap" 
-                  scale="150" 
+                  scale="80" 
                   xChannelSelector="R" 
                   yChannelSelector="G" 
               />
@@ -138,11 +138,10 @@ export function EbookDisplayArea() {
                   >
                     {/* The glass effect layer */}
                     <div
-                      className="absolute -inset-40 z-0 bg-black/40"
+                      className="absolute -inset-20 z-0 bg-white/10 backdrop-blur-sm"
                       style={{
-                        backdropFilter: 'blur(3px)',
-                        WebkitBackdropFilter: 'blur(3px)',
                         filter: 'url(#liquid-glass-distortion)',
+                        WebkitBackdropFilter: 'blur(3px)',
                       }}
                     />
                     
