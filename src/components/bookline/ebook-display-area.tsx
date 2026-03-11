@@ -138,7 +138,7 @@ export function EbookDisplayArea() {
                   >
                     {/* The glass effect layer */}
                     <div
-                      className="absolute inset-0 z-0"
+                      className="absolute -inset-6 z-0"
                       style={{
                         backdropFilter: 'blur(3px)',
                         WebkitBackdropFilter: 'blur(3px)',
