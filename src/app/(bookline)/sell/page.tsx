@@ -18,6 +18,7 @@ import { LightFluidBackground } from '@/components/bookline/light-fluid-backgrou
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 import { BVCouleur } from '@/components/bookline/BVCouleur';
 import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
+import { GlassEffect } from '@/components/bookline/glass-effect';
 
 
 export default function SellPage() {
@@ -162,9 +163,10 @@ export default function SellPage() {
       variant="ghost"
       size="icon"
       aria-label={t('menu')}
-      className="w-11 h-11 rounded-full glass-icon-button -mt-2 sm:mt-0"
+      className="w-11 h-11 rounded-full relative isolate overflow-hidden -mt-2 sm:mt-0"
     >
-      <Menu className="h-6 w-6" />
+      <GlassEffect />
+      <Menu className="h-6 w-6 relative z-20" />
     </Button>
   );
 
@@ -182,8 +184,9 @@ export default function SellPage() {
             <div className="flex flex-col items-start gap-3">
               {isClient ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
             </div>
-            <Button type="button" onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="-mt-2 sm:mt-0 w-11 h-11 rounded-full glass-icon-button" aria-label={t('user_profile')}>
-              <User className="h-6 w-6" />
+            <Button type="button" onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="-mt-2 sm:mt-0 w-11 h-11 rounded-full relative isolate overflow-hidden" aria-label={t('user_profile')}>
+              <GlassEffect />
+              <User className="h-6 w-6 relative z-20" />
             </Button>
           </header>
 
@@ -210,14 +213,15 @@ export default function SellPage() {
                         "w-full h-12 text-lg font-semibold rounded-full",
                         {
                             "bv-couleur-button p-0": isFormComplete && !isProcessing,
-                            "glass-button": !isFormComplete && !isProcessing,
+                            "relative isolate overflow-hidden": !isFormComplete && !isProcessing,
                             "bg-[#DFDFDF] text-muted-foreground cursor-not-allowed": isProcessing
                         }
                     )}
                 >
                     {isFormComplete && !isProcessing && <BVCouleur id="sell-button-canvas" className="bv-couleur-canvas" />}
+                    {!isFormComplete && !isProcessing && <GlassEffect />}
                     {isProcessing && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
-                    <span>{getButtonText()}</span>
+                    <span className="relative z-20">{getButtonText()}</span>
                 </Button>
             </div>
           </main>

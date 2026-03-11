@@ -9,6 +9,7 @@ import { LightFluidBackground } from '@/components/bookline/light-fluid-backgrou
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 import { cn } from '@/lib/utils';
 import { Switch } from "@/components/ui/switch";
+import { GlassEffect } from '@/components/bookline/glass-effect';
 
 
 export default function SecurityPage() {
@@ -31,8 +32,9 @@ export default function SecurityPage() {
       <div className="w-full max-w-screen-md mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
         <header className="grid grid-cols-3 items-center w-full py-6">
           <div className="justify-self-start">
-            <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label={t('back')}>
-                <ChevronLeft className="h-6 w-6" />
+            <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden" aria-label={t('back')}>
+                <GlassEffect />
+                <ChevronLeft className="h-6 w-6 relative z-20" />
             </Button>
           </div>
           <h1 className="text-2xl font-bold text-center">{t('security')}</h1>

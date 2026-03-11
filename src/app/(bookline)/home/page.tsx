@@ -11,6 +11,7 @@ import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 import { cn } from '@/lib/utils';
+import { GlassEffect } from '@/components/bookline/glass-effect';
 
 export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -27,9 +28,10 @@ export default function HomePage() {
       variant="ghost"
       size="icon"
       aria-label={t('menu')}
-      className="w-11 h-11 rounded-full glass-icon-button -mt-2 sm:mt-0"
+      className="w-11 h-11 rounded-full relative isolate overflow-hidden -mt-2 sm:mt-0"
     >
-      <Menu className="h-6 w-6" />
+      <GlassEffect />
+      <Menu className="h-6 w-6 relative z-20" />
     </Button>
   );
 
@@ -55,14 +57,16 @@ export default function HomePage() {
               <div className="relative hidden sm:block">
                   <button
                       onClick={() => setIsSearchOpen(true)}
-                      className="relative flex items-center pl-11 pr-4 h-11 w-40 sm:w-64 text-sm rounded-full text-left focus:outline-none glass-search"
+                      className="relative flex items-center pl-11 pr-4 h-11 w-40 sm:w-64 text-sm rounded-full text-left focus:outline-none isolate overflow-hidden"
                   >
-                      <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 z-[2]" />
-                      <span className="truncate relative z-[2]">{t('search_ebooks')}</span>
+                      <GlassEffect />
+                      <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 z-20" />
+                      <span className="truncate relative z-20">{t('search_ebooks')}</span>
                   </button>
               </div>
-              <Button onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="-mt-2 sm:mt-0 w-11 h-11 rounded-full glass-icon-button" aria-label={t('user_profile')}>
-                <User className="h-6 w-6" />
+              <Button onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="-mt-2 sm:mt-0 w-11 h-11 rounded-full relative isolate overflow-hidden" aria-label={t('user_profile')}>
+                <GlassEffect />
+                <User className="h-6 w-6 relative z-20" />
               </Button>
             </div>
           </div>
@@ -70,10 +74,11 @@ export default function HomePage() {
           <div className="relative w-full mt-2 sm:hidden">
               <button
                   onClick={() => setIsSearchOpen(true)}
-                  className="relative flex items-center pl-11 pr-4 h-11 w-full text-sm rounded-full text-left focus:outline-none glass-search"
+                  className="relative flex items-center pl-11 pr-4 h-11 w-full text-sm rounded-full text-left focus:outline-none isolate overflow-hidden"
               >
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 z-[2]" />
-                  <span className="truncate relative z-[2]">{t('search_ebooks')}</span>
+                  <GlassEffect />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 z-20" />
+                  <span className="truncate relative z-20">{t('search_ebooks')}</span>
               </button>
           </div>
         </header>

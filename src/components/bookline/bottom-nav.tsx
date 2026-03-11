@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useEbooks } from '@/context/ebook-provider';
 import { BVCouleur } from './BVCouleur';
+import { GlassEffect } from './glass-effect';
 
 export function BottomNav() {
   const pathname = usePathname();
@@ -39,10 +40,11 @@ export function BottomNav() {
 
   return (
     <div className="fixed bottom-8 left-0 right-0 p-4 md:bottom-2 md:mb-4">
-      <div className="glass-form-element rounded-full flex relative items-center max-w-[16rem] mx-auto">
+      <div className="relative isolate overflow-hidden rounded-full flex items-center max-w-[16rem] mx-auto">
+        <GlassEffect />
         <div
           className={cn(
-            'absolute top-0 h-full w-1/2 rounded-full transition-all duration-500 ease-in-out bg-black',
+            'absolute top-0 h-full w-1/2 rounded-full transition-all duration-500 ease-in-out bg-black z-10',
             isAcheter ? 'left-0' : 'left-1/2'
           )}
         >
@@ -50,7 +52,7 @@ export function BottomNav() {
         <button
           onClick={() => handleNavigation('acheter')}
           className={cn(
-            'relative z-10 w-1/2 py-3 text-center text-base font-semibold transition-colors duration-150',
+            'relative z-20 w-1/2 py-3 text-center text-base font-semibold transition-colors duration-150',
             isAcheter ? 'text-white' : 'text-foreground'
           )}
         >
@@ -59,7 +61,7 @@ export function BottomNav() {
         <button
           onClick={() => handleNavigation('vendre')}
           className={cn(
-            'relative z-10 w-1/2 py-3 text-center text-base font-semibold transition-colors duration-150',
+            'relative z-20 w-1/2 py-3 text-center text-base font-semibold transition-colors duration-150',
             !isAcheter ? 'text-white' : 'text-foreground'
           )}
         >

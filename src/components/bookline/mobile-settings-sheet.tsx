@@ -32,6 +32,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 import { ImageCropper } from './image-cropper';
+import { GlassEffect } from './glass-effect';
 
 type View = 'main' | 'language' | 'help' | 'security' | 'account';
 
@@ -191,7 +192,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         setTimeout(() => setSaveStatus('idle'), 2000);
     };
     
-    const inputClasses = "pl-11 pr-4 h-12 w-full text-base border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground";
+    const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20";
     const isSaveDisabled = !username.trim();
 
     const isUsernameDisabled = !canChangeUsername;
@@ -234,12 +235,13 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </button>
                     <h1 className="text-xl font-bold text-center">{t('language')}</h1>
                 </div>
-                <div className="relative w-full mb-2">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground z-10" />
+                <div className="relative w-full mb-2 isolate overflow-hidden rounded-full">
+                    <GlassEffect />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground z-20" />
                     <Input
                         type="search"
                         placeholder={t('search_language')}
-                        className="pl-11 pr-4 h-12 w-full text-base glass-form-element bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground"
+                        className="pl-11 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -400,8 +402,9 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
                     <div className="w-full space-y-4 mb-8">
                       <div>
-                        <div className="relative w-full">
-                          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">N</span>
+                        <div className="relative w-full isolate overflow-hidden rounded-full">
+                          <GlassEffect />
+                          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">N</span>
                           <Input
                             type="text"
                             placeholder={t('username_placeholder')}
@@ -414,8 +417,9 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                         <p className="text-xs text-muted-foreground text-right w-full pr-4 pt-1">{getUsernameNote()}</p>
                       </div>
                       <div>
-                        <div className="relative w-full">
-                          <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-muted-foreground">B</span>
+                        <div className="relative w-full isolate overflow-hidden rounded-[30px]">
+                           <GlassEffect />
+                          <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">B</span>
                           <Textarea
                             placeholder={t('bio_placeholder')}
                             value={bio}
@@ -423,7 +427,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             onKeyDown={(e) => {
                               if (e.key === 'Enter') e.preventDefault();
                             }}
-                            className={cn(inputClasses, "h-24 rounded-[30px] py-3.5 leading-snug resize-none", 'bg-secondary')}
+                            className={cn(inputClasses, "h-24 rounded-[30px] py-3.5 leading-snug resize-none bg-secondary")}
                             maxLength={80}
                           />
                         </div>

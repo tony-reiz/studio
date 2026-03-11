@@ -12,6 +12,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { BuyEbookSheet } from './buy-ebook-sheet';
 import { BuyEbookDialog } from './buy-ebook-dialog';
 import { useRouter } from 'next/navigation';
+import { GlassEffect } from './glass-effect';
 
 interface SearchOverlayProps {
   isOpen: boolean;
@@ -179,13 +180,14 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
               isContentVisible ? 'translate-y-0 opacity-100' : '-translate-y-6 opacity-0'
             )}
           >
-            <div className="relative flex-1">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground z-10" />
+            <div className="relative flex-1 isolate overflow-hidden rounded-full">
+              <GlassEffect />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground z-20" />
               <Input
                 ref={inputRef}
                 type="search"
                 placeholder={t('search_ebooks')}
-                className="pl-11 pr-4 h-12 w-full text-base glass-form-element bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground"
+                className="pl-11 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />

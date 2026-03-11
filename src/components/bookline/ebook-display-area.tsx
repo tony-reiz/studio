@@ -11,6 +11,7 @@ import type { CarouselApi } from '@/components/ui/carousel';
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
 import { Lightbulb, BadgeCheck, DollarSign } from 'lucide-react';
+import { GlassEffect } from './glass-effect';
 
 const infoCards = [
   {
@@ -65,12 +66,6 @@ export function EbookDisplayArea() {
           isVisible ? 'opacity-100' : 'opacity-0'
         )}
       >
-        <svg style={{ position: 'absolute', width: 0, height: 0 }} aria-hidden="true">
-            <filter id="distortion" colorInterpolationFilters="sRGB">
-                <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise" />
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="50" />
-            </filter>
-        </svg>
         <Carousel
           setApi={setApi}
           plugins={[plugin.current]}
@@ -95,13 +90,7 @@ export function EbookDisplayArea() {
                           : 'transform scale-75 opacity-40'
                       )}
                     >
-                      <div className="glass-container">
-                        <div className="glass-effect-backdrop"></div>
-                        <div className="glass-effect top"></div>
-                        <div className="glass-effect bottom"></div>
-                        <div className="glass-effect left"></div>
-                        <div className="glass-effect right"></div>
-                      </div>
+                      <GlassEffect />
                       <CardContent
                         className={cn(
                           'relative z-20 aspect-[210/297] p-6 flex flex-col items-center justify-center text-center'

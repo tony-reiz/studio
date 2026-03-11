@@ -9,6 +9,7 @@ import { useFormField } from '@/components/ui/form';
 import { getEbookSearchSuggestions } from '@/ai/flows/ai-powered-search-suggestions';
 import { useToast } from '@/hooks/use-toast';
 import { useEbooks } from '@/context/ebook-provider';
+import { GlassEffect } from './glass-effect';
 
 // Debounce hook
 function useDebounce<T>(value: T, delay: number): T {
@@ -207,12 +208,13 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
     <div ref={containerRef} className="relative">
         <div 
             className={cn(
-                "flex items-center h-12 w-full rounded-full p-0 overflow-hidden glass-form-element",
+                "flex items-center h-12 w-full rounded-full p-0 relative isolate overflow-hidden",
                 error ? 'ring-2 ring-destructive ring-offset-2' : ''
             )}
             onClick={() => inputRef.current?.focus()}
         >
-            <div ref={scrollContainerRef} className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-12 scrollbar-hide">
+            <GlassEffect />
+            <div ref={scrollContainerRef} className="relative z-20 flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-12 scrollbar-hide">
                 {keywords.map((keyword) => (
                     <Badge 
                         key={keyword.id} 
@@ -248,14 +250,14 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
                 />
             </div>
             {isLoading && (
-                <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20">
                     <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
                 </div>
             )}
         </div>
 
         {isSuggestionsVisible && (suggestions.length > 0) && (
-            <div className="absolute z-20 w-full mt-2 bg-secondary rounded-xl p-2 shadow-lg animate-in fade-in-0 slide-in-from-top-2 duration-300">
+            <div className="absolute z-30 w-full mt-2 bg-secondary rounded-xl p-2 shadow-lg animate-in fade-in-0 slide-in-from-top-2 duration-300">
                 <p className="px-2 py-1 text-xs text-muted-foreground">{t('search_suggestions')}</p>
                 <ul className="space-y-1">
                     {suggestions.map((suggestion, index) => (

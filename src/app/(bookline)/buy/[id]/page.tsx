@@ -20,6 +20,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { GlassEffect } from '@/components/bookline/glass-effect';
 
 const Document = dynamic(
   () => import('react-pdf').then((mod) => mod.Document),
@@ -320,15 +321,18 @@ export default function BuyEbookPage() {
       ) : (
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8 overflow-hidden">
           <header className="flex items-start justify-between w-full py-6">
-            <Button onClick={view === 'purchase' ? handleBack : () => setView('purchase')} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label={t('back')}>
-              <ChevronLeft className="h-6 w-6" />
+            <Button onClick={view === 'purchase' ? handleBack : () => setView('purchase')} variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden" aria-label={t('back')}>
+              <GlassEffect />
+              <ChevronLeft className="h-6 w-6 relative z-20" />
             </Button>
             <div className="flex flex-col items-center gap-3">
-              <Button onClick={handleShare} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label={t('share')}>
-                <Share2 className="h-6 w-6" />
+              <Button onClick={handleShare} variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden" aria-label={t('share')}>
+                <GlassEffect />
+                <Share2 className="h-6 w-6 relative z-20" />
               </Button>
-              <Button variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label={t('report_profile')}>
-                <AlertCircle className="h-6 w-6" />
+              <Button variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden" aria-label={t('report_profile')}>
+                <GlassEffect />
+                <AlertCircle className="h-6 w-6 relative z-20" />
               </Button>
             </div>
           </header>

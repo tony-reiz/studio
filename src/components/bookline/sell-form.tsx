@@ -7,6 +7,7 @@ import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/f
 import { cn } from '@/lib/utils';
 import { KeywordInput } from './keyword-input';
 import { useEbooks } from '@/context/ebook-provider';
+import { GlassEffect } from './glass-effect';
 
 export function SellForm() {
     const { control, watch } = useFormContext();
@@ -42,7 +43,7 @@ export function SellForm() {
         return `${formatted} €`;
     };
 
-    const inputClasses = "pl-11 pr-4 h-12 w-full text-base glass-form-element placeholder:text-muted-foreground border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0";
+    const inputClasses = "pl-11 pr-4 h-12 w-full text-base bg-transparent placeholder:text-muted-foreground border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 relative z-20";
 
   return (
     <div className="w-full max-w-[18rem] md:w-80 flex flex-col items-center">
@@ -52,8 +53,9 @@ export function SellForm() {
                 name="title"
                 render={({ field }) => (
                     <FormItem>
-                    <div className="relative w-full">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground z-10">T</span>
+                    <div className="relative w-full isolate overflow-hidden rounded-full">
+                        <GlassEffect />
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground z-30">T</span>
                         <FormControl>
                             <Input placeholder={t('ebook_title_placeholder')} {...field} className={inputClasses}/>
                         </FormControl>
@@ -68,8 +70,9 @@ export function SellForm() {
                 name="description"
                 render={({ field }) => (
                     <FormItem>
-                    <div className="relative w-full">
-                         <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-foreground z-10">D</span>
+                    <div className="relative w-full isolate overflow-hidden rounded-[30px]">
+                        <GlassEffect />
+                         <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-foreground z-30">D</span>
                         <FormControl>
                             <Textarea placeholder={t('ebook_description_placeholder')} {...field} className={cn(inputClasses, "h-28 rounded-[30px] py-3.5 leading-snug")} />
                         </FormControl>
@@ -85,7 +88,7 @@ export function SellForm() {
                 render={({ field }) => (
                     <FormItem>
                      <div className="relative w-full">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground z-10">M</span>
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground z-30">M</span>
                         <FormControl>
                             <KeywordInput placeholder={t('keywords_placeholder')} {...field}/>
                         </FormControl>
@@ -100,8 +103,9 @@ export function SellForm() {
                 name="price"
                 render={({ field }) => (
                     <FormItem>
-                    <div className="relative w-full">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground z-10">€</span>
+                    <div className="relative w-full isolate overflow-hidden rounded-full">
+                        <GlassEffect />
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground z-30">€</span>
                         <FormControl>
                             <Input type="text" inputMode="decimal" placeholder={t('price_placeholder')} {...field} className={inputClasses}/>
                         </FormControl>
@@ -112,13 +116,14 @@ export function SellForm() {
             />
         </div>
 
-        <div className="w-full glass-form-element rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden">
-            <div className='pl-6 py-4 text-sm text-foreground space-y-1 flex flex-col justify-center'>
+        <div className="w-full relative isolate overflow-hidden rounded-[30px] grid grid-cols-[1fr_auto] mt-4">
+            <GlassEffect />
+            <div className='relative z-20 pl-6 py-4 text-sm text-foreground space-y-1 flex flex-col justify-center'>
                 <p>{t('ebook_price')}</p>
                 <p>{t('your_net_gain')}</p>
                 <p>{t('total_ebook_price')}</p>
             </div>
-            <div className='bg-black dark:bg-white rounded-l-[30px] flex flex-col justify-center'>
+            <div className='relative z-20 bg-black dark:bg-white rounded-l-[30px] flex flex-col justify-center'>
                 <div className='px-8 py-4 text-sm text-right space-y-1'>
                     <p className="font-semibold text-white dark:text-black">{formatPrice(ebookPrice)}</p>
                     <p className="font-semibold text-white dark:text-black">{formatPrice(netGain)}</p>

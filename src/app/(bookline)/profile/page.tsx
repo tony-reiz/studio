@@ -16,6 +16,7 @@ import { BuyEbookSheet } from '@/components/bookline/buy-ebook-sheet';
 import { BuyEbookDialog } from '@/components/bookline/buy-ebook-dialog';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
+import { GlassEffect } from '@/components/bookline/glass-effect';
 
 type ActiveTab = 'achats' | 'publications' | 'favoris';
 
@@ -167,12 +168,14 @@ function ProfilePageContent() {
       <div className={cn("flex flex-col min-h-screen text-foreground bg-transparent")}>
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
           <header className="flex items-start justify-between w-full py-6">
-            <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label={t('back')}>
-                <ChevronLeft className="h-6 w-6" />
+            <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden" aria-label={t('back')}>
+                <GlassEffect />
+                <ChevronLeft className="h-6 w-6 relative z-20" />
             </Button>
             <div className="flex flex-col items-center gap-3">
-              <Button onClick={handleShare} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label={t('share_profile')}>
-                <Share2 className="h-6 w-6" />
+              <Button onClick={handleShare} variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden" aria-label={t('share_profile')}>
+                <GlassEffect />
+                <Share2 className="h-6 w-6 relative z-20" />
               </Button>
             </div>
           </header>
@@ -187,13 +190,14 @@ function ProfilePageContent() {
               </Avatar>
               <div 
                 className={cn(
-                  "text-sm font-semibold rounded-full px-12 mt-4 h-9 flex items-center justify-center cursor-pointer select-none transition-colors duration-300",
-                  isCopied ? 'bg-green-500 text-white' : 'glass-form-element'
+                  "text-sm font-semibold rounded-full px-12 mt-4 h-9 flex items-center justify-center cursor-pointer select-none transition-colors duration-300 relative isolate overflow-hidden",
+                  isCopied ? 'bg-green-500 text-white' : ''
                 )}
                 onClick={handleCopyUsername}
                 onContextMenu={(e) => e.preventDefault()}
               >
-                {userProfile.username}
+                {!isCopied && <GlassEffect />}
+                <span className="relative z-20">{userProfile.username}</span>
               </div>
               {userProfile.bio && (
                 <p className="text-center text-muted-foreground mt-4 max-w-sm break-words">{userProfile.bio}</p>

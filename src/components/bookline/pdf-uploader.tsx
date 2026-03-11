@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { CloudUpload, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { BVCouleur } from './BVCouleur';
+import { GlassEffect } from './glass-effect';
 
 interface PdfUploaderProps {
   pdfFile: File | null;
@@ -93,12 +94,14 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
       />
       <div
         className={cn(
-          'aspect-[210/297] p-0 flex items-center justify-center rounded-[25px] overflow-hidden relative transition-colors duration-300',
-          !pdfFile ? 'glass-form-element' : (isCompressing ? 'bg-transparent' : 'bg-[#DFDFDF]')
+          'aspect-[210/297] p-0 flex items-center justify-center rounded-[25px] overflow-hidden relative isolate transition-colors duration-300',
+          !pdfFile ? '' : (isCompressing ? 'bg-transparent' : 'bg-[#DFDFDF]')
         )}
       >
+        {!pdfFile && <GlassEffect />}
+        
         {originalSize && (
-            <div className="absolute top-3 left-3 z-20 bg-black/60 text-white text-[10px] font-semibold rounded-full px-2.5 py-1 backdrop-blur-sm flex items-center gap-1.5">
+            <div className="absolute top-3 left-3 z-30 bg-black/60 text-white text-[10px] font-semibold rounded-full px-2.5 py-1 backdrop-blur-sm flex items-center gap-1.5">
                 <span>{formatBytes(originalSize)}</span>
                 
                 {isCompressing && (
@@ -119,7 +122,7 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
         
         {/* Loading state with fade */}
         <div className={cn(
-            "absolute inset-0 flex items-center justify-center transition-opacity duration-300",
+            "absolute inset-0 flex items-center justify-center transition-opacity duration-300 z-20",
             isCompressing ? "opacity-100" : "opacity-0 pointer-events-none"
         )}>
             <BVCouleur id="pdf-uploader-canvas" className="bv-couleur-canvas !z-0" />
@@ -128,7 +131,7 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
         
         {/* Idle and loaded states with fade */}
         <div className={cn(
-            "absolute inset-0 flex items-center justify-center transition-opacity duration-300",
+            "absolute inset-0 flex items-center justify-center transition-opacity duration-300 z-20",
             !isCompressing ? "opacity-100" : "opacity-0 pointer-events-none"
         )}>
             {previewUrl ? (

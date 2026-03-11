@@ -4,6 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { BottomNav } from '@/components/bookline/bottom-nav';
+import { DistortionFilter } from '@/components/bookline/glass-effect';
 
 
 // --- Transition Context (checkpoint 653da77) ---
@@ -71,6 +72,7 @@ export default function BooklineLayout({
 
   return (
       <TransitionContext.Provider value={transitionContextValue}>
+        <DistortionFilter />
         <div className={cn("transition-opacity duration-500 ease-in-out", isPageVisible ? "opacity-100" : "opacity-0")}>
           {children}
         </div>
