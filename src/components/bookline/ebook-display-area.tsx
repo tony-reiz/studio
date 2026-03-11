@@ -11,7 +11,6 @@ import type { CarouselApi } from '@/components/ui/carousel';
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
 import { Lightbulb, BadgeCheck, DollarSign } from 'lucide-react';
-import { LiquidGlassEffect, LiquidGlassSVG } from './liquid-glass-effect';
 
 const infoCards = [
   {
@@ -60,8 +59,6 @@ export function EbookDisplayArea() {
   const displayItems = Array(5).fill(null);
 
   return (
-    <>
-      <LiquidGlassSVG />
       <div
         className={cn(
           'flex-1 w-full flex flex-col justify-center items-center pb-20 transition-opacity duration-500',
@@ -86,16 +83,15 @@ export function EbookDisplayArea() {
                   <div className="p-1">
                     <Card
                       className={cn(
-                        'liquid-glass-container rounded-[25px] transition-transform duration-500 ease-in-out',
+                        'bg-transparent border-0 rounded-[25px] transition-transform duration-500 ease-in-out',
                         index === current
                           ? 'transform scale-100'
                           : 'transform scale-75 opacity-40'
                       )}
                     >
-                      <LiquidGlassEffect />
                       <CardContent
                         className={cn(
-                          'relative z-20 aspect-[210/297] p-6 flex flex-col items-center justify-center text-center bg-transparent'
+                          'relative z-20 aspect-[210/297] p-6 flex flex-col items-center justify-center text-center'
                         )}
                       >
                         <card.icon className="w-16 h-16 text-foreground mb-4" />
@@ -109,6 +105,5 @@ export function EbookDisplayArea() {
           </CarouselContent>
         </Carousel>
       </div>
-    </>
   );
 }
