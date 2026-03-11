@@ -178,7 +178,7 @@
   }
   
   .dark .glass-effect-backdrop {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1);
   }
 
   .glass-effect {
