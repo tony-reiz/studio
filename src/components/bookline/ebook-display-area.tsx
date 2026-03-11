@@ -83,7 +83,7 @@ export function EbookDisplayArea() {
                   <div className="p-1">
                     <Card
                       className={cn(
-                        'bg-transparent border-0 rounded-[25px] transition-transform duration-500 ease-in-out',
+                        'liquid-glass-base rounded-[25px] transition-transform duration-500 ease-in-out',
                         index === current
                           ? 'transform scale-100'
                           : 'transform scale-75 opacity-40'
