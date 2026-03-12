@@ -46,7 +46,22 @@ export function BusinessPlanContent() {
                     <p><strong>Publicité Obligatoire pour les Vendeurs :</strong> Pour créer une source de revenus constante, une publicité non-sautable de 30 secondes sera affichée aux vendeurs chaque fois qu'ils publient un ebook. Le processus de publication ne sera finalisé qu'une fois la publicité visionnée dans son intégralité. Ce modèle s'applique à tous les utilisateurs standards. Cependant, cette exigence est levée pour les vendeurs qui s'abonnent à notre plan "BookLine Pro". Cela incite à souscrire à l'abonnement Pro tout en monétisant le processus de publication pour tous les autres utilisateurs.</p>
                 </li>
                 <li>
-                    <p><strong>Programme de Parrainage :</strong> Nous mettrons en œuvre un système de parrainage pour accélérer notre croissance. Les utilisateurs (acheteurs et vendeurs) seront récompensés pour avoir invité de nouveaux créateurs sur la plateforme qui vendent avec succès leurs ebooks.</p>
+                    <p><strong>Programme de Parrainage Puissant :</strong> Pour accélérer notre croissance de manière virale, nous mettrons en œuvre un système de parrainage à double récompense. Chaque utilisateur (vendeur ou acheteur) recevra un code de parrainage unique de 5 caractères dès son inscription.</p>
+                    <ul className="!mt-2">
+                        <li><strong>Récompense pour le Parrain (la "Maman") :</strong> Le parrain gagnera <strong>1 €</strong> à chaque fois que le <strong>total des ventes de tous ses filleuls atteint un multiple de 3</strong>.
+                            <ul className="!list-['-_'] !pl-4">
+                                <li><em>Exemple 1 :</em> Si votre filleul A vend 3 ebooks, vous gagnez 1 €.</li>
+                                <li><em>Exemple 2 :</em> Si votre filleul A vend 1 ebook, le filleul B en vend 1, et le filleul C en vend 1, le total est de 3. Vous gagnez donc 1 €.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Récompense pour le Filleul (le vendeur parrainé) :</strong> Pour le motiver à bien démarrer, le vendeur qui a utilisé un code de parrainage gagnera également <strong>1 €</strong> à chaque fois qu'il réalise lui-même <strong>3 ventes</strong>.</li>
+                        <li><strong>Potentiel de gain illimité :</strong> Ce système est conçu pour être un véritable levier de revenus passifs pour nos utilisateurs les plus influents.
+                            <ul className="!list-['-_'] !pl-4">
+                                <li><em>Exemple de motivation :</em> PARRAINEZ PLUSIEURS VENDEURS : 10 000 VENTES GÉNÉRÉES PAR VOS FILLEULS = <strong>3 333 € GAGNÉS !</strong></li>
+                                <li><em>Scénario réaliste :</em> SI VOUS AVEZ 200 FILLEULS QUI VENDENT CHACUN 15 EBOOKS PAR MOIS, VOUS GAGNEREZ <strong>1 000 € CHAQUE MOIS !</strong></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <p><strong>Programme d'Affiliation B2B :</strong> BookLine développera un réseau d'affiliation B2B. Nous nous associerons avec des blogs, des médias en ligne et des influenceurs dans des niches pertinentes. Ces partenaires pourront promouvoir les ebooks de notre plateforme et gagner une commission sur les ventes générées par leurs liens d'affiliation uniques, créant ainsi un nouveau canal de vente puissant pour nos créateurs.</p>
@@ -119,7 +134,7 @@ export function BusinessPlanContent() {
                 <p><strong>Programmes d'Affiliation & de Parrainage (Sur Mesure) :</strong> Les programmes d'affiliation B2B et de parrainage utilisateur-à-utilisateur seront également construits sur mesure :</p>
                 <ul className="!mt-2">
                     <li>Des codes et des liens d'affiliation/parrainage uniques seront générés et associés aux profils des utilisateurs dans Firestore.</li>
-                    <li>Les Firebase Functions suivront les clics sur les liens et attribueront les ventes au bon affilié ou parrain à la fin de l'achat.</li>
+                    <li>Les Firebase Functions suivront les clics sur les liens et attribueront les ventes au bon affilié ou parrain à la fin de l'achat. La logique du programme de parrainage (1 € pour 3 ventes totales pour le parrain, et 1 € pour 3 ventes pour le filleul) sera gérée par ces fonctions.</li>
                     <li>Les commissions et les récompenses seront calculées et stockées dans Firestore, avec des paiements gérés via un processus administratif dédié.</li>
                 </ul>
               </li>
@@ -207,6 +222,29 @@ export function BusinessPlanContent() {
           <h3 className="!mt-4">Total des revenus mensuels bruts estimés pour BookLine :</h3>
           <p>Dans ce scénario de forte croissance, le revenu brut total estimé pour BookLine s'élèverait à <strong>plus de 1,3 million d'euros par mois</strong>.</p>
           <p>Cela démontre le potentiel d'échelle exceptionnel de notre modèle économique. Même si les abonnements et la publicité contribuent, l'écrasante majorité des revenus provient des commissions sur transaction, ce qui signifie que notre succès est directement lié au succès des vendeurs sur notre plateforme.</p>
+
+          <hr className="!my-6 border-border" />
+
+          <h2>Comment un vendeur peut-il gagner de l'argent (Exemples)</h2>
+          <p>Il est naturel de se demander combien un vendeur peut espérer gagner sur BookLine. Bien qu'il soit impossible de donner un chiffre exact, nous pouvons créer des projections réalistes basées sur notre modèle économique.</p>
+
+          <h3>Scénario 1 : Un vendeur qui débute</h3>
+          <p>Imaginons un nouveau vendeur qui vient de publier son premier ebook au prix de <strong>20 €</strong>.</p>
+          <ul>
+            <li><strong>Gain net par vente :</strong> Après notre commission de 3 €, le vendeur gagne <strong>17 €</strong> par vente.</li>
+            <li><strong>Avec 10 ventes dans le mois :</strong> Le vendeur générerait <strong>170 €</strong> de revenus.</li>
+            <li><strong>Avec 50 ventes dans le mois :</strong> Le vendeur générerait <strong>850 €</strong> de revenus.</li>
+          </ul>
+
+          <h3>Scénario 2 : Un vendeur "BookLine Pro"</h3>
+          <p>Prenons maintenant un vendeur plus engagé qui souscrit à "BookLine Pro" pour 10 €/mois. Grâce au badge "Certifié" et au placement prioritaire, sa visibilité est accrue.</p>
+          <p>Supposons que cela lui permette de doubler ses ventes. Il a également publié plusieurs ebooks, et ses ventes totales pour le mois atteignent <strong>150 ventes</strong> sur l'ensemble de ses livres (prix moyen de 20 €).</p>
+          <ul>
+              <li><strong>Revenu brut des ventes :</strong> 150 ventes × 17 €/vente = <strong>2 550 €</strong></li>
+              <li><strong>Coût de l'abonnement "BookLine Pro" :</strong> - 10 €</li>
+              <li><strong>Gains nets mensuels :</strong> <strong>2 540 €</strong></li>
+          </ul>
+          <p>Ces exemples montrent que BookLine offre une véritable opportunité de monétisation, où le succès du vendeur est directement récompensé.</p>
 
           <p className="!mt-6">En résumé, BookLine n'est pas juste un site pour vendre des ebooks ; c'est un écosystème intelligent et bien conçu qui valorise à la fois le travail des créateurs et l'expérience des lecteurs.</p>
       </div>
