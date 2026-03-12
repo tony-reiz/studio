@@ -71,4 +71,30 @@ In addition to our core transaction-based model, BookLine plans to introduce sev
 *   **Modern Tech Stack:** The application is built on Next.js 14 (App Router), React, and TypeScript, ensuring a fast, robust, and scalable platform.
 *   **Internationalization:** The platform is already set up to be used in French and English, and can easily be extended to other languages.
 
+---
+
+### Infrastructure & Key Services
+
+To bring our vision to life, BookLine will rely on a set of robust, scalable, and secure third-party services, complemented by our own custom logic. This hybrid approach allows us to leverage best-in-class solutions for complex tasks while maintaining full control over our core business logic.
+
+*   **PDF Storage (Cloudflare R2):** All ebooks uploaded by creators will be stored securely on **Cloudflare R2**. This service provides highly-available, cost-effective object storage, ensuring that our readers can access their purchased content quickly and reliably, anywhere in the world.
+
+*   **Transactions & Subscriptions (Stripe):** We will use **Stripe** as our exclusive payment processor.
+    *   **One-Time Purchases:** Stripe's payment processing APIs will handle all individual ebook sales securely.
+    *   **"BookLine Pro" Subscriptions:** The recurring €10/month subscription for our Pro sellers will be managed through **Stripe Billing**, which automates recurring payments and subscription lifecycle management.
+
+*   **Advertising System (Custom-Built):** The on-platform advertising feature will be a custom system built using our existing infrastructure:
+    *   Sellers will purchase advertising credits via **Stripe**.
+    *   Ad campaign data (budget, duration, target ebooks) will be stored in our **Firestore** database.
+    *   **Firebase Functions** will contain the logic for serving ads within the platform and tracking performance metrics like impressions and clicks.
+
+*   **Affiliate & Referral Programs (Custom-Built):** Both the B2B affiliate and user-to-user referral programs will also be custom-built:
+    *   Unique affiliate/referral codes and links will be generated and associated with user profiles in **Firestore**.
+    *   **Firebase Functions** will track link clicks and attribute sales to the correct affiliate or referrer upon purchase completion.
+    *   Commissions and rewards will be calculated and stored in **Firestore**, with payouts managed through a dedicated administrative process.
+
+This carefully selected stack ensures that BookLine is built on a foundation that is secure, scalable, and ready for future growth.
+
+---
+
 In summary, BookLine is not just a site for selling ebooks; it is an intelligent and well-designed ecosystem that values both the work of creators and the experience of readers.
