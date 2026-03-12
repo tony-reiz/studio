@@ -107,6 +107,21 @@ This carefully selected stack ensures that BookLine is built on a foundation tha
 
 ---
 
+### Protection Juridique et Limitation des Litiges
+
+Pour garantir la pérennité de BookLine et minimiser les risques de litiges, il est impératif d'établir un cadre juridique clair qui définit notre rôle d'intermédiaire. Notre stratégie repose sur deux documents fondamentaux :
+
+1.  **Conditions Générales d'Utilisation (CGU) :** C'est le contrat qui nous lie à chaque utilisateur (vendeur et acheteur). Il stipule explicitement que :
+    *   BookLine est une **plateforme de mise en relation** et non le vendeur des ebooks.
+    *   Les **vendeurs sont entièrement responsables** du contenu qu'ils publient et doivent garantir qu'ils en détiennent les droits.
+    *   Toutes les ventes sont **finales et non-remboursables**. En tant qu'intermédiaire, BookLine ne gère pas les remboursements, ce qui est une protection cruciale pour notre modèle économique.
+
+2.  **Politique de Confidentialité :** Ce document détaille les données que nous collectons et comment nous les utilisons. Il est essentiel pour être en conformité avec les lois sur la protection des données (comme le RGPD) et pour bâtir une relation de confiance avec nos utilisateurs.
+
+Ces documents sont accessibles depuis le pied de page du site et lors de l'inscription pour garantir une transparence maximale. Cette clarté juridique est notre meilleure défense pour décourager les plaintes et nous concentrer sur l'amélioration de la plateforme.
+
+---
+
 ### Potentiel de Revenus pour BookLine (Estimations)
 
 Il est naturel de se demander combien notre société, BookLine, peut espérer gagner. Bien qu'il soit impossible de donner un chiffre exact, nous pouvons créer une projection réaliste basée sur notre modèle économique complet.
@@ -198,3 +213,5 @@ These examples show that BookLine offers a real opportunity for monetization, wh
 ---
 
 In summary, BookLine is not just a site for selling ebooks; it is an intelligent and well-designed ecosystem that values both the work of creators and the experience of readers.
+
+    

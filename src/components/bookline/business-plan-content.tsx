@@ -139,114 +139,135 @@ export function BusinessPlanContent() {
                 </ul>
               </li>
             </ul>
-          <p>Cette pile technique soigneusement sélectionnée garantit que BookLine est construit sur une base sécurisée, évolutive et prête pour la croissance future.</p>
-          
-          <hr className="!my-6 border-border" />
-          
-          <h2>Potentiel de Revenus pour BookLine (Estimations)</h2>
-          <p>Il est naturel de se demander combien notre société, BookLine, peut espérer gagner. Bien qu'il soit impossible de donner un chiffre exact, nous pouvons créer une projection réaliste basée sur notre modèle économique complet.</p>
-          
-          <h3>Hypothèses pour un scénario de "Phase de Lancement" (après 6-12 mois) :</h3>
-          <ul>
-              <li><strong>Vendeurs actifs :</strong> 500</li>
-              <li><strong>Taux d'abonnement Pro :</strong> 10% des vendeurs (soit 50 abonnés)</li>
-              <li><strong>Ventes moyennes par vendeur :</strong> 10 ebooks par mois</li>
-              <li><strong>Publications par vendeur non-Pro :</strong> 1 ebook par mois en moyenne</li>
-              <li><strong>Revenu par publicité vue :</strong> 0,10 € (estimation conservatrice qui dépendra du réseau publicitaire)</li>
-          </ul>
+            <p>Cette pile technique soigneusement sélectionnée garantit que BookLine est construit sur une base sécurisée, évolutive et prête pour la croissance future.</p>
+            
+            <hr className="!my-6 border-border" />
 
-          <h3>Calcul des revenus mensuels bruts estimés pour BookLine :</h3>
-          <ol>
+            <h2>Protection Juridique et Limitation des Litiges</h2>
+            <p>Pour garantir la pérennité de BookLine et minimiser les risques de litiges, il est impératif d'établir un cadre juridique clair qui définit notre rôle d'intermédiaire. Notre stratégie repose sur deux documents fondamentaux :</p>
+            <ol>
               <li>
-                  <strong>Revenus des Frais de Transaction (notre plus grande source de revenus) :</strong>
-                  <ul className="!mt-2 !list-none !pl-2">
-                      <li><em>Calcul :</em> 500 vendeurs × 10 ventes/mois = 5 000 ventes/mois</li>
-                      <li><em>Revenu :</em> 5 000 ventes × 6,50 €/vente = <strong>32 500 €/mois</strong></li>
+                  <strong>Conditions Générales d'Utilisation (CGU) :</strong> C'est le contrat qui nous lie à chaque utilisateur (vendeur et acheteur). Il stipule explicitement que :
+                  <ul className="!mt-2">
+                      <li>BookLine est une <strong>plateforme de mise en relation</strong> et non le vendeur des ebooks.</li>
+                      <li>Les <strong>vendeurs sont entièrement responsables</strong> du contenu qu'ils publient et doivent garantir qu'ils en détiennent les droits.</li>
+                      <li>Toutes les ventes sont <strong>finales et non-remboursables</strong>. En tant qu'intermédiaire, BookLine ne gère pas les remboursements, ce qui est une protection cruciale pour notre modèle économique.</li>
                   </ul>
               </li>
               <li>
-                  <strong>Revenus des Abonnements "BookLine Pro" :</strong>
-                  <ul className="!mt-2 !list-none !pl-2">
-                      <li><em>Calcul :</em> 50 abonnés × 10 €/mois</li>
-                      <li><em>Revenu :</em> <strong>500 €/mois</strong></li>
-                  </ul>
+                  <strong>Politique de Confidentialité :</strong> Ce document détaille les données que nous collectons et comment nous les utilisons. Il est essentiel pour être en conformité avec les lois sur la protection des données (comme le RGPD) et pour bâtir une relation de confiance avec nos utilisateurs.
               </li>
-              <li>
-                  <strong>Revenus de la Publicité Obligatoire :</strong>
-                  <ul className="!mt-2 !list-none !pl-2">
-                      <li><em>Calcul :</em> 450 vendeurs non-Pro × 1 pub/mois = 450 publicités vues</li>
-                      <li><em>Revenu :</em> 450 pubs × 0,10 €/pub = <strong>45 €/mois</strong></li>
-                  </ul>
-              </li>
-          </ol>
+            </ol>
+            <p>Ces documents sont accessibles depuis le pied de page du site et lors de l'inscription pour garantir une transparence maximale. Cette clarté juridique est notre meilleure défense pour décourager les plaintes et nous concentrer sur l'amélioration de la plateforme.</p>
+
+            <hr className="!my-6 border-border" />
           
-          <h3>Total des revenus mensuels bruts estimés pour BookLine :</h3>
-          <p>En additionnant ces trois sources, nous arrivons à un revenu brut total estimé à environ <strong>33 000 € par mois</strong>.</p>
-          <p>Il est important de noter qu'il s'agit d'un <strong>revenu brut</strong>. Pour obtenir le bénéfice net, il faudrait déduire tous les coûts opérationnels (hébergement des serveurs et des fichiers, marketing, salaires, etc.). Néanmoins, cette projection démontre que le modèle économique est très solide, avec un potentiel de rentabilité élevé, principalement porté par les frais sur chaque transaction.</p>
+            <h2>Potentiel de Revenus pour BookLine (Estimations)</h2>
+            <p>Il est naturel de se demander combien notre société, BookLine, peut espérer gagner. Bien qu'il soit impossible de donner un chiffre exact, nous pouvons créer une projection réaliste basée sur notre modèle économique complet.</p>
           
-          <h3 className="!mt-6">Hypothèses pour un scénario de "Phase de Croissance" (200 000 ventes/mois) :</h3>
-          <p>Pour atteindre un tel volume, il nous faudrait une base de vendeurs beaucoup plus conséquente. Gardons des hypothèses cohérentes :</p>
-          <ul>
-              <li><strong>Ventes moyennes par vendeur :</strong> 10 ebooks par mois (inchangé)</li>
-              <li><strong>Vendeurs actifs nécessaires :</strong> 200 000 ventes / 10 = 20 000 vendeurs</li>
-              <li><strong>Taux d'abonnement Pro :</strong> 10% des vendeurs (soit 2 000 abonnés)</li>
-              <li><strong>Publications par vendeur non-Pro :</strong> 1 ebook par mois (inchangé)</li>
-              <li><strong>Revenu par publicité vue :</strong> 0,10 € (estimation conservatrice qui dépendra du réseau publicitaire)</li>
-          </ul>
+            <h3>Hypothèses pour un scénario de "Phase de Lancement" (après 6-12 mois) :</h3>
+            <ul>
+                <li><strong>Vendeurs actifs :</strong> 500</li>
+                <li><strong>Taux d'abonnement Pro :</strong> 10% des vendeurs (soit 50 abonnés)</li>
+                <li><strong>Ventes moyennes par vendeur :</strong> 10 ebooks par mois</li>
+                <li><strong>Publications par vendeur non-Pro :</strong> 1 ebook par mois en moyenne</li>
+                <li><strong>Revenu par publicité vue :</strong> 0,10 € (estimation conservatrice qui dépendra du réseau publicitaire)</li>
+            </ul>
 
-          <h3 className="!mt-4">Calcul des revenus mensuels bruts estimés pour BookLine (Phase de Croissance) :</h3>
-          <ol>
-              <li>
-                  <strong>Revenus des Frais de Transaction :</strong>
-                  <ul className="!mt-2 !list-none !pl-2">
-                      <li><em>Calcul :</em> 200 000 ventes/mois</li>
-                      <li><em>Revenu :</em> 200 000 ventes × 6,50 €/vente = <strong>1 300 000 €/mois</strong></li>
-                  </ul>
-              </li>
-              <li>
-                  <strong>Revenus des Abonnements "BookLine Pro" :</strong>
-                  <ul className="!mt-2 !list-none !pl-2">
-                      <li><em>Calcul :</em> 2 000 abonnés × 10 €/mois</li>
-                      <li><em>Revenu :</em> <strong>20 000 €/mois</strong></li>
-                  </ul>
-              </li>
-              <li>
-                  <strong>Revenus de la Publicité Obligatoire :</strong>
-                  <ul className="!mt-2 !list-none !pl-2">
-                      <li><em>Calcul :</em> 18 000 vendeurs non-Pro × 1 pub/mois = 18 000 publicités vues</li>
-                      <li><em>Revenu :</em> 18 000 pubs × 0,10 €/pub = <strong>1 800 €/mois</strong></li>
-                  </ul>
-              </li>
-          </ol>
+            <h3>Calcul des revenus mensuels bruts estimés pour BookLine :</h3>
+            <ol>
+                <li>
+                    <strong>Revenus des Frais de Transaction (notre plus grande source de revenus) :</strong>
+                    <ul className="!mt-2 !list-none !pl-2">
+                        <li><em>Calcul :</em> 500 vendeurs × 10 ventes/mois = 5 000 ventes/mois</li>
+                        <li><em>Revenu :</em> 5 000 ventes × 6,50 €/vente = <strong>32 500 €/mois</strong></li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Revenus des Abonnements "BookLine Pro" :</strong>
+                    <ul className="!mt-2 !list-none !pl-2">
+                        <li><em>Calcul :</em> 50 abonnés × 10 €/mois</li>
+                        <li><em>Revenu :</em> <strong>500 €/mois</strong></li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Revenus de la Publicité Obligatoire :</strong>
+                    <ul className="!mt-2 !list-none !pl-2">
+                        <li><em>Calcul :</em> 450 vendeurs non-Pro × 1 pub/mois = 450 publicités vues</li>
+                        <li><em>Revenu :</em> 450 pubs × 0,10 €/pub = <strong>45 €/mois</strong></li>
+                    </ul>
+                </li>
+            </ol>
           
-          <h3 className="!mt-4">Total des revenus mensuels bruts estimés pour BookLine :</h3>
-          <p>Dans ce scénario de forte croissance, le revenu brut total estimé pour BookLine s'élèverait à <strong>plus de 1,3 million d'euros par mois</strong>.</p>
-          <p>Cela démontre le potentiel d'échelle exceptionnel de notre modèle économique. Même si les abonnements et la publicité contribuent, l'écrasante majorité des revenus provient des commissions sur transaction, ce qui signifie que notre succès est directement lié au succès des vendeurs sur notre plateforme.</p>
+            <h3>Total des revenus mensuels bruts estimés pour BookLine :</h3>
+            <p>En additionnant ces trois sources, nous arrivons à un revenu brut total estimé à environ <strong>33 000 € par mois</strong>.</p>
+            <p>Il est important de noter qu'il s'agit d'un <strong>revenu brut</strong>. Pour obtenir le bénéfice net, il faudrait déduire tous les coûts opérationnels (hébergement des serveurs et des fichiers, marketing, salaires, etc.). Néanmoins, cette projection démontre que le modèle économique est très solide, avec un potentiel de rentabilité élevé, principalement porté par les frais sur chaque transaction.</p>
+          
+            <h3 className="!mt-6">Hypothèses pour un scénario de "Phase de Croissance" (200 000 ventes/mois) :</h3>
+            <p>Pour atteindre un tel volume, il nous faudrait une base de vendeurs beaucoup plus conséquente. Gardons des hypothèses cohérentes :</p>
+            <ul>
+                <li><strong>Ventes moyennes par vendeur :</strong> 10 ebooks par mois (inchangé)</li>
+                <li><strong>Vendeurs actifs nécessaires :</strong> 200 000 ventes / 10 = 20 000 vendeurs</li>
+                <li><strong>Taux d'abonnement Pro :</strong> 10% des vendeurs (soit 2 000 abonnés)</li>
+                <li><strong>Publications par vendeur non-Pro :</strong> 1 ebook par mois (inchangé)</li>
+                <li><strong>Revenu par publicité vue :</strong> 0,10 € (estimation conservatrice qui dépendra du réseau publicitaire)</li>
+            </ul>
 
-          <hr className="!my-6 border-border" />
+            <h3 className="!mt-4">Calcul des revenus mensuels bruts estimés pour BookLine (Phase de Croissance) :</h3>
+            <ol>
+                <li>
+                    <strong>Revenus des Frais de Transaction :</strong>
+                    <ul className="!mt-2 !list-none !pl-2">
+                        <li><em>Calcul :</em> 200 000 ventes/mois</li>
+                        <li><em>Revenu :</em> 200 000 ventes × 6,50 €/vente = <strong>1 300 000 €/mois</strong></li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Revenus des Abonnements "BookLine Pro" :</strong>
+                    <ul className="!mt-2 !list-none !pl-2">
+                        <li><em>Calcul :</em> 2 000 abonnés × 10 €/mois</li>
+                        <li><em>Revenu :</em> <strong>20 000 €/mois</strong></li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Revenus de la Publicité Obligatoire :</strong>
+                    <ul className="!mt-2 !list-none !pl-2">
+                        <li><em>Calcul :</em> 18 000 vendeurs non-Pro × 1 pub/mois = 18 000 publicités vues</li>
+                        <li><em>Revenu :</em> 18 000 pubs × 0,10 €/pub = <strong>1 800 €/mois</strong></li>
+                    </ul>
+                </li>
+            </ol>
+          
+            <h3 className="!mt-4">Total des revenus mensuels bruts estimés pour BookLine :</h3>
+            <p>Dans ce scénario de forte croissance, le revenu brut total estimé pour BookLine s'élèverait à <strong>plus de 1,3 million d'euros par mois</strong>.</p>
+            <p>Cela démontre le potentiel d'échelle exceptionnel de notre modèle économique. Même si les abonnements et la publicité contribuent, l'écrasante majorité des revenus provient des commissions sur transaction, ce qui signifie que notre succès est directement lié au succès des vendeurs sur notre plateforme.</p>
 
-          <h2>Comment un vendeur peut-il gagner de l'argent (Exemples)</h2>
-          <p>Il est naturel de se demander combien un vendeur peut espérer gagner sur BookLine. Bien qu'il soit impossible de donner un chiffre exact, nous pouvons créer des projections réalistes basées sur notre modèle économique.</p>
+            <hr className="!my-6 border-border" />
 
-          <h3>Scénario 1 : Un vendeur qui débute</h3>
-          <p>Imaginons un nouveau vendeur qui vient de publier son premier ebook au prix de <strong>20 €</strong>.</p>
-          <ul>
-            <li><strong>Gain net par vente :</strong> Après notre commission de 3 €, le vendeur gagne <strong>17 €</strong> par vente.</li>
-            <li><strong>Avec 10 ventes dans le mois :</strong> Le vendeur générerait <strong>170 €</strong> de revenus.</li>
-            <li><strong>Avec 50 ventes dans le mois :</strong> Le vendeur générerait <strong>850 €</strong> de revenus.</li>
-          </ul>
+            <h2>Comment un vendeur peut-il gagner de l'argent (Exemples)</h2>
+            <p>Il est naturel de se demander combien un vendeur peut espérer gagner sur BookLine. Bien qu'il soit impossible de donner un chiffre exact, nous pouvons créer des projections réalistes basées sur notre modèle économique.</p>
 
-          <h3>Scénario 2 : Un vendeur "BookLine Pro"</h3>
-          <p>Prenons maintenant un vendeur plus engagé qui souscrit à "BookLine Pro" pour 10 €/mois. Grâce au badge "Certifié" et au placement prioritaire, sa visibilité est accrue.</p>
-          <p>Supposons que cela lui permette de doubler ses ventes. Il a également publié plusieurs ebooks, et ses ventes totales pour le mois atteignent <strong>150 ventes</strong> sur l'ensemble de ses livres (prix moyen de 20 €).</p>
-          <ul>
-              <li><strong>Revenu brut des ventes :</strong> 150 ventes × 17 €/vente = <strong>2 550 €</strong></li>
-              <li><strong>Coût de l'abonnement "BookLine Pro" :</strong> - 10 €</li>
-              <li><strong>Gains nets mensuels :</strong> <strong>2 540 €</strong></li>
-          </ul>
-          <p>Ces exemples montrent que BookLine offre une véritable opportunité de monétisation, où le succès du vendeur est directement récompensé.</p>
+            <h3>Scénario 1 : Un vendeur qui débute</h3>
+            <p>Imaginons un nouveau vendeur qui vient de publier son premier ebook au prix de <strong>20 €</strong>.</p>
+            <ul>
+                <li><strong>Gain net par vente :</strong> Après notre commission de 3 €, le vendeur gagne <strong>17 €</strong> par vente.</li>
+                <li><strong>Avec 10 ventes dans le mois :</strong> Le vendeur générerait <strong>170 €</strong> de revenus.</li>
+                <li><strong>Avec 50 ventes dans le mois :</strong> Le vendeur générerait <strong>850 €</strong> de revenus.</li>
+            </ul>
 
-          <p className="!mt-6">En résumé, BookLine n'est pas juste un site pour vendre des ebooks ; c'est un écosystème intelligent et bien conçu qui valorise à la fois le travail des créateurs et l'expérience des lecteurs.</p>
+            <h3>Scénario 2 : Un vendeur "BookLine Pro"</h3>
+            <p>Prenons maintenant un vendeur plus engagé qui souscrit à "BookLine Pro" pour 10 €/mois. Grâce au badge "Certifié" et au placement prioritaire, sa visibilité est accrue.</p>
+            <p>Supposons que cela lui permette de doubler ses ventes. Il a également publié plusieurs ebooks, et ses ventes totales pour le mois atteignent <strong>150 ventes</strong> sur l'ensemble de ses livres (prix moyen de 20 €).</p>
+            <ul>
+                <li><strong>Revenu brut des ventes :</strong> 150 ventes × 17 €/vente = <strong>2 550 €</strong></li>
+                <li><strong>Coût de l'abonnement "BookLine Pro" :</strong> - 10 €</li>
+                <li><strong>Gains nets mensuels :</strong> <strong>2 540 €</strong></li>
+            </ul>
+            <p>Ces exemples montrent que BookLine offre une véritable opportunité de monétisation, où le succès du vendeur est directement récompensé.</p>
+
+            <p className="!mt-6">En résumé, BookLine n'est pas juste un site pour vendre des ebooks ; c'est un écosystème intelligent et bien conçu qui valorise à la fois le travail des créateurs et l'expérience des lecteurs.</p>
       </div>
     )
 }
+
+    
