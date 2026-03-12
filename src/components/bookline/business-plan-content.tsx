@@ -39,7 +39,7 @@ export function BusinessPlanContent() {
                     <ul className="!mt-2">
                         <li>Badge de Vendeur Certifié : Un badge "Certifié" apparaîtra à côté de leur profil, augmentant la confiance et rassurant les acheteurs potentiels.</li>
                         <li>Placement Prioritaire : Leurs ebooks seront mis en avant et apparaîtront plus en évidence dans les résultats de recherche et les recommandations.</li>
-                        <li>Expérience de Publication Sans Publicité : Les abonnés pourront publier leurs ebooks sans voir la publicité obligatoire, ce qui rendra le processus plus rapide.</li>
+                        <li>Expérience de Publication Sans Publicité : Les abonnés pourront publier leurs ebooks sans voir la publicité obligatoire, rendant le processus plus rapide.</li>
                     </ul>
                 </li>
                 <li>
