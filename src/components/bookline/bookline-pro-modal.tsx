@@ -98,7 +98,7 @@ export function BooklineProModal({ children }: BooklineProModalProps) {
                 <DrawerTrigger asChild onClick={handleTriggerClick}>
                     {children}
                 </DrawerTrigger>
-                <DrawerContent className="rounded-t-[100px] max-h-[75vh] flex flex-col bg-background border-0 p-0">
+                <DrawerContent className="rounded-t-[50px] max-h-[75vh] flex flex-col bg-background border-0 p-0">
                     <DrawerHeader className="p-4 pt-4 text-left">
                         <DrawerTitlePrimitive className="sr-only">BookLine Pro</DrawerTitlePrimitive>
                         <DrawerDescriptionPrimitive className="sr-only">Passez au niveau supérieur avec BookLine Pro.</DrawerDescriptionPrimitive>
@@ -116,7 +116,7 @@ export function BooklineProModal({ children }: BooklineProModalProps) {
             <DialogTrigger asChild onClick={handleTriggerClick}>
                 {children}
             </DialogTrigger>
-            <DialogContent className="max-w-md w-full p-0 bg-background border-0 rounded-[80px] shadow-2xl">
+            <DialogContent className="max-w-md w-full p-0 bg-background border-0 rounded-[50px] shadow-2xl">
                  <DialogTitle className="sr-only">BookLine Pro</DialogTitle>
                  <DialogDescription className="sr-only">Passez au niveau supérieur avec BookLine Pro.</DialogDescription>
                  <ProContent />
