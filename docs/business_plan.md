@@ -138,7 +138,7 @@ Pour atteindre un tel volume, il nous faudrait une base de vendeurs beaucoup plu
 *   **Vendeurs actifs nécessaires :** 200 000 ventes / 10 = 20 000 vendeurs
 *   **Taux d'abonnement Pro :** 10% des vendeurs (soit 2 000 abonnés)
 *   **Publications par vendeur non-Pro :** 1 ebook par mois (inchangé)
-*   **Revenu par publicité vue :** 0,10 € (inchangé)
+*   **Revenu par publicité vue :** 0,10 € (estimation conservatrice qui dépendra du réseau publicitaire)
 
 **Calcul des revenus mensuels bruts estimés pour BookLine (Phase de Croissance) :**
 
