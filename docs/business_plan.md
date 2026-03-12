@@ -16,11 +16,11 @@ We are not a publishing house, but a technology intermediary. We provide the too
 
 Our primary revenue model is transparent and based on the success of the transactions that take place on our platform. It is broken down into two parts:
 
-1.  **Seller-Side Commission:** For each sale made, BookLine takes a fixed commission of €3.00. This commission allows us to cover payment processing fees, secure file hosting, and the continuous maintenance and improvement of our publishing tools.
-    *   **Concrete Example:** If a seller prices their ebook at €20.00, their net gain on each sale will be €17.00.
+1.  Seller-Side Commission: For each sale made, BookLine takes a fixed commission of €3.00. This commission allows us to cover payment processing fees, secure file hosting, and the continuous maintenance and improvement of our publishing tools.
+    *   Concrete Example: If a seller prices their ebook at €20.00, their net gain on each sale will be €17.00.
 
-2.  **Buyer-Side Service Fee:** At the time of purchase, we add a fixed service fee of €3.50 to the price of the ebook. These fees fund the development of the user experience, our AI recommendation tools, customer support, and platform security for buyers.
-    *   **Concrete Example:** For the same €20.00 ebook, the final price paid by the buyer will be €23.50.
+2.  Buyer-Side Service Fee: At the time of purchase, we add a fixed service fee of €3.50 to the price of the ebook. These fees fund the development of the user experience, our AI recommendation tools, customer support, and platform security for buyers.
+    *   Concrete Example: For the same €20.00 ebook, the final price paid by the buyer will be €23.50.
 
 On each transaction, BookLine therefore generates a total revenue of €6.50. This model allows us to invest in the platform while ensuring that creators retain the vast majority of their earnings.
 
@@ -30,16 +30,16 @@ On each transaction, BookLine therefore generates a total revenue of €6.50. Th
 
 In addition to our core transaction-based model, BookLine plans to introduce several new features to enhance value for our users and diversify our revenue streams. These initiatives are key to our long-term growth strategy.
 
-1.  **"BookLine Pro" Subscription (€10/month):** We will offer an optional subscription for our most committed creators. For a monthly fee of €10, sellers will unlock exclusive benefits:
-    *   **Certified Seller Badge:** A "Certifié" badge will appear next to their profile, increasing trust and reassuring potential buyers.
-    *   **Priority Placement:** Their ebooks will be highlighted and featured more prominently in search results and recommendations.
-    *   **Ad-Free Publishing Experience:** Subscribers will be able to publish their ebooks without being shown the mandatory advertisement, making the process faster.
+1.  "BookLine Pro" Subscription (€10/month): We will offer an optional subscription for our most committed creators. For a monthly fee of €10, sellers will unlock exclusive benefits:
+    *   Certified Seller Badge: A "Certifié" badge will appear next to their profile, increasing trust and reassuring potential buyers.
+    *   Priority Placement: Their ebooks will be highlighted and featured more prominently in search results and recommendations.
+    *   Ad-Free Publishing Experience: Subscribers will be able to publish their ebooks without being shown the mandatory advertisement, making the process faster.
 
-2.  **Mandatory Advertising for Sellers:** To create a consistent revenue stream, a non-skippable 30-second advertisement will be displayed to sellers each time they publish an ebook. The publication process will only be finalized once the advertisement has been viewed in its entirety. This model applies to all standard users. However, this requirement is waived for sellers who subscribe to our "BookLine Pro" plan. This incentivizes the Pro subscription while monetizing the publishing process for all other users.
+2.  Mandatory Advertising for Sellers: To create a consistent revenue stream, a non-skippable 30-second advertisement will be displayed to sellers each time they publish an ebook. The publication process will only be finalized once the advertisement has been viewed in its entirety. This model applies to all standard users. However, this requirement is waived for sellers who subscribe to our "BookLine Pro" plan. This incentivizes the Pro subscription while monetizing the publishing process for all other users.
 
-3.  **Referral Program:** We will implement a referral system to accelerate our growth. Users (both buyers and sellers) will be rewarded for inviting new creators to the platform who successfully sell their ebooks.
+3.  Referral Program: We will implement a referral system to accelerate our growth. Users (both buyers and sellers) will be rewarded for inviting new creators to the platform who successfully sell their ebooks.
 
-4.  **B2B Affiliation Program:** BookLine will develop a B2B affiliation network. We will partner with blogs, online media, and influencers in relevant niches. These partners will be able to promote ebooks from our platform and earn a commission on sales generated through their unique affiliate links, creating a powerful new sales channel for our creators.
+4.  B2B Affiliation Program: BookLine will develop a B2B affiliation network. We will partner with blogs, online media, and influencers in relevant niches. These partners will be able to promote ebooks from our platform and earn a commission on sales generated through their unique affiliate links, creating a powerful new sales channel for our creators.
 
 ---
 
@@ -47,30 +47,30 @@ In addition to our core transaction-based model, BookLine plans to introduce sev
 
 #### For Sellers (Creators):
 
-1.  **Simplified Publishing:** The seller uploads their ebook in PDF format. Our system automatically compresses and optimizes the file to reduce its size, improving the experience for the buyer without any visible loss of quality.
-2.  **Listing for Sale:** The seller provides the title, a compelling description, relevant keywords for discovery, and sets their selling price.
-3.  **Monetized Publication:** Before the ebook goes live, non-Pro users are required to watch a short, mandatory advertisement.
-4.  **AI Analysis:** The seller has access to an analysis generated by artificial intelligence that suggests more relevant keywords and provides feedback to improve their description, thus maximizing their sales potential.
-5.  **Performance Tracking:** A dashboard allows the seller to track their sales statistics, generated revenue, and the performance of their publications.
+1.  Simplified Publishing: The seller uploads their ebook in PDF format. Our system automatically compresses and optimizes the file to reduce its size, improving the experience for the buyer without any visible loss of quality.
+2.  Listing for Sale: The seller provides the title, a compelling description, relevant keywords for discovery, and sets their selling price.
+3.  Monetized Publication: Before the ebook goes live, non-Pro users are required to watch a short, mandatory advertisement.
+4.  AI Analysis: The seller has access to an analysis generated by artificial intelligence that suggests more relevant keywords and provides feedback to improve their description, thus maximizing their sales potential.
+5.  Performance Tracking: A dashboard allows the seller to track their sales statistics, generated revenue, and the performance of their publications.
 
 #### For Buyers (Readers):
 
-1.  **Personalized Profile Creation:** Upon registration, the user chooses an avatar, a username, and most importantly, selects at least 5 interests. This is the core of our personalization system.
-2.  **Intelligent Discovery:**
+1.  Personalized Profile Creation: Upon registration, the user chooses an avatar, a username, and most importantly, selects at least 5 interests. This is the core of our personalization system.
+2.  Intelligent Discovery:
     *   On the homepage, the buyer sees ebook suggestions based on their interests.
     *   Our search bar is powered by AI: it provides relevant search suggestions in real-time, even indicating how many publications match a keyword.
-3.  **Transparent Purchase:** The purchasing process is clear, displaying the breakdown of the ebook price and service fees.
-4.  **Personal Library:** Once purchased, the ebook is added to the "Purchases" section of the user's profile, accessible at any time.
-5.  **Integrated Reader:** The user can read their ebooks directly on the platform thanks to an integrated PDF reader, optimized for mobile and desktop.
+3.  Transparent Purchase: The purchasing process is clear, displaying the breakdown of the ebook price and service fees.
+4.  Personal Library: Once purchased, the ebook is added to the "Purchases" section of the user's profile, accessible at any time.
+5.  Integrated Reader: The user can read their ebooks directly on the platform thanks to an integrated PDF reader, optimized for mobile and desktop.
 
 ---
 
 ### What Makes Us Unique: Our Technology
 
-*   **Design and User Experience:** We have developed a strong visual identity with a distorted glassmorphism effect applied across the entire interface. It's more than just a design; it's our signature.
-*   **Artificial Intelligence (via Genkit):** AI is not a gimmick. It serves our users, whether it's helping sellers better market their work or helping buyers find that hidden gem.
-*   **Modern Tech Stack:** The application is built on Next.js 14 (App Router), React, and TypeScript, ensuring a fast, robust, and scalable platform.
-*   **Internationalization:** The platform is already set up to be used in French and English, and can easily be extended to other languages.
+*   Design and User Experience: We have developed a strong visual identity with a distorted glassmorphism effect applied across the entire interface. It's more than just a design; it's our signature.
+*   Artificial Intelligence (via Genkit): AI is not a gimmick. It serves our users, whether it's helping sellers better market their work or helping buyers find that hidden gem.
+*   Modern Tech Stack: The application is built on Next.js 14 (App Router), React, and TypeScript, ensuring a fast, robust, and scalable platform.
+*   Internationalization: The platform is already set up to be used in French and English, and can easily be extended to other languages.
 
 ---
 
@@ -78,21 +78,21 @@ In addition to our core transaction-based model, BookLine plans to introduce sev
 
 To bring our vision to life, BookLine will rely on a set of robust, scalable, and secure third-party services, complemented by our own custom logic. This hybrid approach allows us to leverage best-in-class solutions for complex tasks while maintaining full control over our core business logic.
 
-*   **PDF Storage (Cloudflare R2):** All ebooks uploaded by creators will be stored securely on **Cloudflare R2**. This service provides highly-available, cost-effective object storage, ensuring that our readers can access their purchased content quickly and reliably, anywhere in the world.
+*   PDF Storage (Cloudflare R2): All ebooks uploaded by creators will be stored securely on Cloudflare R2. This service provides highly-available, cost-effective object storage, ensuring that our readers can access their purchased content quickly and reliably, anywhere in the world.
 
-*   **Transactions & Subscriptions (Stripe):** We will use **Stripe** as our exclusive payment processor.
-    *   **One-Time Purchases:** Stripe's payment processing APIs will handle all individual ebook sales securely.
-    *   **"BookLine Pro" Subscriptions:** The recurring €10/month subscription for our Pro sellers will be managed through **Stripe Billing**, which automates recurring payments and subscription lifecycle management.
+*   Transactions & Subscriptions (Stripe): We will use Stripe as our exclusive payment processor.
+    *   One-Time Purchases: Stripe's payment processing APIs will handle all individual ebook sales securely.
+    *   "BookLine Pro" Subscriptions: The recurring €10/month subscription for our Pro sellers will be managed through Stripe Billing, which automates recurring payments and subscription lifecycle management.
 
-*   **Advertising System (Ad Network Integration):** The mandatory advertising feature for sellers will be implemented by integrating a third-party ad network (e.g., Google AdMob, Unity Ads) into the publishing flow.
-    *   **Ad Serving:** Before the final step of publication, the application will trigger the ad network's SDK to display a non-skippable 30-second video ad.
-    *   **Publication Lock:** The "Publish" button's final action will be locked until the ad network's callback confirms the ad has been watched completely. This logic will be implemented client-side.
-    *   **Pro User Bypass:** The application will check the user's subscription status (stored in **Firestore**) before initiating the ad flow. If the user is a "BookLine Pro" subscriber, this entire step will be skipped.
+*   Advertising System (Ad Network Integration): The mandatory advertising feature for sellers will be implemented by integrating a third-party ad network (e.g., Google AdMob, Unity Ads) into the publishing flow.
+    *   Ad Serving: Before the final step of publication, the application will trigger the ad network's SDK to display a non-skippable 30-second video ad.
+    *   Publication Lock: The "Publish" button's final action will be locked until the ad network's callback confirms the ad has been watched completely. This logic will be implemented client-side.
+    *   Pro User Bypass: The application will check the user's subscription status (stored in Firestore) before initiating the ad flow. If the user is a "BookLine Pro" subscriber, this entire step will be skipped.
 
-*   **Affiliate & Referral Programs (Custom-Built):** Both the B2B affiliate and user-to-user referral programs will also be custom-built:
-    *   Unique affiliate/referral codes and links will be generated and associated with user profiles in **Firestore**.
-    *   **Firebase Functions** will track link clicks and attribute sales to the correct affiliate or referrer upon purchase completion.
-    *   Commissions and rewards will be calculated and stored in **Firestore**, with payouts managed through a dedicated administrative process.
+*   Affiliate & Referral Programs (Custom-Built): Both the B2B affiliate and user-to-user referral programs will also be custom-built:
+    *   Unique affiliate/referral codes and links will be associated with user profiles in Firestore.
+    *   Firebase Functions will track link clicks and attribute sales to the correct affiliate or referrer upon purchase completion.
+    *   Commissions and rewards will be calculated and stored in Firestore, with payouts managed through a dedicated administrative process.
 
 This carefully selected stack ensures that BookLine is built on a foundation that is secure, scalable, and ready for future growth.
 

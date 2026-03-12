@@ -1,94 +1,129 @@
 export function BusinessPlanContent() {
     return (
-      <div className="space-y-4 text-sm [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mt-6 [&_h2]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:mt-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-2 [&_strong]:font-semibold">
-          <p className="text-muted-foreground">This document provides a detailed explanation of what BookLine is, how the company will operate, and how it will generate revenue, based on the application's architecture and code.</p>
+      <div className="space-y-4 text-sm [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mt-6 [&_h2]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:mt-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-2">
+          <p className="text-muted-foreground">Ce document fournit une explication détaillée de ce qu'est BookLine, comment l'entreprise fonctionnera et comment elle générera des revenus, sur la base de l'architecture et du code de l'application.</p>
           
           <hr className="!my-6 border-border" />
 
-          <h2>Our Vision for BookLine</h2>
-          <p>BookLine is a modern, specialized marketplace platform designed to directly connect ebook creators with readers. Our mission is to radically simplify publishing and monetization for authors, while offering buyers a rich and personalized discovery experience.</p>
-          <p>We are not a publishing house, but a technology intermediary. We provide the tools, the storefront, and the secure infrastructure for transactions to occur with confidence.</p>
+          <h2>Notre Vision pour BookLine</h2>
+          <p>BookLine est une plateforme de marché (marketplace) moderne et spécialisée, conçue pour mettre en relation directe les créateurs d'ebooks avec les lecteurs. Notre mission est de simplifier radicalement la publication et la monétisation pour les auteurs, tout en offrant aux acheteurs une expérience de découverte riche et personnalisée.</p>
+          <p>Nous ne sommes pas une maison d'édition, mais un intermédiaire technologique. Nous fournissons les outils, la vitrine et l'infrastructure sécurisée pour que les transactions se fassent en toute confiance.</p>
 
           <hr className="!my-6 border-border" />
           
-          <h2>The Core Business Model: How BookLine Makes Money</h2>
-          <p>Our primary revenue model is transparent and based on the success of the transactions that take place on our platform. It is broken down into two parts:</p>
+          <h2>Le Modèle Économique Principal : Comment BookLine gagne de l'argent</h2>
+          <p>Notre modèle de revenus principal est transparent et basé sur le succès des transactions qui ont lieu sur notre plateforme. Il se décompose en deux parties :</p>
           <ol className="list-decimal list-outside pl-5 space-y-4">
             <li>
-                <strong>Seller-Side Commission:</strong> For each sale made, BookLine takes a fixed commission of €3.00. This commission allows us to cover payment processing fees, secure file hosting, and the continuous maintenance and improvement of our publishing tools.
+                <p>Commission Côté Vendeur : Pour chaque vente réalisée, BookLine prélève une commission fixe de 3,00 €. Cette commission nous permet de couvrir les frais de traitement des paiements, l'hébergement sécurisé des fichiers, et la maintenance et l'amélioration continues de nos outils de publication.</p>
                 <ul className="!mt-2">
-                    <li><strong>Concrete Example:</strong> If a seller prices their ebook at €20.00, their net gain on each sale will be €17.00.</li>
+                    <li>Exemple concret : Si un vendeur fixe le prix de son ebook à 20,00 €, son gain net sur chaque vente sera de 17,00 €.</li>
                 </ul>
             </li>
             <li>
-                <strong>Buyer-Side Service Fee:</strong> At the time of purchase, we add a fixed service fee of €3.50 to the price of the ebook. These fees fund the development of the user experience, our AI recommendation tools, customer support, and platform security for buyers.
+                <p>Frais de Service Côté Acheteur : Au moment de l'achat, nous ajoutons des frais de service fixes de 3,50 € au prix de l'ebook. Ces frais financent le développement de l'expérience utilisateur, nos outils de recommandation par IA, le service client et la sécurité de la plateforme pour les acheteurs.</p>
                 <ul className="!mt-2">
-                    <li><strong>Concrete Example:</strong> For the same €20.00 ebook, the final price paid by the buyer will be €23.50.</li>
+                    <li>Exemple concret : Pour ce même ebook à 20,00 €, le prix final payé par l'acheteur sera de 23,50 €.</li>
                 </ul>
             </li>
           </ol>
-          <p>On each transaction, BookLine therefore generates a total revenue of €6.50. This model allows us to invest in the platform while ensuring that creators retain the vast majority of their earnings.</p>
+          <p>Sur chaque transaction, BookLine génère donc un revenu total de 6,50 €. Ce modèle nous permet d'investir dans la plateforme tout en assurant que les créateurs conservent la grande majorité de leurs revenus.</p>
 
           <hr className="!my-6 border-border" />
 
-          <h2>Future Revenue Streams & Growth Strategy</h2>
-            <p>In addition to our core transaction-based model, BookLine plans to introduce several new features to enhance value for our users and diversify our revenue streams. These initiatives are key to our long-term growth strategy.</p>
+          <h2>Futures Sources de Revenus & Stratégie de Croissance</h2>
+            <p>En plus de notre modèle de base basé sur les transactions, BookLine prévoit d'introduire plusieurs nouvelles fonctionnalités pour augmenter la valeur pour nos utilisateurs et diversifier nos sources de revenus. Ces initiatives sont essentielles à notre stratégie de croissance à long terme.</p>
             <ol className="list-decimal list-outside pl-5 space-y-4">
                 <li>
-                    <strong>"BookLine Pro" Subscription (€10/month):</strong> We will offer an optional subscription for our most committed creators. For a monthly fee of €10, sellers will unlock exclusive benefits:
+                    <p>Abonnement "BookLine Pro" (10 €/mois) : Nous proposerons un abonnement optionnel pour nos créateurs les plus engagés. Pour un forfait mensuel de 10 €, les vendeurs débloqueront des avantages exclusifs :</p>
                     <ul className="!mt-2">
-                        <li><strong>Certified Seller Badge:</strong> A "Certifié" badge will appear next to their profile, increasing trust and reassuring potential buyers.</li>
-                        <li><strong>Priority Placement:</strong> Their ebooks will be highlighted and featured more prominently in search results and recommendations.</li>
-                        <li><strong>Ad-Free Experience:</strong> Subscribers will be able to manage their publications without seeing any platform advertisements.</li>
+                        <li>Badge de Vendeur Certifié : Un badge "Certifié" apparaîtra à côté de leur profil, augmentant la confiance et rassurant les acheteurs potentiels.</li>
+                        <li>Placement Prioritaire : Leurs ebooks seront mis en avant et apparaîtront plus en évidence dans les résultats de recherche et les recommandations.</li>
+                        <li>Expérience de Publication Sans Publicité : Les abonnés pourront publier leurs ebooks sans voir la publicité obligatoire, ce qui rendra le processus plus rapide.</li>
                     </ul>
                 </li>
                 <li>
-                    <strong>On-Platform Advertising:</strong> Sellers will have the option to purchase advertising space to directly promote their ebooks. This system will be integrated into the publication workflow, allowing a seller to boost a new publication right from the "Publier" screen.
+                    <p>Publicité Obligatoire pour les Vendeurs : Pour créer une source de revenus constante, une publicité non-sautable de 30 secondes sera affichée aux vendeurs chaque fois qu'ils publient un ebook. Le processus de publication ne sera finalisé qu'une fois la publicité visionnée dans son intégralité. Ce modèle s'applique à tous les utilisateurs standards. Cependant, cette exigence est levée pour les vendeurs qui s'abonnent à notre plan "BookLine Pro". Cela incite à souscrire à l'abonnement Pro tout en monétisant le processus de publication pour tous les autres utilisateurs.</p>
                 </li>
                 <li>
-                    <strong>Referral Program:</strong> We will implement a referral system to accelerate our growth. Users (both buyers and sellers) will be rewarded for inviting new creators to the platform who successfully sell their ebooks.
+                    <p>Programme de Parrainage : Nous mettrons en œuvre un système de parrainage pour accélérer notre croissance. Les utilisateurs (acheteurs et vendeurs) seront récompensés pour avoir invité de nouveaux créateurs sur la plateforme qui vendent avec succès leurs ebooks.</p>
                 </li>
                 <li>
-                    <strong>B2B Affiliation Program:</strong> BookLine will develop a B2B affiliation network. We will partner with blogs, online media, and influencers in relevant niches. These partners will be able to promote ebooks from our platform and earn a commission on sales generated through their unique affiliate links, creating a powerful new sales channel for our creators.
+                    <p>Programme d'Affiliation B2B : BookLine développera un réseau d'affiliation B2B. Nous nous associerons avec des blogs, des médias en ligne et des influenceurs dans des niches pertinentes. Ces partenaires pourront promouvoir les ebooks de notre plateforme et gagner une commission sur les ventes générées par leurs liens d'affiliation uniques, créant ainsi un nouveau canal de vente puissant pour nos créateurs.</p>
                 </li>
             </ol>
 
           <hr className="!my-6 border-border" />
           
-          <h2>How the Platform Works</h2>
-          <h3>For Sellers (Creators):</h3>
+          <h2>Comment la Plateforme Fonctionne</h2>
+          <h3>Pour les Vendeurs (Créateurs) :</h3>
           <ol className="list-decimal list-outside pl-5 space-y-2">
-            <li><strong>Simplified Publishing:</strong> The seller uploads their ebook in PDF format. Our system automatically compresses and optimizes the file to reduce its size, improving the experience for the buyer without any visible loss of quality.</li>
-            <li><strong>Listing for Sale:</strong> The seller provides the title, a compelling description, relevant keywords for discovery, and sets their selling price.</li>
-            <li><strong>AI Analysis:</strong> This is one of our major assets. The seller has access to an analysis generated by artificial intelligence that suggests more relevant keywords and provides feedback to improve their description, thus maximizing their sales potential.</li>
-            <li><strong>Performance Tracking:</strong> A dashboard allows the seller to track their sales statistics, generated revenue, and the performance of their publications.</li>
+            <li>Publication Simplifiée : Le vendeur télécharge son ebook au format PDF. Notre système compresse et optimise automatiquement le fichier pour réduire sa taille, améliorant l'expérience pour l'acheteur sans perte de qualité visible.</li>
+            <li>Mise en Vente : Le vendeur fournit le titre, une description convaincante, des mots-clés pertinents pour la découverte, et fixe son prix de vente.</li>
+            <li>Publication Monétisée : Avant que l'ebook ne soit mis en ligne, les utilisateurs non-Pro sont tenus de regarder une courte publicité obligatoire.</li>
+            <li>Analyse par IA : Le vendeur a accès à une analyse générée par intelligence artificielle qui suggère des mots-clés plus pertinents et fournit des commentaires pour améliorer sa description, maximisant ainsi son potentiel de vente.</li>
+            <li>Suivi des Performances : Un tableau de bord permet au vendeur de suivre ses statistiques de vente, les revenus générés, et la performance de ses publications.</li>
           </ol>
 
-          <h3 className="!mt-6">For Buyers (Readers):</h3>
+          <h3 className="!mt-6">Pour les Acheteurs (Lecteurs) :</h3>
           <ol className="list-decimal list-outside pl-5 space-y-2">
-            <li><strong>Personalized Profile Creation:</strong> Upon registration, the user chooses an avatar, a username, and most importantly, selects at least 5 interests. This is the core of our personalization system.</li>
-            <li><strong>Intelligent Discovery:</strong>
+            <li>Création de Profil Personnalisé : Lors de l'inscription, l'utilisateur choisit un avatar, un nom d'utilisateur, et surtout, sélectionne au moins 5 centres d'intérêt. C'est le cœur de notre système de personnalisation.</li>
+            <li>Découverte Intelligente :
                 <ul className="!mt-2">
-                    <li>On the homepage, the buyer sees ebook suggestions based on their interests.</li>
-                    <li>Our search bar is powered by AI: it provides relevant search suggestions in real-time, even indicating how many publications match a keyword.</li>
+                    <li>Sur la page d'accueil, l'acheteur voit des suggestions d'ebooks basées sur ses centres d'intérêt.</li>
+                    <li>Notre barre de recherche est propulsée par l'IA : elle fournit des suggestions de recherche pertinentes en temps réel, indiquant même combien de publications correspondent à un mot-clé.</li>
                 </ul>
             </li>
-            <li><strong>Transparent Purchase:</strong> The purchasing process is clear, displaying the breakdown of the ebook price and service fees.</li>
-            <li><strong>Personal Library:</strong> Once purchased, the ebook is added to the "Purchases" section of the user's profile, accessible at any time.</li>
-            <li><strong>Integrated Reader:</strong> The user can read their ebooks directly on the platform thanks to an integrated PDF reader, optimized for mobile and desktop.</li>
+            <li>Achat Transparent : Le processus d'achat est clair, affichant la répartition du prix de l'ebook et des frais de service.</li>
+            <li>Bibliothèque Personnelle : Une fois acheté, l'ebook est ajouté à la section "Achats" du profil de l'utilisateur, accessible à tout moment.</li>
+            <li>Lecteur Intégré : L'utilisateur peut lire ses ebooks directement sur la plateforme grâce à un lecteur PDF intégré, optimisé pour mobile et bureau.</li>
           </ol>
 
           <hr className="!my-6 border-border" />
 
-          <h2>What Makes Us Unique: Our Technology</h2>
+          <h2>Ce qui nous rend uniques : Notre Technologie</h2>
           <ul className="!list-none !pl-0 space-y-2">
-            <li><strong>Design and User Experience:</strong> We have developed a strong visual identity with a distorted glassmorphism effect applied across the entire interface. It's more than just a design; it's our signature.</li>
-            <li><strong>Artificial Intelligence (via Genkit):</strong> AI is not a gimmick. It serves our users, whether it's helping sellers better market their work or helping buyers find that hidden gem.</li>
-            <li><strong>Modern Tech Stack:</strong> The application is built on Next.js 14 (App Router), React, and TypeScript, ensuring a fast, robust, and scalable platform.</li>
-            <li><strong>Internationalization:</strong> The platform is already set up to be used in French and English, and can easily be extended to other languages.</li>
+            <li>Design et Expérience Utilisateur : Nous avons développé une identité visuelle forte avec un effet de verre déformé (glassmorphism) appliqué sur toute l'interface. C'est plus qu'un simple design, c'est notre signature.</li>
+            <li>Intelligence Artificielle (via Genkit) : L'IA n'est pas un gadget. Elle est au service de nos utilisateurs, que ce soit pour aider les vendeurs à mieux commercialiser leur travail ou pour aider les acheteurs à trouver la perle rare.</li>
+            <li>Stack Technique Moderne : L'application est construite sur Next.js 14 (App Router), React, et TypeScript, garantissant une plateforme rapide, robuste, et évolutive.</li>
+            <li>Internationalisation : La plateforme est déjà prête à être utilisée en français et en anglais, et peut facilement être étendue à d'autres langues.</li>
           </ul>
 
-          <p className="!mt-6">In summary, BookLine is not just a site for selling ebooks; it is an intelligent and well-designed ecosystem that values both the work of creators and the experience of readers.</p>
+           <hr className="!my-6 border-border" />
+
+           <h2>Infrastructure & Services Clés</h2>
+            <p>Pour concrétiser notre vision, BookLine s'appuiera sur un ensemble de services tiers robustes, évolutifs et sécurisés, complétés par notre propre logique personnalisée. Cette approche hybride nous permet de tirer parti des meilleures solutions pour les tâches complexes tout en gardant un contrôle total sur notre logique métier de base.</p>
+
+            <ul className="!list-none !pl-0 space-y-4">
+              <li>
+                <p>Stockage de PDF (Cloudflare R2) : Tous les ebooks téléchargés par les créateurs seront stockés en toute sécurité sur Cloudflare R2. Ce service offre un stockage d'objets hautement disponible et économique, garantissant que nos lecteurs peuvent accéder rapidement et de manière fiable à leur contenu acheté, partout dans le monde.</p>
+              </li>
+              <li>
+                <p>Transactions & Abonnements (Stripe) : Nous utiliserons Stripe comme notre processeur de paiement exclusif.</p>
+                <ul className="!mt-2">
+                    <li>Achats Uniques : Les API de traitement des paiements de Stripe géreront toutes les ventes d'ebooks individuelles en toute sécurité.</li>
+                    <li>Abonnements "BookLine Pro" : L'abonnement récurrent de 10 €/mois pour nos vendeurs Pro sera géré via Stripe Billing, qui automatise les paiements récurrents et la gestion du cycle de vie des abonnements.</li>
+                </ul>
+              </li>
+              <li>
+                <p>Système Publicitaire (Intégration de Réseau Publicitaire) : La fonctionnalité de publicité obligatoire pour les vendeurs sera mise en œuvre en intégrant un réseau publicitaire tiers (par exemple, Google AdMob, Unity Ads) dans le flux de publication.</p>
+                <ul className="!mt-2">
+                    <li>Diffusion de Publicités : Avant l'étape finale de la publication, l'application déclenchera le SDK du réseau publicitaire pour afficher une annonce vidéo non-sautable de 30 secondes.</li>
+                    <li>Verrouillage de la Publication : L'action finale du bouton "Publier" sera verrouillée jusqu'à ce que le rappel du réseau publicitaire confirme que la publicité a été entièrement visionnée. Cette logique sera implémentée côté client.</li>
+                    <li>Contournement pour Utilisateur Pro : L'application vérifiera le statut d'abonnement de l'utilisateur (stocké dans Firestore) avant de lancer le flux publicitaire. Si l'utilisateur est un abonné "BookLine Pro", toute cette étape sera sautée.</li>
+                </ul>
+              </li>
+              <li>
+                <p>Programmes d'Affiliation & de Parrainage (Sur Mesure) : Les programmes d'affiliation B2B et de parrainage utilisateur-à-utilisateur seront également construits sur mesure :</p>
+                <ul className="!mt-2">
+                    <li>Des codes et des liens d'affiliation/parrainage uniques seront générés et associés aux profils des utilisateurs dans Firestore.</li>
+                    <li>Les Firebase Functions suivront les clics sur les liens et attribueront les ventes au bon affilié ou parrain à la fin de l'achat.</li>
+                    <li>Les commissions et les récompenses seront calculées et stockées dans Firestore, avec des paiements gérés via un processus administratif dédié.</li>
+                </ul>
+              </li>
+            </ul>
+          <p>Cette pile technique soigneusement sélectionnée garantit que BookLine est construit sur une base sécurisée, évolutive et prête pour la croissance future.</p>
+          <p className="!mt-6">En résumé, BookLine n'est pas juste un site pour vendre des ebooks ; c'est un écosystème intelligent et bien conçu qui valorise à la fois le travail des créateurs et l'expérience des lecteurs.</p>
       </div>
     )
 }
