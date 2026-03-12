@@ -35,7 +35,7 @@ In addition to our core transaction-based model, BookLine plans to introduce sev
     *   **Priority Placement:** Their ebooks will be highlighted and featured more prominently in search results and recommendations.
     *   **Ad-Free Experience:** Subscribers will be able to manage their publications without seeing any platform advertisements.
 
-2.  **On-Platform Advertising:** Sellers will have the option to purchase advertising space to directly promote their ebooks. This system will be integrated into the publication workflow, allowing a seller to boost a new publication right from the "Publier" screen.
+2.  **Rewarded Advertising for Buyers:** Instead of making sellers pay for promotion, we will offer buyers the chance to earn discounts by engaging with rewarded ads. Buyers can choose to watch a short video ad to receive an immediate, small discount on their next ebook purchase. This creates a win-win: buyers save money, and BookLine generates revenue from ad views.
 
 3.  **Referral Program:** We will implement a referral system to accelerate our growth. Users (both buyers and sellers) will be rewarded for inviting new creators to the platform who successfully sell their ebooks.
 
@@ -83,10 +83,10 @@ To bring our vision to life, BookLine will rely on a set of robust, scalable, an
     *   **One-Time Purchases:** Stripe's payment processing APIs will handle all individual ebook sales securely.
     *   **"BookLine Pro" Subscriptions:** The recurring €10/month subscription for our Pro sellers will be managed through **Stripe Billing**, which automates recurring payments and subscription lifecycle management.
 
-*   **Advertising System (Custom-Built):** The on-platform advertising feature will be a custom system built using our existing infrastructure:
-    *   Sellers will purchase advertising credits via **Stripe**.
-    *   Ad campaign data (budget, duration, target ebooks) will be stored in our **Firestore** database.
-    *   **Firebase Functions** will contain the logic for serving ads within the platform and tracking performance metrics like impressions and clicks.
+*   **Rewarded Advertising System (Ad Network Integration):** The rewarded advertising feature will be implemented by integrating a third-party mobile advertising network (e.g., Google AdMob, Unity Ads).
+    *   **Ad Serving:** The ad network's SDK will be integrated into our application to serve video ads to users who opt-in.
+    *   **Reward Management:** Upon successful ad completion, a **Firebase Function** will be triggered. This function will credit the user's account (stored in **Firestore**) with a temporary discount voucher.
+    *   **Voucher Application:** The checkout process will be updated to check for and apply any valid discount vouchers from the user's Firestore document.
 
 *   **Affiliate & Referral Programs (Custom-Built):** Both the B2B affiliate and user-to-user referral programs will also be custom-built:
     *   Unique affiliate/referral codes and links will be generated and associated with user profiles in **Firestore**.
