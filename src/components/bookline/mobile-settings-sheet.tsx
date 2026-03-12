@@ -511,7 +511,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <DrawerTrigger asChild>
                     {children}
                 </DrawerTrigger>
-                <DrawerContent className="rounded-t-[50px] h-[70vh] flex flex-col bg-background border-0 p-0">
+                <DrawerContent className="rounded-t-[40px] h-[70vh] flex flex-col bg-background border-0 p-0">
                     <DrawerTitle className="sr-only">{t('settings')}</DrawerTitle>
                     {SettingsContent}
                 </DrawerContent>
@@ -526,7 +526,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             </DialogTrigger>
             <DialogContent className="max-w-2xl w-full p-0 bg-transparent border-none shadow-xl">
                  <UIDialogTitle className="sr-only">{t('settings')}</UIDialogTitle>
-                 <div className="h-[70vh] flex flex-col bg-background rounded-[50px] overflow-hidden relative">
+                 <div className="h-[70vh] flex flex-col bg-background rounded-[40px] overflow-hidden relative">
                     {SettingsContent}
                  </div>
             </DialogContent>
