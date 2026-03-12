@@ -85,6 +85,8 @@ To bring our vision to life, BookLine will rely on a set of robust, scalable, an
     *   "BookLine Pro" Subscriptions: The recurring €10/month subscription for our Pro sellers will be managed through Stripe Billing, which automates recurring payments and subscription lifecycle management.
 
 *   Advertising System (Ad Network Integration): The mandatory advertising feature for sellers will be implemented by integrating a third-party ad network (e.g., Google AdMob, Unity Ads) into the publishing flow.
+    *   **Choice of Network:** While there's no single network that "pays the most" in all situations, top-tier platforms like **Google AdMob** and **Unity Ads** are excellent choices. Google AdMob has access to the vast pool of Google advertisers, ensuring competitive bids. Unity Ads is a leader in video advertising and can offer high rates, especially for an engaged audience.
+    *   **Maximizing Revenue with Mediation:** The best strategy will be to use an ad mediation platform (which AdMob itself provides). This allows multiple ad networks to compete in a real-time auction to fill our ad slot. The highest bidder wins, which naturally drives up our revenue per ad view.
     *   Ad Serving: Before the final step of publication, the application will trigger the ad network's SDK to display a non-skippable 30-second video ad.
     *   Publication Lock: The "Publish" button's final action will be locked until the ad network's callback confirms the ad has been watched completely. This logic will be implemented client-side.
     *   Pro User Bypass: The application will check the user's subscription status (stored in Firestore) before initiating the ad flow. If the user is a "BookLine Pro" subscriber, this entire step will be skipped.
