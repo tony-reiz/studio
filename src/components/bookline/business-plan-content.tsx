@@ -6,35 +6,59 @@ export function BusinessPlanContent() {
           <hr className="!my-6 border-border" />
 
           <h2>Our Vision for BookLine</h2>
-          <p><strong>BookLine is a modern, specialized marketplace platform designed to directly connect ebook creators with readers.</strong> Our mission is to radically simplify publishing and monetization for authors, while offering buyers a rich and personalized discovery experience.</p>
-          <p>We are not a publishing house, but a <strong>technology intermediary</strong>. We provide the tools, the storefront, and the secure infrastructure for transactions to occur with confidence.</p>
+          <p>BookLine is a modern, specialized marketplace platform designed to directly connect ebook creators with readers. Our mission is to radically simplify publishing and monetization for authors, while offering buyers a rich and personalized discovery experience.</p>
+          <p>We are not a publishing house, but a technology intermediary. We provide the tools, the storefront, and the secure infrastructure for transactions to occur with confidence.</p>
 
           <hr className="!my-6 border-border" />
           
-          <h2>The Business Model: How BookLine Makes Money</h2>
-          <p>Our revenue model is transparent and based on the success of the transactions that take place on our platform. It is broken down into two parts:</p>
+          <h2>The Core Business Model: How BookLine Makes Money</h2>
+          <p>Our primary revenue model is transparent and based on the success of the transactions that take place on our platform. It is broken down into two parts:</p>
           <ol className="list-decimal list-outside pl-5 space-y-4">
             <li>
-                <strong>Seller-Side Commission:</strong> For each sale made, BookLine takes a <strong>fixed commission of €3.00</strong>. This commission allows us to cover payment processing fees, secure file hosting, and the continuous maintenance and improvement of our publishing tools.
+                <strong>Seller-Side Commission:</strong> For each sale made, BookLine takes a fixed commission of €3.00. This commission allows us to cover payment processing fees, secure file hosting, and the continuous maintenance and improvement of our publishing tools.
                 <ul className="!mt-2">
-                    <li><strong>Concrete Example:</strong> If a seller prices their ebook at <strong>€20.00</strong>, their net gain on each sale will be <strong>€17.00</strong>.</li>
+                    <li><strong>Concrete Example:</strong> If a seller prices their ebook at €20.00, their net gain on each sale will be €17.00.</li>
                 </ul>
             </li>
             <li>
-                <strong>Buyer-Side Service Fee:</strong> At the time of purchase, we add a <strong>fixed service fee of €3.50</strong> to the price of the ebook. These fees fund the development of the user experience, our AI recommendation tools, customer support, and platform security for buyers.
+                <strong>Buyer-Side Service Fee:</strong> At the time of purchase, we add a fixed service fee of €3.50 to the price of the ebook. These fees fund the development of the user experience, our AI recommendation tools, customer support, and platform security for buyers.
                 <ul className="!mt-2">
-                    <li><strong>Concrete Example:</strong> For the same €20.00 ebook, the final price paid by the buyer will be <strong>€23.50</strong>.</li>
+                    <li><strong>Concrete Example:</strong> For the same €20.00 ebook, the final price paid by the buyer will be €23.50.</li>
                 </ul>
             </li>
           </ol>
-          <p>On each transaction, <strong>BookLine therefore generates a total revenue of €6.50</strong>. This model allows us to invest in the platform while ensuring that creators retain the vast majority of their earnings.</p>
-          
+          <p>On each transaction, BookLine therefore generates a total revenue of €6.50. This model allows us to invest in the platform while ensuring that creators retain the vast majority of their earnings.</p>
+
           <hr className="!my-6 border-border" />
 
+          <h2>Future Revenue Streams & Growth Strategy</h2>
+            <p>In addition to our core transaction-based model, BookLine plans to introduce several new features to enhance value for our users and diversify our revenue streams. These initiatives are key to our long-term growth strategy.</p>
+            <ol className="list-decimal list-outside pl-5 space-y-4">
+                <li>
+                    <strong>"BookLine Pro" Subscription (€10/month):</strong> We will offer an optional subscription for our most committed creators. For a monthly fee of €10, sellers will unlock exclusive benefits:
+                    <ul className="!mt-2">
+                        <li><strong>Certified Seller Badge:</strong> A "Certifié" badge will appear next to their profile, increasing trust and reassuring potential buyers.</li>
+                        <li><strong>Priority Placement:</strong> Their ebooks will be highlighted and featured more prominently in search results and recommendations.</li>
+                        <li><strong>Ad-Free Experience:</strong> Subscribers will be able to manage their publications without seeing any platform advertisements.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>On-Platform Advertising:</strong> Sellers will have the option to purchase advertising space to directly promote their ebooks. This system will be integrated into the publication workflow, allowing a seller to boost a new publication right from the "Publier" screen.
+                </li>
+                <li>
+                    <strong>Referral Program:</strong> We will implement a referral system to accelerate our growth. Users (both buyers and sellers) will be rewarded for inviting new creators to the platform who successfully sell their ebooks.
+                </li>
+                <li>
+                    <strong>B2B Affiliation Program:</strong> BookLine will develop a B2B affiliation network. We will partner with blogs, online media, and influencers in relevant niches. These partners will be able to promote ebooks from our platform and earn a commission on sales generated through their unique affiliate links, creating a powerful new sales channel for our creators.
+                </li>
+            </ol>
+
+          <hr className="!my-6 border-border" />
+          
           <h2>How the Platform Works</h2>
           <h3>For Sellers (Creators):</h3>
           <ol className="list-decimal list-outside pl-5 space-y-2">
-            <li><strong>Simplified Publishing:</strong> The seller uploads their ebook in PDF format. Our system <strong>automatically compresses and optimizes the file</strong> to reduce its size, improving the experience for the buyer without any visible loss of quality.</li>
+            <li><strong>Simplified Publishing:</strong> The seller uploads their ebook in PDF format. Our system automatically compresses and optimizes the file to reduce its size, improving the experience for the buyer without any visible loss of quality.</li>
             <li><strong>Listing for Sale:</strong> The seller provides the title, a compelling description, relevant keywords for discovery, and sets their selling price.</li>
             <li><strong>AI Analysis:</strong> This is one of our major assets. The seller has access to an analysis generated by artificial intelligence that suggests more relevant keywords and provides feedback to improve their description, thus maximizing their sales potential.</li>
             <li><strong>Performance Tracking:</strong> A dashboard allows the seller to track their sales statistics, generated revenue, and the performance of their publications.</li>
@@ -42,7 +66,7 @@ export function BusinessPlanContent() {
 
           <h3 className="!mt-6">For Buyers (Readers):</h3>
           <ol className="list-decimal list-outside pl-5 space-y-2">
-            <li><strong>Personalized Profile Creation:</strong> Upon registration, the user chooses an avatar, a username, and most importantly, <strong>selects at least 5 interests</strong>. This is the core of our personalization system.</li>
+            <li><strong>Personalized Profile Creation:</strong> Upon registration, the user chooses an avatar, a username, and most importantly, selects at least 5 interests. This is the core of our personalization system.</li>
             <li><strong>Intelligent Discovery:</strong>
                 <ul className="!mt-2">
                     <li>On the homepage, the buyer sees ebook suggestions based on their interests.</li>
@@ -58,13 +82,13 @@ export function BusinessPlanContent() {
 
           <h2>What Makes Us Unique: Our Technology</h2>
           <ul className="!list-none !pl-0 space-y-2">
-            <li><strong>Design and User Experience:</strong> We have developed a strong visual identity with a <strong>distorted glassmorphism effect</strong> applied across the entire interface. It's more than just a design; it's our signature.</li>
+            <li><strong>Design and User Experience:</strong> We have developed a strong visual identity with a distorted glassmorphism effect applied across the entire interface. It's more than just a design; it's our signature.</li>
             <li><strong>Artificial Intelligence (via Genkit):</strong> AI is not a gimmick. It serves our users, whether it's helping sellers better market their work or helping buyers find that hidden gem.</li>
             <li><strong>Modern Tech Stack:</strong> The application is built on Next.js 14 (App Router), React, and TypeScript, ensuring a fast, robust, and scalable platform.</li>
             <li><strong>Internationalization:</strong> The platform is already set up to be used in French and English, and can easily be extended to other languages.</li>
           </ul>
 
-          <p className="!mt-6">In summary, <strong>BookLine is not just a site for selling ebooks; it is an intelligent and well-designed ecosystem that values both the work of creators and the experience of readers.</strong></p>
+          <p className="!mt-6">In summary, BookLine is not just a site for selling ebooks; it is an intelligent and well-designed ecosystem that values both the work of creators and the experience of readers.</p>
       </div>
     )
 }

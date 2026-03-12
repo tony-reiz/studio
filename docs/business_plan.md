@@ -6,23 +6,40 @@ This document provides a detailed explanation of what BookLine is, how the compa
 
 ### Our Vision for BookLine
 
-**BookLine is a modern, specialized marketplace platform designed to directly connect ebook creators with readers.** Our mission is to radically simplify publishing and monetization for authors, while offering buyers a rich and personalized discovery experience.
+BookLine is a modern, specialized marketplace platform designed to directly connect ebook creators with readers. Our mission is to radically simplify publishing and monetization for authors, while offering buyers a rich and personalized discovery experience.
 
-We are not a publishing house, but a **technology intermediary**. We provide the tools, the storefront, and the secure infrastructure for transactions to occur with confidence.
+We are not a publishing house, but a technology intermediary. We provide the tools, the storefront, and the secure infrastructure for transactions to occur with confidence.
 
 ---
 
-### The Business Model: How BookLine Makes Money
+### The Core Business Model: How BookLine Makes Money
 
-Our revenue model is transparent and based on the success of the transactions that take place on our platform. It is broken down into two parts:
+Our primary revenue model is transparent and based on the success of the transactions that take place on our platform. It is broken down into two parts:
 
-1.  **Seller-Side Commission:** For each sale made, BookLine takes a **fixed commission of €3.00**. This commission allows us to cover payment processing fees, secure file hosting, and the continuous maintenance and improvement of our publishing tools.
-    *   **Concrete Example:** If a seller prices their ebook at **€20.00**, their net gain on each sale will be **€17.00**.
+1.  **Seller-Side Commission:** For each sale made, BookLine takes a fixed commission of €3.00. This commission allows us to cover payment processing fees, secure file hosting, and the continuous maintenance and improvement of our publishing tools.
+    *   **Concrete Example:** If a seller prices their ebook at €20.00, their net gain on each sale will be €17.00.
 
-2.  **Buyer-Side Service Fee:** At the time of purchase, we add a **fixed service fee of €3.50** to the price of the ebook. These fees fund the development of the user experience, our AI recommendation tools, customer support, and platform security for buyers.
-    *   **Concrete Example:** For the same €20.00 ebook, the final price paid by the buyer will be **€23.50**.
+2.  **Buyer-Side Service Fee:** At the time of purchase, we add a fixed service fee of €3.50 to the price of the ebook. These fees fund the development of the user experience, our AI recommendation tools, customer support, and platform security for buyers.
+    *   **Concrete Example:** For the same €20.00 ebook, the final price paid by the buyer will be €23.50.
 
-On each transaction, **BookLine therefore generates a total revenue of €6.50**. This model allows us to invest in the platform while ensuring that creators retain the vast majority of their earnings.
+On each transaction, BookLine therefore generates a total revenue of €6.50. This model allows us to invest in the platform while ensuring that creators retain the vast majority of their earnings.
+
+---
+
+### Future Revenue Streams & Growth Strategy
+
+In addition to our core transaction-based model, BookLine plans to introduce several new features to enhance value for our users and diversify our revenue streams. These initiatives are key to our long-term growth strategy.
+
+1.  **"BookLine Pro" Subscription (€10/month):** We will offer an optional subscription for our most committed creators. For a monthly fee of €10, sellers will unlock exclusive benefits:
+    *   **Certified Seller Badge:** A "Certifié" badge will appear next to their profile, increasing trust and reassuring potential buyers.
+    *   **Priority Placement:** Their ebooks will be highlighted and featured more prominently in search results and recommendations.
+    *   **Ad-Free Experience:** Subscribers will be able to manage their publications without seeing any platform advertisements.
+
+2.  **On-Platform Advertising:** Sellers will have the option to purchase advertising space to directly promote their ebooks. This system will be integrated into the publication workflow, allowing a seller to boost a new publication right from the "Publier" screen.
+
+3.  **Referral Program:** We will implement a referral system to accelerate our growth. Users (both buyers and sellers) will be rewarded for inviting new creators to the platform who successfully sell their ebooks.
+
+4.  **B2B Affiliation Program:** BookLine will develop a B2B affiliation network. We will partner with blogs, online media, and influencers in relevant niches. These partners will be able to promote ebooks from our platform and earn a commission on sales generated through their unique affiliate links, creating a powerful new sales channel for our creators.
 
 ---
 
@@ -30,14 +47,14 @@ On each transaction, **BookLine therefore generates a total revenue of €6.50**
 
 #### For Sellers (Creators):
 
-1.  **Simplified Publishing:** The seller uploads their ebook in PDF format. Our system **automatically compresses and optimizes the file** to reduce its size, improving the experience for the buyer without any visible loss of quality.
+1.  **Simplified Publishing:** The seller uploads their ebook in PDF format. Our system automatically compresses and optimizes the file to reduce its size, improving the experience for the buyer without any visible loss of quality.
 2.  **Listing for Sale:** The seller provides the title, a compelling description, relevant keywords for discovery, and sets their selling price.
 3.  **AI Analysis:** This is one of our major assets. The seller has access to an analysis generated by artificial intelligence that suggests more relevant keywords and provides feedback to improve their description, thus maximizing their sales potential.
 4.  **Performance Tracking:** A dashboard allows the seller to track their sales statistics, generated revenue, and the performance of their publications.
 
 #### For Buyers (Readers):
 
-1.  **Personalized Profile Creation:** Upon registration, the user chooses an avatar, a username, and most importantly, **selects at least 5 interests**. This is the core of our personalization system.
+1.  **Personalized Profile Creation:** Upon registration, the user chooses an avatar, a username, and most importantly, selects at least 5 interests. This is the core of our personalization system.
 2.  **Intelligent Discovery:**
     *   On the homepage, the buyer sees ebook suggestions based on their interests.
     *   Our search bar is powered by AI: it provides relevant search suggestions in real-time, even indicating how many publications match a keyword.
@@ -49,9 +66,9 @@ On each transaction, **BookLine therefore generates a total revenue of €6.50**
 
 ### What Makes Us Unique: Our Technology
 
-*   **Design and User Experience:** We have developed a strong visual identity with a **distorted glassmorphism effect** applied across the entire interface. It's more than just a design; it's our signature.
+*   **Design and User Experience:** We have developed a strong visual identity with a distorted glassmorphism effect applied across the entire interface. It's more than just a design; it's our signature.
 *   **Artificial Intelligence (via Genkit):** AI is not a gimmick. It serves our users, whether it's helping sellers better market their work or helping buyers find that hidden gem.
 *   **Modern Tech Stack:** The application is built on Next.js 14 (App Router), React, and TypeScript, ensuring a fast, robust, and scalable platform.
 *   **Internationalization:** The platform is already set up to be used in French and English, and can easily be extended to other languages.
 
-In summary, **BookLine is not just a site for selling ebooks; it is an intelligent and well-designed ecosystem that values both the work of creators and the experience of readers.**
+In summary, BookLine is not just a site for selling ebooks; it is an intelligent and well-designed ecosystem that values both the work of creators and the experience of readers.
