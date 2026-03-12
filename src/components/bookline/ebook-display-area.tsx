@@ -12,17 +12,21 @@ import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
 import { Lightbulb, BadgeCheck, DollarSign } from 'lucide-react';
 import { GlassEffect } from './glass-effect';
+import { BooklineProModal } from './bookline-pro-modal';
 
 const infoCards = [
   {
+    id: 'ideas',
     title: "Idées d'Ebooks",
     icon: Lightbulb,
   },
   {
-    title: 'Devenez Vendeur Certifié',
+    id: 'pro',
+    title: 'Passer à BookLine Pro',
     icon: BadgeCheck,
   },
   {
+    id: 'referral',
     title: "Gagnez de l'argent ensemble",
     icon: DollarSign,
   },
@@ -59,6 +63,36 @@ export function EbookDisplayArea() {
   
   const displayItems = Array(5).fill(null);
 
+  const renderCard = (card: (typeof infoCards)[0], index: number) => {
+    const cardComponent = (
+      <Card
+        className={cn(
+          'bg-transparent border-0 rounded-[25px] overflow-hidden relative isolate transition-transform duration-500 ease-in-out',
+          index === current
+            ? 'transform scale-100'
+            : 'transform scale-75 opacity-40'
+        )}
+      >
+        <GlassEffect />
+        <CardContent
+          className={cn(
+            'relative z-20 aspect-[210/297] p-6 flex flex-col items-center justify-center text-center',
+            card.id === 'pro' && 'cursor-pointer'
+          )}
+        >
+          <card.icon className="w-16 h-16 text-foreground mb-4" />
+          <h3 className="text-xl font-bold text-foreground">{card.title}</h3>
+        </CardContent>
+      </Card>
+    );
+
+    if (card.id === 'pro') {
+      return <BooklineProModal>{cardComponent}</BooklineProModal>;
+    }
+    return cardComponent;
+  };
+
+
   return (
       <div
         className={cn(
@@ -82,24 +116,7 @@ export function EbookDisplayArea() {
               return (
                 <CarouselItem key={index} className="pl-8 basis-1/2 sm:basis-1/2 md:basis-1/3">
                   <div className="p-1">
-                    <Card
-                      className={cn(
-                        'bg-transparent border-0 rounded-[25px] overflow-hidden relative isolate transition-transform duration-500 ease-in-out',
-                        index === current
-                          ? 'transform scale-100'
-                          : 'transform scale-75 opacity-40'
-                      )}
-                    >
-                      <GlassEffect />
-                      <CardContent
-                        className={cn(
-                          'relative z-20 aspect-[210/297] p-6 flex flex-col items-center justify-center text-center'
-                        )}
-                      >
-                        <card.icon className="w-16 h-16 text-foreground mb-4" />
-                        <h3 className="text-xl font-bold text-foreground">{card.title}</h3>
-                      </CardContent>
-                    </Card>
+                    {renderCard(card, index)}
                   </div>
                 </CarouselItem>
               );
