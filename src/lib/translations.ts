@@ -178,6 +178,7 @@ export const translations = {
     'ai_analysis_failed': "L'analyse IA n'a pas pu être effectuée.",
     'profile_updated': 'Profil mis à jour',
     'profile_updated_desc': 'Vos informations ont été enregistrées.',
+    'business_model': 'Modèle économique',
     // interests
     'business': 'Business 💼',
     'fiction': 'Histoires Fictives 📖',
@@ -380,6 +381,7 @@ export const translations = {
     'ai_analysis_failed': 'AI analysis could not be performed.',
     'profile_updated': 'Profile updated',
     'profile_updated_desc': 'Your information has been saved.',
+    'business_model': 'Business Model',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',

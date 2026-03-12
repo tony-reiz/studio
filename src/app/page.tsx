@@ -14,6 +14,7 @@ import { useEbooks } from '@/context/ebook-provider';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 import { LiquidGlassDock } from '@/components/bookline/LiquidGlassDock';
+import { BusinessPlanSheet } from '@/components/bookline/business-plan-sheet';
 
 
 // Chart data and config
@@ -261,6 +262,14 @@ export default function LandingPage() {
               </PrivacySheet>
             ) : (
               <a href="/privacy" className="hover:text-foreground mx-2">{t('privacy_policy')}</a>
+            )}
+            <span className="mx-2">|</span>
+            {isClient && isMobile ? (
+              <BusinessPlanSheet>
+                <button className="underline hover:text-foreground mx-2">{t('business_model')}</button>
+              </BusinessPlanSheet>
+            ) : (
+              <a href="/business-plan" className="underline hover:text-foreground mx-2">{t('business_model')}</a>
             )}
           </div>
         </div>
