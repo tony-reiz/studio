@@ -13,6 +13,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Lightbulb, BadgeCheck, DollarSign } from 'lucide-react';
 import { GlassEffect } from './glass-effect';
 import { BooklineProModal } from './bookline-pro-modal';
+import { PublishingGuideModal } from './publishing-guide-modal';
 
 const infoCards = [
   {
@@ -77,7 +78,7 @@ export function EbookDisplayArea() {
         <CardContent
           className={cn(
             'relative z-20 aspect-[210/297] p-6 flex flex-col items-center justify-center text-center',
-            card.id === 'pro' && 'cursor-pointer'
+            (card.id === 'pro' || card.id === 'ideas' || card.id === 'referral') && 'cursor-pointer'
           )}
         >
           <card.icon className="w-16 h-16 text-foreground mb-4" />
@@ -88,6 +89,9 @@ export function EbookDisplayArea() {
 
     if (card.id === 'pro') {
       return <BooklineProModal>{cardComponent}</BooklineProModal>;
+    }
+    if (card.id === 'ideas' || card.id === 'referral') {
+      return <PublishingGuideModal>{cardComponent}</PublishingGuideModal>;
     }
     return cardComponent;
   };
