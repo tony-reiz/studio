@@ -130,6 +130,36 @@ En additionnant ces trois sources, nous arrivons à un revenu brut total estimé
 
 Il est important de noter qu'il s'agit d'un **revenu brut**. Pour obtenir le bénéfice net, il faudrait déduire tous les coûts opérationnels (hébergement des serveurs et des fichiers, marketing, salaires, etc.). Néanmoins, cette projection démontre que le modèle économique est très solide, avec un potentiel de rentabilité élevé, principalement porté par les frais sur chaque transaction.
 
+**Hypothèses pour un scénario de "Phase de Croissance" (200 000 ventes/mois) :**
+
+Pour atteindre un tel volume, il nous faudrait une base de vendeurs beaucoup plus conséquente. Gardons des hypothèses cohérentes :
+
+*   **Ventes moyennes par vendeur :** 10 ebooks par mois (inchangé)
+*   **Vendeurs actifs nécessaires :** 200 000 ventes / 10 = 20 000 vendeurs
+*   **Taux d'abonnement Pro :** 10% des vendeurs (soit 2 000 abonnés)
+*   **Publications par vendeur non-Pro :** 1 ebook par mois (inchangé)
+*   **Revenu par publicité vue :** 0,10 € (inchangé)
+
+**Calcul des revenus mensuels bruts estimés pour BookLine (Phase de Croissance) :**
+
+1.  **Revenus des Frais de Transaction :**
+    *   *Calcul :* 200 000 ventes/mois
+    *   *Revenu :* 200 000 ventes × 6,50 €/vente = **1 300 000 €/mois**
+
+2.  **Revenus des Abonnements "BookLine Pro" :**
+    *   *Calcul :* 2 000 abonnés × 10 €/mois
+    *   *Revenu :* **20 000 €/mois**
+
+3.  **Revenus de la Publicité Obligatoire :**
+    *   *Calcul :* 18 000 vendeurs non-Pro × 1 pub/mois = 18 000 publicités vues
+    *   *Revenu :* 18 000 pubs × 0,10 €/pub = **1 800 €/mois**
+
+**Total des revenus mensuels bruts estimés pour BookLine :**
+
+Dans ce scénario de forte croissance, le revenu brut total estimé pour BookLine s'élèverait à **plus de 1,3 million d'euros par mois**.
+
+Cela démontre le potentiel d'échelle exceptionnel de notre modèle économique. Même si les abonnements et la publicité contribuent, l'écrasante majorité des revenus provient des commissions sur transaction, ce qui signifie que notre succès est directement lié au succès des vendeurs sur notre plateforme.
+
 ---
 
 In summary, BookLine is not just a site for selling ebooks; it is an intelligent and well-designed ecosystem that values both the work of creators and the experience of readers.
