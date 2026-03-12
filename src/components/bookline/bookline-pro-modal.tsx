@@ -65,7 +65,7 @@ function ProContent() {
             <div className="text-center mt-8">
                 <p className="text-4xl font-extrabold">10€<span className="text-base font-normal text-muted-foreground">/mois</span></p>
             </div>
-            <Button className="w-full mt-6 rounded-full font-semibold text-lg h-12 bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90">
+            <Button className="w-full mt-6 rounded-full font-semibold text-lg h-12 bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 focus-visible:ring-0 focus-visible:ring-offset-0">
                 Passer à Pro
             </Button>
         </div>
