@@ -103,7 +103,7 @@ export function ImageCropper({ imageSrc, onCropComplete, onClose }: ImageCropper
 
   return (
     <Dialog open={!!imageSrc} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-md w-full p-0">
+      <DialogContent className="max-w-md w-full p-0 sm:rounded-lg">
         <div className={cn("transition-opacity duration-300", isContentVisible ? "opacity-100" : "opacity-0")}>
             <DialogHeader className="p-6 pb-0">
               <DialogTitle>Recadrer l'image</DialogTitle>
