@@ -13,19 +13,23 @@ import { GlassEffect } from '@/components/bookline/glass-effect';
 
 export default function CurrencySettingsPage() {
   const { handleBack } = useTransitionRouter();
-  const { theme, currency: initialCurrency, setCurrency, t } = useEbooks();
+  const { theme, currency: currentGlobalCurrency, setCurrency, t } = useEbooks();
   const [isClient, setIsClient] = useState(false);
-  const [selectedCurrency, setSelectedCurrency] = useState<Currency>(initialCurrency);
+  const [selectedCurrency, setSelectedCurrency] = useState<Currency>(currentGlobalCurrency);
+  const [initialCurrency, setInitialCurrency] = useState<Currency>(currentGlobalCurrency);
 
   useEffect(() => {
     setIsClient(true);
-    setSelectedCurrency(initialCurrency);
-  }, [initialCurrency]);
+    setInitialCurrency(currentGlobalCurrency);
+    setSelectedCurrency(currentGlobalCurrency);
+  }, [currentGlobalCurrency]);
 
   const handleSave = () => {
     setCurrency(selectedCurrency);
     handleBack();
   };
+
+  const isChanged = selectedCurrency.code !== initialCurrency.code;
 
   return (
     <div className={cn("min-h-screen text-foreground bg-transparent")}>
@@ -53,7 +57,7 @@ export default function CurrencySettingsPage() {
                 <button
                   onClick={() => setSelectedCurrency(curr)}
                   className={cn(
-                    "w-full rounded-full flex items-center justify-between p-3 text-left transition-colors",
+                    "w-full rounded-full flex items-center justify-between px-4 h-12 text-left transition-colors",
                     selectedCurrency.code === curr.code
                       ? 'bg-foreground text-background'
                       : 'bg-secondary text-foreground'
@@ -80,7 +84,13 @@ export default function CurrencySettingsPage() {
           <div className="w-full max-w-[16rem] mx-auto">
               <Button 
                   onClick={handleSave}
-                  className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90"
+                  disabled={!isChanged}
+                  className={cn(
+                    "rounded-full w-full h-12 text-lg font-semibold transition-colors",
+                    isChanged 
+                      ? "bg-foreground text-background hover:bg-foreground/90"
+                      : "bg-secondary text-muted-foreground"
+                  )}
               >
                   {t('save')}
               </Button>

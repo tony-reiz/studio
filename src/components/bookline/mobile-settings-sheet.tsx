@@ -229,6 +229,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     ] as const;
 
     const handleCurrencySave = () => {
+        if (localSelectedCurrency.code === currency.code) return;
         setCurrency(localSelectedCurrency);
         setIsOpen(false);
     };
@@ -555,7 +556,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     <button
                     onClick={() => setLocalSelectedCurrency(curr)}
                     className={cn(
-                        "w-full rounded-full flex items-center justify-between p-3 text-left transition-colors",
+                        "w-full rounded-full flex items-center justify-between px-4 h-12 text-left transition-colors",
                         localSelectedCurrency.code === curr.code
                         ? 'bg-foreground text-background'
                         : 'bg-secondary text-foreground'
@@ -579,7 +580,13 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         <div className="p-4 bg-background/80 backdrop-blur-sm border-t border-border shrink-0">
             <Button 
                 onClick={handleCurrencySave}
-                className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90"
+                disabled={localSelectedCurrency.code === currency.code}
+                className={cn(
+                  "rounded-full w-full h-12 text-lg font-semibold transition-colors",
+                  localSelectedCurrency.code !== currency.code
+                    ? "bg-foreground text-background hover:bg-foreground/90"
+                    : "bg-secondary text-muted-foreground"
+                )}
             >
                 {t('save')}
             </Button>
