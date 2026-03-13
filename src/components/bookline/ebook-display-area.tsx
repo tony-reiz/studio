@@ -90,8 +90,11 @@ export function EbookDisplayArea() {
     if (card.id === 'pro') {
       return <BooklineProModal>{cardComponent}</BooklineProModal>;
     }
-    if (card.id === 'ideas' || card.id === 'referral') {
-      return <PublishingGuideModal>{cardComponent}</PublishingGuideModal>;
+    if (card.id === 'ideas') {
+      return <PublishingGuideModal contentType="guide">{cardComponent}</PublishingGuideModal>;
+    }
+    if (card.id === 'referral') {
+      return <PublishingGuideModal contentType="referral">{cardComponent}</PublishingGuideModal>;
     }
     return cardComponent;
   };

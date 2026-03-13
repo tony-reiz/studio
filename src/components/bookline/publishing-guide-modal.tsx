@@ -23,9 +23,10 @@ import { useEbooks } from '@/context/ebook-provider';
 
 interface PublishingGuideModalProps {
     children: ReactNode;
+    contentType: 'guide' | 'referral';
 }
 
-function GuideContent() {
+function GuideContent({ contentType }: { contentType: 'guide' | 'referral' }) {
     const { t } = useEbooks();
 
     const steps = [
@@ -53,55 +54,62 @@ function GuideContent() {
 
     return (
         <div className="p-4 md:p-6">
-            <div className="text-center">
-                <h3 className="text-2xl font-bold">Comment Vendre sur BookLine</h3>
-                <p className="text-muted-foreground">De l'idée à la vente, en quelques étapes simples.</p>
-            </div>
-            <div className="my-8 space-y-6">
-                {steps.map((step, index) => (
-                    <div key={index} className="flex items-start gap-4">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
-                            <step.icon className="w-6 h-6 text-foreground" />
-                        </div>
-                        <div>
-                            <h4 className="font-semibold">{step.title}</h4>
-                            <p className="text-sm text-muted-foreground">{step.description}</p>
-                        </div>
+            {contentType === 'guide' && (
+                 <>
+                    <div className="text-center">
+                        <h3 className="text-2xl font-bold">Comment Vendre sur BookLine</h3>
+                        <p className="text-muted-foreground">De l'idée à la vente, en quelques étapes simples.</p>
                     </div>
-                ))}
-            </div>
+                    <div className="my-8 space-y-6">
+                        {steps.map((step, index) => (
+                            <div key={index} className="flex items-start gap-4">
+                                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
+                                    <step.icon className="w-6 h-6 text-foreground" />
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold">{step.title}</h4>
+                                    <p className="text-sm text-muted-foreground">{step.description}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </>
+            )}
 
-            <div className="mt-10 pt-6 border-t">
-                 <div className="text-center">
-                    <h3 className="text-2xl font-bold">Gagnez Plus avec le Parrainage</h3>
-                    <p className="text-muted-foreground">Invitez des vendeurs et créez une source de revenus passive.</p>
-                </div>
-                 <div className="my-8 space-y-6">
-                     <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
-                            <Users className="w-6 h-6 text-foreground" />
+            {contentType === 'referral' && (
+                <>
+                    <div className="text-center">
+                        <h3 className="text-2xl font-bold">Gagnez Plus avec le Parrainage</h3>
+                        <p className="text-muted-foreground">Invitez des vendeurs et créez une source de revenus passive.</p>
+                    </div>
+                    <div className="my-8 space-y-6">
+                        <div className="flex items-start gap-4">
+                            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
+                                <Users className="w-6 h-6 text-foreground" />
+                            </div>
+                            <div>
+                                <h4 className="font-semibold">Pour le Parrain</h4>
+                                <p className="text-sm text-muted-foreground">Gagnez <strong>1€</strong> chaque fois que le total des ventes de vos filleuls atteint un multiple de 3.</p>
+                            </div>
                         </div>
-                        <div>
-                            <h4 className="font-semibold">Pour le Parrain</h4>
-                            <p className="text-sm text-muted-foreground">Gagnez <strong>1€</strong> chaque fois que le total des ventes de vos filleuls atteint un multiple de 3.</p>
+                        <div className="flex items-start gap-4">
+                            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
+                                <Gift className="w-6 h-6 text-foreground" />
+                            </div>
+                            <div>
+                                <h4 className="font-semibold">Pour le Filleul</h4>
+                                <p className="text-sm text-muted-foreground">Votre filleul gagne aussi <strong>1€</strong> toutes les 3 ventes qu'il réalise lui-même.</p>
+                            </div>
                         </div>
                     </div>
-                     <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
-                            <Gift className="w-6 h-6 text-foreground" />
-                        </div>
-                        <div>
-                            <h4 className="font-semibold">Pour le Filleul</h4>
-                            <p className="text-sm text-muted-foreground">Votre filleul gagne aussi <strong>1€</strong> toutes les 3 ventes qu'il réalise lui-même.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                </>
+            )}
+            
         </div>
     );
 }
 
-export function PublishingGuideModal({ children }: PublishingGuideModalProps) {
+export function PublishingGuideModal({ children, contentType }: PublishingGuideModalProps) {
     const [isOpen, setIsOpen] = useState(false);
     const isMobile = useIsMobile();
     const [isClient, setIsClient] = useState(false);
@@ -128,6 +136,9 @@ export function PublishingGuideModal({ children }: PublishingGuideModalProps) {
         </div>
     );
 
+    const dialogTitle = contentType === 'guide' ? "Comment Vendre sur BookLine" : "Gagnez Plus avec le Parrainage";
+    const dialogDescription = contentType === 'guide' ? "De l'idée à la vente, en quelques étapes simples." : "Invitez des vendeurs et créez une source de revenus passive.";
+
 
     if (isMobile) {
         return (
@@ -137,11 +148,11 @@ export function PublishingGuideModal({ children }: PublishingGuideModalProps) {
                 </DrawerTrigger>
                 <DrawerContent className="rounded-t-[40px] max-h-[75vh] flex flex-col bg-background border-0 p-0">
                     <DrawerHeader className="p-4 pt-4 text-left shrink-0">
-                        <DrawerTitlePrimitive className="sr-only">Comment Vendre sur BookLine</DrawerTitlePrimitive>
-                        <DrawerDescriptionPrimitive className="sr-only">De l'idée à la vente, en quelques étapes simples.</DrawerDescriptionPrimitive>
+                        <DrawerTitlePrimitive className="sr-only">{dialogTitle}</DrawerTitlePrimitive>
+                        <DrawerDescriptionPrimitive className="sr-only">{dialogDescription}</DrawerDescriptionPrimitive>
                     </DrawerHeader>
                     <div className="flex-1 overflow-y-auto">
-                        <GuideContent />
+                        <GuideContent contentType={contentType} />
                     </div>
                     <StickyFooterButton />
                 </DrawerContent>
@@ -155,10 +166,10 @@ export function PublishingGuideModal({ children }: PublishingGuideModalProps) {
                 {children}
             </DialogTrigger>
             <DialogContent className="max-w-md w-full p-0 bg-background border-0 rounded-[40px] shadow-2xl max-h-[75vh] flex flex-col overflow-hidden">
-                 <DialogTitle className="sr-only">Comment Vendre sur BookLine</DialogTitle>
-                 <DialogDescription className="sr-only">De l'idée à la vente, en quelques étapes simples.</DialogDescription>
+                 <DialogTitle className="sr-only">{dialogTitle}</DialogTitle>
+                 <DialogDescription className="sr-only">{dialogDescription}</DialogDescription>
                  <div className="flex-1 overflow-y-auto">
-                    <GuideContent />
+                    <GuideContent contentType={contentType} />
                  </div>
                  <StickyFooterButton />
             </DialogContent>
