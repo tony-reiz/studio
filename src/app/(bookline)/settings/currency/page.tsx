@@ -39,7 +39,7 @@ export default function CurrencySettingsPage() {
           <DarkFluidBackground isActive={theme === 'dark'} />
         </>
       )}
-      <div className="w-full max-w-screen-md mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-screen-md mx-auto flex flex-col px-4 sm:px-6 lg:px-8">
         <header className="grid grid-cols-3 items-center w-full py-6">
           <div className="justify-self-start">
             <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden" aria-label={t('back')}>
@@ -50,7 +50,7 @@ export default function CurrencySettingsPage() {
           <h1 className="text-2xl font-bold text-center">{t('currency')}</h1>
         </header>
 
-        <main className="flex-1 w-full flex flex-col items-center pt-8 pb-32 gap-4">
+        <main className="w-full flex flex-col items-center pt-8 pb-32 gap-4">
           <ul className="w-full space-y-[17px]">
             {currencies.map((curr) => (
               <li key={curr.code}>
@@ -80,7 +80,7 @@ export default function CurrencySettingsPage() {
         </main>
       </div>
 
-       <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/80 backdrop-blur-sm" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
+       <div className="fixed bottom-0 left-0 right-0 p-4 bg-transparent backdrop-blur-sm" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
           <div className="w-full max-w-[16rem] mx-auto">
               <Button 
                   onClick={handleSave}
