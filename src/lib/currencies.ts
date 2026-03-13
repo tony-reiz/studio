@@ -7,6 +7,6 @@ export interface Currency {
 
 export const currencies: Currency[] = [
     { code: 'EUR', name: 'Euro', nativeName: 'Euro', symbol: '€' },
-    { code: 'USD', name: 'US Dollar', nativeName: 'US Dollar', symbol: '$' },
-    { code: 'CHF', name: 'Swiss Franc', nativeName: 'Schweizer Franken', symbol: 'CHF' },
+    { code: 'USD', name: 'Dollar américain', nativeName: 'Dollar américain', symbol: '$' },
+    { code: 'CHF', name: 'Franc suisse', nativeName: 'Franc suisse', symbol: 'CHF' },
 ];
