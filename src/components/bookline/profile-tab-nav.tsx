@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { GlassEffect } from './glass-effect';
+import { useEbooks } from '@/context/ebook-provider';
 
 type ActiveTab = 'achats' | 'publications' | 'favoris';
 
@@ -11,6 +12,8 @@ interface ProfileTabNavProps {
 }
 
 export function ProfileTabNav({ activeTab, setActiveTab }: ProfileTabNavProps) {
+  const { t } = useEbooks();
+
   const getLeftPosition = () => {
     switch (activeTab) {
       case 'achats':
@@ -38,7 +41,7 @@ export function ProfileTabNav({ activeTab, setActiveTab }: ProfileTabNavProps) {
           activeTab === 'achats' ? 'text-background dark:text-black' : 'text-foreground'
         )}
       >
-        achats
+        {t('purchases')}
       </button>
       <button
         onClick={() => setActiveTab('publications')}
@@ -47,7 +50,7 @@ export function ProfileTabNav({ activeTab, setActiveTab }: ProfileTabNavProps) {
           activeTab === 'publications' ? 'text-background dark:text-black' : 'text-foreground'
         )}
       >
-        publications
+        {t('publications')}
       </button>
       <button
         onClick={() => setActiveTab('favoris')}
@@ -56,7 +59,7 @@ export function ProfileTabNav({ activeTab, setActiveTab }: ProfileTabNavProps) {
           activeTab === 'favoris' ? 'text-background dark:text-black' : 'text-foreground'
         )}
       >
-        favoris
+        {t('favorites')}
       </button>
     </div>
   );

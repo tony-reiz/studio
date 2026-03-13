@@ -157,8 +157,8 @@ export default function EbookViewerPage() {
   const PdfError = () => (
     <div className="flex flex-col items-center justify-center text-center text-destructive p-8 h-full mt-20">
         <AlertCircle className="w-12 h-12 mb-4" />
-        <h3 className="text-xl font-semibold">Erreur de chargement</h3>
-        <p className="text-sm">Impossible d'afficher le PDF. Le fichier est peut-être corrompu ou le format n'est pas supporté.</p>
+        <h3 className="text-xl font-semibold">{t('pdf_load_error_title')}</h3>
+        <p className="text-sm">{t('pdf_load_error_desc')}</p>
     </div>
   );
 
@@ -173,7 +173,7 @@ export default function EbookViewerPage() {
   if (!ebook) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-secondary">
-        <p>Ebook non trouvé.</p>
+        <p>{t('ebook_not_found')}</p>
       </div>
     );
   }
@@ -221,7 +221,7 @@ export default function EbookViewerPage() {
         {numPages && (
           <div className="fixed left-1/2 -translate-x-1/2 z-20 bg-background/80 backdrop-blur-xl rounded-full flex items-center gap-2 px-3 py-1.5" style={{ top: `calc(env(safe-area-inset-top) + 5rem)`}}>
             <FileText className="h-4 w-4 text-muted-foreground" />
-            <span className="text-sm font-medium text-foreground tabular-nums">{numPages} pages</span>
+            <span className="text-sm font-medium text-foreground tabular-nums">{numPages} {t('pages')}</span>
           </div>
         )}
 

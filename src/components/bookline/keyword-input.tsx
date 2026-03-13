@@ -268,7 +268,7 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
                         className="w-full text-left px-2 py-1.5 text-sm rounded-md hover:bg-background/70 transition-colors flex justify-between items-center"
                         >
                           <span>{suggestion.text}</span>
-                          <span className="text-xs text-muted-foreground">{suggestion.count} publications</span>
+                          <span className="text-xs text-muted-foreground">{suggestion.count} {t('publications')}</span>
                         </button>
                     </li>
                     ))}

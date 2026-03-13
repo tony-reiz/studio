@@ -5,6 +5,7 @@ import { CloudUpload, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { BVCouleur } from './BVCouleur';
 import { GlassEffect } from './glass-effect';
+import { useEbooks } from '@/context/ebook-provider';
 
 interface PdfUploaderProps {
   pdfFile: File | null;
@@ -19,6 +20,7 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isPdfVisible, setIsPdfVisible] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { t } = useEbooks();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -142,7 +144,7 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
                     "absolute inset-0 w-full h-full border-0 pointer-events-none scale-110 transition-opacity duration-500 ease-in-out",
                     isPdfVisible ? "opacity-100" : "opacity-0"
                     )} 
-                    title="Aperçu du PDF" 
+                    title={t('pdf_preview')}
                 />
             ) : (
                 <CloudUpload className="h-10 w-10 text-muted-foreground z-10" />

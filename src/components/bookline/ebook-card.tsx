@@ -15,7 +15,7 @@ interface EbookCardProps {
 }
 
 export function EbookCard({ ebook, className, onCardClick }: EbookCardProps) {
-  const { favoritedEbooks, toggleFavoriteEbook } = useEbooks();
+  const { favoritedEbooks, toggleFavoriteEbook, t } = useEbooks();
   const [width, setWidth] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -58,7 +58,7 @@ export function EbookCard({ ebook, className, onCardClick }: EbookCardProps) {
   // Simple error state component
   const ErrorState = () => (
     <div className="w-full h-full flex items-center justify-center bg-secondary p-4">
-      <p className="text-center text-sm text-destructive">Impossible d'afficher le PDF.</p>
+      <p className="text-center text-sm text-destructive">{t('pdf_display_error')}</p>
     </div>
   );
 
@@ -99,7 +99,7 @@ export function EbookCard({ ebook, className, onCardClick }: EbookCardProps) {
               <button
                 onClick={handleFavoriteClick}
                 className="absolute top-0 right-0 m-4 p-0 z-20"
-                aria-label="Ajouter aux favoris"
+                aria-label={t('add_to_favorites')}
               >
                 <Heart
                   className={cn(

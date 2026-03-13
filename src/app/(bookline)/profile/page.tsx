@@ -62,8 +62,8 @@ function ProfilePageContent() {
 
   const handleShare = async () => {
     const shareData = {
-      title: `Profil de ${userProfile.username} sur BookLine`,
-      text: `Découvrez le profil de ${userProfile.username} sur BookLine !`,
+      title: t('profile_of_on_bookline').replace('{username}', userProfile.username),
+      text: t('discover_profile_of_on_bookline').replace('{username}', userProfile.username),
       url: window.location.href,
     };
 
@@ -183,7 +183,7 @@ function ProfilePageContent() {
           <main className="flex-1 w-full flex flex-col items-center pb-8">
             <div className="flex flex-col items-center">
               <Avatar className="h-28 w-28 bg-foreground dark:bg-white">
-                <AvatarImage src={userProfile.avatarUrl || ''} alt="Photo de profil de l'utilisateur" />
+                <AvatarImage src={userProfile.avatarUrl || ''} alt={t('user_profile_picture')} />
                 <AvatarFallback className="bg-transparent">
                   <User className="h-12 w-12 text-background dark:text-black" />
                 </AvatarFallback>

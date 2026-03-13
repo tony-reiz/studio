@@ -32,7 +32,7 @@ export default function BuyEbookPage() {
   const params = useParams();
   const id = params.id as string;
   const { handleBack, handleNavigate } = useTransitionRouter();
-  const { allEbooks, purchasedEbooks, purchaseEbook, theme } = useEbooks();
+  const { allEbooks, purchasedEbooks, purchaseEbook, theme, t } = useEbooks();
   const [ebook, setEbook] = useState<Ebook | undefined>(undefined);
   const [numPages, setNumPages] = useState<number | null>(null);
   const { toast } = useToast();
@@ -76,8 +76,8 @@ export default function BuyEbookPage() {
     } else {
       purchaseEbook(ebook);
       toast({
-        title: "Achat réussi !",
-        description: `Vous pouvez maintenant lire "${ebook.title}".`,
+        title: t('payment_successful'),
+        description: `${t('you_can_now_read')} "${ebook.title}".`,
       });
     }
   };
@@ -91,7 +91,7 @@ export default function BuyEbookPage() {
   };
 
   if (!isClient || !ebook) {
-    return <div className="flex h-screen w-full items-center justify-center bg-background">Chargement...</div>;
+    return <div className="flex h-screen w-full items-center justify-center bg-background">{t('loading')}</div>;
   }
 
   const CUSTOMER_FEE = 3.5;
@@ -127,7 +127,7 @@ export default function BuyEbookPage() {
             <div className="w-full max-w-[18rem] md:max-w-xs flex flex-col items-center">
               <button onClick={() => { if(!isMobile) handleDialogChange(false); handleNavigate('/seller/1'); }} className="w-full group">
                 <div className="w-full bg-black text-white rounded-full py-2 text-sm font-semibold text-center mb-4 group-hover:bg-black/90 transition-colors">
-                    vendeur
+                    {t('seller')}
                 </div>
               </button>
               <div className="w-full grid grid-cols-3 gap-2 mb-4">
@@ -171,9 +171,9 @@ export default function BuyEbookPage() {
 
               <div className="w-full rounded-[30px] grid grid-cols-[1fr_auto] mt-4 overflow-hidden glass-form-element">
                 <div className='pl-6 py-4 text-sm text-foreground space-y-1 flex flex-col justify-center'>
-                  <p>prix de l'ebook</p>
-                  <p>frais de service</p>
-                  <p>total de l'ebook</p>
+                  <p>{t('ebook_price')}</p>
+                  <p>{t('service_fee')}</p>
+                  <p>{t('total_ebook_price')}</p>
                 </div>
                 <div className='bg-black text-white rounded-l-[30px] px-8 py-4 text-sm flex flex-col justify-center text-right space-y-1'>
                   <p>{formatPrice(ebookPriceNumber)}</p>
@@ -194,7 +194,7 @@ export default function BuyEbookPage() {
                   : "bg-black text-white hover:bg-black/90"
             )}
           >
-            {isPurchased ? 'Voir' : 'Payer'}
+            {isPurchased ? t('view') : t('pay')}
           </Button>
         </div>
       </main>
