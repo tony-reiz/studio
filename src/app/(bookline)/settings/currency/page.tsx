@@ -39,7 +39,7 @@ export default function CurrencySettingsPage() {
           <DarkFluidBackground isActive={theme === 'dark'} />
         </>
       )}
-      <div className="w-full max-w-lg mx-auto flex flex-col px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md mx-auto flex flex-col px-4 sm:px-6 lg:px-8">
         <header className="grid grid-cols-3 items-center w-full py-6">
           <div className="justify-self-start">
             <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden" aria-label={t('back')}>
@@ -74,8 +74,8 @@ export default function CurrencySettingsPage() {
         </main>
       </div>
 
-       <div className="fixed bottom-0 left-0 right-0 p-4" style={{ paddingBottom: `calc(2rem + env(safe-area-inset-bottom))` }}>
-          <div className="w-full max-w-lg mx-auto">
+       <div className="fixed bottom-0 left-0 right-0 p-4" style={{ paddingBottom: `calc(1.5rem + env(safe-area-inset-bottom))` }}>
+          <div className="w-full max-w-md mx-auto">
               <Button 
                   onClick={handleSave}
                   disabled={!isChanged}
