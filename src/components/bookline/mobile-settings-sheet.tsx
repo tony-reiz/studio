@@ -577,7 +577,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 ))}
             </ul>
         </div>
-        <div className="p-4 bg-background/80 backdrop-blur-sm shrink-0">
+        <div className="p-4 pb-8 shrink-0">
             <Button 
                 onClick={handleCurrencySave}
                 disabled={localSelectedCurrency.code === currency.code}
