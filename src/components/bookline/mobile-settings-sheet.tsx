@@ -549,47 +549,51 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <h1 className="text-xl font-bold text-center">{t('currency')}</h1>
             </div>
         </div>
-        <div className="flex-1 px-4 py-4">
-            <ul className="w-full space-y-[17px]">
-                {currencies.map((curr) => (
-                <li key={curr.code}>
-                    <button
-                    onClick={() => setLocalSelectedCurrency(curr)}
-                    className={cn(
-                        "w-full rounded-full flex items-center justify-between px-4 h-12 text-left transition-colors",
-                        localSelectedCurrency.code === curr.code
-                        ? 'bg-foreground text-background'
-                        : 'bg-secondary text-foreground'
-                    )}
-                    >
-                    <div className="flex items-center gap-4">
-                        <div className="flex flex-col">
-                        <span className="font-semibold">{curr.name}</span>
-                        <span className={cn(
-                            "text-sm",
-                            localSelectedCurrency.code === curr.code ? 'text-background/70' : 'text-muted-foreground'
-                        )}>{curr.nativeName}</span>
+        <div className="flex-1 overflow-y-auto px-4 py-4">
+            <div className="max-w-xs mx-auto">
+                <ul className="w-full space-y-[17px]">
+                    {currencies.map((curr) => (
+                    <li key={curr.code}>
+                        <button
+                        onClick={() => setLocalSelectedCurrency(curr)}
+                        className={cn(
+                            "w-full rounded-full flex items-center justify-between px-4 h-11 text-left transition-colors",
+                            localSelectedCurrency.code === curr.code
+                            ? 'bg-foreground text-background'
+                            : 'bg-secondary text-foreground'
+                        )}
+                        >
+                        <div className="flex items-center gap-4">
+                            <div className="flex flex-col">
+                            <span className="font-semibold">{curr.name}</span>
+                            <span className={cn(
+                                "text-sm",
+                                localSelectedCurrency.code === curr.code ? 'text-background/70' : 'text-muted-foreground'
+                            )}>{curr.nativeName}</span>
+                            </div>
                         </div>
-                    </div>
-                    <span className="font-semibold">{curr.symbol}</span>
-                    </button>
-                </li>
-                ))}
-            </ul>
+                        <span className="font-semibold">{curr.symbol}</span>
+                        </button>
+                    </li>
+                    ))}
+                </ul>
+            </div>
         </div>
         <div className="p-4 shrink-0">
-            <Button 
-                onClick={handleCurrencySave}
-                disabled={localSelectedCurrency.code === currency.code}
-                className={cn(
-                  "rounded-full w-full h-12 text-lg font-semibold transition-colors",
-                  localSelectedCurrency.code !== currency.code
-                    ? "bg-foreground text-background hover:bg-foreground/90"
-                    : "bg-secondary text-muted-foreground"
-                )}
-            >
-                {t('save')}
-            </Button>
+            <div className="max-w-xs mx-auto">
+                <Button 
+                    onClick={handleCurrencySave}
+                    disabled={localSelectedCurrency.code === currency.code}
+                    className={cn(
+                    "rounded-full w-full h-12 text-lg font-semibold transition-colors",
+                    localSelectedCurrency.code !== currency.code
+                        ? "bg-foreground text-background hover:bg-foreground/90"
+                        : "bg-secondary text-muted-foreground"
+                    )}
+                >
+                    {t('save')}
+                </Button>
+            </div>
         </div>
     </div>
   );
