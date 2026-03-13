@@ -154,7 +154,7 @@ export function PublishingGuideModal({ children }: PublishingGuideModalProps) {
             <DialogTrigger asChild onClick={handleTriggerClick}>
                 {children}
             </DialogTrigger>
-            <DialogContent className="max-w-md w-full p-0 bg-background border-0 rounded-[40px] shadow-2xl max-h-[75vh] flex flex-col">
+            <DialogContent className="max-w-md w-full p-0 bg-background border-0 rounded-[40px] shadow-2xl max-h-[75vh] flex flex-col overflow-hidden">
                  <DialogTitle className="sr-only">Comment Vendre sur BookLine</DialogTitle>
                  <DialogDescription className="sr-only">De l'idée à la vente, en quelques étapes simples.</DialogDescription>
                  <div className="flex-1 overflow-y-auto">
