@@ -97,10 +97,6 @@ function GuideContent() {
                     </div>
                 </div>
             </div>
-            
-            <Button className="w-full mt-6 rounded-full font-semibold text-lg h-12 bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 focus-visible:ring-0 focus-visible:ring-offset-0">
-                Commencer à vendre
-            </Button>
         </div>
     );
 }
@@ -123,6 +119,15 @@ export function PublishingGuideModal({ children }: PublishingGuideModalProps) {
         e.stopPropagation();
         setIsOpen(true);
     }
+    
+    const StickyFooterButton = () => (
+        <div className="p-4 md:p-6 border-t bg-background shrink-0">
+            <Button className="w-full rounded-full font-semibold text-lg h-12 bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 focus-visible:ring-0 focus-visible:ring-offset-0">
+                Commencer à vendre
+            </Button>
+        </div>
+    );
+
 
     if (isMobile) {
         return (
@@ -130,14 +135,15 @@ export function PublishingGuideModal({ children }: PublishingGuideModalProps) {
                 <DrawerTrigger asChild onClick={handleTriggerClick}>
                     {children}
                 </DrawerTrigger>
-                <DrawerContent className="rounded-t-[40px] max-h-[85vh] flex flex-col bg-background border-0 p-0">
-                    <DrawerHeader className="p-4 pt-4 text-left">
+                <DrawerContent className="rounded-t-[40px] max-h-[75vh] flex flex-col bg-background border-0 p-0">
+                    <DrawerHeader className="p-4 pt-4 text-left shrink-0">
                         <DrawerTitlePrimitive className="sr-only">Comment Vendre sur BookLine</DrawerTitlePrimitive>
                         <DrawerDescriptionPrimitive className="sr-only">De l'idée à la vente, en quelques étapes simples.</DrawerDescriptionPrimitive>
                     </DrawerHeader>
-                    <div className="overflow-y-auto">
+                    <div className="flex-1 overflow-y-auto">
                         <GuideContent />
                     </div>
+                    <StickyFooterButton />
                 </DrawerContent>
             </Drawer>
         );
@@ -148,10 +154,13 @@ export function PublishingGuideModal({ children }: PublishingGuideModalProps) {
             <DialogTrigger asChild onClick={handleTriggerClick}>
                 {children}
             </DialogTrigger>
-            <DialogContent className="max-w-md w-full p-0 bg-background border-0 rounded-[40px] shadow-2xl">
+            <DialogContent className="max-w-md w-full p-0 bg-background border-0 rounded-[40px] shadow-2xl max-h-[75vh] flex flex-col">
                  <DialogTitle className="sr-only">Comment Vendre sur BookLine</DialogTitle>
                  <DialogDescription className="sr-only">De l'idée à la vente, en quelques étapes simples.</DialogDescription>
-                 <GuideContent />
+                 <div className="flex-1 overflow-y-auto">
+                    <GuideContent />
+                 </div>
+                 <StickyFooterButton />
             </DialogContent>
         </Dialog>
     );
