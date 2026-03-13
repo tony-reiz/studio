@@ -90,9 +90,9 @@ export function EbookProvider({ children }: { children: ReactNode }) {
   });
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
   const [notificationSettings, setNotificationSettings] = useState<NotificationSettings>({
-    news: true,
-    offers: true,
-    updates: true,
+    news: false,
+    offers: false,
+    updates: false,
     sales: false,
   });
   const [theme, setThemeState] = useState<'light' | 'dark'>('light');
