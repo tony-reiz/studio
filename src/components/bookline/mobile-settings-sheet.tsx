@@ -61,6 +61,9 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
+    // State for Currency View
+    const [localSelectedCurrency, setLocalSelectedCurrency] = useState<Currency>(currency);
+
     const interestKeys: TranslationKeys[] = [
       'business', 'fiction', 'biographies', 'courses_revisions', 
       'career', 'sport', 'motivation', 'driving_code', 'prep_courses',
@@ -95,6 +98,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             setUsername(userProfile.username !== 'utilisateur' && userProfile.username !== 'user' ? userProfile.username : '');
             setBio(userProfile.bio || '');
             setAvatarUrl(userProfile.avatarUrl);
+            setLocalSelectedCurrency(currency);
             
             const fullInterests: string[] = [];
             interestKeys.forEach(key => {
@@ -105,7 +109,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             });
             setLocalSelectedInterests(fullInterests);
         }
-    }, [isOpen, userProfile, selectedInterests, t]);
+    }, [isOpen, userProfile, selectedInterests, currency, t]);
 
     
     const onItemClick = (id: string) => {
@@ -224,22 +228,10 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       { id: 'sales', labelKey: "sales_activity", descriptionKey: "receive_notification_for_each_sale" },
     ] as const;
 
-    const handleCurrencySelect = (selectedCurrency: Currency) => {
-        setCurrency(selectedCurrency);
-        setSearchQuery('');
+    const handleCurrencySave = () => {
+        setCurrency(localSelectedCurrency);
         setIsOpen(false);
     };
-
-    const filteredCurrencies = searchQuery
-    ? currencies.filter(
-        (curr) =>
-          curr.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          curr.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          curr.nativeName.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : [];
-
-    const selectedCurrencyObject = currencies.find(c => c.code === currency.code) || currencies[0];
     
     const MainView = (
       <>
@@ -547,7 +539,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
   );
 
   const CurrencyView = (
-    <>
+    <div className="flex flex-col h-full">
         <div className="px-4 pt-6 shrink-0">
             <div className="flex items-center justify-center relative mb-2">
                 <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
@@ -555,50 +547,44 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 </button>
                 <h1 className="text-xl font-bold text-center">{t('currency')}</h1>
             </div>
-            <div className="relative w-full mb-2 isolate overflow-hidden rounded-full">
-                <GlassEffect />
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground z-20" />
-                <Input
-                    type="search"
-                    placeholder={t('search_currency')}
-                    className="pl-11 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
-            </div>
-            <div className="w-full text-center py-2">
-                <p className="text-sm text-muted-foreground">{t('selected_currency')}</p>
-                <div className="text-lg font-semibold text-foreground flex justify-center items-center gap-2">
-                    <span>{selectedCurrencyObject.name} ({selectedCurrencyObject.symbol})</span>
-                </div>
-            </div>
         </div>
-        <div className="flex-1 overflow-y-auto px-4 pb-4">
-            {searchQuery && (
-                <ul className="w-full space-y-2">
-                    {filteredCurrencies.map((curr) => (
-                    <li key={curr.code}>
-                        <button 
-                        onClick={() => handleCurrencySelect(curr)}
-                        className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
-                        >
-                        <div className="flex items-center gap-4">
-                            <div className="flex flex-col">
-                                <span className="font-semibold text-foreground">{curr.name}</span>
-                                <span className="text-sm text-muted-foreground">{curr.nativeName}</span>
-                            </div>
+        <div className="flex-1 overflow-y-auto px-4 py-4">
+            <ul className="w-full space-y-2">
+                {currencies.map((curr) => (
+                <li key={curr.code}>
+                    <button
+                    onClick={() => setLocalSelectedCurrency(curr)}
+                    className={cn(
+                        "w-full rounded-full flex items-center justify-between p-4 text-left transition-colors",
+                        localSelectedCurrency.code === curr.code
+                        ? 'bg-foreground text-background'
+                        : 'bg-secondary text-foreground'
+                    )}
+                    >
+                    <div className="flex items-center gap-4">
+                        <div className="flex flex-col">
+                        <span className="font-semibold">{curr.name}</span>
+                        <span className={cn(
+                            "text-sm",
+                            localSelectedCurrency.code === curr.code ? 'text-background/70' : 'text-muted-foreground'
+                        )}>{curr.nativeName}</span>
                         </div>
-                        <div className="flex items-center gap-4">
-                            <span className="font-semibold text-foreground">{curr.symbol}</span>
-                            {currency.code === curr.code && <Check className="h-6 w-6 text-foreground" />}
-                        </div>
-                        </button>
-                    </li>
-                    ))}
-                </ul>
-            )}
+                    </div>
+                    <span className="font-semibold">{curr.symbol}</span>
+                    </button>
+                </li>
+                ))}
+            </ul>
         </div>
-    </>
+        <div className="p-4 bg-background/80 backdrop-blur-sm border-t border-border shrink-0">
+            <Button 
+                onClick={handleCurrencySave}
+                className="bg-foreground text-background rounded-full w-full h-12 text-lg font-semibold hover:bg-foreground/90"
+            >
+                {t('save')}
+            </Button>
+        </div>
+    </div>
   );
 
     const SettingsContent = (
