@@ -3,7 +3,7 @@
 import { useEffect, useState, type ReactNode, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { SettingsList } from './settings-list';
-import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut, Plus, User as UserIcon } from 'lucide-react';
+import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut, Plus, User as UserIcon, Bell } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { languages } from '@/lib/languages';
@@ -34,7 +34,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ImageCropper } from './image-cropper';
 import { GlassEffect } from './glass-effect';
 
-type View = 'main' | 'language' | 'help' | 'security' | 'account';
+type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notifications';
 
 interface MobileSettingsSheetProps {
     children: ReactNode;
@@ -112,6 +112,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         else if (id === 'help') setView('help');
         else if (id === 'security') setView('security');
         else if (id === 'account') setView('account');
+        else if (id === 'notifications') setView('notifications');
     };
 
     const handleLanguageSelect = (code: Locale) => {
@@ -213,6 +214,13 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         return t('username_change_note');
     }
     // --- End Account View Logic ---
+
+    const notificationOptions = [
+      { id: 'news', labelKey: "news_and_recommendations", descriptionKey: "receive_ebook_suggestions" },
+      { id: 'offers', labelKey: "special_offers_and_promotions", descriptionKey: "be_informed_of_discounts" },
+      { id: 'updates', labelKey: "app_updates", descriptionKey: "notifications_on_new_features" },
+      { id: 'sales', labelKey: "sales_activity", descriptionKey: "receive_notification_for_each_sale" },
+    ] as const;
     
     const MainView = (
       <>
@@ -480,6 +488,40 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             </div>
         </div>
     );
+    
+    const NotificationsView = (
+      <>
+          <div className="px-4 pt-6 shrink-0">
+              <div className="flex items-center justify-center relative mb-2">
+                  <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
+                      <ChevronLeft className="h-6 w-6" />
+                  </button>
+                  <h1 className="text-xl font-bold text-center">{t('notifications')}</h1>
+              </div>
+              <div className="text-center mb-4">
+                  <h2 className="text-2xl font-bold">{t('manage_your_notifications')}</h2>
+                  <p className="text-muted-foreground text-sm mt-1">{t('choose_what_to_receive')}</p>
+              </div>
+          </div>
+          <div className="flex-1 overflow-y-auto px-4 pb-4">
+              <ul className="w-full space-y-2">
+                {notificationOptions.map(option => (
+                  <li key={option.id}>
+                      <div className="w-full rounded-full flex items-center justify-between p-4 text-left">
+                          <div className="flex items-center gap-4">
+                               <div className="flex flex-col">
+                                  <label htmlFor={`${option.id}-switch-mobile`} className="font-semibold text-foreground cursor-pointer">{t(option.labelKey)}</label>
+                                  <span className="text-sm text-muted-foreground">{t(option.descriptionKey)}</span>
+                              </div>
+                          </div>
+                          <Switch id={`${option.id}-switch-mobile`} />
+                      </div>
+                  </li>
+                ))}
+              </ul>
+          </div>
+      </>
+  );
 
     const SettingsContent = (
       <div 
@@ -500,6 +542,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                   {view === 'help' && HelpView}
                   {view === 'security' && SecurityView}
                   {view === 'account' && AccountView}
+                  {view === 'notifications' && NotificationsView}
               </div>
           </div>
       </div>
