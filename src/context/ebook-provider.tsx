@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { translations, type Locale } from '@/lib/translations';
 import { pdfjs } from 'react-pdf';
+import { currencies, type Currency } from '@/lib/currencies';
 
 // Set the workerSrc to a CDN to ensure it's always available. This is the fix.
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
@@ -67,6 +68,8 @@ interface EbookContextType {
   setTheme: (theme: 'light' | 'dark') => void;
   locale: Locale;
   setLocale: (locale: Locale) => void;
+  currency: Currency;
+  setCurrency: (currency: Currency) => void;
   canChangeUsername: boolean;
   t: (key: TranslationKeys) => string;
   notificationSettings: NotificationSettings;
@@ -97,6 +100,7 @@ export function EbookProvider({ children }: { children: ReactNode }) {
   });
   const [theme, setThemeState] = useState<'light' | 'dark'>('light');
   const [locale, setLocaleState] = useState<Locale>('fr');
+  const [currency, setCurrencyState] = useState<Currency>(currencies[0]);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -114,6 +118,12 @@ export function EbookProvider({ children }: { children: ReactNode }) {
     } else {
       const browserLang = navigator.language.split('-')[0] as Locale;
       setLocale(translations[browserLang] ? browserLang : 'fr');
+    }
+
+    const storedCurrencyCode = localStorage.getItem('bookline-currency');
+    const foundCurrency = currencies.find(c => c.code === storedCurrencyCode);
+    if (foundCurrency) {
+        setCurrency(foundCurrency);
     }
   }, []);
 
@@ -155,6 +165,11 @@ export function EbookProvider({ children }: { children: ReactNode }) {
     setLocaleState(newLocale);
     localStorage.setItem('bookline-locale', newLocale);
     document.documentElement.lang = newLocale;
+  };
+  
+  const setCurrency = (newCurrency: Currency) => {
+    setCurrencyState(newCurrency);
+    localStorage.setItem('bookline-currency', newCurrency.code);
   };
 
   const t = (key: TranslationKeys): string => {
@@ -237,7 +252,7 @@ export function EbookProvider({ children }: { children: ReactNode }) {
 
 
   return (
-    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook, favoritedEbooks, toggleFavoriteEbook, allEbooks, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, purchasedEbooks, purchaseEbook, theme, setTheme, locale, setLocale, canChangeUsername, t, notificationSettings, updateNotificationSettings }}>
+    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook, favoritedEbooks, toggleFavoriteEbook, allEbooks, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, purchasedEbooks, purchaseEbook, theme, setTheme, locale, setLocale, currency, setCurrency, canChangeUsername, t, notificationSettings, updateNotificationSettings }}>
       {children}
     </EbookContext.Provider>
   );

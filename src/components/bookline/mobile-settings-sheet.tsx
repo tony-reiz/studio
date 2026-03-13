@@ -33,8 +33,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 import { ImageCropper } from './image-cropper';
 import { GlassEffect } from './glass-effect';
+import { currencies, type Currency } from '@/lib/currencies';
 
-type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notifications';
+type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notifications' | 'currency';
 
 interface MobileSettingsSheetProps {
     children: ReactNode;
@@ -43,7 +44,7 @@ interface MobileSettingsSheetProps {
 export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [view, setView] = useState<View>('main');
-    const { locale, setLocale, t, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, theme, canChangeUsername, notificationSettings, updateNotificationSettings } = useEbooks();
+    const { locale, setLocale, t, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, theme, canChangeUsername, notificationSettings, updateNotificationSettings, currency, setCurrency } = useEbooks();
     const [searchQuery, setSearchQuery] = useState('');
     
     const isMobile = useIsMobile();
@@ -113,6 +114,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         else if (id === 'security') setView('security');
         else if (id === 'account') setView('account');
         else if (id === 'notifications') setView('notifications');
+        else if (id === 'currency') setView('currency');
     };
 
     const handleLanguageSelect = (code: Locale) => {
@@ -221,6 +223,23 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       { id: 'updates', labelKey: "app_updates", descriptionKey: "notifications_on_new_features" },
       { id: 'sales', labelKey: "sales_activity", descriptionKey: "receive_notification_for_each_sale" },
     ] as const;
+
+    const handleCurrencySelect = (selectedCurrency: Currency) => {
+        setCurrency(selectedCurrency);
+        setSearchQuery('');
+        setIsOpen(false);
+    };
+
+    const filteredCurrencies = searchQuery
+    ? currencies.filter(
+        (curr) =>
+          curr.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          curr.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          curr.nativeName.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : [];
+
+    const selectedCurrencyObject = currencies.find(c => c.code === currency.code) || currencies[0];
     
     const MainView = (
       <>
@@ -527,6 +546,61 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       </>
   );
 
+  const CurrencyView = (
+    <>
+        <div className="px-4 pt-6 shrink-0">
+            <div className="flex items-center justify-center relative mb-2">
+                <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
+                    <ChevronLeft className="h-6 w-6" />
+                </button>
+                <h1 className="text-xl font-bold text-center">{t('currency')}</h1>
+            </div>
+            <div className="relative w-full mb-2 isolate overflow-hidden rounded-full">
+                <GlassEffect />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground z-20" />
+                <Input
+                    type="search"
+                    placeholder={t('search_currency')}
+                    className="pl-11 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+            </div>
+            <div className="w-full text-center py-2">
+                <p className="text-sm text-muted-foreground">{t('selected_currency')}</p>
+                <div className="text-lg font-semibold text-foreground flex justify-center items-center gap-2">
+                    <span>{selectedCurrencyObject.name} ({selectedCurrencyObject.symbol})</span>
+                </div>
+            </div>
+        </div>
+        <div className="flex-1 overflow-y-auto px-4 pb-4">
+            {searchQuery && (
+                <ul className="w-full space-y-2">
+                    {filteredCurrencies.map((curr) => (
+                    <li key={curr.code}>
+                        <button 
+                        onClick={() => handleCurrencySelect(curr)}
+                        className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors"
+                        >
+                        <div className="flex items-center gap-4">
+                            <div className="flex flex-col">
+                                <span className="font-semibold text-foreground">{curr.name}</span>
+                                <span className="text-sm text-muted-foreground">{curr.nativeName}</span>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <span className="font-semibold text-foreground">{curr.symbol}</span>
+                            {currency.code === curr.code && <Check className="h-6 w-6 text-foreground" />}
+                        </div>
+                        </button>
+                    </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    </>
+  );
+
     const SettingsContent = (
       <div 
           className={cn(
@@ -547,6 +621,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                   {view === 'security' && SecurityView}
                   {view === 'account' && AccountView}
                   {view === 'notifications' && NotificationsView}
+                  {view === 'currency' && CurrencyView}
               </div>
           </div>
       </div>

@@ -35,7 +35,7 @@ const settingsItems: SettingsItem[] = [
   { icon: Bell, labelKey: 'notifications', href: '/settings/notifications', id: 'notifications' },
   { icon: ShieldCheck, labelKey: 'security', href: '/settings/security', id: 'security' },
   { icon: Languages, labelKey: 'language', href: '/settings/language', id: 'language' },
-  { icon: CircleDollarSign, labelKey: 'currency' },
+  { icon: CircleDollarSign, labelKey: 'currency', href: '/settings/currency', id: 'currency' },
   { icon: Landmark, labelKey: 'transfer' },
   { icon: Receipt, labelKey: 'invoices' },
   { icon: HelpCircle, labelKey: 'help', href: '/settings/help', id: 'help' },

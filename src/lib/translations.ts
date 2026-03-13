@@ -189,6 +189,8 @@ export const translations = {
     'notifications_on_new_features': "Notifications sur les nouvelles fonctionnalités et améliorations.",
     'sales_activity': "Activité de vente (pour les vendeurs)",
     'receive_notification_for_each_sale': "Recevez une notification pour chaque nouvelle vente.",
+    'search_currency': 'Rechercher une devise...',
+    'selected_currency': 'Devise sélectionnée',
     // interests
     'business': 'Business 💼',
     'fiction': 'Histoires Fictives 📖',
@@ -402,6 +404,8 @@ export const translations = {
     'notifications_on_new_features': "Notifications about new features and improvements.",
     'sales_activity': "Sales activity (for sellers)",
     'receive_notification_for_each_sale': "Receive a notification for each new sale.",
+    'search_currency': 'Search for a currency...',
+    'selected_currency': 'Selected currency',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',
