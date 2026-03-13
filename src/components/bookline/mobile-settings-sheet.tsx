@@ -555,7 +555,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     <button
                     onClick={() => setLocalSelectedCurrency(curr)}
                     className={cn(
-                        "w-full rounded-full flex items-center justify-between p-4 text-left transition-colors",
+                        "w-full rounded-full flex items-center justify-between p-3 text-left transition-colors",
                         localSelectedCurrency.code === curr.code
                         ? 'bg-foreground text-background'
                         : 'bg-secondary text-foreground'
