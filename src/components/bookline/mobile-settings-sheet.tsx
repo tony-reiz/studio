@@ -550,7 +550,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             </div>
         </div>
         <div className="flex-1 overflow-y-auto px-4 py-4">
-            <ul className="w-full space-y-2">
+            <ul className="w-full space-y-4">
                 {currencies.map((curr) => (
                 <li key={curr.code}>
                     <button

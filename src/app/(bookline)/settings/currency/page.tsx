@@ -51,7 +51,7 @@ export default function CurrencySettingsPage() {
         </header>
 
         <main className="flex-1 w-full flex flex-col items-center pt-8 pb-32 gap-4">
-          <ul className="w-full space-y-2">
+          <ul className="w-full space-y-4">
             {currencies.map((curr) => (
               <li key={curr.code}>
                 <button
