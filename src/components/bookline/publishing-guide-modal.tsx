@@ -129,7 +129,7 @@ export function PublishingGuideModal({ children, contentType }: PublishingGuideM
     }
     
     const StickyFooterButton = () => (
-        <div className="p-4 md:p-6 border-t bg-background shrink-0">
+        <div className="p-4 md:p-6 bg-background shrink-0">
             <Button className="w-full rounded-full font-semibold text-lg h-12 bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 focus-visible:ring-0 focus-visible:ring-offset-0">
                 Commencer à vendre
             </Button>
