@@ -80,7 +80,7 @@ export default function CurrencySettingsPage() {
         </main>
       </div>
 
-       <div className="fixed bottom-8 left-0 right-0 p-4" style={{ paddingBottom: `calc(2rem + env(safe-area-inset-bottom))` }}>
+       <div className="fixed bottom-4 left-0 right-0 p-4" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
           <div className="w-full max-w-[16rem] mx-auto">
               <Button 
                   onClick={handleSave}
