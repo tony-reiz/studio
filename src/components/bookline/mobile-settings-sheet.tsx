@@ -213,8 +213,11 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         const timeLeft = userProfile.usernameLastChanged + thirtyDaysInMillis - Date.now();
         const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
         
-        if (daysLeft > 0) {
-            return `Modifiable dans ${daysLeft} jour${daysLeft > 1 ? 's' : ''}.`;
+        if (daysLeft > 1) {
+            return t('changeable_in_days_plural').replace('{days}', String(daysLeft));
+        }
+        if (daysLeft === 1) {
+            return t('changeable_in_days_single');
         }
         
         return t('username_change_note');
@@ -493,7 +496,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                                 "disabled:opacity-100"
                             )}
                         >
-                            {saveStatus === 'success' ? 'Enregistré !' : saveStatus === 'error' ? t('error') : t('save')}
+                            {saveStatus === 'success' ? t('saved') : saveStatus === 'error' ? t('error') : t('save')}
                         </Button>
                     </div>
                 </div>
@@ -564,7 +567,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                         )}
                         >
                         <div className="flex items-center gap-4">
-                            <span className="font-semibold">{curr.name}</span>
+                            <span className="font-semibold">{t(curr.nameKey)}</span>
                         </div>
                         <span className="font-semibold">{curr.symbol}</span>
                         </button>

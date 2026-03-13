@@ -19,35 +19,38 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from '@/components/ui/button';
 import { BadgeCheck, Zap, Rocket } from 'lucide-react';
+import { useEbooks } from '@/context/ebook-provider';
 
 interface BooklineProModalProps {
     children: ReactNode;
 }
 
 function ProContent() {
+    const { t } = useEbooks();
+
     const features = [
         {
             icon: BadgeCheck,
-            title: "Badge Vendeur Certifié",
-            description: "Affichez un badge 'Certifié' sur votre profil pour rassurer les acheteurs et augmenter votre crédibilité."
+            title: t('pro_feature1_title'),
+            description: t('pro_feature1_desc')
         },
         {
             icon: Rocket,
-            title: "Placement Prioritaire",
-            description: "Vos ebooks sont mis en avant dans les résultats de recherche et les recommandations pour une visibilité maximale."
+            title: t('pro_feature2_title'),
+            description: t('pro_feature2_desc')
         },
         {
             icon: Zap,
-            title: "Zéro Publicité",
-            description: "Profitez d'une expérience de publication plus rapide et sans interruption, sans aucune publicité obligatoire."
+            title: t('pro_feature3_title'),
+            description: t('pro_feature3_desc')
         }
     ];
 
     return (
         <div className="p-4 md:p-6">
             <div className="text-center">
-                <h3 className="text-2xl font-bold">BookLine Pro</h3>
-                <p className="text-muted-foreground">Passez au niveau supérieur.</p>
+                <h3 className="text-2xl font-bold">{t('pro_modal_title')}</h3>
+                <p className="text-muted-foreground">{t('pro_modal_subtitle')}</p>
             </div>
             <div className="my-8 space-y-6">
                 {features.map((feature, index) => (
@@ -63,10 +66,10 @@ function ProContent() {
                 ))}
             </div>
             <div className="text-center mt-8">
-                <p className="text-4xl font-extrabold">10€<span className="text-base font-normal text-muted-foreground">/mois</span></p>
+                <p className="text-4xl font-extrabold">{t('pro_price')}<span className="text-base font-normal text-muted-foreground">{t('pro_per_month')}</span></p>
             </div>
             <Button className="w-full mt-6 rounded-full font-semibold text-lg h-12 bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 focus-visible:ring-0 focus-visible:ring-offset-0">
-                Passer à BookLine Pro
+                {t('pro_upgrade_button')}
             </Button>
         </div>
     );
@@ -77,6 +80,7 @@ export function BooklineProModal({ children }: BooklineProModalProps) {
     const [isOpen, setIsOpen] = useState(false);
     const isMobile = useIsMobile();
     const [isClient, setIsClient] = useState(false);
+    const { t } = useEbooks();
 
     useEffect(() => {
         setIsClient(true);
@@ -100,8 +104,8 @@ export function BooklineProModal({ children }: BooklineProModalProps) {
                 </DrawerTrigger>
                 <DrawerContent className="rounded-t-[40px] max-h-[75vh] flex flex-col bg-background border-0 p-0">
                     <DrawerHeader className="p-4 pt-4 text-left">
-                        <DrawerTitlePrimitive className="sr-only">BookLine Pro</DrawerTitlePrimitive>
-                        <DrawerDescriptionPrimitive className="sr-only">Passez au niveau supérieur avec BookLine Pro.</DrawerDescriptionPrimitive>
+                        <DrawerTitlePrimitive className="sr-only">{t('pro_modal_title')}</DrawerTitlePrimitive>
+                        <DrawerDescriptionPrimitive className="sr-only">{t('pro_modal_subtitle')}</DrawerDescriptionPrimitive>
                     </DrawerHeader>
                     <div className="overflow-y-auto">
                         <ProContent />
@@ -117,8 +121,8 @@ export function BooklineProModal({ children }: BooklineProModalProps) {
                 {children}
             </DialogTrigger>
             <DialogContent className="max-w-md w-full p-0 bg-background border-0 rounded-[40px] shadow-2xl">
-                 <DialogTitle className="sr-only">BookLine Pro</DialogTitle>
-                 <DialogDescription className="sr-only">Passez au niveau supérieur avec BookLine Pro.</DialogDescription>
+                 <DialogTitle className="sr-only">{t('pro_modal_title')}</DialogTitle>
+                 <DialogDescription className="sr-only">{t('pro_modal_subtitle')}</DialogDescription>
                  <ProContent />
             </DialogContent>
         </Dialog>

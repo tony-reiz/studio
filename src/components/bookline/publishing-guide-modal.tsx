@@ -32,23 +32,23 @@ function GuideContent({ contentType }: { contentType: 'guide' | 'referral' }) {
     const steps = [
         {
             icon: UploadCloud,
-            title: "1. Importez votre PDF",
-            description: "Notre système optimise votre fichier pour une expérience de lecture parfaite, sans altérer la qualité."
+            title: t('guide_step1_title'),
+            description: t('guide_step1_desc')
         },
         {
             icon: Edit,
-            title: "2. Décrivez votre oeuvre",
-            description: "Ajoutez un titre percutant, une description qui captive et des mots-clés pertinents pour être trouvé facilement."
+            title: t('guide_step2_title'),
+            description: t('guide_step2_desc')
         },
         {
             icon: Euro,
-            title: "3. Fixez votre prix",
-            description: "Vous décidez de la valeur de votre travail. N'oubliez pas que nous prenons une commission fixe de 3€ par vente."
+            title: t('guide_step3_title'),
+            description: t('guide_step3_desc')
         },
         {
             icon: Tag,
-            title: "4. Publiez et Vendez !",
-            description: "Votre ebook est maintenant disponible pour des milliers de lecteurs. Suivez vos ventes depuis votre tableau de bord."
+            title: t('guide_step4_title'),
+            description: t('guide_step4_desc')
         }
     ];
 
@@ -57,8 +57,8 @@ function GuideContent({ contentType }: { contentType: 'guide' | 'referral' }) {
             {contentType === 'guide' && (
                  <>
                     <div className="text-center">
-                        <h3 className="text-2xl font-bold">Comment Vendre sur BookLine</h3>
-                        <p className="text-muted-foreground">De l'idée à la vente, en quelques étapes simples.</p>
+                        <h3 className="text-2xl font-bold">{t('guide_title')}</h3>
+                        <p className="text-muted-foreground">{t('guide_subtitle')}</p>
                     </div>
                     <div className="my-8 space-y-6">
                         {steps.map((step, index) => (
@@ -79,8 +79,8 @@ function GuideContent({ contentType }: { contentType: 'guide' | 'referral' }) {
             {contentType === 'referral' && (
                 <>
                     <div className="text-center">
-                        <h3 className="text-2xl font-bold">Gagnez Plus avec le Parrainage</h3>
-                        <p className="text-muted-foreground">Invitez des vendeurs et créez une source de revenus passive.</p>
+                        <h3 className="text-2xl font-bold">{t('referral_title')}</h3>
+                        <p className="text-muted-foreground">{t('referral_subtitle')}</p>
                     </div>
                     <div className="my-8 space-y-6">
                         <div className="flex items-start gap-4">
@@ -88,8 +88,8 @@ function GuideContent({ contentType }: { contentType: 'guide' | 'referral' }) {
                                 <Users className="w-6 h-6 text-foreground" />
                             </div>
                             <div>
-                                <h4 className="font-semibold">Pour le Parrain</h4>
-                                <p className="text-sm text-muted-foreground">Gagnez <strong>1€</strong> chaque fois que le total des ventes de vos filleuls atteint un multiple de 3.</p>
+                                <h4 className="font-semibold">{t('referral_referrer_title')}</h4>
+                                <p className="text-sm text-muted-foreground" dangerouslySetInnerHTML={{ __html: t('referral_referrer_desc').replace(/<strong>(.*?)<\/strong>/g, '<strong class="font-bold text-foreground">$1</strong>') }} />
                             </div>
                         </div>
                         <div className="flex items-start gap-4">
@@ -97,8 +97,8 @@ function GuideContent({ contentType }: { contentType: 'guide' | 'referral' }) {
                                 <Gift className="w-6 h-6 text-foreground" />
                             </div>
                             <div>
-                                <h4 className="font-semibold">Pour le Filleul</h4>
-                                <p className="text-sm text-muted-foreground">Votre filleul gagne aussi <strong>1€</strong> toutes les 3 ventes qu'il réalise lui-même.</p>
+                                <h4 className="font-semibold">{t('referral_referee_title')}</h4>
+                                <p className="text-sm text-muted-foreground" dangerouslySetInnerHTML={{ __html: t('referral_referee_desc').replace(/<strong>(.*?)<\/strong>/g, '<strong class="font-bold text-foreground">$1</strong>') }} />
                             </div>
                         </div>
                     </div>
@@ -113,6 +113,7 @@ export function PublishingGuideModal({ children, contentType }: PublishingGuideM
     const [isOpen, setIsOpen] = useState(false);
     const isMobile = useIsMobile();
     const [isClient, setIsClient] = useState(false);
+    const { t } = useEbooks();
 
     useEffect(() => {
         setIsClient(true);
@@ -131,13 +132,13 @@ export function PublishingGuideModal({ children, contentType }: PublishingGuideM
     const StickyFooterButton = () => (
         <div className="p-4 md:p-6 bg-background shrink-0">
             <Button className="w-full rounded-full font-semibold text-lg h-12 bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 focus-visible:ring-0 focus-visible:ring-offset-0">
-                Commencer à vendre
+                {t('start_selling')}
             </Button>
         </div>
     );
 
-    const dialogTitle = contentType === 'guide' ? "Comment Vendre sur BookLine" : "Gagnez Plus avec le Parrainage";
-    const dialogDescription = contentType === 'guide' ? "De l'idée à la vente, en quelques étapes simples." : "Invitez des vendeurs et créez une source de revenus passive.";
+    const dialogTitle = contentType === 'guide' ? t('guide_title') : t('referral_title');
+    const dialogDescription = contentType === 'guide' ? t('guide_subtitle') : t('referral_subtitle');
 
 
     if (isMobile) {
