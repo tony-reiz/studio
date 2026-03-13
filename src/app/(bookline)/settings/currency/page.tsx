@@ -51,7 +51,7 @@ export default function CurrencySettingsPage() {
         </header>
 
         <main className="flex-1 w-full flex flex-col items-center pt-8 pb-32 gap-4">
-          <ul className="w-full space-y-4">
+          <ul className="w-full space-y-[17px]">
             {currencies.map((curr) => (
               <li key={curr.code}>
                 <button
@@ -80,7 +80,7 @@ export default function CurrencySettingsPage() {
         </main>
       </div>
 
-       <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/80 backdrop-blur-sm border-t border-border" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
+       <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/80 backdrop-blur-sm" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
           <div className="w-full max-w-[16rem] mx-auto">
               <Button 
                   onClick={handleSave}
