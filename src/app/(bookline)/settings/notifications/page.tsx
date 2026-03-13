@@ -13,7 +13,7 @@ import { GlassEffect } from '@/components/bookline/glass-effect';
 
 export default function NotificationsPage() {
   const { handleBack } = useTransitionRouter();
-  const { theme, t } = useEbooks();
+  const { theme, t, notificationSettings, updateNotificationSettings } = useEbooks();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -63,7 +63,11 @@ export default function NotificationsPage() {
                                 <span className="text-sm text-muted-foreground">{t(option.descriptionKey)}</span>
                             </div>
                         </div>
-                        <Switch id={`${option.id}-switch`} />
+                        <Switch
+                          id={`${option.id}-switch`}
+                          checked={notificationSettings[option.id]}
+                          onCheckedChange={(checked) => updateNotificationSettings({ [option.id]: checked })}
+                        />
                     </div>
                 </li>
               ))}

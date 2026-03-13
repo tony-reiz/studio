@@ -27,7 +27,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useEbooks } from '@/context/ebook-provider';
-import type { Locale, TranslationKeys } from '@/lib/translations';
+import type { Locale, TranslationKeys, NotificationSettings } from '@/lib/translations';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
@@ -43,7 +43,7 @@ interface MobileSettingsSheetProps {
 export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [view, setView] = useState<View>('main');
-    const { locale, setLocale, t, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, theme, canChangeUsername } = useEbooks();
+    const { locale, setLocale, t, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, theme, canChangeUsername, notificationSettings, updateNotificationSettings } = useEbooks();
     const [searchQuery, setSearchQuery] = useState('');
     
     const isMobile = useIsMobile();
@@ -514,7 +514,11 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                                   <span className="text-sm text-muted-foreground">{t(option.descriptionKey)}</span>
                               </div>
                           </div>
-                          <Switch id={`${option.id}-switch-mobile`} />
+                          <Switch
+                            id={`${option.id}-switch-mobile`}
+                            checked={notificationSettings[option.id as keyof NotificationSettings]}
+                            onCheckedChange={(checked) => updateNotificationSettings({ [option.id]: checked })}
+                          />
                       </div>
                   </li>
                 ))}

@@ -29,6 +29,15 @@ export interface UserProfile {
   usernameLastChanged?: number;
 }
 
+// Define notification settings shape
+export type NotificationSettings = {
+  news: boolean;
+  offers: boolean;
+  updates: boolean;
+  sales: boolean;
+};
+
+
 const placeholderEbooks: Ebook[] = PlaceHolderImages.map((img, index) => ({
     id: img.id,
     title: `Ebook ${img.imageHint.charAt(0).toUpperCase() + img.imageHint.slice(1)} ${index + 1}`,
@@ -60,6 +69,8 @@ interface EbookContextType {
   setLocale: (locale: Locale) => void;
   canChangeUsername: boolean;
   t: (key: TranslationKeys) => string;
+  notificationSettings: NotificationSettings;
+  updateNotificationSettings: (settings: Partial<NotificationSettings>) => void;
 }
 
 // Create the context
@@ -78,6 +89,12 @@ export function EbookProvider({ children }: { children: ReactNode }) {
     usernameLastChanged: undefined,
   });
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+  const [notificationSettings, setNotificationSettings] = useState<NotificationSettings>({
+    news: true,
+    offers: true,
+    updates: true,
+    sales: false,
+  });
   const [theme, setThemeState] = useState<'light' | 'dark'>('light');
   const [locale, setLocaleState] = useState<Locale>('fr');
   const pathname = usePathname();
@@ -172,6 +189,10 @@ export function EbookProvider({ children }: { children: ReactNode }) {
     });
     setSelectedInterests(cleanedInterests);
   };
+  
+  const updateNotificationSettings = (settingsUpdate: Partial<NotificationSettings>) => {
+    setNotificationSettings(prev => ({ ...prev, ...settingsUpdate }));
+  };
 
 
   const addPublishedEbook = (ebookData: Omit<Ebook, 'id'>) => {
@@ -216,7 +237,7 @@ export function EbookProvider({ children }: { children: ReactNode }) {
 
 
   return (
-    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook, favoritedEbooks, toggleFavoriteEbook, allEbooks, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, purchasedEbooks, purchaseEbook, theme, setTheme, locale, setLocale, canChangeUsername, t }}>
+    <EbookContext.Provider value={{ publishedEbooks, addPublishedEbook, removePublishedEbook, favoritedEbooks, toggleFavoriteEbook, allEbooks, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, purchasedEbooks, purchaseEbook, theme, setTheme, locale, setLocale, canChangeUsername, t, notificationSettings, updateNotificationSettings }}>
       {children}
     </EbookContext.Provider>
   );

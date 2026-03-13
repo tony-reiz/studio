@@ -430,3 +430,10 @@ export const translations = {
 export type Locale = keyof typeof translations;
 
 export type TranslationKeys = keyof (typeof translations)['fr'];
+
+export type NotificationSettings = {
+  news: boolean;
+  offers: boolean;
+  updates: boolean;
+  sales: boolean;
+};
