@@ -550,7 +550,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             </div>
         </div>
         <div className="flex-1 overflow-y-auto px-4 py-4">
-            <div className="max-w-md mx-auto">
+            <div className="max-w-lg mx-auto">
                 <ul className="w-full space-y-[17px]">
                     {currencies.map((curr) => (
                     <li key={curr.code}>
@@ -564,13 +564,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                         )}
                         >
                         <div className="flex items-center gap-4">
-                            <div className="flex flex-col">
                             <span className="font-semibold">{curr.name}</span>
-                            <span className={cn(
-                                "text-sm",
-                                localSelectedCurrency.code === curr.code ? 'text-background/70' : 'text-muted-foreground'
-                            )}>{curr.nativeName}</span>
-                            </div>
                         </div>
                         <span className="font-semibold">{curr.symbol}</span>
                         </button>
@@ -580,7 +574,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             </div>
         </div>
         <div className="p-4 shrink-0">
-            <div className="max-w-md mx-auto">
+            <div className="max-w-lg mx-auto">
                 <Button 
                     onClick={handleCurrencySave}
                     disabled={localSelectedCurrency.code === currency.code}
