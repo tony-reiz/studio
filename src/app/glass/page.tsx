@@ -1,7 +1,6 @@
 'use client';
 
-import GlassEffectPage from '@/components/bookline/GlassEffectPage';
-
+// This page has been removed as per user request.
 export default function GlassPage() {
-  return <GlassEffectPage />;
+  return null;
 }
