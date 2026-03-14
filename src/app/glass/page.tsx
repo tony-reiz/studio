@@ -154,11 +154,7 @@ export default function GlassPage() {
       texture: gl.getUniformLocation(program, "iChannel0"),
     };
 
-    let mouse = [0, 0];
-    const handleMouseMove = (e: MouseEvent) => {
-      mouse = [e.clientX, canvas.height - e.clientY];
-    };
-    canvas.addEventListener("mousemove", handleMouseMove);
+    const mouse = [0, 0];
 
     const texture = gl.createTexture();
     const setupTexture = () => {
@@ -206,7 +202,6 @@ export default function GlassPage() {
 
     return () => {
       window.removeEventListener("resize", setCanvasSize);
-      canvas.removeEventListener("mousemove", handleMouseMove);
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
       }
