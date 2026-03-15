@@ -195,9 +195,10 @@ export const translations = {
     'changeable_in_days_single': 'Modifiable dans 1 jour.',
     'changeable_in_days_plural': 'Modifiable dans {days} jours.',
     'current_balance': 'Solde actuel',
-    'next_payout_date': 'Prochain virement le 1er du mois prochain',
+    'payout_threshold_info': 'Seuil de virement : 20,00 €',
     'bank_details': 'Coordonnées bancaires',
-    'payout_info_text': 'Les virements sont effectués automatiquement le 1er de chaque mois si votre solde est supérieur à 50€. Notre partenaire de paiement Stripe sécurise vos informations.',
+    'payout_info_text': "Demandez un virement à tout moment dès que votre solde atteint 20€. Les fonds apparaîtront sur votre compte en quelques jours. Notre partenaire Stripe sécurise vos informations.",
+    'request_payout': 'Demander un virement',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',
@@ -255,14 +256,17 @@ export const translations = {
     'pro_per_month': "/mois",
     'pro_upgrade_button': "Passer à BookLine Pro",
     // New translations from this turn
-    'user_profile_picture': 'Photo de profil de l\'utilisateur',
+    'user_profile_picture': "Photo de profil de l'utilisateur",
     'profile_of_on_bookline': 'Profil de {username} sur BookLine',
     'discover_profile_of_on_bookline': 'Découvrez le profil de {username} sur BookLine !',
-    'pdf_display_error': 'Impossible d\'afficher le PDF.',
+    'pdf_display_error': "Impossible d'afficher le PDF.",
     'ebook_not_found': 'Ebook non trouvé.',
     'pdf_load_error_title': 'Erreur de chargement',
-    'pdf_load_error_desc': 'Impossible d\'afficher le PDF. Le fichier est peut-être corrompu ou le format n\'est pas supporté.',
+    'pdf_load_error_desc': "Impossible d'afficher le PDF. Le fichier est peut-être corrompu ou le format n'est pas supporté.",
     'pages': 'pages',
+    'publications': 'publications',
+    'saved': 'Enregistré !',
+    'user_profile': "Profil de l'utilisateur",
   },
   en: {
     // General
@@ -460,9 +464,10 @@ export const translations = {
     'changeable_in_days_single': 'Changeable in 1 day.',
     'changeable_in_days_plural': 'Changeable in {days} days.',
     'current_balance': 'Current balance',
-    'next_payout_date': 'Next payout on the 1st of next month',
+    'payout_threshold_info': 'Payout threshold: €20.00',
     'bank_details': 'Bank details',
-    'payout_info_text': 'Payouts are made automatically on the 1st of each month if your balance is over €50. Our payment partner Stripe secures your information.',
+    'payout_info_text': "Request a payout at any time once your balance reaches €20. Funds will appear in your account within a few days. Our payment partner Stripe secures your information.",
+    'request_payout': 'Request Payout',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',
@@ -528,6 +533,8 @@ export const translations = {
     'pdf_load_error_title': 'Loading Error',
     'pdf_load_error_desc': 'Could not display the PDF. The file may be corrupted or the format is not supported.',
     'pages': 'pages',
+    'publications': 'publications',
+    'saved': 'Saved!',
   },
 };
 

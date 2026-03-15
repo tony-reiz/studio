@@ -266,6 +266,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     };
     
     const totalRevenueForPayout = 0; // This would come from context later
+    const payoutThreshold = 20;
     
     const MainView = (
       <>
@@ -637,13 +638,21 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         </div>
         <div className="flex-1 overflow-y-auto px-4 py-4">
             <div className="max-w-sm mx-auto space-y-8">
-                <div className="w-full text-center">
-                    <p className="text-muted-foreground">{t('current_balance')}</p>
-                    <p className="text-4xl font-bold">{totalRevenueForPayout.toFixed(2).replace('.', ',')} €</p>
-                    <p className="text-xs text-muted-foreground mt-1">{t('next_payout_date')}</p>
+                <div className="w-full text-center space-y-4">
+                    <div>
+                        <p className="text-muted-foreground">{t('current_balance')}</p>
+                        <p className="text-4xl font-bold">{totalRevenueForPayout.toFixed(2).replace('.', ',')} €</p>
+                        <p className="text-xs text-muted-foreground mt-1">{t('payout_threshold_info')}</p>
+                    </div>
+                    <Button
+                        disabled={totalRevenueForPayout < payoutThreshold}
+                        className="rounded-full h-12 px-8 text-lg font-semibold"
+                    >
+                        {t('request_payout')}
+                    </Button>
                 </div>
 
-                <div className="w-full space-y-4">
+                <div className="w-full max-w-sm space-y-4">
                     <div className="relative w-full">
                         <p className="font-semibold mb-2 px-2 text-sm">{t('bank_details')}</p>
                         <div className="relative w-full isolate overflow-hidden rounded-full mb-4">
@@ -669,7 +678,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
                 </div>
 
-                 <div className="w-full bg-secondary text-secondary-foreground rounded-2xl p-4 flex items-start gap-3 text-left">
+                 <div className="w-full max-w-sm bg-secondary text-secondary-foreground rounded-2xl p-4 flex items-start gap-3 text-left">
                     <Info className="h-5 w-5 mt-0.5 flex-shrink-0"/>
                     <p className="text-xs">{t('payout_info_text')}</p>
                  </div>

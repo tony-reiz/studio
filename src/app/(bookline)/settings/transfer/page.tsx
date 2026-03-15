@@ -45,6 +45,7 @@ export default function TransferSettingsPage() {
   };
   
   const totalRevenue = 0; // This would come from context/backend
+  const payoutThreshold = 20;
 
   return (
     <div className={cn("min-h-screen text-foreground bg-transparent")}>
@@ -66,13 +67,21 @@ export default function TransferSettingsPage() {
         </header>
 
         <main className="w-full flex flex-col items-center pt-8 pb-32 gap-8">
-            <div className="w-full text-center">
-                <p className="text-muted-foreground">{t('current_balance')}</p>
-                <p className="text-4xl font-bold">{totalRevenue.toFixed(2).replace('.', ',')} €</p>
-                <p className="text-sm text-muted-foreground mt-1">{t('next_payout_date')}</p>
+            <div className="w-full text-center space-y-4">
+                <div>
+                    <p className="text-muted-foreground">{t('current_balance')}</p>
+                    <p className="text-4xl font-bold">{totalRevenue.toFixed(2).replace('.', ',')} €</p>
+                    <p className="text-sm text-muted-foreground mt-1">{t('payout_threshold_info')}</p>
+                </div>
+                <Button
+                    disabled={totalRevenue < payoutThreshold}
+                    className="rounded-full h-12 px-8 text-lg font-semibold"
+                >
+                    {t('request_payout')}
+                </Button>
             </div>
 
-            <div className="w-full space-y-4">
+            <div className="w-full max-w-sm space-y-4">
                 <div className="relative w-full">
                     <p className="font-semibold mb-2 px-2">{t('bank_details')}</p>
                     <div className="relative w-full isolate overflow-hidden rounded-full mb-4">
@@ -98,7 +107,7 @@ export default function TransferSettingsPage() {
                 </div>
             </div>
 
-             <div className="w-full bg-secondary text-secondary-foreground rounded-2xl p-4 flex items-start gap-3">
+             <div className="w-full max-w-sm bg-secondary text-secondary-foreground rounded-2xl p-4 flex items-start gap-3">
                 <Info className="h-5 w-5 mt-0.5 flex-shrink-0"/>
                 <p className="text-xs">{t('payout_info_text')}</p>
              </div>
