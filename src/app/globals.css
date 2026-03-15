@@ -116,6 +116,7 @@
     backdrop-filter: blur(8px);
     border-radius: inherit;
     transition: background-color 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.1);
   }
   
   .dark .glass-effect-backdrop {
