@@ -104,12 +104,10 @@ const fragmentShaderSource = `
     const float GRADIENT_OFFSET = 0.1;
     const float GRADIENT_EXTREME = -1000.0;
     const float LIGHTING_INTENSITY = 0.3;
+    const float CA_STRENGTH = 0.005; // Chromatic aberration strength
 
     vec2 uv = fragCoord / iResolution.xy;
-    vec2 mouse = iMouse.xy;
-    if (length(mouse) < NUM_ONE) {
-      mouse = iResolution.xy / NUM_TWO;
-    }
+    vec2 mouse = iResolution.xy / NUM_TWO;
     vec2 m2 = (uv - mouse / iResolution.xy);
 
     float roundedBox = pow(abs(m2.x * iResolution.x / iResolution.y), POWER_EXPONENT) + pow(abs(m2.y), POWER_EXPONENT);
@@ -126,19 +124,29 @@ const fragmentShaderSource = `
 
     if (transition > NUM_ZERO) {
       vec2 lens = ((uv - NUM_HALF) * NUM_ONE * (NUM_ONE - roundedBox * LENS_MULTIPLIER) + NUM_HALF);
+      
+      // Chromatic Aberration offset
+      vec2 ca_offset = m2 * CA_STRENGTH;
+      
+      // Sample background with blur and chromatic aberration
+      vec4 blurredColor = vec4(NUM_ZERO);
       float total = NUM_ZERO;
       for (float x = -SAMPLE_RANGE; x <= SAMPLE_RANGE; x++) {
         for (float y = -SAMPLE_RANGE; y <= SAMPLE_RANGE; y++) {
           vec2 offset = vec2(x, y) * SAMPLE_OFFSET / iResolution.xy;
-          fragColor += getBackgroundColor(offset + lens);
+          vec2 sample_pos = offset + lens;
+          blurredColor.r += getBackgroundColor(sample_pos + ca_offset).r;
+          blurredColor.g += getBackgroundColor(sample_pos).g;
+          blurredColor.b += getBackgroundColor(sample_pos - ca_offset).b;
+          blurredColor.a += getBackgroundColor(sample_pos).a;
           total += NUM_ONE;
         }
       }
-      fragColor /= total;
+      blurredColor /= total;
 
       float gradient = clamp((clamp(m2.y, NUM_ZERO, GRADIENT_RANGE) + GRADIENT_OFFSET) / NUM_TWO, NUM_ZERO, NUM_ONE) +
         clamp((clamp(-m2.y, GRADIENT_EXTREME, GRADIENT_RANGE) * rb3 + GRADIENT_OFFSET) / NUM_TWO, NUM_ZERO, NUM_ONE);
-      vec4 lighting = clamp(fragColor + vec4(rb1) * gradient + vec4(rb2) * LIGHTING_INTENSITY, NUM_ZERO, NUM_ONE);
+      vec4 lighting = clamp(blurredColor + vec4(rb1) * gradient + vec4(rb2) * LIGHTING_INTENSITY, NUM_ZERO, NUM_ONE);
 
       fragColor = mix(backgroundColor, lighting, transition);
     } else {
