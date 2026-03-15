@@ -118,13 +118,13 @@ export function SellForm() {
 
         <div className="w-full relative isolate overflow-hidden rounded-[30px] grid grid-cols-[1fr_auto] mt-4">
             <GlassEffect />
-            <div className='relative z-20 pl-6 py-4 text-sm text-foreground space-y-1 flex flex-col justify-center'>
+            <div className='relative z-20 pl-6 py-2.5 text-sm text-foreground space-y-1 flex flex-col justify-center'>
                 <p>{t('ebook_price')}</p>
                 <p>{t('your_net_gain')}</p>
                 <p>{t('total_ebook_price')}</p>
             </div>
             <div className='relative z-20 bg-black dark:bg-white rounded-l-[30px] flex flex-col justify-center'>
-                <div className='px-8 py-4 text-sm text-right space-y-1'>
+                <div className='px-8 py-2.5 text-sm text-right space-y-1'>
                     <p className="font-semibold text-white dark:text-black">{formatPrice(ebookPrice)}</p>
                     <p className="font-semibold text-white dark:text-black">{formatPrice(netGain)}</p>
                     <p className="font-semibold text-white dark:text-black">{formatPrice(totalPriceForCustomer)}</p>
