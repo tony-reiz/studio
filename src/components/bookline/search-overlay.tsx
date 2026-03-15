@@ -231,12 +231,12 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
                       {recommendedEbooks.length > 0 && (
                         <div className="mb-8">
                           <h3 className={cn("text-sm font-semibold text-muted-foreground mb-4 transition-all duration-500 ease-out", isContentVisible ? 'opacity-100' : 'opacity-0' )} style={{transitionDelay: '100ms'}}>{t('suggestions_for_you')}</h3>
-                          <div className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 scrollbar-hide">
+                          <div className="flex overflow-x-auto gap-4 sm:gap-8 pb-4 -mx-4 px-4 scrollbar-hide">
                             {recommendedEbooks.map((ebook, index) => (
                               <div
                                   key={`rec-${ebook.id}-${overlayRunId}`} // Using the run ID in the key
                                   className={cn(
-                                      "transition-all duration-500 ease-out flex-shrink-0 w-[45%] md:w-[31%]",
+                                      "transition-all duration-500 ease-out flex-shrink-0 w-[calc(50%-0.5rem)] sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1.333rem)]",
                                       isContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                                   )}
                                   style={{ transitionDelay: `${150 + index * 75}ms` }}
