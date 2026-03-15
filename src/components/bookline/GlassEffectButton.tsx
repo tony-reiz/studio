@@ -17,7 +17,7 @@ export function GlassEffectButton({ children, className, onClick }: GlassEffectB
     <button
       onClick={onClick}
       className={cn(
-        "relative overflow-hidden transition-transform duration-300 hover:scale-105 active:scale-95",
+        "relative overflow-hidden",
         "backdrop-blur-lg bg-white/10",
         theme === 'dark' ? 'text-white' : 'text-black',
         className
