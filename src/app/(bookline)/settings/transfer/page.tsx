@@ -73,19 +73,6 @@ export default function TransferSettingsPage() {
                     <p className="text-4xl font-bold">{totalRevenue.toFixed(2).replace('.', ',')} €</p>
                     <p className="text-sm text-muted-foreground mt-1">{t('payout_threshold_info')}</p>
                 </div>
-                <div className="max-w-[16rem] mx-auto">
-                    <Button
-                        disabled={totalRevenue < payoutThreshold}
-                        className={cn(
-                            "rounded-full w-full h-12 text-lg font-semibold transition-colors",
-                            totalRevenue >= payoutThreshold
-                                ? "bg-foreground text-background hover:bg-foreground/90"
-                                : "bg-secondary text-muted-foreground"
-                        )}
-                    >
-                        {t('request_payout')}
-                    </Button>
-                </div>
             </div>
 
             <div className="w-full max-w-sm space-y-4">
@@ -112,6 +99,20 @@ export default function TransferSettingsPage() {
                         />
                     </div>
                 </div>
+                 <div className="w-full max-w-[16rem] mx-auto pt-2">
+                    <Button 
+                        onClick={handleSave}
+                        disabled={!isChanged}
+                        className={cn(
+                            "rounded-full w-full h-12 text-lg font-semibold transition-colors",
+                            isChanged 
+                            ? "bg-foreground text-background hover:bg-foreground/90"
+                            : "bg-secondary text-muted-foreground"
+                        )}
+                    >
+                        {t('save')}
+                    </Button>
+                </div>
             </div>
 
              <div className="w-full max-w-sm bg-secondary text-secondary-foreground rounded-2xl p-4 flex items-start gap-3">
@@ -123,17 +124,16 @@ export default function TransferSettingsPage() {
 
        <div className="fixed bottom-0 left-0 right-0 p-4 pb-8">
           <div className="w-full max-w-[16rem] mx-auto">
-              <Button 
-                  onClick={handleSave}
-                  disabled={!isChanged}
+              <Button
+                  disabled={totalRevenue < payoutThreshold}
                   className={cn(
-                    "rounded-full w-full h-12 text-lg font-semibold transition-colors",
-                    isChanged 
-                      ? "bg-foreground text-background hover:bg-foreground/90"
-                      : "bg-secondary text-muted-foreground"
+                      "rounded-full w-full h-12 text-lg font-semibold transition-colors",
+                      totalRevenue >= payoutThreshold
+                          ? "bg-foreground text-background hover:bg-foreground/90"
+                          : "bg-secondary text-muted-foreground"
                   )}
               >
-                  {t('save')}
+                  {t('request_payout')}
               </Button>
           </div>
       </div>

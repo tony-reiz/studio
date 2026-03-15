@@ -644,19 +644,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                         <p className="text-4xl font-bold">{totalRevenueForPayout.toFixed(2).replace('.', ',')} €</p>
                         <p className="text-xs text-muted-foreground mt-1">{t('payout_threshold_info')}</p>
                     </div>
-                    <div className="max-w-[16rem] mx-auto">
-                        <Button
-                            disabled={totalRevenueForPayout < payoutThreshold}
-                            className={cn(
-                                "rounded-full w-full h-12 text-lg font-semibold transition-colors",
-                                totalRevenueForPayout >= payoutThreshold
-                                    ? "bg-foreground text-background hover:bg-foreground/90"
-                                    : "bg-secondary text-muted-foreground"
-                            )}
-                        >
-                            {t('request_payout')}
-                        </Button>
-                    </div>
                 </div>
 
                 <div className="w-full max-w-sm space-y-4">
@@ -683,6 +670,20 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             />
                         </div>
                     </div>
+                    <div className="w-full max-w-[16rem] mx-auto pt-2">
+                        <Button 
+                            onClick={handleTransferSave}
+                            disabled={!payoutInfoChanged}
+                            className={cn(
+                            "rounded-full w-full h-12 text-lg font-semibold transition-colors",
+                            payoutInfoChanged
+                                ? "bg-foreground text-background hover:bg-foreground/90"
+                                : "bg-secondary text-muted-foreground"
+                            )}
+                        >
+                            {t('save')}
+                        </Button>
+                    </div>
                 </div>
 
                  <div className="w-full max-w-sm bg-secondary text-secondary-foreground rounded-2xl p-4 flex items-start gap-3 text-left">
@@ -693,17 +694,16 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         </div>
         <div className="p-4 pt-2 pb-6 shrink-0">
             <div className="w-full max-w-[16rem] mx-auto">
-                <Button 
-                    onClick={handleTransferSave}
-                    disabled={!payoutInfoChanged}
+                <Button
+                    disabled={totalRevenueForPayout < payoutThreshold}
                     className={cn(
-                    "rounded-full w-full h-12 text-lg font-semibold transition-colors",
-                    payoutInfoChanged
-                        ? "bg-foreground text-background hover:bg-foreground/90"
-                        : "bg-secondary text-muted-foreground"
+                        "rounded-full w-full h-12 text-lg font-semibold transition-colors",
+                        totalRevenueForPayout >= payoutThreshold
+                            ? "bg-foreground text-background hover:bg-foreground/90"
+                            : "bg-secondary text-muted-foreground"
                     )}
                 >
-                    {t('save')}
+                    {t('request_payout')}
                 </Button>
             </div>
         </div>
