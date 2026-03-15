@@ -17,7 +17,6 @@ export default function TransferSettingsPage() {
   const [isClient, setIsClient] = useState(false);
   const [iban, setIban] = useState('');
   const [bic, setBic] = useState('');
-  const [isChanged, setIsChanged] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -27,25 +26,18 @@ export default function TransferSettingsPage() {
     setIban(storedIban);
     setBic(storedBic);
   }, []);
-  
-  useEffect(() => {
-      if (!isClient) return;
-      const storedIban = localStorage.getItem('bookline-iban') || '';
-      const storedBic = localStorage.getItem('bookline-bic') || '';
-      setIsChanged(iban !== storedIban || bic !== storedBic);
-  }, [iban, bic, isClient]);
-
 
   const handleSave = () => {
     // In a real app, you'd save these to a secure backend.
     localStorage.setItem('bookline-iban', iban);
     localStorage.setItem('bookline-bic', bic);
-    setIsChanged(false);
     handleBack();
   };
   
   const totalRevenue = 0; // This would come from context/backend
   const payoutThreshold = 20;
+
+  const isSaveable = iban.trim() !== '' && bic.trim() !== '';
 
   return (
     <div className={cn("min-h-screen text-foreground bg-transparent")}>
@@ -77,7 +69,7 @@ export default function TransferSettingsPage() {
 
             <div className="w-full max-w-sm">
                 <p className="font-semibold mb-2 px-2">{t('bank_details')}</p>
-                <div className="space-y-4">
+                <div className="w-full space-y-4">
                     <div className="relative w-full isolate overflow-hidden rounded-full">
                         <GlassEffect />
                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">IBAN</span>
@@ -100,10 +92,10 @@ export default function TransferSettingsPage() {
                     </div>
                     <Button 
                         onClick={handleSave}
-                        disabled={!isChanged}
+                        disabled={!isSaveable}
                         className={cn(
                             "rounded-full w-full h-12 text-lg font-semibold transition-colors",
-                            isChanged 
+                            isSaveable
                             ? "bg-foreground text-background hover:bg-foreground/90"
                             : "bg-secondary text-muted-foreground"
                         )}

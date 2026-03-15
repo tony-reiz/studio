@@ -67,7 +67,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     // State for Transfer View
     const [iban, setIban] = useState('');
     const [bic, setBic] = useState('');
-    const [payoutInfoChanged, setPayoutInfoChanged] = useState(false);
 
     const interestKeys: TranslationKeys[] = [
       'business', 'fiction', 'biographies', 'courses_revisions', 
@@ -119,18 +118,8 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             const storedBic = localStorage.getItem('bookline-bic') || '';
             setIban(storedIban);
             setBic(storedBic);
-            setPayoutInfoChanged(false);
         }
     }, [isOpen, userProfile, selectedInterests, currency, t]);
-
-    useEffect(() => {
-        if (view === 'transfer' && isClient) {
-            const storedIban = localStorage.getItem('bookline-iban') || '';
-            const storedBic = localStorage.getItem('bookline-bic') || '';
-            setPayoutInfoChanged(iban !== storedIban || bic !== storedBic);
-        }
-    }, [iban, bic, view, isClient]);
-
     
     const onItemClick = (id: string) => {
         if (id === 'language') setView('language');
@@ -261,7 +250,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const handleTransferSave = () => {
         localStorage.setItem('bookline-iban', iban);
         localStorage.setItem('bookline-bic', bic);
-        setPayoutInfoChanged(false);
         setIsOpen(false);
     };
     
@@ -648,7 +636,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
                 <div className="w-full max-w-sm">
                     <p className="font-semibold mb-2 px-2 text-sm">{t('bank_details')}</p>
-                    <div className="space-y-4">
+                    <div className="w-full space-y-4">
                         <div className="relative w-full isolate overflow-hidden rounded-full">
                             <GlassEffect />
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">IBAN</span>
@@ -671,10 +659,10 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                         </div>
                         <Button 
                             onClick={handleTransferSave}
-                            disabled={!payoutInfoChanged}
+                            disabled={!(iban.trim() !== '' && bic.trim() !== '')}
                             className={cn(
                             "rounded-full w-full h-12 text-lg font-semibold transition-colors",
-                            payoutInfoChanged
+                            (iban.trim() !== '' && bic.trim() !== '')
                                 ? "bg-foreground text-background hover:bg-foreground/90"
                                 : "bg-secondary text-muted-foreground"
                             )}
