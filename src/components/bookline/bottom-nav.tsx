@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { useState, useEffect } from 'react';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useEbooks } from '@/context/ebook-provider';
+import { GlassEffect } from './glass-effect';
 
 export function BottomNav() {
   const pathname = usePathname();
@@ -39,7 +40,7 @@ export function BottomNav() {
   return (
     <div className="fixed bottom-8 left-0 right-0 p-4 md:bottom-2 md:mb-4">
       <div className="relative isolate overflow-hidden rounded-full flex items-center max-w-[16rem] mx-auto">
-        <div className="glass-effect-backdrop absolute inset-0 z-0"/>
+        <GlassEffect />
         <div
           className={cn(
             'absolute top-0 h-full w-1/2 rounded-full transition-all duration-500 ease-in-out bg-black dark:bg-white z-10',

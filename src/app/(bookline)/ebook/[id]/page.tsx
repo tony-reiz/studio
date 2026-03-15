@@ -19,6 +19,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { EbookDetailsSheet } from '@/components/bookline/ebook-details-sheet';
 import { EbookDetailsDialog } from '@/components/bookline/ebook-details-dialog';
 import { Document, Page } from 'react-pdf';
+import { GlassEffect } from '@/components/bookline/glass-effect';
 
 
 export default function EbookViewerPage() {
@@ -257,18 +258,18 @@ export default function EbookViewerPage() {
 
         {isOwner && (
           <footer className="fixed bottom-8 left-0 right-0 z-30 p-4 md:bottom-2 md:mb-4" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
-            <div className="relative w-full max-w-[16rem] h-12 mx-auto">
+            <div className="relative w-full max-w-[16rem] h-12 mx-auto isolate overflow-hidden rounded-full">
                 {isClient && (
                     <>
-                        <div className="absolute inset-0 rounded-full glass-form-element"></div>
-                        <div className="absolute inset-0 z-10 flex items-center justify-around px-4">
-                            <Button onClick={() => isMobile ? setIsSheetOpen(true) : setIsDetailsDialogOpen(true)} variant="ghost" size="icon" className="text-white hover:bg-transparent" aria-label={t('details')}>
+                        <GlassEffect />
+                        <div className="absolute inset-0 z-20 flex items-center justify-around px-4">
+                            <Button onClick={() => isMobile ? setIsSheetOpen(true) : setIsDetailsDialogOpen(true)} variant="ghost" size="icon" className="text-foreground hover:bg-transparent" aria-label={t('details')}>
                                 <FileText className="h-6 w-6" />
                             </Button>
-                            <Button onClick={handleShare} variant="ghost" size="icon" className="text-white hover:bg-transparent" aria-label={t('share')}>
+                            <Button onClick={handleShare} variant="ghost" size="icon" className="text-foreground hover:bg-transparent" aria-label={t('share')}>
                                 <Share2 className="h-6 w-6" />
                             </Button>
-                            <Button onClick={handleDelete} variant="ghost" size="icon" className="text-white hover:bg-transparent hover:text-white/80" aria-label={t('delete')}>
+                            <Button onClick={handleDelete} variant="ghost" size="icon" className="text-destructive hover:bg-transparent hover:text-destructive/80" aria-label={t('delete')}>
                                 <Trash2 className="h-6 w-6" />
                             </Button>
                         </div>
