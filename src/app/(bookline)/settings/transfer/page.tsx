@@ -68,42 +68,38 @@ export default function TransferSettingsPage() {
             </div>
 
             <div className="w-full max-w-sm flex flex-col gap-4">
-                <div>
-                    <p className="font-semibold mb-2 px-2">{t('bank_details')}</p>
-                    <div className="w-full space-y-4">
-                        <div className="relative w-full isolate overflow-hidden rounded-full">
-                            <GlassEffect />
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">IBAN</span>
-                            <Input 
-                                placeholder="FR76..." 
-                                value={iban} 
-                                onChange={(e) => setIban(e.target.value.toUpperCase())}
-                                className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
-                            />
-                        </div>
-                         <div className="relative w-full isolate overflow-hidden rounded-full">
-                            <GlassEffect />
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">BIC</span>
-                            <Input 
-                                placeholder="SOGEFRPP..." 
-                                value={bic} 
-                                onChange={(e) => setBic(e.target.value.toUpperCase())} 
-                                className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
-                            />
-                        </div>
-                        <Button 
-                            onClick={handleSave}
-                            disabled={!isSaveable}
-                            className={cn(
-                                "rounded-full w-full h-12 text-lg font-semibold transition-colors",
-                                isSaveable
-                                ? "bg-foreground text-background hover:bg-foreground/90"
-                                : "bg-secondary text-muted-foreground"
-                            )}
-                        >
-                            {t('save')}
-                        </Button>
+                <div className="w-full space-y-4">
+                    <p className="font-semibold px-2">{t('bank_details')}</p>
+                    <div className="relative w-full isolate overflow-hidden rounded-full bg-secondary">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">IBAN</span>
+                        <Input 
+                            placeholder="FR76..." 
+                            value={iban} 
+                            onChange={(e) => setIban(e.target.value.toUpperCase())}
+                            className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
+                        />
                     </div>
+                     <div className="relative w-full isolate overflow-hidden rounded-full bg-secondary">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">BIC</span>
+                        <Input 
+                            placeholder="SOGEFRPP..." 
+                            value={bic} 
+                            onChange={(e) => setBic(e.target.value.toUpperCase())} 
+                            className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
+                        />
+                    </div>
+                    <Button 
+                        onClick={handleSave}
+                        disabled={!isSaveable}
+                        className={cn(
+                            "rounded-full w-full h-12 text-lg font-semibold transition-colors",
+                            isSaveable
+                            ? "bg-foreground text-background hover:bg-foreground/90"
+                            : "bg-secondary text-muted-foreground"
+                        )}
+                    >
+                        {t('save')}
+                    </Button>
                 </div>
 
                  <div className="w-full bg-secondary text-secondary-foreground rounded-2xl p-4 flex items-start gap-3">
