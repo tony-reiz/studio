@@ -114,6 +114,10 @@
     border-radius: inherit;
   }
   
+  .dark .glass-effect-backdrop {
+    @apply bg-white/10;
+  }
+
   button:has(.glass-container):hover {
     background-color: transparent !important;
   }
