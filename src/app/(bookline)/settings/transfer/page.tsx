@@ -75,10 +75,10 @@ export default function TransferSettingsPage() {
                 </div>
             </div>
 
-            <div className="w-full max-w-sm space-y-4">
-                <div className="relative w-full">
-                    <p className="font-semibold mb-2 px-2">{t('bank_details')}</p>
-                    <div className="relative w-full isolate overflow-hidden rounded-full mb-4">
+            <div className="w-full max-w-sm">
+                <p className="font-semibold mb-2 px-2">{t('bank_details')}</p>
+                <div className="space-y-4">
+                    <div className="relative w-full isolate overflow-hidden rounded-full">
                         <GlassEffect />
                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">IBAN</span>
                         <Input 
@@ -98,8 +98,6 @@ export default function TransferSettingsPage() {
                             className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
                         />
                     </div>
-                </div>
-                 <div className="w-full max-w-[16rem] mx-auto pt-2">
                     <Button 
                         onClick={handleSave}
                         disabled={!isChanged}
