@@ -607,7 +607,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             </div>
         </div>
         <div className="p-4 pt-2 pb-6 shrink-0">
-            <div className="max-w-md mx-auto">
+            <div className="max-w-[16rem] mx-auto">
                 <Button 
                     onClick={handleCurrencySave}
                     disabled={localSelectedCurrency.code === currency.code}
@@ -674,7 +674,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
              </div>
         </div>
         <div className="p-4 pt-2 pb-6 shrink-0">
-            <div className="max-w-md mx-auto">
+            <div className="w-full max-w-[16rem] mx-auto">
                 <Button 
                     onClick={handleTransferSave}
                     disabled={!payoutInfoChanged}

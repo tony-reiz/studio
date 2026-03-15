@@ -106,7 +106,7 @@ export default function TransferSettingsPage() {
       </div>
 
        <div className="fixed bottom-0 left-0 right-0 p-4 pb-8">
-          <div className="w-full max-w-sm mx-auto">
+          <div className="w-full max-w-[16rem] mx-auto">
               <Button 
                   onClick={handleSave}
                   disabled={!isChanged}
