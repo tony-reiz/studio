@@ -206,27 +206,25 @@
   button:has(.glass-container):hover {
     background-color: transparent !important;
   }
-  .chromatic-aberration-text {
+  .chromatic-aberration-container {
     position: relative;
   }
-  .chromatic-aberration-text::before,
-  .chromatic-aberration-text::after {
-    content: attr(data-text);
+  .chromatic-aberration-container::before,
+  .chromatic-aberration-container::after {
+    content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
+    border-radius: inherit;
     pointer-events: none;
-  }
-  .chromatic-aberration-text::before {
-    left: 10px;
-    text-shadow: -10px 0 hsl(0 100% 50% / 0.5);
     mix-blend-mode: screen;
+    opacity: 0.7;
   }
-  .chromatic-aberration-text::after {
-    left: -10px;
-    text-shadow: 10px 0 hsl(240 100% 50% / 0.5);
-    mix-blend-mode: screen;
+  .chromatic-aberration-container::before {
+    transform: translate(-1px, -1px);
+    box-shadow: 0 0 0 1px hsl(0 100% 50% / 0.8);
+  }
+  .chromatic-aberration-container::after {
+    transform: translate(1px, 1px);
+    box-shadow: 0 0 0 1px hsl(240 100% 50% / 0.8);
   }
 }

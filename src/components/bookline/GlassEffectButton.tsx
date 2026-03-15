@@ -17,14 +17,14 @@ export function GlassEffectButton({ children, className, onClick }: GlassEffectB
     <button
       onClick={onClick}
       className={cn(
-        "relative overflow-hidden transition-transform duration-300 active:scale-95",
+        "relative overflow-hidden active:scale-95 chromatic-aberration-container",
         "backdrop-blur-lg bg-white/10",
         theme === 'dark' ? 'text-white' : 'text-black',
         className
       )}
     >
       <span 
-        className="relative z-10 chromatic-aberration-text"
+        className="relative z-10"
         data-text={typeof children === 'string' ? children : ''}
       >
         {children}
