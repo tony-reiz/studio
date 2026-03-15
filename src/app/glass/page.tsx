@@ -104,7 +104,7 @@ const fragmentShaderSource = `
     const float GRADIENT_OFFSET = 0.1;
     const float GRADIENT_EXTREME = -1000.0;
     const float LIGHTING_INTENSITY = 0.3;
-    const float CA_STRENGTH = 0.005; // Chromatic aberration strength
+    const float CA_STRENGTH = 0.02; // Chromatic aberration strength
 
     vec2 uv = fragCoord / iResolution.xy;
     vec2 mouse = iResolution.xy / NUM_TWO;
