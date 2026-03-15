@@ -198,7 +198,7 @@ export const translations = {
     'payout_threshold_info': 'Seuil de virement : 20,00 €',
     'bank_details': 'Coordonnées bancaires',
     'payout_info_text': "Demandez un virement à tout moment dès que votre solde atteint 20€. Les fonds apparaîtront sur votre compte en quelques jours. Notre partenaire Stripe sécurise vos informations.",
-    'request_payout': 'Demander un virement',
+    'request_payout': 'Virement',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',
@@ -467,7 +467,7 @@ export const translations = {
     'payout_threshold_info': 'Payout threshold: €20.00',
     'bank_details': 'Bank details',
     'payout_info_text': "Request a payout at any time once your balance reaches €20. Funds will appear in your account within a few days. Our payment partner Stripe secures your information.",
-    'request_payout': 'Request Payout',
+    'request_payout': 'Payout',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',
