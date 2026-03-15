@@ -15,6 +15,7 @@ import { LightFluidBackground } from '@/components/bookline/light-fluid-backgrou
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 import { LiquidGlassDock } from '@/components/bookline/LiquidGlassDock';
 import { BusinessPlanSheet } from '@/components/bookline/business-plan-sheet';
+import { BVCouleur } from '@/components/bookline/BVCouleur';
 
 
 // Chart data and config
@@ -112,15 +113,16 @@ export default function LandingPage() {
           <Button
             onClick={() => handleNavigate('/auth')}
             className={cn(
-              "bg-black text-white rounded-full hover:bg-black/90",
-              "mt-10 h-14 px-12 text-lg font-semibold",
+              "bv-couleur-button p-0",
+              "mt-10 h-14 w-56",
               "transform",
               "transition-all duration-700 ease-out",
               isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95",
               isMounted && "delay-300"
             )}
           >
-            <span>{t('get_started')}</span>
+            <BVCouleur id="get-started-button-canvas" className="bv-couleur-canvas" />
+            <span className="relative z-20">{t('get_started')}</span>
           </Button>
           
           {isClient && <LiquidGlassDock />}
