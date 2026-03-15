@@ -112,7 +112,7 @@ export default function LandingPage() {
           <Button
             onClick={() => handleNavigate('/auth')}
             className={cn(
-              "bg-white text-black hover:bg-white/90",
+              "bg-black text-white hover:bg-black/90",
               "mt-10 h-14 w-56 rounded-full font-semibold text-lg",
               "transform",
               "transition-all duration-700 ease-out",
