@@ -94,12 +94,6 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  .liquid-glass-container {
-    @apply relative overflow-hidden isolate;
-  }
-  .liquid-glass-effect-layer {
-    @apply absolute -inset-40 z-10 bg-white/10;
-  }
 
   .glass-container {
     @apply absolute inset-0 rounded-[inherit] overflow-hidden z-10;
@@ -107,36 +101,14 @@
 
   .glass-effect-backdrop {
     @apply absolute inset-0;
-    -webkit-backdrop-filter: blur(0.5px);
-    backdrop-filter: blur(0.5px);
-    background: rgba(0, 0, 0, 0.1);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.05);
     border-radius: inherit;
   }
   
   .dark .glass-effect-backdrop {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  .glass-effect {
-    @apply absolute rounded-full;
-    -webkit-backdrop-filter: url(#distortion);
-    backdrop-filter: url(#distortion);
-  }
-
-  .glass-effect.top {
-    @apply top-0 left-0 right-0 h-6 w-full;
-  }
-
-  .glass-effect.bottom {
-    @apply bottom-0 left-0 right-0 h-6 w-full;
-  }
-
-  .glass-effect.left {
-    @apply top-0 bottom-0 left-0 w-6 h-full;
-  }
-
-  .glass-effect.right {
-    @apply top-0 bottom-0 right-0 w-6 h-full;
+    background: rgba(255, 255, 255, 0.05);
   }
   
   button:has(.glass-container):hover {
