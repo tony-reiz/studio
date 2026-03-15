@@ -96,7 +96,6 @@ const fragmentShaderSource = `
 
   void main()
   {
-    const float BORDER_ROUNDNESS = 8.0;
     const float LENS_MAGNIFICATION = 0.1;
     const float BLUR_STRENGTH = 2.0;
     const float CHROMATIC_ABERRATION = 0.005;
@@ -105,17 +104,29 @@ const fragmentShaderSource = `
     const float OCCLUSION_DEPTH = 0.2;
 
     vec2 uv = gl_FragCoord.xy / iResolution.xy;
-    vec2 center_uv = uv - 0.5;
-    center_uv.x *= iResolution.x / iResolution.y;
 
-    float dist = pow(abs(center_uv.x), BORDER_ROUNDNESS) + pow(abs(center_uv.y * 2.5), BORDER_ROUNDNESS);
-    float mask = 1.0 - smoothstep(0.05, 0.055, dist);
+    // --- Start Shape Calculation (SDF for a capsule) ---
+    vec2 p = (gl_FragCoord.xy / iResolution.xy) * 2.0 - 1.0;
+    p.x *= iResolution.x / iResolution.y;
+    
+    float aspect = iResolution.x / iResolution.y;
+    vec2 start_point = vec2(-aspect + 1.0, 0.0);
+    vec2 end_point = vec2(aspect - 1.0, 0.0);
+    float radius = 1.0;
+    
+    vec2 pa = p - start_point;
+    vec2 ba = end_point - start_point;
+    float h = clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0);
+    float sdf = length(pa - ba * h) - radius;
+
+    float mask = 1.0 - smoothstep(-0.05, 0.05, sdf);
+    // --- End Shape Calculation ---
     
     if (mask < 0.01) {
         discard;
     }
 
-    vec2 d = vec2(dFdx(dist), dFdy(dist));
+    vec2 d = vec2(dFdx(sdf), dFdy(sdf));
     vec2 normal = normalize(d);
 
     vec2 refracted_uv = uv - normal * LENS_MAGNIFICATION * (1.0 - mask);
@@ -136,7 +147,7 @@ const fragmentShaderSource = `
 
     vec3 light_dir = normalize(vec3(0.5, 0.5, 1.0));
     float specular = pow(max(0.0, dot(vec3(normal, 0.5), light_dir)), 32.0) * SPECULAR_INTENSITY;
-    float rim = pow(1.0 - smoothstep(0.0, 0.1, 0.05 - dist), 2.0) * RIM_LIGHT_INTENSITY;
+    float rim = pow(1.0 - smoothstep(0.0, 1.0, sdf + 1.0), 2.0) * RIM_LIGHT_INTENSITY;
 
     vec3 final_color = blurred_color.rgb + specular + rim;
 
@@ -237,7 +248,7 @@ export function GlassEffectButton({ children, className, onClick }: GlassEffectB
   }, [theme]);
 
   return (
-    <button onClick={onClick} className={cn("relative overflow-hidden text-white transition-transform duration-300 hover:scale-105 active:scale-95", className)}>
+    <button onClick={onClick} className={cn("relative overflow-hidden transition-transform duration-300 hover:scale-105 active:scale-95", theme === 'dark' ? 'text-white' : 'text-black', className)}>
         <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-0 pointer-events-none" />
         <span className="relative z-10">{children}</span>
     </button>
