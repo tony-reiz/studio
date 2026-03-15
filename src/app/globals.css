@@ -220,13 +220,13 @@
     pointer-events: none;
   }
   .chromatic-aberration-text::before {
-    left: 0.5px;
-    text-shadow: -0.5px 0 hsl(0 100% 50% / 0.5);
+    left: 10px;
+    text-shadow: -10px 0 hsl(0 100% 50% / 0.5);
     mix-blend-mode: screen;
   }
   .chromatic-aberration-text::after {
-    left: -0.5px;
-    text-shadow: 0.5px 0 hsl(240 100% 50% / 0.5);
+    left: -10px;
+    text-shadow: 10px 0 hsl(240 100% 50% / 0.5);
     mix-blend-mode: screen;
   }
 }
