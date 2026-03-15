@@ -596,7 +596,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             </div>
         </div>
         <div className="p-4 pt-2 pb-6 shrink-0">
-            <div className="max-w-[16rem] mx-auto">
+            <div className="w-full max-w-[16rem] mx-auto">
                 <Button 
                     onClick={handleCurrencySave}
                     disabled={localSelectedCurrency.code === currency.code}
@@ -634,48 +634,49 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
                 </div>
 
-                <div className="w-full">
-                    <p className="font-semibold mb-2 px-2 text-sm">{t('bank_details')}</p>
-                    <div className="w-full space-y-4">
-                        <div className="relative w-full isolate overflow-hidden rounded-full">
-                            <GlassEffect />
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">IBAN</span>
-                            <Input 
-                                placeholder="FR76..." 
-                                value={iban} 
-                                onChange={(e) => setIban(e.target.value.toUpperCase())}
-                                className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
-                            />
+                <div className="flex flex-col gap-4">
+                    <div>
+                        <p className="font-semibold mb-2 px-2 text-sm">{t('bank_details')}</p>
+                        <div className="w-full space-y-4">
+                            <div className="relative w-full isolate overflow-hidden rounded-full">
+                                <GlassEffect />
+                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">IBAN</span>
+                                <Input 
+                                    placeholder="FR76..." 
+                                    value={iban} 
+                                    onChange={(e) => setIban(e.target.value.toUpperCase())}
+                                    className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
+                                />
+                            </div>
+                             <div className="relative w-full isolate overflow-hidden rounded-full">
+                                <GlassEffect />
+                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">BIC</span>
+                                <Input 
+                                    placeholder="SOGEFRPP..." 
+                                    value={bic} 
+                                    onChange={(e) => setBic(e.target.value.toUpperCase())} 
+                                    className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
+                                />
+                            </div>
+                            <Button 
+                                onClick={handleTransferSave}
+                                disabled={!(iban.trim() !== '' && bic.trim() !== '')}
+                                className={cn(
+                                "rounded-full w-full h-12 text-lg font-semibold transition-colors",
+                                (iban.trim() !== '' && bic.trim() !== '')
+                                    ? "bg-foreground text-background hover:bg-foreground/90"
+                                    : "bg-secondary text-muted-foreground"
+                                )}
+                            >
+                                {t('save')}
+                            </Button>
                         </div>
-                         <div className="relative w-full isolate overflow-hidden rounded-full">
-                            <GlassEffect />
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">BIC</span>
-                            <Input 
-                                placeholder="SOGEFRPP..." 
-                                value={bic} 
-                                onChange={(e) => setBic(e.target.value.toUpperCase())} 
-                                className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
-                            />
-                        </div>
-                        <Button 
-                            onClick={handleTransferSave}
-                            disabled={!(iban.trim() !== '' && bic.trim() !== '')}
-                            className={cn(
-                            "rounded-full w-full h-12 text-lg font-semibold transition-colors",
-                            (iban.trim() !== '' && bic.trim() !== '')
-                                ? "bg-foreground text-background hover:bg-foreground/90"
-                                : "bg-secondary text-muted-foreground"
-                            )}
-                        >
-                            {t('save')}
-                        </Button>
                     </div>
+                    <div className="w-full bg-secondary text-secondary-foreground rounded-2xl p-4 flex items-start gap-3 text-left">
+                        <Info className="h-5 w-5 mt-0.5 flex-shrink-0"/>
+                        <p className="text-xs">{t('payout_info_text')}</p>
+                     </div>
                 </div>
-
-                 <div className="w-full bg-secondary text-secondary-foreground rounded-2xl p-4 flex items-start gap-3 text-left">
-                    <Info className="h-5 w-5 mt-0.5 flex-shrink-0"/>
-                    <p className="text-xs">{t('payout_info_text')}</p>
-                 </div>
             </div>
         </div>
         <div className="p-4 pt-2 pb-6 shrink-0">
