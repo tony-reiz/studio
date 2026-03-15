@@ -13,8 +13,8 @@ import { PrivacySheet } from '@/components/bookline/privacy-sheet';
 import { useEbooks } from '@/context/ebook-provider';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
-import { LiquidGlassDock } from '@/components/bookline/LiquidGlassDock';
 import { BusinessPlanSheet } from '@/components/bookline/business-plan-sheet';
+import { GlassEffectButton } from '@/components/bookline/GlassEffectButton';
 
 
 // Chart data and config
@@ -82,7 +82,7 @@ export default function LandingPage() {
       )}
       <header className="absolute top-0 left-0 right-0 z-10">
         <div className="container mx-auto flex justify-between items-center p-6">
-            <div onClick={() => handleNavigate('/glass')} className="text-2xl font-bold cursor-pointer">BookLine</div>
+            <div className="text-2xl font-bold">BookLine</div>
             <div className="flex items-end gap-1.5 h-8 p-2">
               <span className={cn("w-2 bg-primary/40 rounded-full transition-all ease-out duration-500", isMounted ? "h-1/3" : "h-0")}></span>
               <span className={cn("w-2 bg-primary/70 rounded-full transition-all ease-out duration-500 delay-100", isMounted ? "h-full" : "h-0")}></span>
@@ -109,10 +109,9 @@ export default function LandingPage() {
             {t('hero_subtitle')}
           </p>
 
-          <Button
+          <GlassEffectButton
             onClick={() => handleNavigate('/auth')}
             className={cn(
-              "bg-black text-white hover:bg-black/90",
               "mt-10 h-14 w-56 rounded-full font-semibold text-lg",
               "transform",
               "transition-all duration-700 ease-out",
@@ -121,9 +120,8 @@ export default function LandingPage() {
             )}
           >
             {t('get_started')}
-          </Button>
+          </GlassEffectButton>
           
-          {isClient && <LiquidGlassDock />}
 
         </section>
 
