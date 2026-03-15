@@ -126,17 +126,17 @@ function ProfilePageContent() {
 
     switch (displayedTab) {
         case 'achats':
-            ebooksToShow = purchasedEbooks;
+            ebooksToShow = [...purchasedEbooks].reverse();
             emptyMessage = t('no_purchased_ebooks');
             clickAction = 'read';
             break;
         case 'publications':
-            ebooksToShow = userPublications;
+            ebooksToShow = [...userPublications].reverse();
             emptyMessage = t('no_published_ebooks');
             clickAction = 'read';
             break;
         case 'favoris':
-            ebooksToShow = favoritedEbooks;
+            ebooksToShow = [...favoritedEbooks].reverse();
             emptyMessage = t('no_favorited_ebooks');
             clickAction = 'buy';
             break;
