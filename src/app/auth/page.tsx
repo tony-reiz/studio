@@ -74,8 +74,6 @@ export default function AuthPage() {
 
   return (
     <div className={cn("flex flex-col min-h-screen bg-background text-foreground transition-opacity duration-500 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
-      <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-primary/5 via-background to-secondary/10 -z-10" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/10 rounded-full blur-3xl -z-10 animate-pulse" />
 
       <main className="flex-1 flex flex-col items-center justify-center p-4 text-center">
         <div className="max-w-[18rem] sm:max-w-sm w-full space-y-8">
