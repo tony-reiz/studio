@@ -14,7 +14,6 @@ import { useEbooks } from '@/context/ebook-provider';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 import { BusinessPlanSheet } from '@/components/bookline/business-plan-sheet';
-import { GlassEffectButton } from '@/components/bookline/GlassEffectButton';
 
 
 // Chart data and config
@@ -109,10 +108,10 @@ export default function LandingPage() {
             {t('hero_subtitle')}
           </p>
 
-          <GlassEffectButton
+          <Button
             onClick={() => handleNavigate('/auth')}
             className={cn(
-              "mt-10 h-14 w-56 rounded-full font-semibold text-lg",
+              "mt-10 h-14 w-56 rounded-full font-semibold text-lg bg-black text-white hover:bg-black/90",
               "transform",
               "transition-all duration-700 ease-out",
               isMounted ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95",
@@ -120,7 +119,7 @@ export default function LandingPage() {
             )}
           >
             {t('get_started')}
-          </GlassEffectButton>
+          </Button>
           
 
         </section>
