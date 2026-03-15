@@ -90,15 +90,15 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
 
               float n = snoise(p + snoise(p * 0.4 + t * 0.3));
 
-              float glow = smoothstep(-0.3, 0.5, n);
-              float core = smoothstep(0.0, 0.8, n);
+              float glow = smoothstep(-0.2, 0.6, n);
+              float core = smoothstep(0.1, 0.7, n);
               
-              vec3 black = vec3(0.0, 0.0, 0.0);
+              vec3 baseColor = vec3(0.03, 0.02, 0.1);
               vec3 purple = vec3(0.4, 0.3, 0.85);
               vec3 blue = vec3(0.55, 0.65, 1.0);
               vec3 white = vec3(1.0, 1.0, 1.0);
 
-              vec3 color = mix(black, purple, glow);
+              vec3 color = mix(baseColor, purple, glow);
               color = mix(color, blue, core);
               color = mix(color, white, pow(core, 4.0));
 
