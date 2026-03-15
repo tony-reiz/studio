@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { translations, type Locale } from '@/lib/translations';
@@ -243,12 +243,14 @@ export function EbookProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const allEbooksMap = new Map<string, Ebook>();
-  // Add placeholder ebooks first
-  placeholderEbooks.forEach(ebook => allEbooksMap.set(ebook.id, ebook));
-  // Then add user's published ebooks, potentially overwriting placeholders if IDs match (unlikely with UUID)
-  publishedEbooks.forEach(ebook => allEbooksMap.set(ebook.id, ebook));
-  const allEbooks = Array.from(allEbooksMap.values());
+  const allEbooks = useMemo(() => {
+    const allEbooksMap = new Map<string, Ebook>();
+    // Add placeholder ebooks first
+    placeholderEbooks.forEach(ebook => allEbooksMap.set(ebook.id, ebook));
+    // Then add user's published ebooks, potentially overwriting placeholders if IDs match (unlikely with UUID)
+    publishedEbooks.forEach(ebook => allEbooksMap.set(ebook.id, ebook));
+    return Array.from(allEbooksMap.values());
+  }, [publishedEbooks]);
 
 
   return (
