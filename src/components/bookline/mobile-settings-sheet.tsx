@@ -635,7 +635,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <div className="w-full flex flex-col gap-4">
                     <div className="w-full space-y-4">
                         <p className="font-semibold px-2 text-sm">{t('bank_details')}</p>
-                        <div className="relative w-full isolate overflow-hidden rounded-full bg-secondary">
+                        <div className="relative w-full rounded-full bg-secondary">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">IBAN</span>
                             <Input 
                                 placeholder="FR76..." 
@@ -644,7 +644,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                                 className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
                             />
                         </div>
-                         <div className="relative w-full isolate overflow-hidden rounded-full bg-secondary">
+                         <div className="relative w-full rounded-full bg-secondary">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">BIC</span>
                             <Input 
                                 placeholder="SOGEFRPP..." 
@@ -666,6 +666,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             {t('save')}
                         </Button>
                     </div>
+
                      <div className="w-full bg-secondary text-secondary-foreground rounded-2xl p-4 flex items-start gap-3 text-left">
                         <Info className="h-5 w-5 mt-0.5 flex-shrink-0"/>
                         <p className="text-xs">{t('payout_info_text')}</p>
@@ -674,7 +675,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             </div>
         </div>
         <div className="p-4 pt-2 pb-6 shrink-0">
-            <div className="w-full max-w-[16rem] mx-auto">
+            <div className="w-full max-w-sm mx-auto">
                 <Button
                     disabled={totalRevenueForPayout < payoutThreshold}
                     className={cn(
@@ -724,7 +725,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <DrawerTrigger asChild>
                     {children}
                 </DrawerTrigger>
-                <DrawerContent className="rounded-t-[40px] h-[70vh] flex flex-col bg-background border-0 p-0">
+                <DrawerContent className="rounded-t-[40px] max-h-[70vh] flex flex-col bg-background border-0 p-0">
                     <DrawerTitle className="sr-only">{t('settings')}</DrawerTitle>
                     {SettingsContent}
                 </DrawerContent>
