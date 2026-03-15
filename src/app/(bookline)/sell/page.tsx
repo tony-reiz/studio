@@ -210,11 +210,11 @@ export default function SellPage() {
                     disabled={isButtonDisabled}
                     className={cn(
                         "w-full h-12 text-lg font-semibold rounded-full",
-                        {
-                            "bg-black text-white hover:bg-black/90": isFormComplete && !isProcessing,
-                            "relative isolate overflow-hidden": !isFormComplete && !isProcessing,
-                            "bg-muted text-muted-foreground cursor-not-allowed": isProcessing
-                        }
+                        isProcessing 
+                          ? "bg-muted text-muted-foreground cursor-not-allowed"
+                          : isFormComplete 
+                            ? "bg-black text-white hover:bg-black/90"
+                            : "relative isolate overflow-hidden bg-transparent text-foreground hover:bg-transparent disabled:opacity-100"
                     )}
                 >
                     {!isFormComplete && !isProcessing && <GlassEffect />}
