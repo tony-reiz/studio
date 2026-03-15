@@ -635,43 +635,45 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <h1 className="text-xl font-bold text-center">{t('transfer')}</h1>
             </div>
         </div>
-        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-8">
-            <div className="w-full text-center">
-                <p className="text-muted-foreground">{t('current_balance')}</p>
-                <p className="text-4xl font-bold">{totalRevenueForPayout.toFixed(2).replace('.', ',')} €</p>
-                <p className="text-xs text-muted-foreground mt-1">{t('next_payout_date')}</p>
-            </div>
+        <div className="flex-1 overflow-y-auto px-4 py-4">
+            <div className="max-w-sm mx-auto space-y-8">
+                <div className="w-full text-center">
+                    <p className="text-muted-foreground">{t('current_balance')}</p>
+                    <p className="text-4xl font-bold">{totalRevenueForPayout.toFixed(2).replace('.', ',')} €</p>
+                    <p className="text-xs text-muted-foreground mt-1">{t('next_payout_date')}</p>
+                </div>
 
-            <div className="w-full space-y-4">
-                <div className="relative w-full">
-                    <p className="font-semibold mb-2 px-2 text-sm">{t('bank_details')}</p>
-                    <div className="relative w-full isolate overflow-hidden rounded-full mb-4">
-                        <GlassEffect />
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">IBAN</span>
-                        <Input 
-                            placeholder="FR76..." 
-                            value={iban} 
-                            onChange={(e) => setIban(e.target.value.toUpperCase())}
-                            className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
-                        />
-                    </div>
-                     <div className="relative w-full isolate overflow-hidden rounded-full">
-                        <GlassEffect />
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">BIC</span>
-                        <Input 
-                            placeholder="SOGEFRPP..." 
-                            value={bic} 
-                            onChange={(e) => setBic(e.target.value.toUpperCase())} 
-                            className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
-                        />
+                <div className="w-full space-y-4">
+                    <div className="relative w-full">
+                        <p className="font-semibold mb-2 px-2 text-sm">{t('bank_details')}</p>
+                        <div className="relative w-full isolate overflow-hidden rounded-full mb-4">
+                            <GlassEffect />
+                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">IBAN</span>
+                            <Input 
+                                placeholder="FR76..." 
+                                value={iban} 
+                                onChange={(e) => setIban(e.target.value.toUpperCase())}
+                                className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
+                            />
+                        </div>
+                         <div className="relative w-full isolate overflow-hidden rounded-full">
+                            <GlassEffect />
+                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">BIC</span>
+                            <Input 
+                                placeholder="SOGEFRPP..." 
+                                value={bic} 
+                                onChange={(e) => setBic(e.target.value.toUpperCase())} 
+                                className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
 
-             <div className="w-full bg-secondary text-secondary-foreground rounded-2xl p-4 flex items-start gap-3 text-left">
-                <Info className="h-5 w-5 mt-0.5 flex-shrink-0"/>
-                <p className="text-xs">{t('payout_info_text')}</p>
-             </div>
+                 <div className="w-full bg-secondary text-secondary-foreground rounded-2xl p-4 flex items-start gap-3 text-left">
+                    <Info className="h-5 w-5 mt-0.5 flex-shrink-0"/>
+                    <p className="text-xs">{t('payout_info_text')}</p>
+                 </div>
+            </div>
         </div>
         <div className="p-4 pt-2 pb-6 shrink-0">
             <div className="w-full max-w-[16rem] mx-auto">
