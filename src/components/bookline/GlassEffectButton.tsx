@@ -94,7 +94,7 @@ void main() {
 
     // --- Shape Masking ---
     // Define the button shape. The values are tweaked to match a capsule-like button.
-    vec2 box_size = vec2(iResolution.x / iResolution.y * 0.5 - 0.2, 0.5 - 0.2);
+    vec2 box_size = vec2(iResolution.x / iResolution.y * 0.5 - 0.05, 0.5 - 0.2);
     float corner_radius = 0.25;
     float sdf = sdRoundedBox(centered_p, box_size, corner_radius);
 
@@ -160,7 +160,7 @@ export function GlassEffectButton({ children, className, onClick }: GlassEffectB
           gl.shaderSource(shader, source);
           gl.compileShader(shader);
           if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            console.error(`Error compiling shader: ${"\'\'\'"}${gl.getShaderInfoLog(shader)}${"\'\'\'"}`);
+            console.error(`Error compiling shader: {\'\'\'${gl.getShaderInfoLog(shader)}\'\'\'}`);
             gl.deleteShader(shader);
             return null;
           }
@@ -179,7 +179,7 @@ export function GlassEffectButton({ children, className, onClick }: GlassEffectB
         gl.linkProgram(program);
 
         if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-            console.error(`Error linking program: ${"\'\'\'"}${gl.getProgramInfoLog(program)}${"\'\'\'"}`);
+            console.error(`Error linking program: {\'\'\'${gl.getProgramInfoLog(program)}\'\'\'}`);
             return;
         }
         gl.useProgram(program);
