@@ -206,25 +206,4 @@
   button:has(.glass-container):hover {
     background-color: transparent !important;
   }
-  .chromatic-aberration-container {
-    position: relative;
-  }
-  .chromatic-aberration-container::before,
-  .chromatic-aberration-container::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    mix-blend-mode: screen;
-    opacity: 0.7;
-  }
-  .chromatic-aberration-container::before {
-    transform: translate(-1px, -1px);
-    box-shadow: 0 0 0 1px hsl(0 100% 50% / 0.8);
-  }
-  .chromatic-aberration-container::after {
-    transform: translate(1px, 1px);
-    box-shadow: 0 0 0 1px hsl(240 100% 50% / 0.8);
-  }
 }
