@@ -9,8 +9,3 @@ export function GlassEffect() {
     </div>
   );
 }
-
-// This component defines the SVG filter. It should be placed once in a layout file.
-export function DistortionFilter() {
-  return null;
-}
