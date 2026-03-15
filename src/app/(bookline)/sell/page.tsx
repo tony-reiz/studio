@@ -16,7 +16,6 @@ import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { PDFDocument } from 'pdf-lib';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
-import { BVCouleur } from '@/components/bookline/BVCouleur';
 import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
 import { GlassEffect } from '@/components/bookline/glass-effect';
 
@@ -212,13 +211,12 @@ export default function SellPage() {
                     className={cn(
                         "w-full h-12 text-lg font-semibold rounded-full",
                         {
-                            "bv-couleur-button p-0": isFormComplete && !isProcessing,
+                            "bg-black text-white hover:bg-black/90": isFormComplete && !isProcessing,
                             "relative isolate overflow-hidden": !isFormComplete && !isProcessing,
-                            "bg-[#DFDFDF] text-muted-foreground cursor-not-allowed": isProcessing
+                            "bg-muted text-muted-foreground cursor-not-allowed": isProcessing
                         }
                     )}
                 >
-                    {isFormComplete && !isProcessing && <BVCouleur id="sell-button-canvas" className="bv-couleur-canvas" />}
                     {!isFormComplete && !isProcessing && <GlassEffect />}
                     {isProcessing && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
                     <span className="relative z-20">{getButtonText()}</span>

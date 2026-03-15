@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { CloudUpload, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { BVCouleur } from './BVCouleur';
 import { GlassEffect } from './glass-effect';
 import { useEbooks } from '@/context/ebook-provider';
 
@@ -124,11 +123,10 @@ export function PdfUploader({ pdfFile, onFileChange, className, originalSize, co
         
         {/* Loading state with fade */}
         <div className={cn(
-            "absolute inset-0 flex items-center justify-center transition-opacity duration-300 z-20",
+            "absolute inset-0 flex items-center justify-center bg-black transition-opacity duration-300 z-20",
             isCompressing ? "opacity-100" : "opacity-0 pointer-events-none"
         )}>
-            <BVCouleur id="pdf-uploader-canvas" className="bv-couleur-canvas !z-0" />
-            <Loader2 className="h-10 w-10 text-white animate-spin z-10" />
+            <Loader2 className="h-10 w-10 text-white animate-spin" />
         </div>
         
         {/* Idle and loaded states with fade */}
