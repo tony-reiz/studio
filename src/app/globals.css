@@ -79,8 +79,11 @@
   html {
     @apply bg-background;
   }
+  body.has-fluid-background {
+    @apply bg-transparent;
+  }
   body {
-    @apply bg-transparent text-foreground;
+    @apply text-foreground;
     font-family: Arial, Helvetica, sans-serif;
     padding-top: env(safe-area-inset-top);
   }
@@ -112,6 +115,11 @@
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
     border-radius: inherit;
+    transition: background-color 0.3s ease;
+  }
+  
+  .dark .glass-effect-backdrop {
+    background-color: rgba(255, 255, 255, 0.15);
   }
   
   button:has(.glass-container):hover {
