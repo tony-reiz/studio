@@ -17,6 +17,7 @@ export default function TransferSettingsPage() {
   const [isClient, setIsClient] = useState(false);
   const [iban, setIban] = useState('');
   const [bic, setBic] = useState('');
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'success'>('idle');
 
   useEffect(() => {
     setIsClient(true);
@@ -28,10 +29,14 @@ export default function TransferSettingsPage() {
   }, []);
 
   const handleSave = () => {
+    if (saveStatus !== 'idle') return;
     // In a real app, you'd save these to a secure backend.
     localStorage.setItem('bookline-iban', iban);
     localStorage.setItem('bookline-bic', bic);
-    handleBack();
+    setSaveStatus('success');
+    setTimeout(() => {
+        setSaveStatus('idle');
+    }, 2000);
   };
   
   const totalRevenue = 0; // This would come from context/backend
@@ -67,38 +72,45 @@ export default function TransferSettingsPage() {
                 </div>
             </div>
 
-            <div className="w-full max-w-sm flex flex-col gap-4">
-                <div className="w-full space-y-4">
-                    <p className="font-semibold px-2">{t('bank_details')}</p>
-                    <div className="relative w-full isolate overflow-hidden rounded-full bg-secondary">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">IBAN</span>
-                        <Input 
-                            placeholder="FR76..." 
-                            value={iban} 
-                            onChange={(e) => setIban(e.target.value.toUpperCase())}
-                            className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
-                        />
-                    </div>
-                     <div className="relative w-full isolate overflow-hidden rounded-full bg-secondary">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">BIC</span>
-                        <Input 
-                            placeholder="SOGEFRPP..." 
-                            value={bic} 
-                            onChange={(e) => setBic(e.target.value.toUpperCase())} 
-                            className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
-                        />
+            <div className="w-full max-w-sm flex flex-col gap-8">
+                <div className="w-full flex flex-col gap-4">
+                    <div className="w-full space-y-4">
+                        <p className="font-semibold px-2">{t('bank_details')}</p>
+                        <div className="relative w-full rounded-full bg-secondary">
+                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">IBAN</span>
+                            <Input 
+                                placeholder="FR76..." 
+                                value={iban} 
+                                onChange={(e) => setIban(e.target.value.toUpperCase())}
+                                className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
+                            />
+                        </div>
+                         <div className="relative w-full rounded-full bg-secondary">
+                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">BIC</span>
+                            <Input 
+                                placeholder="SOGEFRPP..." 
+                                value={bic} 
+                                onChange={(e) => setBic(e.target.value.toUpperCase())} 
+                                className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
+                            />
+                        </div>
                     </div>
                     <Button 
                         onClick={handleSave}
-                        disabled={!isSaveable}
+                        disabled={!isSaveable || saveStatus !== 'idle'}
                         className={cn(
-                            "rounded-full w-full h-12 text-lg font-semibold transition-colors",
-                            isSaveable
-                            ? "bg-foreground text-background hover:bg-foreground/90"
-                            : "bg-secondary text-muted-foreground"
+                            "rounded-full w-full h-12 text-lg font-semibold transition-colors duration-300",
+                             // Default enabled state
+                            "bg-foreground text-background hover:bg-foreground/90",
+                            // Default disabled state
+                            "disabled:bg-secondary disabled:text-muted-foreground",
+                             // Success state override
+                            saveStatus === 'success' && "disabled:bg-green-600 disabled:text-white",
+                             // Make sure opacity is full in all disabled states
+                            "disabled:opacity-100"
                         )}
                     >
-                        {t('save')}
+                        {saveStatus === 'success' ? t('saved') : t('save')}
                     </Button>
                 </div>
 

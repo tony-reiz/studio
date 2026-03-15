@@ -67,6 +67,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     // State for Transfer View
     const [iban, setIban] = useState('');
     const [bic, setBic] = useState('');
+    const [transferSaveStatus, setTransferSaveStatus] = useState<'idle' | 'success'>('idle');
 
     const interestKeys: TranslationKeys[] = [
       'business', 'fiction', 'biographies', 'courses_revisions', 
@@ -248,9 +249,13 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     };
 
     const handleTransferSave = () => {
+        if (transferSaveStatus !== 'idle') return;
         localStorage.setItem('bookline-iban', iban);
         localStorage.setItem('bookline-bic', bic);
-        setIsOpen(false);
+        setTransferSaveStatus('success');
+        setTimeout(() => {
+            setTransferSaveStatus('idle');
+        }, 2000);
     };
     
     const totalRevenueForPayout = 0; // This would come from context later
@@ -653,25 +658,30 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                                 className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
                             />
                         </div>
-                        <Button 
-                            onClick={handleTransferSave}
-                            disabled={!(iban.trim() !== '' && bic.trim() !== '')}
-                            className={cn(
-                                "rounded-full w-full h-12 text-lg font-semibold transition-colors",
-                                (iban.trim() !== '' && bic.trim() !== '')
-                                ? "bg-foreground text-background hover:bg-foreground/90"
-                                : "bg-secondary text-muted-foreground"
-                            )}
-                        >
-                            {t('save')}
-                        </Button>
                     </div>
-
-                     <div className="w-full bg-secondary text-secondary-foreground rounded-2xl p-4 flex items-start gap-3 text-left">
-                        <Info className="h-5 w-5 mt-0.5 flex-shrink-0"/>
-                        <p className="text-xs">{t('payout_info_text')}</p>
-                     </div>
+                     <Button 
+                        onClick={handleTransferSave}
+                        disabled={!(iban.trim() !== '' && bic.trim() !== '') || transferSaveStatus !== 'idle'}
+                        className={cn(
+                            "rounded-full w-full h-12 text-lg font-semibold transition-colors duration-300",
+                            // Default enabled state
+                            "bg-foreground text-background hover:bg-foreground/90",
+                            // Default disabled state
+                            "disabled:bg-secondary disabled:text-muted-foreground",
+                            // Success state override
+                            transferSaveStatus === 'success' && "disabled:bg-green-600 disabled:text-white",
+                            // Make sure opacity is full in all disabled states
+                            "disabled:opacity-100"
+                        )}
+                    >
+                        {transferSaveStatus === 'success' ? t('saved') : t('save')}
+                    </Button>
                 </div>
+
+                 <div className="w-full bg-secondary text-secondary-foreground rounded-2xl p-4 flex items-start gap-3 text-left">
+                    <Info className="h-5 w-5 mt-0.5 flex-shrink-0"/>
+                    <p className="text-xs">{t('payout_info_text')}</p>
+                 </div>
             </div>
         </div>
         <div className="p-4 pt-2 pb-6 shrink-0">
@@ -725,7 +735,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <DrawerTrigger asChild>
                     {children}
                 </DrawerTrigger>
-                <DrawerContent className="rounded-t-[40px] max-h-[70vh] flex flex-col bg-background border-0 p-0">
+                <DrawerContent className="rounded-t-[40px] max-h-none h-[70vh] flex flex-col bg-background border-0 p-0">
                     <DrawerTitle className="sr-only">{t('settings')}</DrawerTitle>
                     {SettingsContent}
                 </DrawerContent>
