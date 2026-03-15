@@ -50,6 +50,7 @@ export default function EbookViewerPage() {
     if (id && allEbooks.length > 0) {
       const foundEbook = allEbooks.find((e) => e.id === id);
       setEbook(foundEbook);
+      setNumPages(null); // Reset pages on ebook change
     }
   }, [id, allEbooks]);
 
@@ -233,6 +234,7 @@ export default function EbookViewerPage() {
             <div ref={widthRef} className="w-full max-w-xl mx-auto">
                 {isPdf ? (
                     <Document
+                        key={ebook.id}
                         file={ebook.pdfDataUrl}
                         onLoadSuccess={onDocumentLoadSuccess}
                         loading={
