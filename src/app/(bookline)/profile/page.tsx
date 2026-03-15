@@ -33,7 +33,6 @@ function ProfilePageContent() {
   const [isContentVisible, setIsContentVisible] = useState(true);
   const { publishedEbooks, favoritedEbooks, userProfile, purchasedEbooks, theme, t } = useEbooks();
   const { handleNavigate, handleBack } = useTransitionRouter();
-  const userPublications = publishedEbooks;
   const { toast } = useToast();
   const [isCopied, setIsCopied] = useState(false);
   const isMobile = useIsMobile();
@@ -93,16 +92,17 @@ function ProfilePageContent() {
     }, 500);
   };
 
-  const handleEbookClick = (ebook: Ebook, path: 'buy' | 'read') => {
-    if (path === 'buy') {
-        setSelectedEbook(ebook);
-        if (isMobile) {
-            // The BuyEbookSheet component handles its own visibility based on the 'ebook' prop.
-        } else {
-            setIsBuyDialogOpen(true);
-        }
+  const handleEbookClick = (ebook: Ebook) => {
+    const isPublishedByMe = publishedEbooks.some(p => p.id === ebook.id);
+    const isPurchasedByMe = purchasedEbooks.some(p => p.id === ebook.id);
+
+    if (isPublishedByMe || isPurchasedByMe) {
+      handleNavigate(`/ebook/${ebook.id}`);
     } else {
-        handleNavigate(`/ebook/${ebook.id}`);
+      setSelectedEbook(ebook);
+      if (!isMobile) {
+        setIsBuyDialogOpen(true);
+      }
     }
   };
 
@@ -122,23 +122,19 @@ function ProfilePageContent() {
   const renderContent = () => {
     let ebooksToShow: Ebook[] = [];
     let emptyMessage: string = '';
-    let clickAction: 'buy' | 'read' = 'read';
 
     switch (displayedTab) {
         case 'achats':
             ebooksToShow = [...purchasedEbooks].reverse();
             emptyMessage = t('no_purchased_ebooks');
-            clickAction = 'read';
             break;
         case 'publications':
-            ebooksToShow = [...userPublications].reverse();
+            ebooksToShow = [...publishedEbooks].reverse();
             emptyMessage = t('no_published_ebooks');
-            clickAction = 'read';
             break;
         case 'favoris':
             ebooksToShow = [...favoritedEbooks].reverse();
             emptyMessage = t('no_favorited_ebooks');
-            clickAction = 'buy';
             break;
         default:
             return null;
@@ -147,7 +143,7 @@ function ProfilePageContent() {
     return ebooksToShow.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             {ebooksToShow.map((ebook) => (
-                <EbookCard key={`${displayedTab}-${ebook.id}`} ebook={ebook} onCardClick={(e) => handleEbookClick(e, clickAction)} />
+                <EbookCard key={`${displayedTab}-${ebook.id}`} ebook={ebook} onCardClick={handleEbookClick} />
             ))}
         </div>
     ) : (
