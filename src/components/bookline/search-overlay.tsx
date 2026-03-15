@@ -236,7 +236,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
                               <div
                                   key={`rec-${ebook.id}-${overlayRunId}`} // Using the run ID in the key
                                   className={cn(
-                                      "transition-all duration-500 ease-out flex-shrink-0 w-[45%] sm:w-1/3",
+                                      "transition-all duration-500 ease-out flex-shrink-0 w-[45%] md:w-1/3",
                                       isContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                                   )}
                                   style={{ transitionDelay: `${150 + index * 75}ms` }}
