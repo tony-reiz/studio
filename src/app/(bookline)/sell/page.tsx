@@ -204,7 +204,7 @@ export default function SellPage() {
                 <SellForm />
               </div>
             </div>
-            <div className="max-w-[16rem] w-full mt-[17px]">
+            <div className="max-w-[16rem] w-full">
                 <Button
                     type="submit"
                     disabled={isButtonDisabled}
