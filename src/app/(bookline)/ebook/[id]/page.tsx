@@ -20,6 +20,7 @@ import { EbookDetailsSheet } from '@/components/bookline/ebook-details-sheet';
 import { EbookDetailsDialog } from '@/components/bookline/ebook-details-dialog';
 import { Document, Page } from 'react-pdf';
 import { GlassEffect } from '@/components/bookline/glass-effect';
+import Image from 'next/image';
 
 
 export default function EbookViewerPage() {
@@ -178,6 +179,8 @@ export default function EbookViewerPage() {
       </div>
     );
   }
+
+  const isPdf = ebook.pdfDataUrl.startsWith('data:application/pdf');
   
   return (
     <>
@@ -199,7 +202,7 @@ export default function EbookViewerPage() {
                   <Share2 className="mr-2 h-4 w-4" />
                   <span>{t('share')}</span>
                 </DropdownMenuItem>
-                {isClient && !isMobile && (
+                {isClient && !isMobile && isPdf && (
                   <DropdownMenuItem onClick={handleDownload}>
                     <Download className="mr-2 h-4 w-4" />
                     <span>{t('download')}</span>
@@ -219,7 +222,7 @@ export default function EbookViewerPage() {
           </div>
         </header>
 
-        {numPages && (
+        {isPdf && numPages && (
           <div className="fixed left-1/2 -translate-x-1/2 z-20 bg-background/80 backdrop-blur-xl rounded-full flex items-center gap-2 px-3 py-1.5" style={{ top: `calc(env(safe-area-inset-top) + 5rem)`}}>
             <FileText className="h-4 w-4 text-muted-foreground" />
             <span className="text-sm font-medium text-foreground tabular-nums">{numPages} {t('pages')}</span>
@@ -228,31 +231,43 @@ export default function EbookViewerPage() {
 
         <main className="flex-1 overflow-y-auto" style={{ paddingTop: `calc(env(safe-area-inset-top) + 4rem)`, paddingBottom: '8rem' }}>
             <div ref={widthRef} className="w-full max-w-xl mx-auto">
-                <Document
-                    file={ebook.pdfDataUrl}
-                    onLoadSuccess={onDocumentLoadSuccess}
-                    loading={
-                      <div className="flex h-full w-full items-center justify-center pt-20">
-                        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-                      </div>
-                    }
-                    error={<PdfError />}
-                    className="flex flex-col items-center"
-                >
-                    {Array.from(new Array(numPages || 0), (el, index) => (
-                        <div
-                            key={`page_${index + 1}`}
-                            className="w-full mb-4 flex justify-center"
-                        >
-                            <Page
-                                pageNumber={index + 1}
-                                width={containerWidth > 0 ? containerWidth : undefined}
-                                renderTextLayer={false}
-                                renderAnnotationLayer={false}
-                            />
-                        </div>
-                    ))}
-                </Document>
+                {isPdf ? (
+                    <Document
+                        file={ebook.pdfDataUrl}
+                        onLoadSuccess={onDocumentLoadSuccess}
+                        loading={
+                          <div className="flex h-full w-full items-center justify-center pt-20">
+                            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                          </div>
+                        }
+                        error={<PdfError />}
+                        className="flex flex-col items-center"
+                    >
+                        {Array.from(new Array(numPages || 0), (el, index) => (
+                            <div
+                                key={`page_${index + 1}`}
+                                className="w-full mb-4 flex justify-center"
+                            >
+                                <Page
+                                    pageNumber={index + 1}
+                                    width={containerWidth > 0 ? containerWidth : undefined}
+                                    renderTextLayer={false}
+                                    renderAnnotationLayer={false}
+                                />
+                            </div>
+                        ))}
+                    </Document>
+                ) : (
+                    <div className="relative aspect-[210/297] w-full bg-black rounded-lg overflow-hidden mt-4">
+                        <Image 
+                            src={ebook.pdfDataUrl}
+                            alt={ebook.title}
+                            fill
+                            style={{objectFit: 'contain'}}
+                            unoptimized
+                        />
+                    </div>
+                )}
             </div>
         </main>
 
