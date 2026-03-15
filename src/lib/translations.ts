@@ -194,6 +194,10 @@ export const translations = {
     'saved': 'Enregistré !',
     'changeable_in_days_single': 'Modifiable dans 1 jour.',
     'changeable_in_days_plural': 'Modifiable dans {days} jours.',
+    'current_balance': 'Solde actuel',
+    'next_payout_date': 'Prochain virement le 1er du mois prochain',
+    'bank_details': 'Coordonnées bancaires',
+    'payout_info_text': 'Les virements sont effectués automatiquement le 1er de chaque mois si votre solde est supérieur à 50€. Notre partenaire de paiement Stripe sécurise vos informations.',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',
@@ -455,6 +459,10 @@ export const translations = {
     'saved': 'Saved!',
     'changeable_in_days_single': 'Changeable in 1 day.',
     'changeable_in_days_plural': 'Changeable in {days} days.',
+    'current_balance': 'Current balance',
+    'next_payout_date': 'Next payout on the 1st of next month',
+    'bank_details': 'Bank details',
+    'payout_info_text': 'Payouts are made automatically on the 1st of each month if your balance is over €50. Our payment partner Stripe secures your information.',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',

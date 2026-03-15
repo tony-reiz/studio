@@ -3,7 +3,7 @@
 import { useEffect, useState, type ReactNode, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { SettingsList } from './settings-list';
-import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut, Plus, User as UserIcon, Bell } from 'lucide-react';
+import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut, Plus, User as UserIcon, Bell, Info } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { languages } from '@/lib/languages';
@@ -35,7 +35,7 @@ import { ImageCropper } from './image-cropper';
 import { GlassEffect } from './glass-effect';
 import { currencies, type Currency } from '@/lib/currencies';
 
-type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notifications' | 'currency';
+type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notifications' | 'currency' | 'transfer';
 
 interface MobileSettingsSheetProps {
     children: ReactNode;
@@ -63,6 +63,11 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
     // State for Currency View
     const [localSelectedCurrency, setLocalSelectedCurrency] = useState<Currency>(currency);
+
+    // State for Transfer View
+    const [iban, setIban] = useState('');
+    const [bic, setBic] = useState('');
+    const [payoutInfoChanged, setPayoutInfoChanged] = useState(false);
 
     const interestKeys: TranslationKeys[] = [
       'business', 'fiction', 'biographies', 'courses_revisions', 
@@ -108,8 +113,23 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 }
             });
             setLocalSelectedInterests(fullInterests);
+
+            // Payout info
+            const storedIban = localStorage.getItem('bookline-iban') || '';
+            const storedBic = localStorage.getItem('bookline-bic') || '';
+            setIban(storedIban);
+            setBic(storedBic);
+            setPayoutInfoChanged(false);
         }
     }, [isOpen, userProfile, selectedInterests, currency, t]);
+
+    useEffect(() => {
+        if (view === 'transfer' && isClient) {
+            const storedIban = localStorage.getItem('bookline-iban') || '';
+            const storedBic = localStorage.getItem('bookline-bic') || '';
+            setPayoutInfoChanged(iban !== storedIban || bic !== storedBic);
+        }
+    }, [iban, bic, view, isClient]);
 
     
     const onItemClick = (id: string) => {
@@ -119,6 +139,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         else if (id === 'account') setView('account');
         else if (id === 'notifications') setView('notifications');
         else if (id === 'currency') setView('currency');
+        else if (id === 'transfer') setView('transfer');
     };
 
     const handleLanguageSelect = (code: Locale) => {
@@ -236,6 +257,15 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         setCurrency(localSelectedCurrency);
         setIsOpen(false);
     };
+
+    const handleTransferSave = () => {
+        localStorage.setItem('bookline-iban', iban);
+        localStorage.setItem('bookline-bic', bic);
+        setPayoutInfoChanged(false);
+        setIsOpen(false);
+    };
+    
+    const totalRevenueForPayout = 0; // This would come from context later
     
     const MainView = (
       <>
@@ -595,6 +625,73 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     </div>
   );
 
+    const TransferView = (
+    <div className="flex flex-col h-full">
+        <div className="px-4 pt-6 shrink-0">
+            <div className="flex items-center justify-center relative mb-2">
+                <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
+                    <ChevronLeft className="h-6 w-6" />
+                </button>
+                <h1 className="text-xl font-bold text-center">{t('transfer')}</h1>
+            </div>
+        </div>
+        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-8">
+            <div className="w-full text-center">
+                <p className="text-muted-foreground">{t('current_balance')}</p>
+                <p className="text-4xl font-bold">{totalRevenueForPayout.toFixed(2).replace('.', ',')} €</p>
+                <p className="text-xs text-muted-foreground mt-1">{t('next_payout_date')}</p>
+            </div>
+
+            <div className="w-full space-y-4">
+                <div className="relative w-full">
+                    <p className="font-semibold mb-2 px-2 text-sm">{t('bank_details')}</p>
+                    <div className="relative w-full isolate overflow-hidden rounded-full mb-4">
+                        <GlassEffect />
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">IBAN</span>
+                        <Input 
+                            placeholder="FR76..." 
+                            value={iban} 
+                            onChange={(e) => setIban(e.target.value.toUpperCase())}
+                            className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
+                        />
+                    </div>
+                     <div className="relative w-full isolate overflow-hidden rounded-full">
+                        <GlassEffect />
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground z-30">BIC</span>
+                        <Input 
+                            placeholder="SOGEFRPP..." 
+                            value={bic} 
+                            onChange={(e) => setBic(e.target.value.toUpperCase())} 
+                            className="pl-16 pr-4 h-12 w-full text-base bg-transparent border-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground relative z-20"
+                        />
+                    </div>
+                </div>
+            </div>
+
+             <div className="w-full bg-secondary text-secondary-foreground rounded-2xl p-4 flex items-start gap-3 text-left">
+                <Info className="h-5 w-5 mt-0.5 flex-shrink-0"/>
+                <p className="text-xs">{t('payout_info_text')}</p>
+             </div>
+        </div>
+        <div className="p-4 pt-2 pb-6 shrink-0">
+            <div className="max-w-md mx-auto">
+                <Button 
+                    onClick={handleTransferSave}
+                    disabled={!payoutInfoChanged}
+                    className={cn(
+                    "rounded-full w-full h-12 text-lg font-semibold transition-colors",
+                    payoutInfoChanged
+                        ? "bg-foreground text-background hover:bg-foreground/90"
+                        : "bg-secondary text-muted-foreground"
+                    )}
+                >
+                    {t('save')}
+                </Button>
+            </div>
+        </div>
+    </div>
+  );
+
     const SettingsContent = (
       <div 
           className={cn(
@@ -616,6 +713,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                   {view === 'account' && AccountView}
                   {view === 'notifications' && NotificationsView}
                   {view === 'currency' && CurrencyView}
+                  {view === 'transfer' && TransferView}
               </div>
           </div>
       </div>
