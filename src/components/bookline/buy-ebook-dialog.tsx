@@ -72,7 +72,7 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
         description: `${t('you_can_now_read')} "${currentEbook.title}".`,
       });
       onOpenChange(false);
-      handleNavigate(`/ebook/${currentEbook.id}`);
+      handleNavigate('/profile?tab=achats');
     }
   };
   
@@ -284,5 +284,3 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
     </>
   );
 }
-
-    

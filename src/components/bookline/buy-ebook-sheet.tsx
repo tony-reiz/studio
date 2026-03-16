@@ -75,7 +75,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
         description: `${t('you_can_now_read')} "${activeEbook.title}".`,
       });
       onOpenChange(false);
-      handleNavigate(`/ebook/${activeEbook.id}`);
+      handleNavigate('/profile?tab=achats');
     }
   };
 
@@ -283,5 +283,3 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
     </FluidSheet>
   );
 }
-
-    

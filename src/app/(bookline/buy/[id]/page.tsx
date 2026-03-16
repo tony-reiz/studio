@@ -79,6 +79,7 @@ export default function BuyEbookPage() {
         title: "Achat réussi !",
         description: `Vous pouvez maintenant lire "${ebook.title}".`,
       });
+      handleNavigate('/profile?tab=achats');
     }
   };
   
