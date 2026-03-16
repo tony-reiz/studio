@@ -256,7 +256,6 @@ export const translations = {
     'pro_price': "10€",
     'pro_per_month': "/mois",
     'pro_upgrade_button': "Passer à BookLine Pro",
-    // New translations from this turn
     'user_profile_picture': "Photo de profil de l'utilisateur",
     'profile_of_on_bookline': 'Profil de {username} sur BookLine',
     'discover_profile_of_on_bookline': 'Découvrez le profil de {username} sur BookLine !',
@@ -266,8 +265,6 @@ export const translations = {
     'pdf_load_error_desc': "Impossible d'afficher le PDF. Le fichier est peut-être corrompu ou le format n'est pas supporté.",
     'pages': 'pages',
     'publications': 'publications',
-    'saved': 'Enregistré !',
-    'user_profile': "Profil de l'utilisateur",
   },
   en: {
     // General
@@ -526,7 +523,6 @@ export const translations = {
     'pro_price': "€10",
     'pro_per_month': "/month",
     'pro_upgrade_button': "Upgrade to BookLine Pro",
-    // New translations from this turn
     'user_profile_picture': 'User profile picture',
     'profile_of_on_bookline': 'Profile of {username} on BookLine',
     'discover_profile_of_on_bookline': 'Discover the profile of {username} on BookLine!',
@@ -536,7 +532,6 @@ export const translations = {
     'pdf_load_error_desc': 'Could not display the PDF. The file may be corrupted or the format is not supported.',
     'pages': 'pages',
     'publications': 'publications',
-    'saved': 'Saved!',
   },
 };
 
