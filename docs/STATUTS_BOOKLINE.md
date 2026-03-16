@@ -1,10 +1,6 @@
-# PROJET DE STATUTS DE LA SOCIÉTÉ BOOKLINE
+# STATUTS DE LA SOCIÉTÉ BOOKLINE
 
 **Société par Actions Simplifiée Unipersonnelle (SASU) au capital de 100,00 euros**
-
----
-
-**AVERTISSEMENT :** Le présent document constitue un projet de statuts établi sur la base des informations fournies. Il est impératif de le soumettre à un avocat ou un notaire pour validation et adaptation avant toute signature et démarche d'immatriculation.
 
 ---
 
