@@ -35,7 +35,7 @@ import { ImageCropper } from './image-cropper';
 import { currencies, type Currency } from '@/lib/currencies';
 import { GlassEffect } from './glass-effect';
 import { useToast } from '@/hooks/use-toast';
-import { Bar, BarChart, Cell, CartesianGrid, XAxis } from "recharts";
+import { Bar, BarChart, Cell, CartesianGrid, XAxis, LineChart, Line } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
@@ -791,36 +791,14 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     };
 
     const InvoicesView = () => {
-        const chartConfig = {
-            Net: {
-                label: "Net",
-            },
-            Revenus: {
-                label: "Revenus",
-                color: "hsl(0, 0%, 70%)",
-            },
-            Dépenses: {
-                label: "Dépenses",
-                color: "hsl(0, 84.2%, 60.2%)",
-            },
-        } satisfies ChartConfig;
-
-        const monthlyChartData = useMemo(() => {
-            const julyTransactions = transactionsData.filter(t => t.date.includes('juil.'));
-            const dailyData = Array.from({ length: 31 }, (_, i) => ({
-                day: `${i + 1}`,
-                net: 0
-            }));
-    
-            julyTransactions.forEach(t => {
-                const day = parseInt(t.date.split(' ')[0]);
-                const dayIndex = day - 1;
-                if (dayIndex >= 0 && dayIndex < 31) {
-                    dailyData[dayIndex].net += t.amount;
-                }
-            });
-            return dailyData;
+        const chartTransactions = useMemo(() => {
+            return transactionsData.slice(0, 5).reverse();
         }, []);
+
+        const maxAmount = useMemo(() => {
+            if (chartTransactions.length === 0) return 1;
+            return Math.max(...chartTransactions.map(t => Math.abs(t.amount)), 1);
+        }, [chartTransactions]);
 
 
         return (
@@ -833,41 +811,39 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                       <h1 className="text-xl font-bold text-center">{t('history')}</h1>
                   </div>
               </div>
-              <div className="px-4 pb-4">
-                  <ChartContainer config={chartConfig} className="h-[120px] w-full">
-                    <BarChart
-                      accessibilityLayer
-                      data={monthlyChartData}
-                      margin={{ left: 0, right: 0, top: 10, bottom: 0 }}
-                    >
-                      <XAxis dataKey="day" hide />
-                      <ChartTooltip
-                        cursor={false}
-                        content={<ChartTooltipContent
-                          indicator="dot"
-                          labelFormatter={(_, payload) => `Jour ${payload[0]?.payload.day}`}
-                        />}
-                      />
-                      <Bar dataKey="net" radius={2}>
-                        {monthlyChartData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.net >= 0 ? chartConfig.Revenus.color : chartConfig.Dépenses.color} />
-                        ))}
-                      </Bar>
-                    </BarChart>
-                  </ChartContainer>
+              <div className="h-[120px] w-full flex justify-around items-end px-4 gap-4">
+                {chartTransactions.map((transaction) => {
+                    const height = (Math.abs(transaction.amount) / maxAmount) * 60 + 15;
+                    const isIncome = transaction.amount >= 0;
+
+                    return (
+                        <div key={transaction.id} className="relative" style={{ height: `${height}px` }}>
+                            <div
+                                className={cn(
+                                    "w-3 rounded-sm relative h-full",
+                                    isIncome ? 'bg-green-500' : 'bg-red-500'
+                                )}
+                            >
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-full w-px bg-black/20 dark:bg-white/20"></div>
+                            </div>
+                        </div>
+                    );
+                })}
               </div>
-              <div className="flex-1 overflow-y-auto px-4">
+              <div className="flex-1 overflow-y-auto px-4 pt-4">
                 <div className="max-w-md mx-auto flex flex-col gap-4">
                     <ul className="space-y-2">
                         {transactionsData.map(transaction => (
                             <li key={transaction.id}>
                                 <div className="w-full p-2 flex items-center justify-between text-left">
                                     <div className='flex items-center gap-3'>
-                                        {transaction.type === 'income' ? (
-                                            <TrendingUp className="h-5 w-5 text-green-500 flex-shrink-0" />
-                                        ) : (
-                                            <TrendingDown className="h-5 w-5 text-red-500 flex-shrink-0" />
-                                        )}
+                                        <div className='-ml-1'>
+                                            {transaction.type === 'income' ? (
+                                                <TrendingUp className="h-5 w-5 text-green-500 flex-shrink-0" />
+                                            ) : (
+                                                <TrendingDown className="h-5 w-5 text-red-500 flex-shrink-0" />
+                                            )}
+                                        </div>
                                         <div className='flex flex-col'>
                                             <span className="font-semibold text-sm leading-tight">{transaction.description}</span>
                                             <span className="text-xs text-muted-foreground">{transaction.date}</span>
