@@ -797,7 +797,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             },
             Revenus: {
                 label: "Revenus",
-                color: "hsl(140, 70%, 45%)",
+                color: "hsl(0, 0%, 70%)",
             },
             Dépenses: {
                 label: "Dépenses",
@@ -840,7 +840,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                       data={monthlyChartData}
                       margin={{ left: 0, right: 0, top: 10, bottom: 0 }}
                     >
-                      <CartesianGrid vertical={false} />
                       <XAxis dataKey="day" hide />
                       <ChartTooltip
                         cursor={false}
