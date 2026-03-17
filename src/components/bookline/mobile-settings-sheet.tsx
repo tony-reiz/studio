@@ -34,7 +34,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ImageCropper } from './image-cropper';
 import { currencies, type Currency } from '@/lib/currencies';
 import { GlassEffect } from './glass-effect';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { InvoicesTabNav, type ActiveInvoiceTab } from './invoices-tab-nav';
 
 
 type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notifications' | 'currency' | 'transfer' | 'invoices';
@@ -71,6 +71,10 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const [bic, setBic] = useState('');
     const [isEditingTransfer, setIsEditingTransfer] = useState(true);
     const [transferSaveStatus, setTransferSaveStatus] = useState<'idle' | 'success'>('idle');
+    
+    // State for Invoices view
+    const [activeInvoiceTab, setActiveInvoiceTab] = useState<ActiveInvoiceTab>('sales');
+    const [isInvoiceContentVisible, setIsInvoiceContentVisible] = useState(true);
 
 
     const interestKeys: TranslationKeys[] = [
@@ -128,6 +132,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             } else {
               setIsEditingTransfer(false);
             }
+            setActiveInvoiceTab('sales');
         }
     }, [isOpen, userProfile, selectedInterests, currency, t]);
     
@@ -759,9 +764,18 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
           </ul>
       )
   }
+  
+  const handleInvoiceTabChange = (newTab: ActiveInvoiceTab) => {
+    if (activeInvoiceTab === newTab) return;
+    setIsInvoiceContentVisible(false);
+    setTimeout(() => {
+        setActiveInvoiceTab(newTab);
+        setIsInvoiceContentVisible(true);
+    }, 300);
+  };
 
   const InvoicesView = (
-      <>
+      <div className="flex flex-col h-full">
           <div className="px-4 pt-6 shrink-0">
               <div className="flex items-center justify-center relative mb-2">
                   <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
@@ -769,24 +783,16 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                   </button>
                   <h1 className="text-xl font-bold text-center">{t('invoices')}</h1>
               </div>
+              <InvoicesTabNav activeTab={activeInvoiceTab} setActiveTab={handleInvoiceTabChange} />
           </div>
           <div className="flex-1 overflow-y-auto px-4 pb-4">
-            <div className="w-full space-y-8">
-              <div>
-                <h2 className="text-lg font-semibold mb-4">{t('invoices_sales')}</h2>
-                <InvoiceList invoices={salesInvoices} />
-              </div>
-              <div>
-                <h2 className="text-lg font-semibold mb-4">{t('invoices_subscriptions')}</h2>
-                <InvoiceList invoices={subscriptionInvoices} />
-              </div>
-              <div>
-                <h2 className="text-lg font-semibold mb-4">{t('invoices_referrals')}</h2>
-                <InvoiceList invoices={referralInvoices} />
-              </div>
+            <div className={cn("w-full transition-opacity duration-300", isInvoiceContentVisible ? 'opacity-100' : 'opacity-0')}>
+              {activeInvoiceTab === 'sales' && <InvoiceList invoices={salesInvoices} />}
+              {activeInvoiceTab === 'subscriptions' && <InvoiceList invoices={subscriptionInvoices} />}
+              {activeInvoiceTab === 'referrals' && <InvoiceList invoices={referralInvoices} />}
             </div>
           </div>
-      </>
+      </div>
   );
 
     const SettingsContent = (

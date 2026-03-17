@@ -9,6 +9,7 @@ import { LightFluidBackground } from '@/components/bookline/light-fluid-backgrou
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 import { cn } from '@/lib/utils';
 import { GlassEffect } from '@/components/bookline/glass-effect';
+import { InvoicesTabNav, type ActiveInvoiceTab } from '@/components/bookline/invoices-tab-nav';
 
 interface Invoice {
   id: string;
@@ -62,10 +63,34 @@ export default function InvoicesPage() {
   const { handleBack } = useTransitionRouter();
   const { theme, t } = useEbooks();
   const [isClient, setIsClient] = useState(false);
+  const [activeTab, setActiveTab] = useState<ActiveInvoiceTab>('sales');
+  const [isContentVisible, setIsContentVisible] = useState(true);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  const handleTabChange = (newTab: ActiveInvoiceTab) => {
+    if (activeTab === newTab) return;
+    setIsContentVisible(false);
+    setTimeout(() => {
+      setActiveTab(newTab);
+      setIsContentVisible(true);
+    }, 300); // sync with animation duration
+  };
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'sales':
+        return <InvoiceList invoices={salesInvoices} />;
+      case 'subscriptions':
+        return <InvoiceList invoices={subscriptionInvoices} />;
+      case 'referrals':
+        return <InvoiceList invoices={referralInvoices} />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className={cn("min-h-screen text-foreground bg-transparent")}>
@@ -87,19 +112,10 @@ export default function InvoicesPage() {
         </header>
 
         <main className="flex-1 w-full flex flex-col items-center pt-8 pb-28 gap-8">
-          <div className="w-full space-y-8">
-            <div>
-              <h2 className="text-lg font-semibold mb-4">{t('invoices_sales')}</h2>
-              <InvoiceList invoices={salesInvoices} />
-            </div>
-             <div>
-              <h2 className="text-lg font-semibold mb-4">{t('invoices_subscriptions')}</h2>
-              <InvoiceList invoices={subscriptionInvoices} />
-            </div>
-             <div>
-              <h2 className="text-lg font-semibold mb-4">{t('invoices_referrals')}</h2>
-              <InvoiceList invoices={referralInvoices} />
-            </div>
+          <InvoicesTabNav activeTab={activeTab} setActiveTab={handleTabChange} />
+          
+          <div className={cn("w-full transition-opacity duration-300", isContentVisible ? "opacity-100" : "opacity-0")}>
+            {renderContent()}
           </div>
         </main>
       </div>
