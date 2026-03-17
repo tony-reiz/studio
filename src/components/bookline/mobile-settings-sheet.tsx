@@ -748,7 +748,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       return (
           <ul className="space-y-3">
               {invoices.map(invoice => (
-                  <li key={invoice.id} className="bg-secondary p-4 rounded-lg flex items-center justify-between">
+                  <li key={invoice.id} className="bg-secondary px-4 py-3 rounded-lg flex items-center justify-between">
                       <div className="flex flex-col">
                           <span className="font-semibold">{invoice.description}</span>
                           <span className="text-sm text-muted-foreground">{invoice.date}</span>
