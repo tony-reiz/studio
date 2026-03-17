@@ -3,7 +3,7 @@
 import { useEffect, useState, type ReactNode, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { SettingsList } from './settings-list';
-import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut, Plus, User as UserIcon, Bell, Info, Landmark, Edit3, Download, Receipt, FileText, ChevronRight, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
+import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut, Plus, User as UserIcon, Bell, Info, Landmark, Edit3, Download, Receipt, FileText, ChevronRight, TrendingUp, TrendingDown } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { languages } from '@/lib/languages';
@@ -801,9 +801,9 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             <div className="w-full p-2 flex items-center justify-between text-left">
                                 <div className='flex items-center gap-3'>
                                     {transaction.type === 'income' ? (
-                                        <ArrowUpCircle className="h-6 w-6 text-green-500 flex-shrink-0" />
+                                        <TrendingUp className="h-6 w-6 text-green-500 flex-shrink-0" />
                                     ) : (
-                                        <ArrowDownCircle className="h-6 w-6 text-red-500 flex-shrink-0" />
+                                        <TrendingDown className="h-6 w-6 text-red-500 flex-shrink-0" />
                                     )}
                                     <div className='flex flex-col'>
                                         <span className="font-semibold text-sm leading-tight">{transaction.description}</span>
