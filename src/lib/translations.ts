@@ -200,6 +200,10 @@ export const translations = {
     'payout_info_text': "Demandez un virement à tout moment dès que votre solde atteint 20€. Les fonds apparaîtront sur votre compte en quelques jours. Notre partenaire Stripe sécurise vos informations.",
     'request_payout': 'Demander un virement',
     'modify': 'Modifier',
+    'invoices_sales': 'Ventes/Achats',
+    'invoices_subscriptions': 'Abonnements',
+    'invoices_referrals': 'Parrainage',
+    'no_invoices_in_category': 'Aucune facture dans cette catégorie.',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',
@@ -467,6 +471,10 @@ export const translations = {
     'payout_info_text': "Request a payout at any time once your balance reaches €20. Funds will appear in your account within a few days. Our payment partner Stripe secures your information.",
     'request_payout': 'Request Payout',
     'modify': 'Edit',
+    'invoices_sales': 'Sales/Purchases',
+    'invoices_subscriptions': 'Subscriptions',
+    'invoices_referrals': 'Referrals',
+    'no_invoices_in_category': 'No invoices in this category.',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',

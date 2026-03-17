@@ -3,7 +3,7 @@
 import { useEffect, useState, type ReactNode, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { SettingsList } from './settings-list';
-import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut, Plus, User as UserIcon, Bell, Info, Landmark, Edit3 } from 'lucide-react';
+import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut, Plus, User as UserIcon, Bell, Info, Landmark, Edit3, Download, Receipt } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { languages } from '@/lib/languages';
@@ -33,8 +33,11 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 import { ImageCropper } from './image-cropper';
 import { currencies, type Currency } from '@/lib/currencies';
+import { GlassEffect } from './glass-effect';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notifications' | 'currency' | 'transfer';
+
+type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notifications' | 'currency' | 'transfer' | 'invoices';
 
 interface MobileSettingsSheetProps {
     children: ReactNode;
@@ -136,6 +139,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         else if (id === 'notifications') setView('notifications');
         else if (id === 'currency') setView('currency');
         else if (id === 'transfer') setView('transfer');
+        else if (id === 'invoices') setView('invoices');
     };
 
     const handleLanguageSelect = (code: Locale) => {
@@ -714,6 +718,83 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         </div>
     </div>
   );
+  
+  interface Invoice {
+    id: string;
+    date: string;
+    description: string;
+    amount: string;
+  }
+  const salesInvoices: Invoice[] = [
+    { id: 'sale-1', date: '25/07/2026', description: 'Vente - "Le guide du cosmos"', amount: '17,00 €' },
+    { id: 'sale-2', date: '23/07/2026', description: 'Achat - "Cuisiner comme un chef"', amount: '-23,50 €' },
+    { id: 'sale-3', date: '15/07/2026', description: 'Vente - "L\'art de la photographie"', amount: '22,00 €' },
+  ];
+  const subscriptionInvoices: Invoice[] = [
+    { id: 'sub-1', date: '01/07/2026', description: 'Abonnement BookLine Pro', amount: '-10,00 €' },
+    { id: 'sub-2', date: '01/06/2026', description: 'Abonnement BookLine Pro', amount: '-10,00 €' },
+  ];
+  const referralInvoices: Invoice[] = [ { id: 'ref-1', date: '20/07/2026', description: 'Gain de parrainage', amount: '1,00 €' } ];
+
+  function InvoiceList({ invoices }: { invoices: Invoice[] }) {
+      if (invoices.length === 0) {
+          return <p className="text-muted-foreground text-center pt-8">{t('no_invoices_in_category')}</p>;
+      }
+      return (
+          <ul className="space-y-3">
+              {invoices.map(invoice => (
+                  <li key={invoice.id} className="bg-secondary p-4 rounded-lg flex items-center justify-between">
+                      <div className="flex flex-col">
+                          <span className="font-semibold">{invoice.description}</span>
+                          <span className="text-sm text-muted-foreground">{invoice.date}</span>
+                      </div>
+                      <div className="flex items-center gap-4">
+                          <span className="font-semibold text-lg">{invoice.amount}</span>
+                          <Button variant="ghost" size="icon" className="text-muted-foreground">
+                              <Download className="h-5 w-5" />
+                          </Button>
+                      </div>
+                  </li>
+              ))}
+          </ul>
+      )
+  }
+
+  const InvoicesView = (
+      <>
+          <div className="px-4 pt-6 shrink-0">
+              <div className="flex items-center justify-center relative mb-2">
+                  <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
+                      <ChevronLeft className="h-6 w-6" />
+                  </button>
+                  <h1 className="text-xl font-bold text-center">{t('invoices')}</h1>
+              </div>
+          </div>
+          <div className="flex-1 overflow-y-auto px-4 pb-4">
+            <Tabs defaultValue="ventes" className="w-full">
+              <div className="flex justify-center">
+                  <div className="relative isolate overflow-hidden p-1 rounded-full flex items-center justify-center mb-6">
+                      <GlassEffect />
+                      <TabsList className="relative z-10 bg-transparent p-0 gap-1">
+                          <TabsTrigger value="ventes" className="capitalize data-[state=active]:bg-foreground data-[state=active]:text-background rounded-full px-4 py-1.5 text-sm font-semibold">{t('invoices_sales')}</TabsTrigger>
+                          <TabsTrigger value="abonnements" className="capitalize data-[state=active]:bg-foreground data-[state=active]:text-background rounded-full px-4 py-1.5 text-sm font-semibold">{t('invoices_subscriptions')}</TabsTrigger>
+                          <TabsTrigger value="parrainage" className="capitalize data-[state=active]:bg-foreground data-[state=active]:text-background rounded-full px-4 py-1.5 text-sm font-semibold">{t('invoices_referrals')}</TabsTrigger>
+                      </TabsList>
+                  </div>
+              </div>
+              <TabsContent value="ventes">
+                  <InvoiceList invoices={salesInvoices} />
+              </TabsContent>
+              <TabsContent value="abonnements">
+                  <InvoiceList invoices={subscriptionInvoices} />
+              </TabsContent>
+              <TabsContent value="parrainage">
+                  <InvoiceList invoices={referralInvoices} />
+              </TabsContent>
+            </Tabs>
+          </div>
+      </>
+  );
 
     const SettingsContent = (
       <div 
@@ -737,6 +818,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                   {view === 'notifications' && NotificationsView}
                   {view === 'currency' && CurrencyView}
                   {view === 'transfer' && TransferView}
+                  {view === 'invoices' && InvoicesView}
               </div>
           </div>
       </div>
