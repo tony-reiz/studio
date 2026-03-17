@@ -41,15 +41,15 @@ function InvoiceList({ invoices }: { invoices: Invoice[] }) {
     return (
         <ul className="space-y-2">
             {invoices.map(invoice => (
-                <li key={invoice.id} className="bg-secondary px-4 py-2 rounded-lg flex items-center justify-between">
+                <li key={invoice.id} className="bg-secondary px-4 py-3 rounded-lg flex items-center justify-between">
                     <div className="flex flex-col">
                         <span className="font-semibold">{invoice.description}</span>
                         <span className="text-sm text-muted-foreground">{invoice.date}</span>
                     </div>
-                    <div className="flex items-center gap-4">
-                        <span className="font-semibold text-lg">{invoice.amount}</span>
-                        <Button variant="ghost" size="icon" className="text-muted-foreground">
-                            <Download className="h-5 w-5" />
+                    <div className="flex items-center gap-2">
+                        <span className="font-semibold text-base">{invoice.amount}</span>
+                        <Button variant="ghost" size="icon" className="text-muted-foreground w-8 h-8">
+                            <Download className="h-4 w-4" />
                         </Button>
                     </div>
                 </li>
@@ -110,10 +110,10 @@ export default function InvoicesPage() {
           <h1 className="text-2xl font-bold text-center">{t('invoices')}</h1>
         </header>
 
-        <main className="flex-1 w-full flex flex-col items-center pt-8 pb-28 gap-8">
+        <main className="flex-1 w-full flex flex-col items-center pt-8 pb-28">
           <InvoicesTabNav activeTab={activeTab} setActiveTab={handleTabChange} />
           
-          <div className={cn("w-full transition-opacity duration-300", isContentVisible ? "opacity-100" : "opacity-0")}>
+          <div className={cn("w-full transition-opacity duration-300 pt-8", isContentVisible ? "opacity-100" : "opacity-0")}>
             {renderContent()}
           </div>
         </main>
