@@ -34,6 +34,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ImageCropper } from './image-cropper';
 import { currencies, type Currency } from '@/lib/currencies';
 import { GlassEffect } from './glass-effect';
+import { InvoicesModal } from './invoices-modal';
 
 
 type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notifications' | 'currency' | 'transfer' | 'invoices';
@@ -745,10 +746,12 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
           </div>
           <div className="flex-1 overflow-y-auto px-4 py-4">
             <div className="max-w-md mx-auto flex flex-col gap-8">
-                <Button variant="outline" className="w-full justify-center">
-                    <Receipt className="h-5 w-5 mr-2" />
-                    {t('invoices')}
-                </Button>
+                <InvoicesModal>
+                    <Button variant="outline" className="w-full justify-center">
+                        <Receipt className="h-5 w-5 mr-2" />
+                        {t('invoices')}
+                    </Button>
+                </InvoicesModal>
                 <ul className="space-y-2">
                     {transactionsData.map(transaction => (
                         <li key={transaction.id}>

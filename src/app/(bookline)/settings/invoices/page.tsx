@@ -9,6 +9,7 @@ import { LightFluidBackground } from '@/components/bookline/light-fluid-backgrou
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 import { cn } from '@/lib/utils';
 import { GlassEffect } from '@/components/bookline/glass-effect';
+import { InvoicesModal } from '@/components/bookline/invoices-modal';
 
 const transactionsData = [
   { id: '1', type: 'income', description: 'Vente - "Le guide du cosmos"', date: '25 juil. 2026', amount: 17.00 },
@@ -53,10 +54,12 @@ export default function InvoicesPage() {
           </div>
           <h1 className="text-2xl font-bold text-center">{t('history')}</h1>
           <div className="justify-self-end">
-            <Button variant="outline" className="rounded-full">
-                <Receipt className="h-5 w-5 mr-2" />
-                {t('invoices')}
-            </Button>
+            <InvoicesModal>
+                <Button variant="outline" className="rounded-full">
+                    <Receipt className="h-5 w-5 mr-2" />
+                    {t('invoices')}
+                </Button>
+            </InvoicesModal>
           </div>
         </header>
 
