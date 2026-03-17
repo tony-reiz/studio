@@ -737,21 +737,25 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
   const InvoicesView = (
       <div className="flex flex-col h-full">
           <div className="px-4 pt-6 shrink-0">
-              <div className="flex items-center justify-center relative mb-2">
-                  <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
-                      <ChevronLeft className="h-6 w-6" />
-                  </button>
+              <div className="grid grid-cols-3 items-center w-full mb-2">
+                  <div className="justify-self-start">
+                    <button onClick={() => setView('main')} className="p-2 -ml-2 text-muted-foreground">
+                        <ChevronLeft className="h-6 w-6" />
+                    </button>
+                  </div>
                   <h1 className="text-xl font-bold text-center">{t('history')}</h1>
+                   <div className="justify-self-end">
+                      <InvoicesModal>
+                          <Button variant="outline" className="rounded-full">
+                              <Receipt className="h-5 w-5 mr-2" />
+                              {t('invoices')}
+                          </Button>
+                      </InvoicesModal>
+                    </div>
               </div>
           </div>
           <div className="flex-1 overflow-y-auto px-4 py-4">
             <div className="max-w-md mx-auto flex flex-col gap-8">
-                <InvoicesModal>
-                    <Button variant="outline" className="w-full justify-center">
-                        <Receipt className="h-5 w-5 mr-2" />
-                        {t('invoices')}
-                    </Button>
-                </InvoicesModal>
                 <ul className="space-y-2">
                     {transactionsData.map(transaction => (
                         <li key={transaction.id}>
