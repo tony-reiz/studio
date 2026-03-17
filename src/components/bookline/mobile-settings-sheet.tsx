@@ -771,27 +771,20 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
               </div>
           </div>
           <div className="flex-1 overflow-y-auto px-4 pb-4">
-            <Tabs defaultValue="ventes" className="w-full">
-              <div className="flex justify-center">
-                  <div className="relative isolate overflow-hidden p-1 rounded-full flex items-center justify-center mb-6">
-                      <GlassEffect />
-                      <TabsList className="relative z-10 bg-transparent p-0 gap-1">
-                          <TabsTrigger value="ventes" className="capitalize data-[state=active]:bg-foreground data-[state=active]:text-background rounded-full px-4 py-1.5 text-sm font-semibold">{t('invoices_sales')}</TabsTrigger>
-                          <TabsTrigger value="abonnements" className="capitalize data-[state=active]:bg-foreground data-[state=active]:text-background rounded-full px-4 py-1.5 text-sm font-semibold">{t('invoices_subscriptions')}</TabsTrigger>
-                          <TabsTrigger value="parrainage" className="capitalize data-[state=active]:bg-foreground data-[state=active]:text-background rounded-full px-4 py-1.5 text-sm font-semibold">{t('invoices_referrals')}</TabsTrigger>
-                      </TabsList>
-                  </div>
+            <div className="w-full space-y-8">
+              <div>
+                <h2 className="text-lg font-semibold mb-4">{t('invoices_sales')}</h2>
+                <InvoiceList invoices={salesInvoices} />
               </div>
-              <TabsContent value="ventes">
-                  <InvoiceList invoices={salesInvoices} />
-              </TabsContent>
-              <TabsContent value="abonnements">
-                  <InvoiceList invoices={subscriptionInvoices} />
-              </TabsContent>
-              <TabsContent value="parrainage">
-                  <InvoiceList invoices={referralInvoices} />
-              </TabsContent>
-            </Tabs>
+              <div>
+                <h2 className="text-lg font-semibold mb-4">{t('invoices_subscriptions')}</h2>
+                <InvoiceList invoices={subscriptionInvoices} />
+              </div>
+              <div>
+                <h2 className="text-lg font-semibold mb-4">{t('invoices_referrals')}</h2>
+                <InvoiceList invoices={referralInvoices} />
+              </div>
+            </div>
           </div>
       </>
   );
