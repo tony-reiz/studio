@@ -35,7 +35,7 @@ import { ImageCropper } from './image-cropper';
 import { currencies, type Currency } from '@/lib/currencies';
 import { GlassEffect } from './glass-effect';
 import { useToast } from '@/hooks/use-toast';
-import { Line, LineChart, CartesianGrid, XAxis } from "recharts";
+import { Bar, BarChart, Cell, CartesianGrid, XAxis } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
@@ -792,6 +792,9 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
     const InvoicesView = () => {
         const chartConfig = {
+            Net: {
+                label: "Net",
+            },
             Revenus: {
                 label: "Revenus",
                 color: "hsl(140, 70%, 45%)",
@@ -804,17 +807,16 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
         const monthlyChartData = useMemo(() => {
             const julyTransactions = transactionsData.filter(t => t.date.includes('juil.'));
-            const dailyData = Array.from({ length: 31 }, (_, i) => ({ day: `${i + 1}`, Revenus: 0, Dépenses: 0 }));
-
+            const dailyData = Array.from({ length: 31 }, (_, i) => ({
+                day: `${i + 1}`,
+                net: 0
+            }));
+    
             julyTransactions.forEach(t => {
                 const day = parseInt(t.date.split(' ')[0]);
                 const dayIndex = day - 1;
                 if (dayIndex >= 0 && dayIndex < 31) {
-                    if (t.type === 'income') {
-                        dailyData[dayIndex].Revenus += t.amount;
-                    } else {
-                        dailyData[dayIndex].Dépenses += Math.abs(t.amount);
-                    }
+                    dailyData[dayIndex].net += t.amount;
                 }
             });
             return dailyData;
@@ -833,7 +835,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
               </div>
               <div className="px-4 pb-4">
                   <ChartContainer config={chartConfig} className="h-[120px] w-full">
-                    <LineChart
+                    <BarChart
                       accessibilityLayer
                       data={monthlyChartData}
                       margin={{ left: 0, right: 0, top: 10, bottom: 0 }}
@@ -843,25 +845,16 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                       <ChartTooltip
                         cursor={false}
                         content={<ChartTooltipContent
-                          indicator="line"
+                          indicator="dot"
                           labelFormatter={(_, payload) => `Jour ${payload[0]?.payload.day}`}
                         />}
                       />
-                      <Line
-                        dataKey="Revenus"
-                        type="linear"
-                        stroke="var(--color-Revenus)"
-                        strokeWidth={2}
-                        dot={false}
-                      />
-                      <Line
-                        dataKey="Dépenses"
-                        type="linear"
-                        stroke="var(--color-Dépenses)"
-                        strokeWidth={2}
-                        dot={false}
-                      />
-                    </LineChart>
+                      <Bar dataKey="net" radius={2}>
+                        {monthlyChartData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.net >= 0 ? chartConfig.Revenus.color : chartConfig.Dépenses.color} />
+                        ))}
+                      </Bar>
+                    </BarChart>
                   </ChartContainer>
               </div>
               <div className="flex-1 overflow-y-auto px-4">
