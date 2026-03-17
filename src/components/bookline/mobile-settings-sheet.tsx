@@ -3,7 +3,7 @@
 import { useEffect, useState, type ReactNode, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { SettingsList } from './settings-list';
-import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut, Plus, User as UserIcon, Bell, Info, Landmark, Edit3, Download, Receipt, FileText, ChevronRight } from 'lucide-react';
+import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut, Plus, User as UserIcon, Bell, Info, Landmark, Edit3, Download, Receipt, FileText, ChevronRight, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { languages } from '@/lib/languages';
@@ -70,10 +70,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const [bic, setBic] = useState('');
     const [isEditingTransfer, setIsEditingTransfer] = useState(true);
     const [transferSaveStatus, setTransferSaveStatus] = useState<'idle' | 'success'>('idle');
-    
-    // State for Invoices view
-    const [activeInvoiceTab, setActiveInvoiceTab] = useState<'sales' | 'subscriptions' | 'referrals'>('sales');
-    const [isInvoiceContentVisible, setIsInvoiceContentVisible] = useState(true);
 
 
     const interestKeys: TranslationKeys[] = [
@@ -131,7 +127,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             } else {
               setIsEditingTransfer(false);
             }
-            setActiveInvoiceTab('sales');
         }
     }, [isOpen, userProfile, selectedInterests, currency, t]);
     
@@ -723,11 +718,20 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     </div>
   );
   
-  const monthlyInvoicesData = [
-    { id: '2026-07', month: 'Juillet 2026' },
-    { id: '2026-06', month: 'Juin 2026' },
-    { id: '2026-05', month: 'Mai 2026' },
+  const transactionsData = [
+    { id: '1', type: 'income', description: 'Vente - "Le guide du cosmos"', date: '25 juil. 2026', amount: 17.00 },
+    { id: '2', type: 'expense', description: 'Achat - "Cuisiner comme un chef"', date: '23 juil. 2026', amount: -23.50 },
+    { id: '3', type: 'income', description: 'Vente - "L\'art de la photographie"', date: '15 juil. 2026', amount: 22.00 },
+    { id: '4', type: 'expense', description: 'Abonnement BookLine Pro', date: '01 juil. 2026', amount: -10.00 },
+    { id: '5', type: 'income', description: 'Gain parrainage', date: '28 juin 2026', amount: 1.00 },
+    { id: '6', type: 'income', description: 'Vente - "Le guide du cosmos"', date: '25 juin 2026', amount: 17.00 },
+    { id: '7', type: 'expense', description: 'Achat - "Cuisiner comme un chef"', date: '23 juin 2026', amount: -23.50 },
   ];
+
+  const formatCurrency = (amount: number) => {
+    const sign = amount > 0 ? '+' : '';
+    return `${sign}${amount.toFixed(2).replace('.', ',')} €`;
+  }
   
   const InvoicesView = (
       <div className="flex flex-col h-full">
@@ -736,40 +740,40 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                   <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
                       <ChevronLeft className="h-6 w-6" />
                   </button>
-                  <h1 className="text-xl font-bold text-center">{t('invoices')}</h1>
+                  <h1 className="text-xl font-bold text-center">{t('history')}</h1>
               </div>
           </div>
           <div className="flex-1 overflow-y-auto px-4 py-4">
             <div className="max-w-md mx-auto flex flex-col gap-8">
-                <div className="w-full grid grid-cols-2 gap-4">
-                    <div className="bg-secondary p-4 rounded-lg text-center">
-                        <p className="text-sm text-muted-foreground">{t('total_purchases_this_month')}</p>
-                        <p className="text-2xl font-bold">0,00 €</p>
-                    </div>
-                    <div className="bg-secondary p-4 rounded-lg text-center">
-                        <p className="text-sm text-muted-foreground">{t('earnings_this_month')}</p>
-                        <p className="text-2xl font-bold">0,00 €</p>
-                    </div>
-                </div>
-
-                <div className="w-full">
-                    <h2 className="text-xl font-semibold mb-4">{t('documents')}</h2>
-                    <ul className="space-y-2">
-                    {monthlyInvoicesData.map(invoice => (
-                        <li key={invoice.id}>
-                            <button className="w-full bg-secondary px-4 py-3 rounded-lg flex items-center justify-between text-left hover:bg-accent transition-colors">
+                <Button variant="outline" className="w-full justify-center">
+                    <FileText className="h-5 w-5 mr-2" />
+                    {t('view_documents')}
+                </Button>
+                <ul className="space-y-2">
+                    {transactionsData.map(transaction => (
+                        <li key={transaction.id}>
+                            <div className="w-full bg-secondary/80 p-3 rounded-lg flex items-center justify-between text-left">
                                 <div className='flex items-center gap-3'>
-                                    <FileText className="h-5 w-5 text-muted-foreground" />
-                                    <span className="font-semibold">{invoice.month}</span>
+                                    {transaction.type === 'income' ? (
+                                        <ArrowUpCircle className="h-6 w-6 text-green-500 flex-shrink-0" />
+                                    ) : (
+                                        <ArrowDownCircle className="h-6 w-6 text-red-500 flex-shrink-0" />
+                                    )}
+                                    <div className='flex flex-col'>
+                                        <span className="font-semibold text-sm leading-tight">{transaction.description}</span>
+                                        <span className="text-xs text-muted-foreground">{transaction.date}</span>
+                                    </div>
                                 </div>
-                                <Button variant="ghost" size="icon" className="text-muted-foreground w-8 h-8">
-                                    <Download className="h-5 w-5" />
-                                </Button>
-                            </button>
+                                <span className={cn(
+                                    "font-bold text-sm",
+                                    transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
+                                )}>
+                                    {formatCurrency(transaction.amount)}
+                                </span>
+                            </div>
                         </li>
                     ))}
-                    </ul>
-                </div>
+                </ul>
             </div>
           </div>
       </div>
