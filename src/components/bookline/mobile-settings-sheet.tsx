@@ -799,7 +799,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     {transactionsData.map(transaction => (
                         <li key={transaction.id}>
                             <div className="w-full p-2 flex items-center justify-between text-left">
-                                <div className='flex items-center gap-3'>
+                                <div className='flex items-center gap-3 -ml-1'>
                                     {transaction.type === 'income' ? (
                                         <TrendingUp className="h-5 w-5 text-green-500 flex-shrink-0" />
                                     ) : (
