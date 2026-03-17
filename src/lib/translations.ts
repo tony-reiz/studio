@@ -204,6 +204,10 @@ export const translations = {
     'invoices_subscriptions': 'Abonnements',
     'invoices_referrals': 'Parrainage',
     'no_invoices_in_category': 'Aucune facture dans cette catégorie.',
+    'total_purchases_this_month': 'Total achats ce mois-ci',
+    'earnings_this_month': 'Bénéfices ce mois-ci',
+    'documents': 'Documents',
+    'view_document': 'Voir le document',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',
@@ -475,6 +479,10 @@ export const translations = {
     'invoices_subscriptions': 'Subscriptions',
     'invoices_referrals': 'Referrals',
     'no_invoices_in_category': 'No invoices in this category.',
+    'total_purchases_this_month': 'Total purchases this month',
+    'earnings_this_month': 'Earnings this month',
+    'documents': 'Documents',
+    'view_document': 'View document',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',
