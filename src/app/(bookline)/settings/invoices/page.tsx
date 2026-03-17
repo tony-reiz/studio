@@ -110,15 +110,15 @@ export default function InvoicesPage() {
 
         <main className="flex-1 w-full flex flex-col items-center pt-8 pb-28 gap-4">
           <div className="flex justify-center w-full">
-            <div className="relative isolate overflow-hidden rounded-full flex items-center w-full max-w-md mx-auto mb-6 bg-secondary">
+            <div className="relative rounded-full flex items-center w-full max-w-md mx-auto mb-6 bg-secondary">
               <div
-                className="absolute top-0 h-full w-1/3 rounded-full bg-primary transition-all duration-500 ease-in-out z-10"
+                className="absolute top-0 h-full w-1/3 rounded-full bg-primary transition-all duration-300 ease-in-out"
                 style={{ left: getLeftPosition() }}
               />
               <button
                 onClick={() => handleTabChange('ventes')}
                 className={cn(
-                  'relative z-20 w-1/3 py-3 text-center text-sm font-semibold transition-colors duration-500',
+                  'relative z-10 w-1/3 py-3 text-center text-sm font-semibold transition-colors duration-300',
                   activeTab === 'ventes' ? 'text-primary-foreground' : 'text-foreground'
                 )}
               >
@@ -127,7 +127,7 @@ export default function InvoicesPage() {
               <button
                 onClick={() => handleTabChange('abonnements')}
                 className={cn(
-                  'relative z-20 w-1/3 py-3 text-center text-sm font-semibold transition-colors duration-500',
+                  'relative z-10 w-1/3 py-3 text-center text-sm font-semibold transition-colors duration-300',
                   activeTab === 'abonnements' ? 'text-primary-foreground' : 'text-foreground'
                 )}
               >
@@ -136,7 +136,7 @@ export default function InvoicesPage() {
               <button
                 onClick={() => handleTabChange('parrainage')}
                 className={cn(
-                  'relative z-20 w-1/3 py-3 text-center text-sm font-semibold transition-colors duration-500',
+                  'relative z-10 w-1/3 py-3 text-center text-sm font-semibold transition-colors duration-300',
                   activeTab === 'parrainage' ? 'text-primary-foreground' : 'text-foreground'
                 )}
               >
