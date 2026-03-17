@@ -786,19 +786,11 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const InvoicesView = (
       <div className="flex flex-col h-full">
           <div className="px-4 pt-6 shrink-0">
-              <div className="grid grid-cols-3 items-center w-full mb-2">
-                  <div className="justify-self-start">
-                    <button onClick={() => setView('main')} className="p-2 -ml-2 text-muted-foreground">
-                        <ChevronLeft className="h-6 w-6" />
-                    </button>
-                  </div>
+              <div className="flex items-center justify-center relative mb-2">
+                  <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
+                      <ChevronLeft className="h-6 w-6" />
+                  </button>
                   <h1 className="text-xl font-bold text-center">{t('history')}</h1>
-                   <div className="justify-self-end">
-                      <Button variant="outline" className="rounded-full" onClick={() => setView('monthlyInvoices')}>
-                          <Receipt className="h-5 w-5 mr-2" />
-                          {t('invoices')}
-                      </Button>
-                    </div>
               </div>
           </div>
           <div className="flex-1 overflow-y-auto px-4 py-4">
@@ -806,7 +798,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <ul className="space-y-2">
                     {transactionsData.map(transaction => (
                         <li key={transaction.id}>
-                            <div className="w-full bg-secondary/80 p-3 rounded-lg flex items-center justify-between text-left">
+                            <div className="w-full bg-secondary/80 p-2 rounded-lg flex items-center justify-between text-left">
                                 <div className='flex items-center gap-3'>
                                     {transaction.type === 'income' ? (
                                         <ArrowUpCircle className="h-6 w-6 text-green-500 flex-shrink-0" />
@@ -830,6 +822,16 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 </ul>
             </div>
           </div>
+          <div className="p-4 pt-2 pb-6 shrink-0">
+            <div className="w-full max-w-[16rem] mx-auto">
+                <Button
+                    onClick={() => setView('monthlyInvoices')}
+                    className="rounded-full w-full h-12 text-lg font-semibold bg-foreground text-background hover:bg-foreground/90"
+                >
+                    {t('invoices')}
+                </Button>
+            </div>
+        </div>
       </div>
   );
 
