@@ -34,10 +34,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { ImageCropper } from './image-cropper';
 import { currencies, type Currency } from '@/lib/currencies';
 import { GlassEffect } from './glass-effect';
-import { InvoicesModal } from './invoices-modal';
+import { useToast } from '@/hooks/use-toast';
 
 
-type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notifications' | 'currency' | 'transfer' | 'invoices';
+type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notifications' | 'currency' | 'transfer' | 'invoices' | 'monthlyInvoices';
 
 interface MobileSettingsSheetProps {
     children: ReactNode;
@@ -51,6 +51,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     
     const isMobile = useIsMobile();
     const [isClient, setIsClient] = useState(false);
+    const { toast } = useToast();
 
     const [isContentVisible, setIsContentVisible] = useState(false);
 
@@ -734,7 +735,55 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     return `${sign}${amount.toFixed(2).replace('.', ',')} €`;
   }
   
-  const InvoicesView = (
+    const MonthlyInvoicesView = () => {
+        const handleDownload = (month: string) => {
+            toast({
+                title: t('simulated_download'),
+                description: t('download_would_start_for').replace('{month}', month),
+            });
+        };
+    
+        const invoiceMonths = [
+            "Juillet 2026", "Juin 2026", "Mai 2026", "Avril 2026",
+            "Mars 2026", "Février 2026", "Janvier 2026",
+        ];
+    
+        return (
+            <div className="flex flex-col h-full">
+                <div className="px-4 pt-6 shrink-0">
+                    <div className="flex items-center justify-center relative mb-2">
+                        <button onClick={() => setView('invoices')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
+                            <ChevronLeft className="h-6 w-6" />
+                        </button>
+                        <h1 className="text-xl font-bold text-center">{t('invoices')}</h1>
+                    </div>
+                    <div className="text-center">
+                        <p className="text-muted-foreground text-sm mt-1">{t('monthly_statements')}</p>
+                    </div>
+                </div>
+                <div className="flex-1 overflow-y-auto px-4 py-4">
+                    <ul className="my-8 space-y-3">
+                        {invoiceMonths.map((month) => (
+                            <li key={month} className="flex items-center justify-between rounded-lg bg-secondary p-3">
+                                <div className="flex items-center gap-3">
+                                    <FileText className="h-5 w-5 text-muted-foreground" />
+                                    <span className="font-semibold">{month}</span>
+                                </div>
+                                <Button variant="ghost" size="icon" onClick={() => handleDownload(month)} aria-label={`Télécharger la facture pour ${month}`}>
+                                    <Download className="h-5 w-5" />
+                                </Button>
+                            </li>
+                        ))}
+                    </ul>
+                    <div className="text-xs text-muted-foreground text-center p-4 bg-secondary rounded-lg">
+                        <p><strong>{t('note')}:</strong> {t('simulation_disclaimer')}</p>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
+    const InvoicesView = (
       <div className="flex flex-col h-full">
           <div className="px-4 pt-6 shrink-0">
               <div className="grid grid-cols-3 items-center w-full mb-2">
@@ -745,12 +794,10 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                   </div>
                   <h1 className="text-xl font-bold text-center">{t('history')}</h1>
                    <div className="justify-self-end">
-                      <InvoicesModal>
-                          <Button variant="outline" className="rounded-full">
-                              <Receipt className="h-5 w-5 mr-2" />
-                              {t('invoices')}
-                          </Button>
-                      </InvoicesModal>
+                      <Button variant="outline" className="rounded-full" onClick={() => setView('monthlyInvoices')}>
+                          <Receipt className="h-5 w-5 mr-2" />
+                          {t('invoices')}
+                      </Button>
                     </div>
               </div>
           </div>
@@ -800,15 +847,34 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
               view !== 'main' ? "-translate-x-1/2" : "translate-x-0"
           )}>
               <div className="w-1/2 h-full flex flex-col">{MainView}</div>
-              <div className="w-1/2 h-full flex flex-col relative">
-                  {view === 'language' && LanguageView}
-                  {view === 'help' && HelpView}
-                  {view === 'security' && SecurityView}
-                  {view === 'account' && AccountView}
-                  {view === 'notifications' && NotificationsView}
-                  {view === 'currency' && CurrencyView}
-                  {view === 'transfer' && TransferView}
-                  {view === 'invoices' && InvoicesView}
+              <div className="w-1/2 h-full flex flex-col relative overflow-hidden">
+                
+                {view !== 'invoices' && view !== 'monthlyInvoices' && (
+                  <>
+                    {view === 'language' && LanguageView}
+                    {view === 'help' && HelpView}
+                    {view === 'security' && SecurityView}
+                    {view === 'account' && AccountView}
+                    {view === 'notifications' && NotificationsView}
+                    {view === 'currency' && CurrencyView}
+                    {view === 'transfer' && TransferView}
+                  </>
+                )}
+                
+                {(view === 'invoices' || view === 'monthlyInvoices') && (
+                    <div className={cn(
+                        "flex w-[200%] h-full",
+                        "transition-transform duration-500 ease-in-out",
+                        view === 'monthlyInvoices' ? '-translate-x-1/2' : 'translate-x-0'
+                    )}>
+                        <div className="w-1/2 h-full flex flex-col">
+                            {InvoicesView}
+                        </div>
+                        <div className="w-1/2 h-full flex flex-col">
+                            {<MonthlyInvoicesView />}
+                        </div>
+                    </div>
+                )}
               </div>
           </div>
       </div>
