@@ -791,23 +791,35 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     };
 
     const InvoicesView = () => {
-        const monthlyExpensesData = useMemo(() => ([
-            { day: '1', Dépenses: 10.00 }, { day: '2', Dépenses: 0 }, { day: '3', Dépenses: 0 }, { day: '4', Dépenses: 0 },
-            { day: '5', Dépenses: 23.50 }, { day: '6', Dépenses: 0 }, { day: '7', Dépenses: 0 }, { day: '8', Dépenses: 0 },
-            { day: '9', Dépenses: 12.00 }, { day: '10', Dépenses: 0 }, { day: '11', Dépenses: 0 }, { day: '12', Dépenses: 0 },
-            { day: '13', Dépenses: 0 }, { day: '14', Dépenses: 0 }, { day: '15', Dépenses: 5.00 }, { day: '16', Dépenses: 0 },
-            { day: '17', Dépenses: 30.00 }, { day: '18', Dépenses: 0 }, { day: '19', Dépenses: 0 }, { day: '20', Dépenses: 0 },
-            { day: '21', Dépenses: 0 }, { day: '22', Dépenses: 0 }, { day: '23', Dépenses: 23.50 }, { day: '24', Dépenses: 0 },
-            { day: '25', Dépenses: 0 }, { day: '26', Dépenses: 0 }, { day: '27', Dépenses: 0 }, { day: '28', Dépenses: 0 },
-            { day: '29', Dépenses: 10.00 }, { day: '30', Dépenses: 0 }, { day: '31', Dépenses: 0 },
-        ]), []);
-
         const chartConfig = {
+            Revenus: {
+                label: "Revenus",
+                color: "hsl(140, 70%, 45%)",
+            },
             Dépenses: {
                 label: "Dépenses",
-                color: "hsl(var(--destructive))",
+                color: "hsl(0, 84.2%, 60.2%)",
             },
         } satisfies ChartConfig;
+
+        const monthlyChartData = useMemo(() => {
+            const julyTransactions = transactionsData.filter(t => t.date.includes('juil.'));
+            const dailyData = Array.from({ length: 31 }, (_, i) => ({ day: `${i + 1}`, Revenus: 0, Dépenses: 0 }));
+
+            julyTransactions.forEach(t => {
+                const day = parseInt(t.date.split(' ')[0]);
+                const dayIndex = day - 1;
+                if (dayIndex >= 0 && dayIndex < 31) {
+                    if (t.type === 'income') {
+                        dailyData[dayIndex].Revenus += t.amount;
+                    } else {
+                        dailyData[dayIndex].Dépenses += Math.abs(t.amount);
+                    }
+                }
+            });
+            return dailyData;
+        }, []);
+
 
         return (
           <div className="flex flex-col h-full">
@@ -823,10 +835,14 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                   <ChartContainer config={chartConfig} className="h-[120px] w-full">
                     <AreaChart
                       accessibilityLayer
-                      data={monthlyExpensesData}
+                      data={monthlyChartData}
                       margin={{ left: 0, right: 0, top: 10, bottom: 0 }}
                     >
                       <defs>
+                        <linearGradient id="fillRevenus" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="var(--color-Revenus)" stopOpacity={0.8} />
+                          <stop offset="95%" stopColor="var(--color-Revenus)" stopOpacity={0.1} />
+                        </linearGradient>
                         <linearGradient id="fillDépenses" x1="0" y1="0" x2="0" y2="1">
                           <stop offset="5%" stopColor="var(--color-Dépenses)" stopOpacity={0.8} />
                           <stop offset="95%" stopColor="var(--color-Dépenses)" stopOpacity={0.1} />
@@ -838,16 +854,24 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                         content={<ChartTooltipContent
                           indicator="line"
                           labelFormatter={(_, payload) => `Jour ${payload[0]?.payload.day}`}
-                          formatter={(value) => `${value}€`}
+                          formatter={(value) => `${(value as number).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€`}
                         />}
+                      />
+                      <Area
+                        dataKey="Revenus"
+                        type="natural"
+                        fill="url(#fillRevenus)"
+                        fillOpacity={0.4}
+                        stroke="var(--color-Revenus)"
+                        strokeWidth={2}
                       />
                       <Area
                         dataKey="Dépenses"
                         type="natural"
                         fill="url(#fillDépenses)"
+                        fillOpacity={0.4}
                         stroke="var(--color-Dépenses)"
                         strokeWidth={2}
-                        stackId="a"
                       />
                     </AreaChart>
                   </ChartContainer>
