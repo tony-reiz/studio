@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, type ReactNode, useRef } from 'react';
+import { useEffect, useState, type ReactNode, useRef, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 import { SettingsList } from './settings-list';
 import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut, Plus, User as UserIcon, Bell, Info, Landmark, Edit3, Download, Receipt, FileText, ChevronRight, TrendingUp, TrendingDown } from 'lucide-react';
@@ -35,6 +35,13 @@ import { ImageCropper } from './image-cropper';
 import { currencies, type Currency } from '@/lib/currencies';
 import { GlassEffect } from './glass-effect';
 import { useToast } from '@/hooks/use-toast';
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  type ChartConfig,
+} from "@/components/ui/chart";
 
 
 type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notifications' | 'currency' | 'transfer' | 'invoices' | 'monthlyInvoices';
@@ -783,57 +790,110 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         );
     };
 
-    const InvoicesView = (
-      <div className="flex flex-col h-full">
-          <div className="px-4 pt-6 shrink-0">
-              <div className="flex items-center justify-center relative mb-2">
-                  <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
-                      <ChevronLeft className="h-6 w-6" />
-                  </button>
-                  <h1 className="text-xl font-bold text-center">{t('history')}</h1>
+    const InvoicesView = () => {
+        const monthlyExpensesData = useMemo(() => ([
+            { day: '1', Dépenses: 10.00 }, { day: '2', Dépenses: 0 }, { day: '3', Dépenses: 0 }, { day: '4', Dépenses: 0 },
+            { day: '5', Dépenses: 23.50 }, { day: '6', Dépenses: 0 }, { day: '7', Dépenses: 0 }, { day: '8', Dépenses: 0 },
+            { day: '9', Dépenses: 12.00 }, { day: '10', Dépenses: 0 }, { day: '11', Dépenses: 0 }, { day: '12', Dépenses: 0 },
+            { day: '13', Dépenses: 0 }, { day: '14', Dépenses: 0 }, { day: '15', Dépenses: 5.00 }, { day: '16', Dépenses: 0 },
+            { day: '17', Dépenses: 30.00 }, { day: '18', Dépenses: 0 }, { day: '19', Dépenses: 0 }, { day: '20', Dépenses: 0 },
+            { day: '21', Dépenses: 0 }, { day: '22', Dépenses: 0 }, { day: '23', Dépenses: 23.50 }, { day: '24', Dépenses: 0 },
+            { day: '25', Dépenses: 0 }, { day: '26', Dépenses: 0 }, { day: '27', Dépenses: 0 }, { day: '28', Dépenses: 0 },
+            { day: '29', Dépenses: 10.00 }, { day: '30', Dépenses: 0 }, { day: '31', Dépenses: 0 },
+        ]), []);
+
+        const chartConfig = {
+            Dépenses: {
+                label: "Dépenses",
+                color: "hsl(var(--destructive))",
+            },
+        } satisfies ChartConfig;
+
+        return (
+          <div className="flex flex-col h-full">
+              <div className="px-4 pt-6 shrink-0">
+                  <div className="flex items-center justify-center relative mb-2">
+                      <button onClick={() => setView('main')} className="absolute left-0 p-2 -ml-2 text-muted-foreground">
+                          <ChevronLeft className="h-6 w-6" />
+                      </button>
+                      <h1 className="text-xl font-bold text-center">{t('history')}</h1>
+                  </div>
               </div>
-          </div>
-          <div className="flex-1 overflow-y-auto px-4 py-4">
-            <div className="max-w-md mx-auto flex flex-col gap-8">
-                <ul className="space-y-2">
-                    {transactionsData.map(transaction => (
-                        <li key={transaction.id}>
-                            <div className="w-full p-2 flex items-center justify-between text-left">
-                                <div className='flex items-center gap-3 -ml-1'>
-                                    {transaction.type === 'income' ? (
-                                        <TrendingUp className="h-5 w-5 text-green-500 flex-shrink-0" />
-                                    ) : (
-                                        <TrendingDown className="h-5 w-5 text-red-500 flex-shrink-0" />
-                                    )}
-                                    <div className='flex flex-col'>
-                                        <span className="font-semibold text-sm leading-tight">{transaction.description}</span>
-                                        <span className="text-xs text-muted-foreground">{transaction.date}</span>
+              <div className="px-4 pb-4">
+                  <ChartContainer config={chartConfig} className="h-[120px] w-full">
+                    <AreaChart
+                      accessibilityLayer
+                      data={monthlyExpensesData}
+                      margin={{ left: 0, right: 0, top: 10, bottom: 0 }}
+                    >
+                      <defs>
+                        <linearGradient id="fillDépenses" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="var(--color-Dépenses)" stopOpacity={0.8} />
+                          <stop offset="95%" stopColor="var(--color-Dépenses)" stopOpacity={0.1} />
+                        </linearGradient>
+                      </defs>
+                      <XAxis dataKey="day" hide />
+                      <ChartTooltip
+                        cursor={false}
+                        content={<ChartTooltipContent
+                          indicator="line"
+                          labelFormatter={(_, payload) => `Jour ${payload[0]?.payload.day}`}
+                          formatter={(value) => `${value}€`}
+                        />}
+                      />
+                      <Area
+                        dataKey="Dépenses"
+                        type="natural"
+                        fill="url(#fillDépenses)"
+                        stroke="var(--color-Dépenses)"
+                        strokeWidth={2}
+                        stackId="a"
+                      />
+                    </AreaChart>
+                  </ChartContainer>
+              </div>
+              <div className="flex-1 overflow-y-auto px-4">
+                <div className="max-w-md mx-auto flex flex-col gap-4">
+                    <ul className="space-y-2">
+                        {transactionsData.map(transaction => (
+                            <li key={transaction.id}>
+                                <div className="w-full p-2 flex items-center justify-between text-left">
+                                    <div className='flex items-center gap-3'>
+                                        {transaction.type === 'income' ? (
+                                            <TrendingUp className="h-5 w-5 text-green-500 flex-shrink-0" />
+                                        ) : (
+                                            <TrendingDown className="h-5 w-5 text-red-500 flex-shrink-0" />
+                                        )}
+                                        <div className='flex flex-col'>
+                                            <span className="font-semibold text-sm leading-tight">{transaction.description}</span>
+                                            <span className="text-xs text-muted-foreground">{transaction.date}</span>
+                                        </div>
                                     </div>
+                                    <span className={cn(
+                                        "font-bold text-sm",
+                                        transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
+                                    )}>
+                                        {formatCurrency(transaction.amount)}
+                                    </span>
                                 </div>
-                                <span className={cn(
-                                    "font-bold text-sm",
-                                    transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
-                                )}>
-                                    {formatCurrency(transaction.amount)}
-                                </span>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+              </div>
+              <div className="p-4 pt-2 pb-6 shrink-0">
+                <div className="w-full max-w-[16rem] mx-auto">
+                    <Button
+                        onClick={() => setView('monthlyInvoices')}
+                        className="rounded-full w-full h-12 text-lg font-semibold bg-foreground text-background hover:bg-foreground/90"
+                    >
+                        {t('invoices')}
+                    </Button>
+                </div>
             </div>
           </div>
-          <div className="p-4 pt-2 pb-6 shrink-0">
-            <div className="w-full max-w-[16rem] mx-auto">
-                <Button
-                    onClick={() => setView('monthlyInvoices')}
-                    className="rounded-full w-full h-12 text-lg font-semibold bg-foreground text-background hover:bg-foreground/90"
-                >
-                    {t('invoices')}
-                </Button>
-            </div>
-        </div>
-      </div>
-  );
+        );
+    }
 
     const SettingsContent = (
       <div 
@@ -870,7 +930,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                         view === 'monthlyInvoices' ? '-translate-x-1/2' : 'translate-x-0'
                     )}>
                         <div className="w-1/2 h-full flex flex-col">
-                            {InvoicesView}
+                            <InvoicesView />
                         </div>
                         <div className="w-1/2 h-full flex flex-col">
                             {<MonthlyInvoicesView />}
