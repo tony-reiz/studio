@@ -73,9 +73,9 @@ export default function InvoicesPage() {
       case 'ventes':
         return '0%';
       case 'abonnements':
-        return '33.3333%';
+        return '33.33%';
       case 'parrainage':
-        return '66.6666%';
+        return '66.66%';
       default:
         return '0%';
     }
@@ -109,40 +109,39 @@ export default function InvoicesPage() {
         </header>
 
         <main className="flex-1 w-full flex flex-col items-center pt-8 pb-28 gap-4">
-          <div className="flex justify-center w-full">
-            <div className="relative rounded-full flex items-center w-full max-w-md mx-auto mb-6 bg-secondary">
-              <div
-                className="absolute top-0 h-full w-1/3 rounded-full bg-primary transition-all duration-300 ease-in-out"
-                style={{ left: getLeftPosition() }}
-              />
-              <button
-                onClick={() => handleTabChange('ventes')}
-                className={cn(
-                  'relative z-10 w-1/3 py-3 text-center text-sm font-semibold transition-colors duration-300',
-                  activeTab === 'ventes' ? 'text-primary-foreground' : 'text-foreground'
-                )}
-              >
-                {t('invoices_sales')}
-              </button>
-              <button
-                onClick={() => handleTabChange('abonnements')}
-                className={cn(
-                  'relative z-10 w-1/3 py-3 text-center text-sm font-semibold transition-colors duration-300',
-                  activeTab === 'abonnements' ? 'text-primary-foreground' : 'text-foreground'
-                )}
-              >
-                {t('invoices_subscriptions')}
-              </button>
-              <button
-                onClick={() => handleTabChange('parrainage')}
-                className={cn(
-                  'relative z-10 w-1/3 py-3 text-center text-sm font-semibold transition-colors duration-300',
-                  activeTab === 'parrainage' ? 'text-primary-foreground' : 'text-foreground'
-                )}
-              >
-                {t('invoices_referrals')}
-              </button>
-            </div>
+          <div className="relative isolate overflow-hidden rounded-full flex items-center w-full max-w-sm md:max-w-lg mx-auto mb-6">
+            <GlassEffect />
+            <div
+              className="absolute top-0 h-full w-1/3 rounded-full bg-foreground dark:bg-white transition-all duration-500 ease-in-out z-10"
+              style={{ left: getLeftPosition() }}
+            />
+            <button
+              onClick={() => handleTabChange('ventes')}
+              className={cn(
+                'relative z-20 w-1/3 py-2 text-center text-sm font-semibold transition-colors duration-500',
+                activeTab === 'ventes' ? 'text-background dark:text-black' : 'text-foreground'
+              )}
+            >
+              {t('invoices_sales')}
+            </button>
+            <button
+              onClick={() => handleTabChange('abonnements')}
+              className={cn(
+                'relative z-20 w-1/3 py-2 text-center text-sm font-semibold transition-colors duration-500',
+                activeTab === 'abonnements' ? 'text-background dark:text-black' : 'text-foreground'
+              )}
+            >
+              {t('invoices_subscriptions')}
+            </button>
+            <button
+              onClick={() => handleTabChange('parrainage')}
+              className={cn(
+                'relative z-20 w-1/3 py-2 text-center text-sm font-semibold transition-colors duration-500',
+                activeTab === 'parrainage' ? 'text-background dark:text-black' : 'text-foreground'
+              )}
+            >
+              {t('invoices_referrals')}
+            </button>
           </div>
           
           <div className="w-full">
