@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronLeft, ArrowUpCircle, ArrowDownCircle, FileText } from 'lucide-react';
+import { ChevronLeft, ArrowUpCircle, ArrowDownCircle, Receipt } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useEbooks } from '@/context/ebook-provider';
@@ -54,8 +54,8 @@ export default function InvoicesPage() {
           <h1 className="text-2xl font-bold text-center">{t('history')}</h1>
           <div className="justify-self-end">
             <Button variant="outline" className="rounded-full">
-                <FileText className="h-5 w-5 mr-2" />
-                {t('view_documents')}
+                <Receipt className="h-5 w-5 mr-2" />
+                {t('invoices')}
             </Button>
           </div>
         </header>
@@ -64,15 +64,15 @@ export default function InvoicesPage() {
             <ul className="space-y-2">
             {transactionsData.map(transaction => (
                 <li key={transaction.id}>
-                    <div className="w-full bg-secondary/80 p-4 rounded-lg flex items-center justify-between text-left">
-                        <div className='flex items-center gap-4'>
+                    <div className="w-full bg-secondary/80 p-3 rounded-lg flex items-center justify-between text-left">
+                        <div className='flex items-center gap-3'>
                             {transaction.type === 'income' ? (
-                                <ArrowUpCircle className="h-7 w-7 text-green-500 flex-shrink-0" />
+                                <ArrowUpCircle className="h-6 w-6 text-green-500 flex-shrink-0" />
                             ) : (
-                                <ArrowDownCircle className="h-7 w-7 text-red-500 flex-shrink-0" />
+                                <ArrowDownCircle className="h-6 w-6 text-red-500 flex-shrink-0" />
                             )}
                             <div className='flex flex-col'>
-                                <span className="font-semibold text-sm">{transaction.description}</span>
+                                <span className="font-semibold text-sm leading-tight">{transaction.description}</span>
                                 <span className="text-xs text-muted-foreground">{transaction.date}</span>
                             </div>
                         </div>

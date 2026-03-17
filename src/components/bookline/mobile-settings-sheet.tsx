@@ -746,8 +746,8 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
           <div className="flex-1 overflow-y-auto px-4 py-4">
             <div className="max-w-md mx-auto flex flex-col gap-8">
                 <Button variant="outline" className="w-full justify-center">
-                    <FileText className="h-5 w-5 mr-2" />
-                    {t('view_documents')}
+                    <Receipt className="h-5 w-5 mr-2" />
+                    {t('invoices')}
                 </Button>
                 <ul className="space-y-2">
                     {transactionsData.map(transaction => (
