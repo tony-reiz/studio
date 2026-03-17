@@ -62,32 +62,10 @@ export default function InvoicesPage() {
   const { handleBack } = useTransitionRouter();
   const { theme, t } = useEbooks();
   const [isClient, setIsClient] = useState(false);
-  const [activeTab, setActiveTab] = useState<'ventes' | 'abonnements' | 'parrainage'>('ventes');
 
   useEffect(() => {
     setIsClient(true);
   }, []);
-
-  const getLeftPosition = () => {
-    switch (activeTab) {
-      case 'ventes':
-        return '0%';
-      case 'abonnements':
-        return '33.33%';
-      case 'parrainage':
-        return '66.66%';
-      default:
-        return '0%';
-    }
-  };
-
-  const handleTabChange = (newTab: 'ventes' | 'abonnements' | 'parrainage') => {
-    if (activeTab === newTab) {
-      return;
-    }
-    setActiveTab(newTab);
-  }
-  
 
   return (
     <div className={cn("min-h-screen text-foreground bg-transparent")}>
@@ -108,46 +86,20 @@ export default function InvoicesPage() {
           <h1 className="text-2xl font-bold text-center">{t('invoices')}</h1>
         </header>
 
-        <main className="flex-1 w-full flex flex-col items-center pt-8 pb-28 gap-4">
-          <div className="relative isolate overflow-hidden rounded-full flex items-center w-full max-w-sm md:max-w-lg mx-auto mb-6">
-            <GlassEffect />
-            <div
-              className="absolute top-0 h-full w-1/3 rounded-full bg-foreground dark:bg-white transition-all duration-500 ease-in-out z-10"
-              style={{ left: getLeftPosition() }}
-            />
-            <button
-              onClick={() => handleTabChange('ventes')}
-              className={cn(
-                'relative z-20 w-1/3 py-2 text-center text-sm font-semibold transition-colors duration-500',
-                activeTab === 'ventes' ? 'text-background dark:text-black' : 'text-foreground'
-              )}
-            >
-              {t('invoices_sales')}
-            </button>
-            <button
-              onClick={() => handleTabChange('abonnements')}
-              className={cn(
-                'relative z-20 w-1/3 py-2 text-center text-sm font-semibold transition-colors duration-500',
-                activeTab === 'abonnements' ? 'text-background dark:text-black' : 'text-foreground'
-              )}
-            >
-              {t('invoices_subscriptions')}
-            </button>
-            <button
-              onClick={() => handleTabChange('parrainage')}
-              className={cn(
-                'relative z-20 w-1/3 py-2 text-center text-sm font-semibold transition-colors duration-500',
-                activeTab === 'parrainage' ? 'text-background dark:text-black' : 'text-foreground'
-              )}
-            >
-              {t('invoices_referrals')}
-            </button>
-          </div>
-          
-          <div className="w-full">
-            {activeTab === 'ventes' && <InvoiceList invoices={salesInvoices} />}
-            {activeTab === 'abonnements' && <InvoiceList invoices={subscriptionInvoices} />}
-            {activeTab === 'parrainage' && <InvoiceList invoices={referralInvoices} />}
+        <main className="flex-1 w-full flex flex-col items-center pt-8 pb-28 gap-8">
+          <div className="w-full space-y-8">
+            <div>
+              <h2 className="text-lg font-semibold mb-4">{t('invoices_sales')}</h2>
+              <InvoiceList invoices={salesInvoices} />
+            </div>
+             <div>
+              <h2 className="text-lg font-semibold mb-4">{t('invoices_subscriptions')}</h2>
+              <InvoiceList invoices={subscriptionInvoices} />
+            </div>
+             <div>
+              <h2 className="text-lg font-semibold mb-4">{t('invoices_referrals')}</h2>
+              <InvoiceList invoices={referralInvoices} />
+            </div>
           </div>
         </main>
       </div>
