@@ -801,9 +801,9 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             <div className="w-full p-2 flex items-center justify-between text-left">
                                 <div className='flex items-center gap-3'>
                                     {transaction.type === 'income' ? (
-                                        <TrendingUp className="h-6 w-6 text-green-500 flex-shrink-0" />
+                                        <TrendingUp className="h-5 w-5 text-green-500 flex-shrink-0" />
                                     ) : (
-                                        <TrendingDown className="h-6 w-6 text-red-500 flex-shrink-0" />
+                                        <TrendingDown className="h-5 w-5 text-red-500 flex-shrink-0" />
                                     )}
                                     <div className='flex flex-col'>
                                         <span className="font-semibold text-sm leading-tight">{transaction.description}</span>
