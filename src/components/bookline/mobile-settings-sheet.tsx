@@ -35,7 +35,7 @@ import { ImageCropper } from './image-cropper';
 import { currencies, type Currency } from '@/lib/currencies';
 import { GlassEffect } from './glass-effect';
 import { useToast } from '@/hooks/use-toast';
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import { Line, LineChart, CartesianGrid, XAxis } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
@@ -833,47 +833,35 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
               </div>
               <div className="px-4 pb-4">
                   <ChartContainer config={chartConfig} className="h-[120px] w-full">
-                    <AreaChart
+                    <LineChart
                       accessibilityLayer
                       data={monthlyChartData}
                       margin={{ left: 0, right: 0, top: 10, bottom: 0 }}
                     >
-                      <defs>
-                        <linearGradient id="fillRevenus" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="var(--color-Revenus)" stopOpacity={0.8} />
-                          <stop offset="95%" stopColor="var(--color-Revenus)" stopOpacity={0.1} />
-                        </linearGradient>
-                        <linearGradient id="fillDépenses" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="var(--color-Dépenses)" stopOpacity={0.8} />
-                          <stop offset="95%" stopColor="var(--color-Dépenses)" stopOpacity={0.1} />
-                        </linearGradient>
-                      </defs>
+                      <CartesianGrid vertical={false} />
                       <XAxis dataKey="day" hide />
                       <ChartTooltip
                         cursor={false}
                         content={<ChartTooltipContent
                           indicator="line"
                           labelFormatter={(_, payload) => `Jour ${payload[0]?.payload.day}`}
-                          formatter={(value) => `${(value as number).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€`}
                         />}
                       />
-                      <Area
+                      <Line
                         dataKey="Revenus"
-                        type="natural"
-                        fill="url(#fillRevenus)"
-                        fillOpacity={0.4}
+                        type="linear"
                         stroke="var(--color-Revenus)"
                         strokeWidth={2}
+                        dot={false}
                       />
-                      <Area
+                      <Line
                         dataKey="Dépenses"
-                        type="natural"
-                        fill="url(#fillDépenses)"
-                        fillOpacity={0.4}
+                        type="linear"
                         stroke="var(--color-Dépenses)"
                         strokeWidth={2}
+                        dot={false}
                       />
-                    </AreaChart>
+                    </LineChart>
                   </ChartContainer>
               </div>
               <div className="flex-1 overflow-y-auto px-4">
