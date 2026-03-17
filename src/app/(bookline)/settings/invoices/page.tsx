@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
 import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 import { cn } from '@/lib/utils';
-import { GlassEffect } from '@/components/bookline/glass-effect';
 import { InvoicesTabNav, type ActiveInvoiceTab } from '@/components/bookline/invoices-tab-nav';
 
 interface Invoice {
@@ -40,9 +39,9 @@ function InvoiceList({ invoices }: { invoices: Invoice[] }) {
         return <p className="text-muted-foreground text-center pt-8">{t('no_invoices_in_category')}</p>;
     }
     return (
-        <ul className="space-y-3">
+        <ul className="space-y-2">
             {invoices.map(invoice => (
-                <li key={invoice.id} className="bg-secondary px-4 py-3 rounded-lg flex items-center justify-between">
+                <li key={invoice.id} className="bg-secondary px-4 py-2 rounded-lg flex items-center justify-between">
                     <div className="flex flex-col">
                         <span className="font-semibold">{invoice.description}</span>
                         <span className="text-sm text-muted-foreground">{invoice.date}</span>
@@ -104,7 +103,7 @@ export default function InvoicesPage() {
         <header className="grid grid-cols-3 items-center w-full py-6">
           <div className="justify-self-start">
             <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden" aria-label={t('back')}>
-                <GlassEffect />
+                <div className="glass-container"><div className="glass-effect-backdrop"></div></div>
                 <ChevronLeft className="h-6 w-6 relative z-20" />
             </Button>
           </div>

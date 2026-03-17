@@ -746,9 +746,9 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
           return <p className="text-muted-foreground text-center pt-8">{t('no_invoices_in_category')}</p>;
       }
       return (
-          <ul className="space-y-3">
+          <ul className="space-y-2">
               {invoices.map(invoice => (
-                  <li key={invoice.id} className="bg-secondary px-4 py-3 rounded-lg flex items-center justify-between">
+                  <li key={invoice.id} className="bg-secondary px-4 py-2 rounded-lg flex items-center justify-between">
                       <div className="flex flex-col">
                           <span className="font-semibold">{invoice.description}</span>
                           <span className="text-sm text-muted-foreground">{invoice.date}</span>
