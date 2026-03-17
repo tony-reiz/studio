@@ -798,7 +798,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <ul className="space-y-2">
                     {transactionsData.map(transaction => (
                         <li key={transaction.id}>
-                            <div className="w-full bg-secondary/80 p-2 rounded-lg flex items-center justify-between text-left">
+                            <div className="w-full p-2 flex items-center justify-between text-left">
                                 <div className='flex items-center gap-3'>
                                     {transaction.type === 'income' ? (
                                         <ArrowUpCircle className="h-6 w-6 text-green-500 flex-shrink-0" />
