@@ -833,7 +833,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
               </div>
 
               <div ref={chartContainerRef} className="w-full overflow-x-auto scrollbar-hide">
-                <div style={{ width: chartData.length * 80, height: 120 }} className="mt-4">
+                <div style={{ width: chartData.length * 120, height: 120 }} className="mt-4">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart
                         data={chartData}
