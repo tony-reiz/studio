@@ -826,11 +826,11 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
               </div>
 
               <div className="w-full overflow-x-auto scrollbar-hide">
-                <div style={{ width: chartData.length * 60, height: 120 }} className="mt-4">
+                <div style={{ width: chartData.length * 80, height: 120 }} className="mt-4">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart
                         data={chartData}
-                        margin={{ top: 5, right: 20, left: 20, bottom: 5 }}
+                        margin={{ top: 5, right: 30, left: 30, bottom: 5 }}
                     >
                         <defs>
                             <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
