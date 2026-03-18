@@ -795,6 +795,14 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             }));
         }, []);
 
+        const totalIncome = useMemo(() => transactionsData
+            .filter(t => t.amount > 0)
+            .reduce((acc, t) => acc + t.amount, 0), []);
+    
+        const totalExpenses = useMemo(() => transactionsData
+            .filter(t => t.amount < 0)
+            .reduce((acc, t) => acc + t.amount, 0), []);
+
         return (
           <div className="flex flex-col h-full">
               <div className="px-4 pt-6 shrink-0">
@@ -805,6 +813,18 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                       <h1 className="text-xl font-bold text-center">{t('history')}</h1>
                   </div>
               </div>
+
+              <div className="px-4 mt-4 grid grid-cols-2 gap-4">
+                  <div className="bg-secondary rounded-xl p-4 text-center">
+                      <p className="text-xs text-muted-foreground">{t('earnings_this_month')}</p>
+                      <p className="text-2xl font-bold text-green-600">{formatCurrency(totalIncome)}</p>
+                  </div>
+                  <div className="bg-secondary rounded-xl p-4 text-center">
+                      <p className="text-xs text-muted-foreground">{t('total_purchases_this_month')}</p>
+                      <p className="text-2xl font-bold text-red-600">{formatCurrency(totalExpenses)}</p>
+                  </div>
+              </div>
+
               <div className="h-[120px] w-full px-0 -ml-4 mt-4">
                 <ResponsiveContainer width="100%" height="100%">
                     <AreaChart
