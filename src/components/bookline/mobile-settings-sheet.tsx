@@ -35,7 +35,7 @@ import { ImageCropper } from './image-cropper';
 import { currencies, type Currency } from '@/lib/currencies';
 import { GlassEffect } from './glass-effect';
 import { useToast } from '@/hooks/use-toast';
-import { Bar, BarChart, Cell, CartesianGrid, XAxis, LineChart, Line } from "recharts";
+import { Bar, BarChart, Cell } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
@@ -792,14 +792,14 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
     const InvoicesView = () => {
         const chartTransactions = useMemo(() => {
-            return transactionsData.slice(0, 5).reverse();
+            return transactionsData.slice(0, 7).reverse();
         }, []);
 
-        const maxAmount = useMemo(() => {
-            if (chartTransactions.length === 0) return 1;
-            return Math.max(...chartTransactions.map(t => Math.abs(t.amount)), 1);
-        }, [chartTransactions]);
-
+        const chartConfig = {
+          amount: {
+            label: t('history'),
+          },
+        } satisfies ChartConfig;
 
         return (
           <div className="flex flex-col h-full">
@@ -811,24 +811,37 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                       <h1 className="text-xl font-bold text-center">{t('history')}</h1>
                   </div>
               </div>
-              <div className="h-[120px] w-full flex justify-around items-end px-4 gap-4">
-                {chartTransactions.map((transaction) => {
-                    const height = (Math.abs(transaction.amount) / maxAmount) * 60 + 15;
-                    const isIncome = transaction.amount >= 0;
-
-                    return (
-                        <div key={transaction.id} className="relative" style={{ height: `${height}px` }}>
-                            <div
-                                className={cn(
-                                    "w-3 rounded-sm relative h-full",
-                                    isIncome ? 'bg-green-500' : 'bg-red-500'
-                                )}
-                            >
-                                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-full w-px bg-black/20 dark:bg-white/20"></div>
-                            </div>
-                        </div>
-                    );
-                })}
+              <div className="h-[120px] w-full px-4 mt-4">
+                  <ChartContainer config={chartConfig} className="w-full h-full">
+                      <BarChart 
+                          accessibilityLayer 
+                          data={chartTransactions}
+                          margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
+                      >
+                          <Bar dataKey="amount" radius={4}>
+                              {chartTransactions.map((entry, index) => (
+                                  <Cell key={`cell-${index}`} fill={entry.amount >= 0 ? 'hsl(var(--chart-2))' : 'hsl(var(--destructive))'} />
+                              ))}
+                          </Bar>
+                          <ChartTooltip
+                              cursor={false}
+                              content={<ChartTooltipContent 
+                                  indicator="dot"
+                                  formatter={(value, name, props) => {
+                                      const { description, date } = props.payload;
+                                      return (
+                                          <div className="flex flex-col gap-0.5">
+                                              <span className="font-semibold">{description}</span>
+                                              <span className="text-xs text-muted-foreground">{date}</span>
+                                              <span className="font-bold mt-1">{formatCurrency(value as number)}</span>
+                                          </div>
+                                      );
+                                  }}
+                                  labelStyle={{display: 'none'}}
+                              />}
+                          />
+                      </BarChart>
+                  </ChartContainer>
               </div>
               <div className="flex-1 overflow-y-auto px-4 pt-4">
                 <div className="max-w-md mx-auto flex flex-col gap-4">
