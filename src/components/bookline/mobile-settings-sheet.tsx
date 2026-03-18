@@ -786,15 +786,13 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
     const InvoicesView = () => {
         const chartData = useMemo(() => {
-            let cumulativeBalance = 0;
-            return transactionsData.slice().reverse().map((transaction, index) => {
-                cumulativeBalance += transaction.amount;
-                return {
-                    index: index,
-                    balance: cumulativeBalance,
-                    ...transaction,
-                };
-            });
+            return transactionsData.slice().reverse().map((transaction, index) => ({
+                index: index,
+                date: transaction.date,
+                description: transaction.description,
+                income: transaction.type === 'income' ? transaction.amount : 0,
+                expense: transaction.type === 'expense' ? -transaction.amount : 0, // Store as positive value
+            }));
         }, []);
 
         return (
@@ -814,9 +812,13 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                         margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
                     >
                         <defs>
-                            <linearGradient id="colorBalance" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="hsl(var(--chart-1))" stopOpacity={0.4}/>
-                                <stop offset="95%" stopColor="hsl(var(--chart-1))" stopOpacity={0}/>
+                            <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%" stopColor="#16a34a" stopOpacity={0.4}/>
+                                <stop offset="95%" stopColor="#16a34a" stopOpacity={0}/>
+                            </linearGradient>
+                            <linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%" stopColor="#dc2626" stopOpacity={0.4}/>
+                                <stop offset="95%" stopColor="#dc2626" stopOpacity={0}/>
                             </linearGradient>
                         </defs>
                         <Tooltip
@@ -827,14 +829,20 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             }}
                             content={({ active, payload }) => {
                                 if (active && payload && payload.length) {
-                                    const data = payload[0].payload;
+                                    const dataPoint = payload.find(p => p.value !== 0);
+                                    if (!dataPoint) return null;
+
+                                    const data = dataPoint.payload;
+                                    const amount = dataPoint.value as number;
+                                    const type = dataPoint.dataKey;
+                                    
                                     return (
                                         <div className="rounded-lg border bg-background/90 backdrop-blur-sm p-2.5 shadow-sm">
                                             <div className="flex flex-col gap-0.5">
                                                 <span className="font-semibold text-sm">{data.description}</span>
                                                 <span className="text-xs text-muted-foreground">{data.date}</span>
-                                                <span className={cn("font-bold mt-1 text-sm", data.amount >= 0 ? 'text-green-600' : 'text-red-600')}>
-                                                    {formatCurrency(data.amount)}
+                                                <span className={cn("font-bold mt-1 text-sm", type === 'income' ? 'text-green-600' : 'text-red-600')}>
+                                                    {formatCurrency(type === 'income' ? amount : -amount)}
                                                 </span>
                                             </div>
                                         </div>
@@ -845,11 +853,19 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                         />
                         <Area
                             type="monotone"
-                            dataKey="balance"
-                            stroke="hsl(var(--chart-1))"
+                            dataKey="income"
+                            stroke="#16a34a"
                             strokeWidth={2}
                             fillOpacity={1}
-                            fill="url(#colorBalance)"
+                            fill="url(#colorIncome)"
+                        />
+                        <Area
+                            type="monotone"
+                            dataKey="expense"
+                            stroke="#dc2626"
+                            strokeWidth={2}
+                            fillOpacity={1}
+                            fill="url(#colorExpense)"
                         />
                     </AreaChart>
                 </ResponsiveContainer>
