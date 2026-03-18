@@ -785,15 +785,22 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     };
 
     const InvoicesView = () => {
+        const chartContainerRef = useRef<HTMLDivElement>(null);
         const chartData = useMemo(() => {
             return transactionsData.slice().reverse().map((transaction, index) => ({
                 index: index,
                 date: transaction.date,
                 description: transaction.description,
                 income: transaction.type === 'income' ? transaction.amount : 0,
-                expense: transaction.type === 'expense' ? -transaction.amount : 0, // Store as positive value
+                expense: transaction.type === 'expense' ? -transaction.amount : 0,
             }));
         }, []);
+
+        useEffect(() => {
+            if (chartContainerRef.current) {
+                chartContainerRef.current.scrollLeft = chartContainerRef.current.scrollWidth;
+            }
+        }, [chartData]);
 
         const totalIncome = useMemo(() => transactionsData
             .filter(t => t.amount > 0)
@@ -815,22 +822,22 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
               </div>
 
               <div className="px-4 mt-4 grid grid-cols-2 gap-4">
-                  <div className="bg-secondary rounded-xl p-4 text-center">
-                      <p className="text-xs text-muted-foreground">{t('earnings_this_month')}</p>
-                      <p className="text-2xl font-bold text-green-600">{formatCurrency(totalIncome)}</p>
+                  <div className="bg-green-600/10 dark:bg-green-800/20 border border-green-600/20 dark:border-green-800/40 text-green-700 dark:text-green-400 rounded-xl p-4 text-center">
+                      <p className="text-xs">{t('earnings_this_month')}</p>
+                      <p className="text-2xl font-bold">{formatCurrency(totalIncome)}</p>
                   </div>
-                  <div className="bg-secondary rounded-xl p-4 text-center">
-                      <p className="text-xs text-muted-foreground">{t('total_purchases_this_month')}</p>
-                      <p className="text-2xl font-bold text-red-600">{formatCurrency(totalExpenses)}</p>
+                  <div className="bg-red-600/10 dark:bg-red-800/20 border border-red-600/20 dark:border-red-800/40 text-red-700 dark:text-red-400 rounded-xl p-4 text-center">
+                      <p className="text-xs">{t('total_purchases_this_month')}</p>
+                      <p className="text-2xl font-bold">{formatCurrency(totalExpenses)}</p>
                   </div>
               </div>
 
-              <div className="w-full overflow-x-auto scrollbar-hide">
-                <div style={{ width: chartData.length * 150, height: 120 }} className="mt-4">
+              <div ref={chartContainerRef} className="w-full overflow-x-auto scrollbar-hide">
+                <div style={{ width: chartData.length * 80, height: 120 }} className="mt-4">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart
                         data={chartData}
-                        margin={{ top: 5, right: 30, left: 30, bottom: 5 }}
+                        margin={{ top: 5, right: 20, left: 20, bottom: 5 }}
                     >
                         <defs>
                             <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
