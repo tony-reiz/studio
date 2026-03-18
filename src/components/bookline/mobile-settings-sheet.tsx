@@ -825,11 +825,12 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                   </div>
               </div>
 
-              <div className="h-[120px] w-full px-0 -ml-4 mt-4">
-                <ResponsiveContainer width="100%" height="100%">
+              <div className="w-full overflow-x-auto scrollbar-hide">
+                <div style={{ width: chartData.length * 60, height: 120 }} className="mt-4">
+                  <ResponsiveContainer width="100%" height="100%">
                     <AreaChart
                         data={chartData}
-                        margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
+                        margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
                     >
                         <defs>
                             <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
@@ -878,6 +879,8 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             strokeWidth={2}
                             fillOpacity={1}
                             fill="url(#colorIncome)"
+                            dot={{ r: 4, strokeWidth: 2, fill: '#16a34a', stroke: 'hsl(var(--background))' }}
+                            activeDot={{ r: 6, strokeWidth: 2 }}
                         />
                         <Area
                             type="monotone"
@@ -886,10 +889,14 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             strokeWidth={2}
                             fillOpacity={1}
                             fill="url(#colorExpense)"
+                            dot={{ r: 4, strokeWidth: 2, fill: '#dc2626', stroke: 'hsl(var(--background))' }}
+                            activeDot={{ r: 6, strokeWidth: 2 }}
                         />
                     </AreaChart>
-                </ResponsiveContainer>
+                  </ResponsiveContainer>
+                </div>
               </div>
+
               <div className="flex-1 overflow-y-auto px-4 pt-4">
                 <div className="max-w-md mx-auto flex flex-col gap-4">
                     <ul className="space-y-2">
