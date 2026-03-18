@@ -879,8 +879,20 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             strokeWidth={2}
                             fillOpacity={1}
                             fill="url(#colorIncome)"
-                            dot={{ r: 4, strokeWidth: 2, fill: '#16a34a', stroke: 'hsl(var(--background))' }}
-                            activeDot={{ r: 6, strokeWidth: 2 }}
+                            dot={(props) => {
+                                const { cx, cy, payload } = props as any;
+                                if (payload.income > 0) {
+                                    return <circle cx={cx} cy={cy} r={4} strokeWidth={2} fill="#16a34a" stroke="hsl(var(--background))" />;
+                                }
+                                return null;
+                            }}
+                            activeDot={(props) => {
+                                const { cx, cy, payload } = props as any;
+                                if (payload.income > 0) {
+                                    return <circle cx={cx} cy={cy} r={6} strokeWidth={2} fill="#16a34a" stroke="hsl(var(--background))" />;
+                                }
+                                return null;
+                            }}
                         />
                         <Area
                             type="monotone"
@@ -889,8 +901,20 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             strokeWidth={2}
                             fillOpacity={1}
                             fill="url(#colorExpense)"
-                            dot={{ r: 4, strokeWidth: 2, fill: '#dc2626', stroke: 'hsl(var(--background))' }}
-                            activeDot={{ r: 6, strokeWidth: 2 }}
+                            dot={(props) => {
+                                const { cx, cy, payload } = props as any;
+                                if (payload.expense > 0) {
+                                    return <circle cx={cx} cy={cy} r={4} strokeWidth={2} fill="#dc2626" stroke="hsl(var(--background))" />;
+                                }
+                                return null;
+                            }}
+                            activeDot={(props) => {
+                                const { cx, cy, payload } = props as any;
+                                if (payload.expense > 0) {
+                                    return <circle cx={cx} cy={cy} r={6} strokeWidth={2} fill="#dc2626" stroke="hsl(var(--background))" />;
+                                }
+                                return null;
+                            }}
                         />
                     </AreaChart>
                   </ResponsiveContainer>
