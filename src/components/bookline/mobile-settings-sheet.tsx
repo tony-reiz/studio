@@ -35,13 +35,7 @@ import { ImageCropper } from './image-cropper';
 import { currencies, type Currency } from '@/lib/currencies';
 import { GlassEffect } from './glass-effect';
 import { useToast } from '@/hooks/use-toast';
-import { Bar, BarChart, Cell } from "recharts";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from "@/components/ui/chart";
+import { Area, AreaChart, ResponsiveContainer, Tooltip } from "recharts";
 
 
 type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notifications' | 'currency' | 'transfer' | 'invoices' | 'monthlyInvoices';
@@ -791,15 +785,17 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     };
 
     const InvoicesView = () => {
-        const chartTransactions = useMemo(() => {
-            return transactionsData.slice(0, 7).reverse();
+        const chartData = useMemo(() => {
+            let cumulativeBalance = 0;
+            return transactionsData.slice().reverse().map((transaction, index) => {
+                cumulativeBalance += transaction.amount;
+                return {
+                    index: index,
+                    balance: cumulativeBalance,
+                    ...transaction,
+                };
+            });
         }, []);
-
-        const chartConfig = {
-          amount: {
-            label: t('history'),
-          },
-        } satisfies ChartConfig;
 
         return (
           <div className="flex flex-col h-full">
@@ -811,37 +807,52 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                       <h1 className="text-xl font-bold text-center">{t('history')}</h1>
                   </div>
               </div>
-              <div className="h-[120px] w-full px-4 mt-4">
-                  <ChartContainer config={chartConfig} className="w-full h-full">
-                      <BarChart 
-                          accessibilityLayer 
-                          data={chartTransactions}
-                          margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
-                      >
-                          <Bar dataKey="amount" radius={4}>
-                              {chartTransactions.map((entry, index) => (
-                                  <Cell key={`cell-${index}`} fill={entry.amount >= 0 ? 'hsl(var(--chart-2))' : 'hsl(var(--destructive))'} />
-                              ))}
-                          </Bar>
-                          <ChartTooltip
-                              cursor={false}
-                              content={<ChartTooltipContent 
-                                  indicator="dot"
-                                  formatter={(value, name, props) => {
-                                      const { description, date } = props.payload;
-                                      return (
-                                          <div className="flex flex-col gap-0.5">
-                                              <span className="font-semibold">{description}</span>
-                                              <span className="text-xs text-muted-foreground">{date}</span>
-                                              <span className="font-bold mt-1">{formatCurrency(value as number)}</span>
-                                          </div>
-                                      );
-                                  }}
-                                  labelStyle={{display: 'none'}}
-                              />}
-                          />
-                      </BarChart>
-                  </ChartContainer>
+              <div className="h-[120px] w-full px-0 -ml-4 mt-4">
+                <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart
+                        data={chartData}
+                        margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
+                    >
+                        <defs>
+                            <linearGradient id="colorBalance" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%" stopColor="hsl(var(--chart-1))" stopOpacity={0.4}/>
+                                <stop offset="95%" stopColor="hsl(var(--chart-1))" stopOpacity={0}/>
+                            </linearGradient>
+                        </defs>
+                        <Tooltip
+                            cursor={{
+                                stroke: 'hsl(var(--muted-foreground))',
+                                strokeWidth: 1,
+                                strokeDasharray: '3 3',
+                            }}
+                            content={({ active, payload }) => {
+                                if (active && payload && payload.length) {
+                                    const data = payload[0].payload;
+                                    return (
+                                        <div className="rounded-lg border bg-background/90 backdrop-blur-sm p-2.5 shadow-sm">
+                                            <div className="flex flex-col gap-0.5">
+                                                <span className="font-semibold text-sm">{data.description}</span>
+                                                <span className="text-xs text-muted-foreground">{data.date}</span>
+                                                <span className={cn("font-bold mt-1 text-sm", data.amount >= 0 ? 'text-green-600' : 'text-red-600')}>
+                                                    {formatCurrency(data.amount)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            }}
+                        />
+                        <Area
+                            type="monotone"
+                            dataKey="balance"
+                            stroke="hsl(var(--chart-1))"
+                            strokeWidth={2}
+                            fillOpacity={1}
+                            fill="url(#colorBalance)"
+                        />
+                    </AreaChart>
+                </ResponsiveContainer>
               </div>
               <div className="flex-1 overflow-y-auto px-4 pt-4">
                 <div className="max-w-md mx-auto flex flex-col gap-4">
