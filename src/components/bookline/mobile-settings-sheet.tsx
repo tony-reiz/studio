@@ -788,24 +788,38 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             .filter(t => t.amount < 0)
             .reduce((acc, t) => acc + t.amount, 0), []);
         
-        const balanceData = [
-            { day: "1", balance: 450 }, { day: "2", balance: 480 }, { day: "3", balance: 460 }, { day: "4", balance: 520 },
-            { day: "5", balance: 750 }, { day: "6", balance: 550 }, { day: "7", balance: 500 }, { day: "8", balance: 450 },
-            { day: "9", balance: 350 }, { day: "10", balance: 300 }, { day: "11", balance: 250 }, { day: "12", balance: 280 },
-            { day: "13", balance: 320 }, { day: "14", balance: 300 }, { day: "15", balance: 280 }, { day: "16", balance: 310 },
-            { day: "17", balance: 340 }, { day: "18", balance: 380 }, { day: "19", balance: 420 }, { day: "20", balance: 400 },
-            { day: "21", balance: 430 },
-        ];
+        const { balanceData, futureData } = useMemo(() => {
+            let balance = 450; // Starting balance for the period
+            const dailyBalances = [];
 
-        const futureData = [
-            { day: "21", balance: 430 },
-            { day: "22", balance: 410 },
-            { day: "23", balance: 380 },
-            { day: "24", balance: 360 },
-            { day: "25", balance: 320 },
-            { day: "26", balance: 340 },
-            { day: "27", balance: 310 },
-        ];
+            const julyTransactions = transactionsData
+                .filter(t => t.date.includes('juil.'))
+                .map(t => ({...t, day: parseInt(t.date.split(' ')[0])}))
+                .sort((a, b) => a.day - b.day);
+
+            let transactionIndex = 0;
+            for (let i = 1; i <= 21; i++) { // The main chart displays up to day 21
+                while (transactionIndex < julyTransactions.length && julyTransactions[transactionIndex].day === i) {
+                    balance += julyTransactions[transactionIndex].amount;
+                    transactionIndex++;
+                }
+                dailyBalances.push({ day: String(i), balance: Math.round(balance) });
+            }
+
+            const lastKnownBalance = dailyBalances[dailyBalances.length - 1].balance;
+            
+            const futureBalancePoints = [
+                { day: "21", balance: lastKnownBalance },
+                { day: "22", balance: Math.round(lastKnownBalance - 5) },
+                { day: "23", balance: Math.round(lastKnownBalance - 5 - 23.5) }, // Reflects the -23.5 expense on day 23
+                { day: "24", balance: Math.round(lastKnownBalance - 5 - 23.5) },
+                { day: "25", balance: Math.round(lastKnownBalance - 5 - 23.5 + 17) }, // Reflects the +17 income on day 25
+                { day: "26", balance: Math.round(lastKnownBalance - 5 - 23.5 + 17 - 2) },
+                { day: "27", balance: Math.round(lastKnownBalance - 5 - 23.5 + 17 - 8) },
+            ];
+
+            return { balanceData: dailyBalances, futureData: futureBalancePoints };
+        }, []);
 
         return (
           <div className="flex flex-col h-full">
@@ -838,7 +852,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                       </pattern>
                     </defs>
                     <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" fontSize={10} tickLine={false} axisLine={false} interval="preserveStartEnd" hide />
-                    <YAxis hide={true} domain={['dataMin - 100', 'dataMax + 50']} />
+                    <YAxis hide={true} domain={['dataMin - 40', 'dataMax + 40']} />
                     <Tooltip
                         cursor={false}
                         content={({ active, payload }) => {
