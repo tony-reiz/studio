@@ -12,7 +12,7 @@ const interestKeys: TranslationKeys[] = [
   'career', 'sport', 'motivation', 'driving_code', 'prep_courses',
   'personal_development', 'science_fiction', 'technology', 
   'health_wellness', 'cooking', 'art_photography', 'travel',
-  'history', 'psychology', 'finance', 'marketing', 'other'
+  'interest_history', 'psychology', 'finance', 'marketing', 'other'
 ];
 
 export default function InterestsPage() {
