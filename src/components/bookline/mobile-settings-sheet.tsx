@@ -15,12 +15,6 @@ import {
   DialogTitle as UIDialogTitle,
 } from "@/components/ui/dialog";
 import {
-  Drawer,
-  DrawerContent,
-  DrawerTrigger,
-  DrawerTitle,
-} from "@/components/ui/drawer";
-import {
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -36,6 +30,7 @@ import { currencies, type Currency } from '@/lib/currencies';
 import { GlassEffect } from './glass-effect';
 import { useToast } from '@/hooks/use-toast';
 import { Area, AreaChart, ResponsiveContainer, Tooltip } from "recharts";
+import { FluidSheet } from './fluid-sheet';
 
 
 type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notifications' | 'currency' | 'transfer' | 'invoices' | 'monthlyInvoices';
@@ -285,7 +280,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const MainView = (
       <>
           <div className="px-4 pt-6 shrink-0">
-            {isMobile && <h2 id="sheet-title" className="sr-only">{t('settings')}</h2>}
+            {isMobile && <h2 id="settings-sheet-title" className="sr-only">{t('settings')}</h2>}
             {!isMobile && <h2 className="text-xl font-bold text-center p-4 pt-6">{t('settings')}</h2>}
           </div>
           <div className="flex-1 overflow-y-auto px-4 pt-4 pb-20">
@@ -1020,17 +1015,26 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       </div>
     );
     
+    const handleTriggerClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setIsOpen(true);
+    };
+
     if (isMobile) {
         return (
-            <Drawer open={isOpen} onOpenChange={setIsOpen}>
-                <DrawerTrigger asChild>
+            <>
+                <div className="inline-block" onClick={handleTriggerClick} role="button" tabIndex={0}>
                     {children}
-                </DrawerTrigger>
-                <DrawerContent className="rounded-t-[40px] h-[85vh] flex flex-col bg-background border-0 p-0">
-                    <DrawerTitle className="sr-only">{t('settings')}</DrawerTitle>
+                </div>
+                <FluidSheet
+                    open={isOpen}
+                    onOpenChange={setIsOpen}
+                    className="h-[85vh] rounded-t-[40px] p-0"
+                    aria-labelledby="settings-sheet-title"
+                >
                     {SettingsContent}
-                </DrawerContent>
-            </Drawer>
+                </FluidSheet>
+            </>
         );
     }
     
