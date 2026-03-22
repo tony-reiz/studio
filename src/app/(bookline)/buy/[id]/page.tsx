@@ -146,20 +146,20 @@ export default function BuyEbookPage() {
               <div className="w-full space-y-4">
                 <div className="relative w-full">
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground">T</span>
-                  <div className={cn(inputClasses, "overflow-x-auto scrollbar-hide")}>
+                  <div className={cn(inputClasses, "overflow-x-auto")}>
                     <p className="text-foreground whitespace-nowrap">{ebook.title}</p>
                   </div>
                 </div>
                 <div className="relative w-full">
                   <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-foreground">D</span>
-                  <div className={cn(textareaClasses, 'whitespace-pre-wrap', 'scrollbar-hide')}>
+                  <div className={cn(textareaClasses, 'whitespace-pre-wrap')}>
                     <p className="text-foreground">{ebook.description}</p>
                   </div>
                 </div>
                 <div className="relative w-full">
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground z-10">M</span>
                   <div className="h-12 w-full text-base border-0 rounded-full flex items-center p-0 overflow-hidden glass-form-element">
-                    <div className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-4 scrollbar-hide">
+                    <div className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-4">
                       {ebook.keywords.split(',').map((keyword, index) => (
                         <Badge key={index} variant="default" className="flex-shrink-0 whitespace-nowrap rounded-full py-1 px-3">
                           {keyword.trim()}

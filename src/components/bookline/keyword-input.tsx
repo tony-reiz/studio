@@ -214,7 +214,7 @@ export function KeywordInput({ value, onChange, placeholder }: KeywordInputProps
             onClick={() => inputRef.current?.focus()}
         >
             <GlassEffect />
-            <div ref={scrollContainerRef} className="relative z-20 flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-12 scrollbar-hide">
+            <div ref={scrollContainerRef} className="relative z-20 flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-12">
                 {keywords.map((keyword) => (
                     <Badge 
                         key={keyword.id} 

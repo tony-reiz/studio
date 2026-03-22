@@ -197,7 +197,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
             </Button>
           </div>
 
-          <div className="flex-1 overflow-y-auto px-4 pb-8 scrollbar-hide">
+          <div className="flex-1 overflow-y-auto px-4 pb-8">
             <div
               className='max-w-4xl mx-auto w-full'
             >
@@ -231,7 +231,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
                       {recommendedEbooks.length > 0 && (
                         <div className="mb-8">
                           <h3 className={cn("text-sm font-semibold text-muted-foreground mb-4 transition-all duration-500 ease-out", isContentVisible ? 'opacity-100' : 'opacity-0' )} style={{transitionDelay: '100ms'}}>{t('suggestions_for_you')}</h3>
-                          <div className="flex overflow-x-auto gap-4 sm:gap-8 pb-4 -mx-4 px-4 scrollbar-hide">
+                          <div className="flex overflow-x-auto gap-4 sm:gap-8 pb-4 -mx-4 px-4">
                             {recommendedEbooks.map((ebook, index) => (
                               <div
                                   key={`rec-${ebook.id}-${overlayRunId}`} // Using the run ID in the key

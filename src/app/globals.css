@@ -95,17 +95,18 @@
     transition: background-color 9999s ease-in-out 0s;
     -webkit-text-fill-color: hsl(var(--foreground)) !important;
   }
+
+  /* Universal scrollbar hiding */
+  * {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  *::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
 }
 
 @layer utilities {
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
   .glass-container {
     @apply absolute inset-0 rounded-[inherit] overflow-hidden z-10;
   }

@@ -141,7 +141,7 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
             >
               {/* Purchase View */}
               <div className="w-1/2 h-full flex-shrink-0 p-8 flex flex-col">
-                <main className="flex-1 w-full flex flex-col items-center justify-center gap-8 overflow-y-auto scrollbar-hide">
+                <main className="flex-1 w-full flex flex-col items-center justify-center gap-8 overflow-y-auto">
                   <div className="grid md:grid-cols-2 items-start gap-4 w-full">
                     <div className="flex justify-center md:justify-end">
                       <div className="w-full max-w-[18rem] md:max-w-xs">
@@ -177,7 +177,7 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
                         <div className="w-full space-y-4">
                           <div className="relative w-full">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground">T</span>
-                            <div className={cn(inputClasses, "overflow-x-auto scrollbar-hide", theme === 'dark' ? 'bg-[#393939]' : 'bg-[#DFDFDF]')}>
+                            <div className={cn(inputClasses, "overflow-x-auto", theme === 'dark' ? 'bg-[#393939]' : 'bg-[#DFDFDF]')}>
                               <p className="text-foreground whitespace-nowrap">{currentEbook.title}</p>
                             </div>
                           </div>
@@ -190,7 +190,7 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
                           <div className="relative w-full">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground z-10">M</span>
                             <div className={cn("h-12 w-full text-base border-0 rounded-full flex items-center p-0 overflow-hidden", theme === 'dark' ? 'bg-[#393939]' : 'bg-[#DFDFDF]')}>
-                              <div className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-4 scrollbar-hide">
+                              <div className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-4">
                                 {currentEbook.keywords.split(',').map((keyword, index) => (
                                   <Badge key={index} variant="default" className="flex-shrink-0 whitespace-nowrap rounded-full py-1 px-3">
                                     {keyword.trim()}
@@ -239,7 +239,7 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
                           <ChevronLeft className="h-6 w-6" />
                       </Button>
                   </header>
-                  <main className="flex-1 w-full flex flex-col items-center pt-8 overflow-y-auto scrollbar-hide">
+                  <main className="flex-1 w-full flex flex-col items-center pt-8 overflow-y-auto">
                       <div className="flex flex-col items-center">
                           <Avatar className="h-28 w-28 bg-foreground dark:bg-white">
                               <AvatarImage src={sellerProfile.avatarUrl || ''} alt="Photo de profil du vendeur" />

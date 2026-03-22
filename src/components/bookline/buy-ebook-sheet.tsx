@@ -137,7 +137,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
             {/* Purchase View */}
             <div className={cn("w-1/2 h-full flex-shrink-0 flex flex-col transition-opacity", isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-[800ms]")}>
               {activeEbook && (
-                  <div data-scrollable-sheet="true" className="overflow-y-auto scrollbar-hide">
+                  <div data-scrollable-sheet="true" className="overflow-y-auto">
                       <main className="w-full flex flex-col items-center pt-2 pb-16 gap-8 px-4">
                       <div className="w-full max-w-5xl flex flex-col md:flex-row md:items-start md:justify-center md:gap-4">
                           <div className="flex justify-center md:justify-end">
@@ -176,20 +176,20 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
                                   <div className="w-full space-y-4">
                                       <div className="relative w-full">
                                           <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground">T</span>
-                                          <div className={cn(inputClasses, "overflow-x-auto scrollbar-hide", theme === 'dark' ? 'bg-[#393939]' : 'bg-[#DFDFDF]')}>
+                                          <div className={cn(inputClasses, "overflow-x-auto", theme === 'dark' ? 'bg-[#393939]' : 'bg-[#DFDFDF]')}>
                                           <p className="text-foreground whitespace-nowrap">{activeEbook.title}</p>
                                           </div>
                                       </div>
                                       <div className="relative w-full">
                                           <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-foreground">D</span>
-                                          <div className={cn(textareaClasses, 'whitespace-pre-wrap scrollbar-hide', theme === 'dark' ? 'bg-[#393939]' : 'bg-[#DFDFDF]')}>
+                                          <div className={cn(textareaClasses, 'whitespace-pre-wrap', theme === 'dark' ? 'bg-[#393939]' : 'bg-[#DFDFDF]')}>
                                           <p className="text-foreground">{activeEbook.description}</p>
                                           </div>
                                       </div>
                                       <div className="relative w-full">
                                           <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-foreground z-10">M</span>
                                           <div className={cn("h-12 w-full text-base rounded-full flex items-center p-0 overflow-hidden", theme === 'dark' ? 'bg-[#393939]' : 'bg-[#DFDFDF]')}>
-                                          <div className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-4 scrollbar-hide">
+                                          <div className="flex-1 flex items-center gap-2 h-full overflow-x-auto pl-11 pr-4">
                                               {activeEbook.keywords.split(',').map((keyword, index) => (
                                               <Badge key={index} variant="default" className="flex-shrink-0 whitespace-nowrap rounded-full py-1 px-3">
                                                   {keyword.trim()}
@@ -241,7 +241,7 @@ export function BuyEbookSheet({ ebook, onOpenChange }: BuyEbookSheetProps) {
                         <ChevronLeft className="h-6 w-6" />
                     </Button>
                 </header>
-                <main data-scrollable-sheet="true" className="flex-1 w-full flex flex-col items-center pt-8 overflow-y-auto px-4 pb-8 scrollbar-hide">
+                <main data-scrollable-sheet="true" className="flex-1 w-full flex flex-col items-center pt-8 overflow-y-auto px-4 pb-8">
                     <div className="flex flex-col items-center">
                         <Avatar className="h-28 w-28 bg-foreground dark:bg-white">
                             <AvatarImage src={sellerProfile.avatarUrl || ''} alt="Photo de profil du vendeur" />
