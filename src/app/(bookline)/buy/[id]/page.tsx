@@ -152,7 +152,7 @@ export default function BuyEbookPage() {
                 </div>
                 <div className="relative w-full">
                   <span className="absolute left-4 top-[24px] -translate-y-1/2 text-sm font-bold text-foreground">D</span>
-                  <div className={cn(textareaClasses, 'whitespace-pre-wrap')}>
+                  <div className={cn(textareaClasses, 'whitespace-pre-wrap', 'scrollbar-hide')}>
                     <p className="text-foreground">{ebook.description}</p>
                   </div>
                 </div>

@@ -230,7 +230,7 @@ export default function EbookViewerPage() {
           </div>
         )}
 
-        <main className="flex-1 overflow-y-auto" style={{ paddingTop: `calc(env(safe-area-inset-top) + 4rem)`, paddingBottom: '8rem' }}>
+        <main className="flex-1 overflow-y-auto scrollbar-hide" style={{ paddingTop: `calc(env(safe-area-inset-top) + 4rem)`, paddingBottom: '8rem' }}>
             <div ref={widthRef} className="w-full max-w-xl mx-auto">
                 {isPdf ? (
                     <Document

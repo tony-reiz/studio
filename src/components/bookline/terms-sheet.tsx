@@ -37,7 +37,7 @@ export function TermsSheet({ children }: TermsSheetProps) {
       <DrawerContent className="rounded-t-[40px] max-h-[85vh] flex flex-col bg-background p-4 pt-4 border-0">
         <DrawerTitle className="sr-only">Conditions d'Utilisation</DrawerTitle>
         
-        <div className={cn("overflow-y-auto -mx-4 px-4 pt-4 transition-opacity duration-300", isContentVisible ? "opacity-100" : "opacity-0")}>
+        <div className={cn("overflow-y-auto -mx-4 px-4 pt-4 scrollbar-hide transition-opacity duration-300", isContentVisible ? "opacity-100" : "opacity-0")}>
           <div className="max-w-4xl mx-auto pb-8">
             <h1 className="text-2xl font-bold mb-4 text-center">Conditions d'Utilisation</h1>
             <TermsContent />

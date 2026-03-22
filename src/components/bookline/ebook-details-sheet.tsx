@@ -115,7 +115,7 @@ export function EbookDetailsSheet({ ebook, open, onOpenChange }: EbookDetailsShe
                 <div 
                     data-scrollable-sheet="true" 
                     className={cn(
-                        "flex-1 overflow-y-auto p-4 transition-opacity", 
+                        "flex-1 overflow-y-auto p-4 scrollbar-hide transition-opacity", 
                         isContentVisible ? "opacity-100 duration-300" : "opacity-0 duration-[800ms]"
                     )}
                 >

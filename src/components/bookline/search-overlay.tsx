@@ -197,7 +197,7 @@ export function SearchOverlay({ isOpen, onClose, ebooks }: SearchOverlayProps) {
             </Button>
           </div>
 
-          <div className="flex-1 overflow-y-auto px-4 pb-8">
+          <div className="flex-1 overflow-y-auto px-4 pb-8 scrollbar-hide">
             <div
               className='max-w-4xl mx-auto w-full'
             >
