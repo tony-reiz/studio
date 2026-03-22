@@ -284,7 +284,7 @@ export const translations = {
     'pdf_load_error_desc': "Impossible d'afficher le PDF. Le fichier est peut-être corrompu ou le format n'est pas supporté.",
     'pages': 'pages',
     'publications': 'publications',
-    'balance': 'Solde',
+    'balance_date_label': 'Jour {day}',
   },
   en: {
     // General
@@ -572,7 +572,7 @@ export const translations = {
     'pdf_load_error_desc': 'Could not display the PDF. The file may be corrupted or the format is not supported.',
     'pages': 'pages',
     'publications': 'publications',
-    'balance': 'Balance',
+    'balance_date_label': 'Day {day}',
   },
 };
 

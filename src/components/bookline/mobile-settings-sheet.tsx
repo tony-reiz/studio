@@ -29,7 +29,7 @@ import { ImageCropper } from './image-cropper';
 import { currencies, type Currency } from '@/lib/currencies';
 import { GlassEffect } from './glass-effect';
 import { useToast } from '@/hooks/use-toast';
-import { Area, AreaChart, ResponsiveContainer, Tooltip } from "recharts";
+import { Area, AreaChart, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { FluidSheet } from './fluid-sheet';
 
 
@@ -283,7 +283,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             {isMobile && <h2 id="settings-sheet-title" className="sr-only">{t('settings')}</h2>}
             {!isMobile && <h2 className="text-xl font-bold text-center p-4 pt-6">{t('settings')}</h2>}
           </div>
-          <div className="flex-1 overflow-y-auto px-4 pt-4 pb-20">
+          <div className="flex-1 overflow-y-auto px-4 pt-4 pb-20 scrollbar-hide">
               <SettingsList onItemClick={onItemClick} />
           </div>
       </>
@@ -317,7 +317,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
                 </div>
             </div>
-            <div className="flex-1 overflow-y-auto px-4 pb-4">
+            <div className="flex-1 overflow-y-auto px-4 pb-4 scrollbar-hide">
                 {searchQuery && (
                     <ul className="w-full space-y-2">
                         {filteredLanguages.map((lang) => (
@@ -357,7 +357,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     <p className="text-muted-foreground text-sm mt-1">{t('help_center_subtitle')}</p>
                 </div>
             </div>
-            <div className="flex-1 overflow-y-auto px-4 pb-4">
+            <div className="flex-1 overflow-y-auto px-4 pb-4 scrollbar-hide">
                 <Accordion type="single" collapsible className="w-full">
                     {faqs.map(faq => (
                       <AccordionItem value={faq.id} key={faq.id}>
@@ -386,7 +386,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     <p className="text-muted-foreground text-sm mt-1">{t('manage_account_security')}</p>
                 </div>
             </div>
-            <div className="flex-1 overflow-y-auto px-4 pb-4">
+            <div className="flex-1 overflow-y-auto px-4 pb-4 scrollbar-hide">
                 <ul className="w-full space-y-2">
                     <li>
                         <button className="w-full rounded-full flex items-center justify-between p-4 text-left hover:bg-secondary transition-colors">
@@ -439,7 +439,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     <h1 className="text-xl font-bold text-center">{t('account_settings')}</h1>
                 </div>
             </div>
-            <div className="flex-1 overflow-y-auto px-4 pb-8">
+            <div className="flex-1 overflow-y-auto px-4 pb-8 scrollbar-hide">
                  <div className="flex flex-col items-center w-full max-w-sm mx-auto pt-8">
                     <div className="relative mb-6">
                       <input
@@ -558,7 +558,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                   <p className="text-muted-foreground text-sm mt-1">{t('choose_what_to_receive')}</p>
               </div>
           </div>
-          <div className="flex-1 overflow-y-auto px-4 pb-4">
+          <div className="flex-1 overflow-y-auto px-4 pb-4 scrollbar-hide">
               <ul className="w-full space-y-2">
                 {notificationOptions.map(option => (
                   <li key={option.id}>
@@ -592,7 +592,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <h1 className="text-xl font-bold text-center">{t('currency')}</h1>
             </div>
         </div>
-        <div className="flex-1 overflow-y-auto px-4 py-4">
+        <div className="flex-1 overflow-y-auto px-4 py-4 scrollbar-hide">
             <div className="max-w-md mx-auto">
                 <ul className="w-full space-y-[17px]">
                     {currencies.map((curr) => (
@@ -645,7 +645,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <h1 className="text-xl font-bold text-center">{t('transfer')}</h1>
             </div>
         </div>
-        <div className="flex-1 overflow-y-auto px-4 py-4">
+        <div className="flex-1 overflow-y-auto px-4 py-4 scrollbar-hide">
             <div className="max-w-sm mx-auto flex flex-col gap-8">
                 <div className="w-full text-center">
                     <p className="text-muted-foreground">{t('current_balance')}</p>
@@ -757,7 +757,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                         <p className="text-muted-foreground text-sm mt-1">{t('monthly_statements')}</p>
                     </div>
                 </div>
-                <div className="flex-1 overflow-y-auto px-4 py-4">
+                <div className="flex-1 overflow-y-auto px-4 py-4 scrollbar-hide">
                     <ul className="my-8 space-y-3">
                         {invoiceMonths.map((month) => (
                             <li key={month} className="flex items-center justify-between rounded-lg bg-secondary p-3">
@@ -780,23 +780,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     };
 
     const InvoicesView = () => {
-        const chartContainerRef = useRef<HTMLDivElement>(null);
-        const chartData = useMemo(() => {
-            return transactionsData.slice().reverse().map((transaction, index) => ({
-                index: index,
-                date: transaction.date,
-                description: transaction.description,
-                income: transaction.type === 'income' ? transaction.amount : 0,
-                expense: transaction.type === 'expense' ? -transaction.amount : 0,
-            }));
-        }, []);
-
-        useEffect(() => {
-            if (chartContainerRef.current) {
-                chartContainerRef.current.scrollLeft = chartContainerRef.current.scrollWidth;
-            }
-        }, [chartData]);
-
         const totalIncome = useMemo(() => transactionsData
             .filter(t => t.amount > 0)
             .reduce((acc, t) => acc + t.amount, 0), []);
@@ -804,6 +787,25 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
         const totalExpenses = useMemo(() => transactionsData
             .filter(t => t.amount < 0)
             .reduce((acc, t) => acc + t.amount, 0), []);
+        
+        const balanceData = [
+            { day: "1", balance: 450 }, { day: "2", balance: 480 }, { day: "3", balance: 460 }, { day: "4", balance: 520 },
+            { day: "5", balance: 750 }, { day: "6", balance: 550 }, { day: "7", balance: 500 }, { day: "8", balance: 450 },
+            { day: "9", balance: 350 }, { day: "10", balance: 300 }, { day: "11", balance: 250 }, { day: "12", balance: 280 },
+            { day: "13", balance: 320 }, { day: "14", balance: 300 }, { day: "15", balance: 280 }, { day: "16", balance: 310 },
+            { day: "17", balance: 340 }, { day: "18", balance: 380 }, { day: "19", balance: 420 }, { day: "20", balance: 400 },
+            { day: "21", balance: 430 },
+        ];
+
+        const futureData = [
+            { day: "21", balance: 430 },
+            { day: "22", balance: 410 },
+            { day: "23", balance: 380 },
+            { day: "24", balance: 360 },
+            { day: "25", balance: 320 },
+            { day: "26", balance: 340 },
+            { day: "27", balance: 310 },
+        ];
 
         return (
           <div className="flex flex-col h-full">
@@ -826,104 +828,39 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                       <p className="text-2xl font-bold">{formatCurrency(totalExpenses)}</p>
                   </div>
               </div>
-
-              <div ref={chartContainerRef} className="w-full overflow-x-auto scrollbar-hide">
-                <div style={{ width: chartData.length * 120, height: 120 }} className="mt-4">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart
-                        data={chartData}
-                        margin={{ top: 5, right: 20, left: 20, bottom: 5 }}
-                    >
-                        <defs>
-                            <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#16a34a" stopOpacity={0.4}/>
-                                <stop offset="95%" stopColor="#16a34a" stopOpacity={0}/>
-                            </linearGradient>
-                            <linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#dc2626" stopOpacity={0.4}/>
-                                <stop offset="95%" stopColor="#dc2626" stopOpacity={0}/>
-                            </linearGradient>
-                        </defs>
-                        <Tooltip
-                            cursor={{
-                                stroke: 'hsl(var(--muted-foreground))',
-                                strokeWidth: 1,
-                                strokeDasharray: '3 3',
-                            }}
-                            content={({ active, payload }) => {
-                                if (active && payload && payload.length) {
-                                    const dataPoint = payload.find(p => p.value !== 0);
-                                    if (!dataPoint) return null;
-
-                                    const data = dataPoint.payload;
-                                    const amount = dataPoint.value as number;
-                                    const type = dataPoint.dataKey;
-                                    
-                                    return (
-                                        <div className="rounded-lg border bg-background/90 backdrop-blur-sm p-2.5 shadow-sm">
-                                            <div className="flex flex-col gap-0.5">
-                                                <span className="font-semibold text-sm">{data.description}</span>
-                                                <span className="text-xs text-muted-foreground">{data.date}</span>
-                                                <span className={cn("font-bold mt-1 text-sm", type === 'income' ? 'text-green-600' : 'text-red-600')}>
-                                                    {formatCurrency(type === 'income' ? amount : -amount)}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    );
-                                }
-                                return null;
-                            }}
-                        />
-                        <Area
-                            type="monotone"
-                            dataKey="income"
-                            stroke="#16a34a"
-                            strokeWidth={2}
-                            fillOpacity={1}
-                            fill="url(#colorIncome)"
-                            dot={(props) => {
-                                const { cx, cy, payload } = props as any;
-                                if (payload.income > 0) {
-                                    return <circle cx={cx} cy={cy} r={4} strokeWidth={2} fill="#16a34a" stroke="hsl(var(--background))" />;
-                                }
-                                return null;
-                            }}
-                            activeDot={(props) => {
-                                const { cx, cy, payload } = props as any;
-                                if (payload.income > 0) {
-                                    return <circle cx={cx} cy={cy} r={6} strokeWidth={2} fill="#16a34a" stroke="hsl(var(--background))" />;
-                                }
-                                return null;
-                            }}
-                        />
-                        <Area
-                            type="monotone"
-                            dataKey="expense"
-                            stroke="#dc2626"
-                            strokeWidth={2}
-                            fillOpacity={1}
-                            fill="url(#colorExpense)"
-                            dot={(props) => {
-                                const { cx, cy, payload } = props as any;
-                                if (payload.expense > 0) {
-                                    return <circle cx={cx} cy={cy} r={4} strokeWidth={2} fill="#dc2626" stroke="hsl(var(--background))" />;
-                                }
-                                return null;
-                            }}
-                            activeDot={(props) => {
-                                const { cx, cy, payload } = props as any;
-                                if (payload.expense > 0) {
-                                    return <circle cx={cx} cy={cy} r={6} strokeWidth={2} fill="#dc2626" stroke="hsl(var(--background))" />;
-                                }
-                                return null;
-                            }}
-                        />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </div>
+              
+              <div className="w-full h-[150px] mt-8 -ml-2">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={balanceData} margin={{ top: 5, right: 25, left: 5, bottom: 5 }}>
+                    <defs>
+                      <pattern id="dotPattern" patternUnits="userSpaceOnUse" width="4" height="4">
+                        <circle cx="2" cy="2" r="1" fill="rgba(139, 92, 246, 0.4)" />
+                      </pattern>
+                    </defs>
+                    <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" fontSize={10} tickLine={false} axisLine={false} interval="preserveStartEnd" hide />
+                    <YAxis hide={true} domain={['dataMin - 100', 'dataMax + 50']} />
+                    <Tooltip
+                        cursor={false}
+                        content={({ active, payload }) => {
+                            if (active && payload && payload.length) {
+                                return (
+                                    <div className="rounded-lg border bg-background/90 backdrop-blur-sm px-2.5 py-1.5 shadow-sm">
+                                        <p className="text-sm font-bold">{`${payload[0].value} €`}</p>
+                                    </div>
+                                );
+                            }
+                            return null;
+                        }}
+                    />
+                    <Area type="monotone" dataKey="balance" stroke="none" fill="url(#dotPattern)" />
+                    <Line type="monotone" dataKey="balance" stroke="#8B5CF6" strokeWidth={2} dot={false} />
+                    <Line type="monotone" data={futureData} dataKey="balance" stroke="#A78BFA" strokeWidth={2} strokeDasharray="3 4" dot={false} />
+                    <ReferenceLine x="21" stroke="hsl(var(--border))" strokeDasharray="3 3" />
+                  </LineChart>
+                </ResponsiveContainer>
               </div>
 
-              <div className="flex-1 overflow-y-auto px-4 pt-4">
+              <div className="flex-1 overflow-y-auto px-4 pt-4 scrollbar-hide">
                 <div className="max-w-md mx-auto flex flex-col gap-4">
                     <ul className="space-y-2">
                         {transactionsData.map(transaction => (
