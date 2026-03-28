@@ -127,7 +127,7 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
               }
 
               // --- Chromatic Aberration ---
-              float ca_amount = 0.005; // 50% intensity
+              float ca_amount = 0.05; // Increased intensity
               vec2 ca_offset = distortion_vec * ca_amount * contour_factor;
               
               vec2 p_r = p_distorted - ca_offset;
