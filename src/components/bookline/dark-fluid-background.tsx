@@ -89,16 +89,20 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
 
               // Check if the current fragment is inside the circle
               if (length(st) < radius) {
-                  // Apply distortion only inside the circle
+                  float d_from_center = length(st);
+                  
+                  // Concentrate distortion effect on the contour
+                  float contour_factor = pow(d_from_center / radius, 3.0);
+
                   float t_distort = uTime * 0.4;
-                  vec2 noise_coord = uv * 3.0 + t_distort;
+                  vec2 noise_coord = uv * 0.8 + t_distort;
                   float distortion_x = snoise(noise_coord);
                   float distortion_y = snoise(noise_coord + vec2(10.0));
                   vec2 distortion_vec = vec2(distortion_x, distortion_y);
                   
-                  // IOR strength
-                  float ior_strength = 0.04; 
-                  p_distorted = uv + distortion_vec * ior_strength;
+                  // High IOR strength, modulated by the contour factor
+                  float ior_strength = 0.08; 
+                  p_distorted = uv + distortion_vec * ior_strength * contour_factor;
               }
 
               float ratio = uResolution.x / uResolution.y;
@@ -110,8 +114,9 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
 
               float n = snoise(p + snoise(p * 0.4 + t * 0.3));
 
+              // "Thickness" effect: wider core, stronger white highlights
               float glow = smoothstep(-0.2, 0.6, n);
-              float core = smoothstep(0.1, 0.7, n);
+              float core = smoothstep(0.0, 0.6, n);
               
               vec3 baseColor = vec3(0.03, 0.02, 0.1);
               vec3 purple = vec3(0.4, 0.3, 0.85);
@@ -120,7 +125,7 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
 
               vec3 color = mix(baseColor, purple, glow);
               color = mix(color, blue, core);
-              color = mix(color, white, pow(core, 4.0));
+              color = mix(color, white, pow(core, 2.0));
 
               gl_FragColor = vec4(color, 1.0);
           }
