@@ -10,6 +10,7 @@ import { useEbooks } from '@/context/ebook-provider';
 import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
 import { cn } from '@/lib/utils';
 import { GlassEffect } from '@/components/bookline/glass-effect';
+import { IridescenceBackground } from '@/components/bookline/iridescence-background';
 
 export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -34,7 +35,8 @@ export default function HomePage() {
   );
 
   return (
-    <div className={cn("flex flex-col h-screen text-foreground bg-background")}>
+    <div className={cn("flex flex-col h-screen text-foreground bg-transparent")}>
+      <IridescenceBackground />
       <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8 overflow-y-auto">
         <header className="sticky top-0 z-10 w-full pb-6" style={{ paddingTop: `calc(1.5rem + env(safe-area-inset-top))` }}>
           <div className="flex items-start justify-between w-full">
