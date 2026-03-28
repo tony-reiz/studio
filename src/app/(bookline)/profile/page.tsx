@@ -170,7 +170,7 @@ function ProfilePageContent() {
 
           <main className="flex-1 w-full flex flex-col items-center pb-8">
             <div className="flex flex-col items-center">
-              <Avatar className="h-28 w-28 bg-foreground dark:bg-white">
+              <Avatar className="h-28 w-28 bg-foreground dark:bg-[#a3a3a3]">
                 <AvatarImage src={userProfile.avatarUrl || ''} alt={t('user_profile_picture')} />
                 <AvatarFallback className="bg-transparent">
                   <User className="h-12 w-12 text-background dark:text-black" />
