@@ -97,7 +97,7 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
                   vec2 distortion_vec = vec2(distortion_x, distortion_y);
                   
                   // IOR strength
-                  float ior_strength = 0.02; 
+                  float ior_strength = 0.04; 
                   p_distorted = uv + distortion_vec * ior_strength;
               }
 
@@ -106,7 +106,7 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
 
               float t = uTime * 0.3; 
 
-              p *= 1.3;
+              p *= 0.8;
 
               float n = snoise(p + snoise(p * 0.4 + t * 0.3));
 
