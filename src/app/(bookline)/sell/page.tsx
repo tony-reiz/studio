@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { User, Loader2, Menu } from 'lucide-react';
+import { User, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
@@ -14,7 +14,6 @@ import { cn } from '@/lib/utils';
 import { useEbooks } from '@/context/ebook-provider';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { PDFDocument } from 'pdf-lib';
-import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
 import { GlassEffect } from '@/components/bookline/glass-effect';
 
 
@@ -26,7 +25,6 @@ export default function SellPage() {
   const { toast } = useToast();
   const { handleNavigate } = useTransitionRouter();
   const { addPublishedEbook, theme, t } = useEbooks();
-  const [isClient, setIsClient] = useState(false);
 
   const sellFormSchema = z.object({
     title: z.string().min(1, { message: t('title_required') }),
@@ -41,10 +39,6 @@ export default function SellPage() {
       .refine((val) => parseFloat(val.replace(',', '.')) >= 10, { message: t('price_min_10') })
       .refine((val) => parseFloat(val.replace(',', '.')) <= 1000, { message: t('price_max_1000') }),
   });
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   const form = useForm<z.infer<typeof sellFormSchema>>({
     resolver: zodResolver(sellFormSchema),
@@ -155,26 +149,11 @@ export default function SellPage() {
     return t('publish');
   }
   
-  const menuButton = (
-    <Button
-      variant="ghost"
-      size="icon"
-      aria-label={t('menu')}
-      className="w-11 h-11 rounded-full relative isolate overflow-hidden -mt-2 sm:mt-0"
-    >
-      <GlassEffect />
-      <Menu className="h-6 w-6 relative z-20" />
-    </Button>
-  );
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className={cn("flex flex-col min-h-screen text-foreground bg-background")}>
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8 overflow-y-auto">
-          <header className="sticky top-0 z-10 flex items-start justify-between w-full pb-6" style={{ paddingTop: `calc(1.5rem + env(safe-area-inset-top))` }}>
-            <div className="flex flex-col items-start gap-3">
-              {isClient ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
-            </div>
+          <header className="sticky top-0 z-10 flex items-start justify-end w-full pb-6" style={{ paddingTop: `calc(1.5rem + env(safe-area-inset-top))` }}>
             <Button type="button" onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="-mt-2 sm:mt-0 w-11 h-11 rounded-full relative isolate overflow-hidden" aria-label={t('user_profile')}>
               <GlassEffect />
               <User className="h-6 w-6 relative z-20" />
