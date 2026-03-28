@@ -16,6 +16,7 @@ import {
   Dialog,
   DialogContent,
 } from "@/components/ui/dialog";
+import { GlassEffect } from '@/components/bookline/glass-effect';
 
 const Document = dynamic(
   () => import('react-pdf').then((mod) => mod.Document),
@@ -218,15 +219,18 @@ export default function BuyEbookPage() {
       ) : (
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
           <header className="flex items-start justify-between w-full py-6">
-            <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11">
-              <ChevronLeft className="h-6 w-6" />
+            <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden" aria-label={t('back')}>
+                <GlassEffect />
+                <ChevronLeft className="h-6 w-6 relative z-20" />
             </Button>
             <div className="flex flex-col items-center gap-3">
-              <Button variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11">
-                <Share2 className="h-6 w-6" />
+              <Button variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden">
+                <GlassEffect />
+                <Share2 className="h-6 w-6 relative z-20" />
               </Button>
-              <Button variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11">
-                <AlertCircle className="h-6 w-6" />
+              <Button variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden">
+                <GlassEffect />
+                <AlertCircle className="h-6 w-6 relative z-20" />
               </Button>
             </div>
           </header>

@@ -16,6 +16,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { GlassEffect } from './glass-effect';
 
 const Document = dynamic(() => import('react-pdf').then((mod) => mod.Document), {
   ssr: false,
@@ -235,8 +236,9 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
               {/* Seller View */}
               <div className="w-1/2 h-full flex-shrink-0 p-8 flex flex-col">
                   <header className="flex items-center w-full pb-4 shrink-0">
-                      <Button onClick={() => setView('purchase')} variant="ghost" size="icon" className="rounded-full glass-icon-button w-11 h-11" aria-label={t('back')}>
-                          <ChevronLeft className="h-6 w-6" />
+                      <Button onClick={() => setView('purchase')} variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden" aria-label={t('back')}>
+                          <GlassEffect />
+                          <ChevronLeft className="h-6 w-6 relative z-20" />
                       </Button>
                   </header>
                   <main className="flex-1 w-full flex flex-col items-center pt-8 overflow-y-auto">
