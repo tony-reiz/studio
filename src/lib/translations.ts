@@ -9,8 +9,8 @@ export const translations = {
     'back': 'Retour',
     'cancel': 'Annuler',
     'loading': 'Chargement...',
-    'pay': 'Payer',
-    'view': 'Voir',
+    'pay': 'payer',
+    'view': 'voir',
     'payment_successful': 'Achat réussi !',
     'you_can_now_read': 'Vous pouvez maintenant lire',
 
@@ -296,8 +296,8 @@ export const translations = {
     'back': 'Back',
     'cancel': 'Cancel',
     'loading': 'Loading...',
-    'pay': 'Pay',
-    'view': 'View',
+    'pay': 'pay',
+    'view': 'view',
     'payment_successful': 'Payment successful!',
     'you_can_now_read': 'You can now read',
 

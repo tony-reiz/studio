@@ -195,7 +195,7 @@ export default function BuyEbookPage() {
                   : "bg-black text-white hover:bg-black/90"
             )}
           >
-            {isPurchased ? 'Voir' : 'Payer'}
+            {isPurchased ? 'voir' : 'payer'}
           </Button>
         </div>
       </main>
