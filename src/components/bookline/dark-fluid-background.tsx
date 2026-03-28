@@ -102,7 +102,7 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
                   vec2 distortion_vec = vec2(distortion_x, distortion_y);
                   
                   // IOR strength.
-                  float ior_strength = 0.04; 
+                  float ior_strength = 0.08; 
                   p_distorted = uv + distortion_vec * ior_strength;
               }
 
