@@ -42,7 +42,7 @@ export default function HomePage() {
               {isClient ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
               <div className="-mt-1">
                 <p className="text-[24px] font-bold tracking-widest text-foreground">{t('welcome_to')}</p>
-                <h1 className="text-5xl sm:text-6xl font-extrabold text-foreground -mt-1">{t('bookline')}</h1>
+                <h1 className="text-5xl sm:text-6xl font-extrabold text-neutral-400 -mt-1">{t('bookline')}</h1>
               </div>
             </div>
             <div className="flex items-start sm:items-center shrink-0 gap-2 sm:gap-3">
