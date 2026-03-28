@@ -81,7 +81,7 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
 
           // Function to compute color based on a coordinate
           vec3 compute_color(vec2 p, float t) {
-              p *= 0.8;
+              p *= 0.2;
               float n = snoise(p + snoise(p * 0.4 + t * 0.3));
 
               // "Thickness" effect
@@ -104,7 +104,7 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
               vec2 uv = gl_FragCoord.xy / uResolution.xy;
               
               vec2 st = (gl_FragCoord.xy - 0.5 * uResolution.xy) / uResolution.y;
-              float radius = (384.0 / 2.0) / uResolution.y;
+              float radius = (288.0 / 2.0) / uResolution.y;
 
               vec2 p_distorted = uv;
               vec2 distortion_vec = vec2(0.0);
@@ -116,7 +116,7 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
                   contour_factor = pow(d_from_center / radius, 5.0);
 
                   float t_distort = uTime * 0.4;
-                  vec2 noise_coord = uv * 0.8 + t_distort;
+                  vec2 noise_coord = uv * 0.2 + t_distort;
                   float distortion_x = snoise(noise_coord);
                   float distortion_y = snoise(noise_coord + vec2(10.0));
                   distortion_vec = vec2(distortion_x, distortion_y);
@@ -127,7 +127,7 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
               }
 
               // --- Chromatic Aberration ---
-              float ca_amount = 0.05; // Increased intensity
+              float ca_amount = 0.12;
               vec2 ca_offset = distortion_vec * ca_amount * contour_factor;
               
               vec2 p_r = p_distorted - ca_offset;
