@@ -1,7 +1,10 @@
+'use client';
+import { IridescentBackground } from '@/components/bookline/iridescent-background';
+
 export default function BlankPage() {
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-background">
-      <p>Page vierge</p>
+    <div className="h-screen w-full bg-background">
+      <IridescentBackground />
     </div>
   );
 }
