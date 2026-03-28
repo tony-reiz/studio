@@ -92,7 +92,7 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
                   float d_from_center = length(st);
                   
                   // Concentrate distortion effect on the contour
-                  float contour_factor = pow(d_from_center / radius, 3.0);
+                  float contour_factor = pow(d_from_center / radius, 5.0);
 
                   float t_distort = uTime * 0.4;
                   vec2 noise_coord = uv * 0.8 + t_distort;
@@ -101,7 +101,7 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
                   vec2 distortion_vec = vec2(distortion_x, distortion_y);
                   
                   // High IOR strength, modulated by the contour factor
-                  float ior_strength = 0.08; 
+                  float ior_strength = 0.16; 
                   p_distorted = uv + distortion_vec * ior_strength * contour_factor;
               }
 
