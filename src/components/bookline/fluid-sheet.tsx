@@ -117,7 +117,7 @@ export function FluidSheet({ open, onOpenChange, children, className, ...props }
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
-                className={cn("absolute bottom-0 left-0 right-0 flex h-[80vh] w-full flex-col bg-background rounded-t-[50px] pt-2", className)}
+                className={cn("absolute bottom-0 left-0 right-0 flex h-[80vh] w-full flex-col bg-[hsl(var(--dialog-background))] rounded-t-[50px] pt-2", className)}
                 style={{
                     transform: `translateY(${isAnimationOpen ? translateY : window.innerHeight}px)`,
                     transition: `transform 0.8s ${animationCurve}`,
