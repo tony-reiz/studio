@@ -285,6 +285,7 @@ export const translations = {
     'pages': 'pages',
     'publications': 'publications',
     'balance_date_label': 'Jour {day}',
+    'balance': 'Solde',
   },
   en: {
     // General
@@ -573,6 +574,7 @@ export const translations = {
     'pages': 'pages',
     'publications': 'publications',
     'balance_date_label': 'Day {day}',
+    'balance': 'Balance',
   },
 };
 

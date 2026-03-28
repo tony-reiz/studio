@@ -3,7 +3,7 @@
 import { useEffect, useState, type ReactNode, useRef, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 import { SettingsList } from './settings-list';
-import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut, Plus, User as UserIcon, Bell, Info, Landmark, Edit3, Download, Receipt, FileText, ChevronRight, TrendingUp, TrendingDown } from 'lucide-react';
+import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut, Plus, User as UserIcon, Bell, Info, Landmark, Edit3, Download, Receipt, FileText, ChevronRight, TrendingUp, TrendingDown, LineChart, Line, CartesianGrid } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { languages } from '@/lib/languages';
@@ -29,7 +29,7 @@ import { ImageCropper } from './image-cropper';
 import { currencies, type Currency } from '@/lib/currencies';
 import { GlassEffect } from './glass-effect';
 import { useToast } from '@/hooks/use-toast';
-import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { FluidSheet } from './fluid-sheet';
 
 
@@ -717,13 +717,21 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
   );
   
   const transactionsData = [
-    { id: '1', type: 'income', description: 'Vente - "Le guide du cosmos"', date: '25 juil. 2026', amount: 17.00 },
-    { id: '2', type: 'expense', description: 'Achat - "Cuisiner comme un chef"', date: '23 juil. 2026', amount: -23.50 },
-    { id: '3', type: 'income', description: 'Vente - "L\'art de la photographie"', date: '15 juil. 2026', amount: 22.00 },
+    { id: '1', type: 'income', description: 'Vente - "Le guide du cosmos"', date: '02 juil. 2026', amount: 17.00 },
+    { id: '2', type: 'expense', description: 'Achat - "Cuisiner comme un chef"', date: '03 juil. 2026', amount: -23.50 },
+    { id: '3', type: 'income', description: 'Vente - "L\'art de la photographie"', date: '05 juil. 2026', amount: 22.00 },
     { id: '4', type: 'expense', description: 'Abonnement BookLine Pro', date: '01 juil. 2026', amount: -10.00 },
-    { id: '5', type: 'income', description: 'Gain parrainage', date: '28 juin 2026', amount: 1.00 },
-    { id: '6', type: 'income', description: 'Vente - "Le guide du cosmos"', date: '25 juin 2026', amount: 17.00 },
-    { id: '7', type: 'expense', description: 'Achat - "Cuisiner comme un chef"', date: '23 juin 2026', amount: -23.50 },
+    { id: '5', type: 'income', description: 'Gain parrainage', date: '07 juil. 2026', amount: 1.00 },
+    { id: '6', type: 'income', description: 'Vente - "Guide de survie"', date: '09 juil. 2026', amount: 12.00 },
+    { id: '7', type: 'income', description: 'Vente - "Le guide du cosmos"', date: '11 juil. 2026', amount: 17.00 },
+    { id: '8', type: 'expense', description: 'Achat - "Histoire du monde"', date: '12 juil. 2026', amount: -18.50 },
+    { id: '9', type: 'income', description: 'Vente - "L\'art de la photographie"', date: '15 juil. 2026', amount: 22.00 },
+    { id: '10', type: 'income', description: 'Vente - "Le guide du cosmos"', date: '18 juil. 2026', amount: 17.00 },
+    { id: '11', type: 'expense', description: 'Achat - "Apprendre le code"', date: '20 juil. 2026', amount: -35.00 },
+    { id: '12', type: 'income', description: 'Gain parrainage', date: '22 juil. 2026', amount: 1.00 },
+    { id: '13', type: 'income', description: 'Vente - "L\'art de la photographie"', date: '25 juil. 2026', amount: 22.00 },
+    { id: '14', type: 'income', description: 'Vente - "Guide de survie"', date: '28 juil. 2026', amount: 12.00 },
+    { id: '15', type: 'expense', description: 'Achat - "Jardinage facile"', date: '30 juil. 2026', amount: -15.50 },
   ];
 
   const formatCurrency = (amount: number) => {
@@ -788,29 +796,25 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             .filter(t => t.amount < 0)
             .reduce((acc, t) => acc + t.amount, 0), []);
         
-        const chartData = useMemo(() => {
+        const balanceData = useMemo(() => {
             const julyTransactions = transactionsData.filter(t => t.date.includes('juil.'));
-            
-            const dailySummary: { [key: number]: { income: number; expense: number } } = {};
+            const dailyNet: { [key: number]: number } = {};
 
             julyTransactions.forEach(t => {
                 const day = parseInt(t.date.split(' ')[0]);
-                if (!dailySummary[day]) {
-                    dailySummary[day] = { income: 0, expense: 0 };
+                if (!dailyNet[day]) {
+                    dailyNet[day] = 0;
                 }
-                if (t.amount > 0) {
-                    dailySummary[day].income += t.amount;
-                } else {
-                    dailySummary[day].expense += Math.abs(t.amount);
-                }
+                dailyNet[day] += t.amount;
             });
 
             const result = [];
+            let cumulativeBalance = 0;
             for (let i = 1; i <= 31; i++) {
+                cumulativeBalance += dailyNet[i] || 0;
                 result.push({
                     day: String(i),
-                    income: dailySummary[i]?.income || 0,
-                    expense: dailySummary[i]?.expense || 0,
+                    solde: cumulativeBalance,
                 });
             }
             return result;
@@ -840,7 +844,8 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
               
               <div className="w-full h-[150px] mt-8 -ml-4">
                 <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={chartData} margin={{ top: 5, right: 5, left: 0, bottom: 5 }}>
+                    <LineChart data={balanceData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--muted-foreground))" strokeOpacity={0.2}/>
                         <XAxis
                             dataKey="day"
                             stroke="hsl(var(--muted-foreground))"
@@ -855,31 +860,20 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             fontSize={10}
                             tickLine={false}
                             axisLine={false}
-                            tickFormatter={(value) => `${value}€`}
+                            tickFormatter={(value) => `${value}`}
+                            domain={['dataMin - 10', 'dataMax + 10']}
                             allowDecimals={false}
-                            width={30}
+                            width={40}
                         />
                         <Tooltip
-                            cursor={{ fill: 'hsl(var(--secondary))' }}
                             content={({ active, payload, label }) => {
                                 if (active && payload && payload.length) {
-                                    const income = payload.find(p => p.dataKey === 'income')?.value as number || 0;
-                                    const expense = payload.find(p => p.dataKey === 'expense')?.value as number || 0;
                                     return (
                                         <div className="rounded-lg border bg-background/95 p-2 shadow-sm">
-                                            <p className="text-sm font-bold text-center mb-1">Jour {label}</p>
                                             <div className="grid grid-cols-1 gap-1">
-                                                <div className="flex justify-between items-center">
-                                                    <span className="text-xs text-green-500 mr-2">Revenus</span>
-                                                    <span className="font-bold text-sm">
-                                                        {formatCurrency(income)}
-                                                    </span>
-                                                </div>
-                                                <div className="flex justify-between items-center">
-                                                    <span className="text-xs text-red-500 mr-2">Dépenses</span>
-                                                    <span className="font-bold text-sm">
-                                                        {formatCurrency(-expense)}
-                                                    </span>
+                                                <span className="text-[10px] text-muted-foreground">{t('balance_date_label').replace('{day}', label)}</span>
+                                                <div className="flex items-baseline">
+                                                    <p className="font-bold text-base">{`${payload[0].value?.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}`}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -887,10 +881,10 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                                 }
                                 return null;
                             }}
+                            cursor={{ stroke: 'hsl(var(--primary))', strokeWidth: 1, strokeDasharray: '3 3' }}
                         />
-                        <Bar dataKey="income" fill="#22c55e" radius={[4, 4, 0, 0]} name="Revenus" />
-                        <Bar dataKey="expense" fill="#ef4444" radius={[4, 4, 0, 0]} name="Dépenses" />
-                    </BarChart>
+                        <Line type="monotone" dataKey="solde" name={t('balance')} stroke="hsl(var(--primary))" strokeWidth={2} dot={false} activeDot={{ r: 4, fill: 'hsl(var(--background))', stroke: 'hsl(var(--primary))' }}/>
+                    </LineChart>
                 </ResponsiveContainer>
               </div>
 
