@@ -64,14 +64,39 @@ export function IridescentBackground({ className }: IridescentBackgroundProps) {
 
         void main() {
             vec2 uv = gl_FragCoord.xy / uResolution.xy;
+
+            // Define the centered square area in normalized coordinates
+            float box_w_norm = 384.0 / uResolution.x;
+            float box_h_norm = 384.0 / uResolution.y;
+            vec2 box_start = vec2((1.0 - box_w_norm) / 2.0, (1.0 - box_h_norm) / 2.0);
+            vec2 box_end = box_start + vec2(box_w_norm, box_h_norm);
+
+            vec2 p = uv; // The coordinates we will distort
+
+            // Check if the current fragment is inside the box
+            if (p.x > box_start.x && p.x < box_end.x &&
+                p.y > box_start.y && p.y < box_end.y) {
+                
+                // Apply distortion only inside the box
+                float t_distort = uTime * 0.4;
+                vec2 noise_coord = p * 6.0 + t_distort; // Higher frequency noise for distortion
+                float distortion_x = snoise(noise_coord);
+                float distortion_y = snoise(noise_coord + vec2(10.0));
+                vec2 distortion_vec = vec2(distortion_x, distortion_y);
+                
+                // IOR strength. "90%" is interpreted as a strong but not overwhelming effect.
+                float ior_strength = 0.04; 
+                p = uv + distortion_vec * ior_strength;
+            }
+            
             float ratio = uResolution.x / uResolution.y;
-            vec2 p = uv * vec2(ratio, 1.0);
+            vec2 p_color = p * vec2(ratio, 1.0);
 
             float t = uTime * 0.2; 
 
-            p *= 0.8; 
+            p_color *= 0.8; 
 
-            float n = snoise(p + snoise(p * 0.4 + t * 0.2));
+            float n = snoise(p_color + snoise(p_color * 0.4 + t * 0.2));
 
             float edge = smoothstep(0.2, 0.8, n);
             float core = smoothstep(0.4, 0.9, n);
