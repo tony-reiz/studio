@@ -29,7 +29,7 @@ import { ImageCropper } from './image-cropper';
 import { currencies, type Currency } from '@/lib/currencies';
 import { GlassEffect } from './glass-effect';
 import { useToast } from '@/hooks/use-toast';
-import { Area, AreaChart, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { FluidSheet } from './fluid-sheet';
 
 
@@ -788,37 +788,32 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             .filter(t => t.amount < 0)
             .reduce((acc, t) => acc + t.amount, 0), []);
         
-        const { balanceData, futureData } = useMemo(() => {
-            let balance = 450; // Starting balance for the period
-            const dailyBalances = [];
-
-            const julyTransactions = transactionsData
-                .filter(t => t.date.includes('juil.'))
-                .map(t => ({...t, day: parseInt(t.date.split(' ')[0])}))
-                .sort((a, b) => a.day - b.day);
-
-            let transactionIndex = 0;
-            for (let i = 1; i <= 21; i++) { // The main chart displays up to day 21
-                while (transactionIndex < julyTransactions.length && julyTransactions[transactionIndex].day === i) {
-                    balance += julyTransactions[transactionIndex].amount;
-                    transactionIndex++;
-                }
-                dailyBalances.push({ day: String(i), balance: Math.round(balance) });
-            }
-
-            const lastKnownBalance = dailyBalances[dailyBalances.length - 1].balance;
+        const chartData = useMemo(() => {
+            const julyTransactions = transactionsData.filter(t => t.date.includes('juil.'));
             
-            const futureBalancePoints = [
-                { day: "21", balance: lastKnownBalance },
-                { day: "22", balance: Math.round(lastKnownBalance - 5) },
-                { day: "23", balance: Math.round(lastKnownBalance - 5 - 23.5) }, // Reflects the -23.5 expense on day 23
-                { day: "24", balance: Math.round(lastKnownBalance - 5 - 23.5) },
-                { day: "25", balance: Math.round(lastKnownBalance - 5 - 23.5 + 17) }, // Reflects the +17 income on day 25
-                { day: "26", balance: Math.round(lastKnownBalance - 5 - 23.5 + 17 - 2) },
-                { day: "27", balance: Math.round(lastKnownBalance - 5 - 23.5 + 17 - 8) },
-            ];
+            const dailySummary: { [key: number]: { income: number; expense: number } } = {};
 
-            return { balanceData: dailyBalances, futureData: futureBalancePoints };
+            julyTransactions.forEach(t => {
+                const day = parseInt(t.date.split(' ')[0]);
+                if (!dailySummary[day]) {
+                    dailySummary[day] = { income: 0, expense: 0 };
+                }
+                if (t.amount > 0) {
+                    dailySummary[day].income += t.amount;
+                } else {
+                    dailySummary[day].expense += Math.abs(t.amount);
+                }
+            });
+
+            const result = [];
+            for (let i = 1; i <= 31; i++) {
+                result.push({
+                    day: String(i),
+                    income: dailySummary[i]?.income || 0,
+                    expense: dailySummary[i]?.expense || 0,
+                });
+            }
+            return result;
         }, []);
 
         return (
@@ -843,34 +838,59 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                   </div>
               </div>
               
-              <div className="w-full h-[150px] mt-8 -ml-2">
+              <div className="w-full h-[150px] mt-8 -ml-4">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={balanceData} margin={{ top: 5, right: 25, left: 5, bottom: 5 }}>
-                    <defs>
-                      <pattern id="dotPattern" patternUnits="userSpaceOnUse" width="4" height="4">
-                        <circle cx="2" cy="2" r="1" fill="rgba(139, 92, 246, 0.4)" />
-                      </pattern>
-                    </defs>
-                    <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" fontSize={10} tickLine={false} axisLine={false} interval="preserveStartEnd" hide />
-                    <YAxis hide={true} domain={['dataMin - 40', 'dataMax + 40']} />
-                    <Tooltip
-                        cursor={false}
-                        content={({ active, payload }) => {
-                            if (active && payload && payload.length) {
-                                return (
-                                    <div className="rounded-lg border bg-background/90 backdrop-blur-sm px-2.5 py-1.5 shadow-sm">
-                                        <p className="text-sm font-bold">{`${payload[0].value} €`}</p>
-                                    </div>
-                                );
-                            }
-                            return null;
-                        }}
-                    />
-                    <Area type="monotone" dataKey="balance" stroke="none" fill="url(#dotPattern)" />
-                    <Line type="monotone" dataKey="balance" stroke="#8B5CF6" strokeWidth={2} dot={false} />
-                    <Line type="monotone" data={futureData} dataKey="balance" stroke="#A78BFA" strokeWidth={2} strokeDasharray="3 4" dot={false} />
-                    <ReferenceLine x="21" stroke="hsl(var(--border))" strokeDasharray="3 3" />
-                  </LineChart>
+                    <BarChart data={chartData} margin={{ top: 5, right: 5, left: 0, bottom: 5 }}>
+                        <XAxis
+                            dataKey="day"
+                            stroke="hsl(var(--muted-foreground))"
+                            fontSize={10}
+                            tickLine={false}
+                            axisLine={false}
+                            interval={4}
+                            tick={{ dy: 5 }}
+                        />
+                        <YAxis
+                            stroke="hsl(var(--muted-foreground))"
+                            fontSize={10}
+                            tickLine={false}
+                            axisLine={false}
+                            tickFormatter={(value) => `${value}€`}
+                            allowDecimals={false}
+                            width={30}
+                        />
+                        <Tooltip
+                            cursor={{ fill: 'hsl(var(--secondary))' }}
+                            content={({ active, payload, label }) => {
+                                if (active && payload && payload.length) {
+                                    const income = payload.find(p => p.dataKey === 'income')?.value as number || 0;
+                                    const expense = payload.find(p => p.dataKey === 'expense')?.value as number || 0;
+                                    return (
+                                        <div className="rounded-lg border bg-background/95 p-2 shadow-sm">
+                                            <p className="text-sm font-bold text-center mb-1">Jour {label}</p>
+                                            <div className="grid grid-cols-1 gap-1">
+                                                <div className="flex justify-between items-center">
+                                                    <span className="text-xs text-green-500 mr-2">Revenus</span>
+                                                    <span className="font-bold text-sm">
+                                                        {formatCurrency(income)}
+                                                    </span>
+                                                </div>
+                                                <div className="flex justify-between items-center">
+                                                    <span className="text-xs text-red-500 mr-2">Dépenses</span>
+                                                    <span className="font-bold text-sm">
+                                                        {formatCurrency(-expense)}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            }}
+                        />
+                        <Bar dataKey="income" fill="#22c55e" radius={[4, 4, 0, 0]} name="Revenus" />
+                        <Bar dataKey="expense" fill="#ef4444" radius={[4, 4, 0, 0]} name="Dépenses" />
+                    </BarChart>
                 </ResponsiveContainer>
               </div>
 
