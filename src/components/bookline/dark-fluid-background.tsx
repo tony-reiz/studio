@@ -103,23 +103,32 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
           void main() {
               vec2 uv = gl_FragCoord.xy / uResolution.xy;
               
+              vec2 st = (gl_FragCoord.xy - 0.5 * uResolution.xy) / uResolution.y;
+              float radius = (288.0 / 2.0) / uResolution.y;
+
               vec2 p_distorted = uv;
-              
-              // Apply distortion across the whole screen
-              float t_distort = uTime * 0.4;
-              vec2 noise_coord = uv * 0.2 + t_distort;
-              float distortion_x = snoise(noise_coord);
-              float distortion_y = snoise(noise_coord + vec2(10.0));
-              vec2 distortion_vec = vec2(distortion_x, distortion_y);
-              
-              // IOR strength, reduced for fullscreen effect
-              float ior_strength = 0.02; 
-              p_distorted = uv + distortion_vec * ior_strength;
+              vec2 distortion_vec = vec2(0.0);
+              float contour_factor = 0.0;
+
+              // Check if the current fragment is inside the circle
+              if (length(st) < radius) {
+                  float d_from_center = length(st);
+                  contour_factor = pow(d_from_center / radius, 5.0);
+
+                  float t_distort = uTime * 0.4;
+                  vec2 noise_coord = uv * 0.2 + t_distort;
+                  float distortion_x = snoise(noise_coord);
+                  float distortion_y = snoise(noise_coord + vec2(10.0));
+                  distortion_vec = vec2(distortion_x, distortion_y);
+                  
+                  // IOR strength, modulated by the contour factor
+                  float ior_strength = 0.16; 
+                  p_distorted = uv + distortion_vec * ior_strength * contour_factor;
+              }
 
               // --- Chromatic Aberration ---
-              // Reduced for fullscreen effect
-              float ca_amount = 0.01;
-              vec2 ca_offset = distortion_vec * ca_amount;
+              float ca_amount = 0.12;
+              vec2 ca_offset = distortion_vec * ca_amount * contour_factor;
               
               vec2 p_r = p_distorted - ca_offset;
               vec2 p_g = p_distorted;
