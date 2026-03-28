@@ -180,7 +180,7 @@ export default function SellPage() {
                     type="submit"
                     disabled={isButtonDisabled}
                     className={cn(
-                        "w-full h-12 text-lg font-semibold rounded-full",
+                        "w-full h-12 text-lg font-bold rounded-full",
                         isProcessing 
                           ? "bg-muted text-muted-foreground cursor-not-allowed"
                           : isFormComplete 
