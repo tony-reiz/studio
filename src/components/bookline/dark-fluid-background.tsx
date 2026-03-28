@@ -91,13 +91,13 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
               if (length(st) < radius) {
                   // Apply distortion only inside the circle
                   float t_distort = uTime * 0.4;
-                  vec2 noise_coord = uv * 6.0 + t_distort;
+                  vec2 noise_coord = uv * 3.0 + t_distort;
                   float distortion_x = snoise(noise_coord);
                   float distortion_y = snoise(noise_coord + vec2(10.0));
                   vec2 distortion_vec = vec2(distortion_x, distortion_y);
                   
                   // IOR strength
-                  float ior_strength = 0.04; 
+                  float ior_strength = 0.02; 
                   p_distorted = uv + distortion_vec * ior_strength;
               }
 
