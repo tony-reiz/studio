@@ -79,11 +79,8 @@
   html {
     @apply bg-background;
   }
-  body.has-fluid-background {
-    @apply bg-transparent;
-  }
   body {
-    @apply text-foreground;
+    @apply bg-background text-foreground;
     font-family: Arial, Helvetica, sans-serif;
     padding-top: env(safe-area-inset-top);
   }

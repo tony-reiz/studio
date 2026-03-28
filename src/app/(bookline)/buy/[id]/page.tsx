@@ -11,8 +11,6 @@ import { cn } from '@/lib/utils';
 import dynamic from 'next/dynamic';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
-import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 import { useIsMobile } from '@/hooks/use-mobile';
 import {
   Dialog,
@@ -202,9 +200,7 @@ export default function BuyEbookPage() {
   );
 
   return (
-    <div className={cn("min-h-screen text-foreground bg-transparent")}>
-       <LightFluidBackground isActive={theme === 'light'} />
-       <DarkFluidBackground isActive={theme === 'dark'} />
+    <div className={cn("min-h-screen text-foreground bg-background")}>
        {ebook.pdfDataUrl.startsWith('data:application/pdf') && (
         <div className="hidden">
           <Document file={ebook.pdfDataUrl} onLoadSuccess={onDocumentLoadSuccess} />

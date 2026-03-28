@@ -14,8 +14,6 @@ import { cn } from '@/lib/utils';
 import { useEbooks } from '@/context/ebook-provider';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { PDFDocument } from 'pdf-lib';
-import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
-import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
 import { GlassEffect } from '@/components/bookline/glass-effect';
 
@@ -171,13 +169,7 @@ export default function SellPage() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={cn("flex flex-col min-h-screen text-foreground bg-transparent")}>
-        {isClient && (
-          <>
-            <LightFluidBackground isActive={theme === 'light'} />
-            <DarkFluidBackground isActive={theme === 'dark'} />
-          </>
-        )}
+      <form onSubmit={form.handleSubmit(onSubmit)} className={cn("flex flex-col min-h-screen text-foreground bg-background")}>
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8 overflow-y-auto">
           <header className="sticky top-0 z-10 flex items-start justify-between w-full pb-6" style={{ paddingTop: `calc(1.5rem + env(safe-area-inset-top))` }}>
             <div className="flex flex-col items-start gap-3">

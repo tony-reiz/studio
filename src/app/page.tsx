@@ -11,8 +11,6 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { TermsSheet } from '@/components/bookline/terms-sheet';
 import { PrivacySheet } from '@/components/bookline/privacy-sheet';
 import { useEbooks } from '@/context/ebook-provider';
-import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
-import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 import { BusinessPlanSheet } from '@/components/bookline/business-plan-sheet';
 
 
@@ -72,13 +70,7 @@ export default function LandingPage() {
   };
 
   return (
-    <div className={cn("flex flex-col min-h-screen text-foreground bg-transparent transition-opacity duration-500 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
-      {isClient && (
-        <>
-          <LightFluidBackground isActive={theme === 'light'} />
-          <DarkFluidBackground isActive={theme === 'dark'} />
-        </>
-      )}
+    <div className={cn("flex flex-col min-h-screen text-foreground bg-background transition-opacity duration-500 ease-in-out", isMounted ? "opacity-100" : "opacity-0")}>
       <header className="absolute top-0 left-0 right-0 z-10">
         <div className="container mx-auto flex justify-between items-center p-6">
             <div className="text-2xl font-bold">BookLine</div>

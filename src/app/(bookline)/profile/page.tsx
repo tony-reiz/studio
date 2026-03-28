@@ -14,8 +14,6 @@ import { useToast } from '@/hooks/use-toast';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { BuyEbookSheet } from '@/components/bookline/buy-ebook-sheet';
 import { BuyEbookDialog } from '@/components/bookline/buy-ebook-dialog';
-import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
-import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 import { GlassEffect } from '@/components/bookline/glass-effect';
 
 type ActiveTab = 'achats' | 'publications' | 'favoris';
@@ -155,13 +153,7 @@ function ProfilePageContent() {
 
   return (
     <>
-      {isClient && (
-        <>
-          <LightFluidBackground isActive={theme === 'light'} />
-          <DarkFluidBackground isActive={theme === 'dark'} />
-        </>
-      )}
-      <div className={cn("flex flex-col min-h-screen text-foreground bg-transparent")}>
+      <div className={cn("flex flex-col min-h-screen text-foreground bg-background")}>
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
           <header className="flex items-start justify-between w-full py-6">
             <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden" aria-label={t('back')}>

@@ -5,8 +5,6 @@ import { ChevronLeft, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useEbooks } from '@/context/ebook-provider';
-import { LightFluidBackground } from '@/components/bookline/light-fluid-background';
-import { DarkFluidBackground } from '@/components/bookline/dark-fluid-background';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 
@@ -56,13 +54,7 @@ export default function TransferSettingsPage() {
   const canSave = iban.trim() !== '' && bic.trim() !== '';
 
   return (
-    <div className={cn("min-h-screen text-foreground bg-transparent")}>
-      {isClient && (
-        <>
-          <LightFluidBackground isActive={theme === 'light'} />
-          <DarkFluidBackground isActive={theme === 'dark'} />
-        </>
-      )}
+    <div className={cn("min-h-screen text-foreground bg-background")}>
       <div className="w-full max-w-sm mx-auto flex flex-col px-4 sm:px-6 lg:px-8">
         <header className="grid grid-cols-3 items-center w-full py-6">
           <div className="justify-self-start">

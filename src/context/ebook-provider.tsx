@@ -127,30 +127,6 @@ export function EbookProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  useEffect(() => {
-    const fluidBgRoutes = [
-      '/',
-      '/home',
-      '/buy',
-      '/profile',
-      '/sell',
-      '/seller',
-      '/settings'
-    ];
-
-    const needsFluidBg = fluidBgRoutes.some(route => {
-        if (route === '/') return pathname === '/';
-        return pathname.startsWith(route);
-    });
-
-    if (needsFluidBg) {
-      document.body.classList.add('has-fluid-background');
-      return () => {
-        document.body.classList.remove('has-fluid-background');
-      };
-    }
-  }, [pathname]);
-
   const setTheme = (newTheme: 'light' | 'dark') => {
     setThemeState(newTheme);
     localStorage.setItem('bookline-theme', newTheme);
