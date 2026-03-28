@@ -74,11 +74,13 @@ export default function LandingPage() {
       <header className="absolute top-0 left-0 right-0 z-10">
         <div className="container mx-auto flex justify-between items-center p-6">
             <div className="text-2xl font-bold">BookLine</div>
-            <div className="flex items-end gap-1.5 h-8 p-2">
-              <span className={cn("w-2 bg-primary/40 rounded-full transition-all ease-out duration-500", isMounted ? "h-1/3" : "h-0")}></span>
-              <span className={cn("w-2 bg-primary/70 rounded-full transition-all ease-out duration-500 delay-100", isMounted ? "h-full" : "h-0")}></span>
-              <span className={cn("w-2 bg-primary rounded-full transition-all ease-out duration-500 delay-200", isMounted ? "h-2/3" : "h-0")}></span>
-            </div>
+            <button onClick={() => handleNavigate('/blank')}>
+              <div className="flex items-end gap-1.5 h-8 p-2">
+                <span className={cn("w-2 bg-primary/40 rounded-full transition-all ease-out duration-500", isMounted ? "h-1/3" : "h-0")}></span>
+                <span className={cn("w-2 bg-primary/70 rounded-full transition-all ease-out duration-500 delay-100", isMounted ? "h-full" : "h-0")}></span>
+                <span className={cn("w-2 bg-primary rounded-full transition-all ease-out duration-500 delay-200", isMounted ? "h-2/3" : "h-0")}></span>
+              </div>
+            </button>
         </div>
       </header>
       
