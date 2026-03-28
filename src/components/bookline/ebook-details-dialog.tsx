@@ -90,7 +90,7 @@ export function EbookDetailsDialog({ ebook, open, onOpenChange }: EbookDetailsDi
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="max-w-2xl w-full p-0 bg-transparent border-none shadow-xl">
                  <DialogTitle className="sr-only">{t('ebook_details')}</DialogTitle>
-                 <div className="h-[70vh] flex flex-col bg-background rounded-[50px] overflow-hidden p-8">
+                 <div className="h-[70vh] flex flex-col bg-[hsl(var(--dialog-background))] rounded-[50px] overflow-hidden p-8">
                     <main className="w-full space-y-6 overflow-y-auto">
                         <div className="border-0 shadow-none bg-transparent">
                             <div className="p-0 pb-4">

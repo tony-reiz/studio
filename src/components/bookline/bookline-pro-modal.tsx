@@ -120,7 +120,7 @@ export function BooklineProModal({ children }: BooklineProModalProps) {
             <DialogTrigger asChild onClick={handleTriggerClick}>
                 {children}
             </DialogTrigger>
-            <DialogContent className="max-w-md w-full p-0 bg-background border-0 rounded-[40px] shadow-2xl">
+            <DialogContent className="max-w-md w-full p-0 bg-[hsl(var(--dialog-background))] border-0 rounded-[40px] shadow-2xl">
                  <DialogTitle className="sr-only">{t('pro_modal_title')}</DialogTitle>
                  <DialogDescription className="sr-only">{t('pro_modal_subtitle')}</DialogDescription>
                  <ProContent />

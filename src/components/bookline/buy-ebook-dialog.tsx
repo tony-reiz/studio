@@ -132,7 +132,7 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
       <Dialog open={open} onOpenChange={handleDialogChange}>
         <DialogContent className="max-w-4xl w-full p-0 bg-transparent border-none shadow-xl">
           <DialogTitle className="sr-only">{t('buy_ebook')} {currentEbook.title}</DialogTitle>
-          <div className="h-[80vh] max-h-[800px] bg-background rounded-[50px] overflow-hidden">
+          <div className="h-[80vh] max-h-[800px] bg-[hsl(var(--dialog-background))] rounded-[50px] overflow-hidden">
             <div
               className={cn(
                 "flex w-[200%] h-full transition-transform duration-500 ease-in-out",

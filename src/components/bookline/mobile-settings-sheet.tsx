@@ -996,7 +996,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             </DialogTrigger>
             <DialogContent className="max-w-2xl w-full p-0 bg-transparent border-none shadow-xl">
                  <UIDialogTitle className="sr-only">{t('settings')}</UIDialogTitle>
-                 <div className="h-[70vh] flex flex-col bg-background rounded-[40px] overflow-hidden relative">
+                 <div className="h-[70vh] flex flex-col bg-[hsl(var(--dialog-background))] rounded-[40px] overflow-hidden relative">
                     {SettingsContent}
                  </div>
             </DialogContent>
