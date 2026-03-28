@@ -79,42 +79,12 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
             return 130.0 * dot(m, g);
           }
 
-          void main() {
-              vec2 uv = gl_FragCoord.xy / uResolution.xy;
-              vec2 p_distorted = uv;
-
-              // Correct for aspect ratio to define a circular area
-              vec2 st = (gl_FragCoord.xy - 0.5 * uResolution.xy) / uResolution.y;
-              float radius = (384.0 / 2.0) / uResolution.y;
-
-              // Check if the current fragment is inside the circle
-              if (length(st) < radius) {
-                  float d_from_center = length(st);
-                  
-                  // Concentrate distortion effect on the contour
-                  float contour_factor = pow(d_from_center / radius, 5.0);
-
-                  float t_distort = uTime * 0.4;
-                  vec2 noise_coord = uv * 0.8 + t_distort;
-                  float distortion_x = snoise(noise_coord);
-                  float distortion_y = snoise(noise_coord + vec2(10.0));
-                  vec2 distortion_vec = vec2(distortion_x, distortion_y);
-                  
-                  // High IOR strength, modulated by the contour factor
-                  float ior_strength = 0.16; 
-                  p_distorted = uv + distortion_vec * ior_strength * contour_factor;
-              }
-
-              float ratio = uResolution.x / uResolution.y;
-              vec2 p = p_distorted * vec2(ratio, 1.0);
-
-              float t = uTime * 0.3; 
-
+          // Function to compute color based on a coordinate
+          vec3 compute_color(vec2 p, float t) {
               p *= 0.8;
-
               float n = snoise(p + snoise(p * 0.4 + t * 0.3));
 
-              // "Thickness" effect: wider core, stronger white highlights
+              // "Thickness" effect
               float glow = smoothstep(-0.2, 0.6, n);
               float core = smoothstep(0.0, 0.6, n);
               
@@ -126,8 +96,55 @@ export function DarkFluidBackground({ isActive, className }: FluidBackgroundProp
               vec3 color = mix(baseColor, purple, glow);
               color = mix(color, blue, core);
               color = mix(color, white, pow(core, 2.0));
+              return color;
+          }
 
-              gl_FragColor = vec4(color, 1.0);
+
+          void main() {
+              vec2 uv = gl_FragCoord.xy / uResolution.xy;
+              
+              vec2 st = (gl_FragCoord.xy - 0.5 * uResolution.xy) / uResolution.y;
+              float radius = (384.0 / 2.0) / uResolution.y;
+
+              vec2 p_distorted = uv;
+              vec2 distortion_vec = vec2(0.0);
+              float contour_factor = 0.0;
+
+              // Check if the current fragment is inside the circle
+              if (length(st) < radius) {
+                  float d_from_center = length(st);
+                  contour_factor = pow(d_from_center / radius, 5.0);
+
+                  float t_distort = uTime * 0.4;
+                  vec2 noise_coord = uv * 0.8 + t_distort;
+                  float distortion_x = snoise(noise_coord);
+                  float distortion_y = snoise(noise_coord + vec2(10.0));
+                  distortion_vec = vec2(distortion_x, distortion_y);
+                  
+                  // IOR strength, modulated by the contour factor
+                  float ior_strength = 0.16; 
+                  p_distorted = uv + distortion_vec * ior_strength * contour_factor;
+              }
+
+              // --- Chromatic Aberration ---
+              float ca_amount = 0.005; // 50% intensity
+              vec2 ca_offset = distortion_vec * ca_amount * contour_factor;
+              
+              vec2 p_r = p_distorted - ca_offset;
+              vec2 p_g = p_distorted;
+              vec2 p_b = p_distorted + ca_offset;
+              // --- End Chromatic Aberration ---
+
+              float ratio = uResolution.x / uResolution.y;
+              float t = uTime * 0.3; 
+
+              float r = compute_color(p_r * vec2(ratio, 1.0), t).r;
+              float g = compute_color(p_g * vec2(ratio, 1.0), t).g;
+              float b = compute_color(p_b * vec2(ratio, 1.0), t).b;
+              
+              vec3 final_color = vec3(r, g, b);
+
+              gl_FragColor = vec4(final_color, 1.0);
           }
       `;
 
