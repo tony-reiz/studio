@@ -3,7 +3,7 @@ import { IridescentBackground } from '@/components/bookline/iridescent-backgroun
 
 export default function BlankPage() {
   return (
-    <div className="h-screen w-full bg-background">
+    <div className="h-screen w-full">
       <IridescentBackground />
     </div>
   );

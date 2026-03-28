@@ -153,5 +153,5 @@ export function IridescentBackground({ className }: IridescentBackgroundProps) {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className={cn("fixed inset-0 w-full h-full -z-10", className)} />;
+  return <canvas ref={canvasRef} className={cn("fixed inset-0 w-full h-full", className)} />;
 }
