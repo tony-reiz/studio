@@ -127,8 +127,8 @@ export function IridescentBackground({ className }: IridescentBackgroundProps) {
 
     let resize = () => {
         const devicePixelRatio = window.devicePixelRatio || 1;
-        canvas.width = window.innerWidth * devicePixelRatio;
-        canvas.height = window.innerHeight * devicePixelRatio;
+        canvas.width = canvas.clientWidth * devicePixelRatio;
+        canvas.height = canvas.clientHeight * devicePixelRatio;
         gl.viewport(0, 0, canvas.width, canvas.height);
     }
 
@@ -153,5 +153,5 @@ export function IridescentBackground({ className }: IridescentBackgroundProps) {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className={cn("fixed inset-0 w-full h-full", className)} />;
+  return <canvas ref={canvasRef} className={cn("w-full h-full", className)} />;
 }
