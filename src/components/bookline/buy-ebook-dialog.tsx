@@ -221,13 +221,13 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
                     <Button
                       onClick={handlePayment}
                       className={cn(
-                        "rounded-full w-full h-12 text-lg font-semibold",
+                        "rounded-full w-full h-12 text-lg font-bold",
                         isPurchased 
                             ? "bg-green-600 text-white hover:bg-green-700"
                             : "bg-black text-white hover:bg-black/90"
                       )}
                     >
-                      {isPurchased ? t('view') : t('pay')}
+                      {isPurchased ? t('view') : 'payer'}
                     </Button>
                   </div>
                 </main>
@@ -236,7 +236,7 @@ export function BuyEbookDialog({ ebook, open, onOpenChange }: BuyEbookDialogProp
               {/* Seller View */}
               <div className="w-1/2 h-full flex-shrink-0 p-8 flex flex-col">
                   <header className="flex items-center w-full pb-4 shrink-0">
-                      <Button onClick={() => setView('purchase')} variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden" aria-label={t('back')}>
+                      <Button onClick={() => setView('purchase')} variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden hover:bg-transparent" aria-label={t('back')}>
                           <GlassEffect />
                           <ChevronLeft className="h-6 w-6 relative z-20" />
                       </Button>

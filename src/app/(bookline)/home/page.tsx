@@ -26,7 +26,7 @@ export default function HomePage() {
       variant="ghost"
       size="icon"
       aria-label={t('menu')}
-      className="w-11 h-11 rounded-full relative isolate overflow-hidden -mt-2 sm:mt-0"
+      className="w-11 h-11 rounded-full relative isolate overflow-hidden -mt-2 sm:mt-0 hover:bg-transparent"
     >
       <GlassEffect />
       <Menu className="h-6 w-6 relative z-20" />
@@ -56,7 +56,7 @@ export default function HomePage() {
                       <span className="truncate relative z-20">{t('search_ebooks')}</span>
                   </button>
               </div>
-              <Button onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="-mt-2 sm:mt-0 w-11 h-11 rounded-full relative isolate overflow-hidden" aria-label={t('user_profile')}>
+              <Button onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="-mt-2 sm:mt-0 w-11 h-11 rounded-full relative isolate overflow-hidden hover:bg-transparent" aria-label={t('user_profile')}>
                 <GlassEffect />
                 <User className="h-6 w-6 relative z-20" />
               </Button>

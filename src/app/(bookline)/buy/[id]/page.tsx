@@ -188,7 +188,7 @@ export default function BuyEbookPage() {
           <Button
             onClick={handlePayment}
             className={cn(
-              "rounded-full w-full h-12 text-lg font-semibold",
+              "rounded-full w-full h-12 text-lg font-bold",
               isPurchased 
                   ? "bg-green-600 text-white hover:bg-green-700"
                   : "bg-black text-white hover:bg-black/90"
@@ -219,16 +219,16 @@ export default function BuyEbookPage() {
       ) : (
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8">
           <header className="flex items-start justify-between w-full py-6">
-            <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden" aria-label={t('back')}>
+            <Button onClick={handleBack} variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden hover:bg-transparent" aria-label={t('back')}>
                 <GlassEffect />
                 <ChevronLeft className="h-6 w-6 relative z-20" />
             </Button>
             <div className="flex flex-col items-center gap-3">
-              <Button variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden">
+              <Button variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden hover:bg-transparent">
                 <GlassEffect />
                 <Share2 className="h-6 w-6 relative z-20" />
               </Button>
-              <Button variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden">
+              <Button variant="ghost" size="icon" className="rounded-full w-11 h-11 relative isolate overflow-hidden hover:bg-transparent">
                 <GlassEffect />
                 <AlertCircle className="h-6 w-6 relative z-20" />
               </Button>
