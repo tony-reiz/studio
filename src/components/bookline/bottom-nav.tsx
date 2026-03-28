@@ -51,7 +51,7 @@ export function BottomNav() {
         <button
           onClick={() => handleNavigation('acheter')}
           className={cn(
-            'relative z-20 w-1/2 py-3 text-center text-base font-semibold transition-colors duration-150',
+            'relative z-20 w-1/2 py-3 text-center text-base font-bold transition-colors duration-150',
             isAcheter ? 'text-white dark:text-black' : 'text-foreground'
           )}
         >
@@ -60,7 +60,7 @@ export function BottomNav() {
         <button
           onClick={() => handleNavigation('vendre')}
           className={cn(
-            'relative z-20 w-1/2 py-3 text-center text-base font-semibold transition-colors duration-150',
+            'relative z-20 w-1/2 py-3 text-center text-base font-bold transition-colors duration-150',
             !isAcheter ? 'text-white dark:text-black' : 'text-foreground'
           )}
         >
