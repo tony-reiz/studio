@@ -107,6 +107,12 @@ export default {
         'shimmer-card': {
           '100%': { transform: 'translateX(100%)' },
         },
+        'liquid-border': {
+          '0%, 100%': { borderRadius: '40% 60% 70% 30% / 40% 50% 60% 50%' },
+          '25%': { borderRadius: '70% 30% 50% 50% / 30% 30% 70% 70%' },
+          '50%': { borderRadius: '40% 60% 70% 30% / 40% 50% 60% 50%' },
+          '75%': { borderRadius: '30% 70% 50% 50% / 70% 70% 30% 30%' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.3s ease-out',
@@ -116,6 +122,7 @@ export default {
         shimmer: 'shimmer 5s linear infinite',
         'pulse-subtle': 'pulse-subtle 3s ease-in-out infinite',
         'shimmer-card': 'shimmer-card 1.5s ease-in-out infinite',
+        'liquid-border': 'liquid-border 12s ease-in-out infinite',
       },
     },
   },
