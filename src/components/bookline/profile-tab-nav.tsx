@@ -31,7 +31,7 @@ export function ProfileTabNav({ activeTab, setActiveTab }: ProfileTabNavProps) {
     <div className="relative isolate overflow-hidden rounded-full flex items-center w-full max-w-sm md:max-w-lg mx-auto mt-4 mb-4">
       <GlassEffect />
       <div
-        className="absolute top-0 h-full w-1/3 rounded-full bg-foreground dark:bg-white transition-all duration-500 ease-in-out z-10"
+        className="absolute top-0 h-full w-1/3 rounded-full bg-foreground dark:bg-[#a3a3a3] transition-all duration-500 ease-in-out z-10"
         style={{ left: getLeftPosition() }}
       />
       <button
