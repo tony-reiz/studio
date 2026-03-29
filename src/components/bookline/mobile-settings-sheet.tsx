@@ -766,6 +766,14 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             const invoiceEl = document.querySelector('[data-invoice-root]') as HTMLElement | null;
             if (invoiceEl) {
                 invoiceEl.style.backgroundColor = '#ffffff';
+                invoiceEl.classList.remove('bg-background');
+                invoiceEl.style.color = '#000000';
+                
+                const allText = invoiceEl.querySelectorAll('*');
+                allText.forEach(el => {
+                    const htmlEl = el as HTMLElement;
+                    htmlEl.style.color = '#000000';
+                });
             }
           }
         }).then((canvas) => {
@@ -805,7 +813,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
               </div>
             </div>
             <div className="flex-1 overflow-y-auto px-4 py-4 scrollbar-hide">
-                <div ref={invoiceContentRef} data-invoice-root className="bg-background p-8 rounded-2xl text-[10px]">
+                <div ref={invoiceContentRef} data-invoice-root className="bg-background px-12 py-8 rounded-2xl text-[10px]">
                     <div className="flex justify-between items-start mb-6">
                         <div>
                             <h2 className="text-xl font-bold text-foreground">FACTURE</h2>
