@@ -813,58 +813,58 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
               </div>
             </div>
             <div className="flex-1 overflow-y-auto px-4 py-4 scrollbar-hide">
-                <div ref={invoiceContentRef} data-invoice-root className="bg-background px-12 py-8 rounded-2xl text-[10px]">
+                <div ref={invoiceContentRef} data-invoice-root className="bg-white px-12 py-8 rounded-2xl text-black text-[10px]">
                     <div className="flex justify-between items-start mb-6">
                         <div>
-                            <h2 className="text-xl font-bold text-foreground">FACTURE</h2>
-                            <p className="text-xs text-muted-foreground">#{invoiceNumber}</p>
+                            <h2 className="text-xl font-bold">FACTURE</h2>
+                            <p className="text-xs text-slate-500">#{invoiceNumber}</p>
                         </div>
                         <div className="text-base font-bold">BookLine</div>
                     </div>
                     <div className="grid grid-cols-2 gap-4 mb-6">
                         <div>
-                            <p className="font-bold text-muted-foreground mb-1">FACTURÉ À</p>
-                            <p className="font-semibold text-foreground">{userProfile.username}</p>
+                            <p className="font-bold text-slate-500 mb-1">FACTURÉ À</p>
+                            <p className="font-semibold">{userProfile.username}</p>
                         </div>
                         <div className="text-right">
-                            <p className="font-bold text-muted-foreground mb-1">DE</p>
-                            <p className="font-semibold text-foreground">{'BookLine\u00A0SAS'}</p>
+                            <p className="font-bold text-slate-500 mb-1">DE</p>
+                            <p className="font-semibold">{'BookLine\u00A0SAS'}</p>
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4 mb-8">
                         <div>
-                            <p className="font-bold text-muted-foreground mb-1">Date de facturation</p>
-                            <p className="font-semibold text-foreground">{issueDate}</p>
+                            <p className="font-bold text-slate-500 mb-1">Date de facturation</p>
+                            <p className="font-semibold">{issueDate}</p>
                         </div>
                         <div className="text-right">
-                            <p className="font-bold text-muted-foreground mb-1">{"Date\u00A0d'échéance"}</p>
-                            <p className="font-semibold text-foreground">{dueDate}</p>
+                            <p className="font-bold text-slate-500 mb-1">{"Date\u00A0d'échéance"}</p>
+                            <p className="font-semibold">{dueDate}</p>
                         </div>
                     </div>
                     
-                    <div className="flex font-bold text-muted-foreground mb-2 px-2">
+                    <div className="flex font-bold text-slate-500 mb-2 px-2">
                         <div className="flex-grow">DESCRIPTION</div>
                         <div className="w-12 text-center">QTÉ</div>
                         <div className="w-20 text-right">PRIX</div>
                         <div className="w-20 text-right">TOTAL</div>
                     </div>
-                    <ul className="divide-y divide-border rounded-lg overflow-hidden">
+                    <ul className="divide-y divide-slate-200 rounded-lg overflow-hidden">
                         {items.map((item, index) => (
-                            <li key={index} className="flex items-center p-2 bg-secondary">
+                            <li key={index} className="flex items-center p-2 bg-slate-100">
                                 <div className="flex-grow font-medium">{item.description}</div>
-                                <div className="w-12 text-center text-muted-foreground">{item.quantity}</div>
-                                <div className="w-20 text-right text-muted-foreground">{formatCurrency(item.price)}</div>
+                                <div className="w-12 text-center text-slate-600">{item.quantity}</div>
+                                <div className="w-20 text-right text-slate-600">{formatCurrency(item.price)}</div>
                                 <div className="w-20 text-right font-medium">{formatCurrency(item.total)}</div>
                             </li>
                         ))}
                     </ul>
 
-                    <div className="mt-8 pt-4 border-t-2 border-border">
+                    <div className="mt-8 pt-4 border-t-2 border-slate-200">
                         <div className="flex justify-end">
                             <div className="w-48 space-y-2">
                                 <div className="flex justify-between"><span>{'Sous-total\u00A0(Revenus)'}</span><span>{formatCurrency(subtotal)}</span></div>
-                                <div className="flex justify-between text-muted-foreground"><span>{'Sous-total\u00A0(Dépenses)'}</span><span>{formatCurrency(expenses)}</span></div>
-                                <div className="flex justify-between items-center text-sm font-bold mt-2 pt-2 border-t border-border">
+                                <div className="flex justify-between text-slate-500"><span>{'Sous-total\u00A0(Dépenses)'}</span><span>{formatCurrency(expenses)}</span></div>
+                                <div className="flex justify-between items-center text-sm font-bold mt-2 pt-2 border-t border-slate-200">
                                     <span>{'Solde\u00A0du\u00A0mois'}</span>
                                     <span>{formatCurrency(total)}</span>
                                 </div>
