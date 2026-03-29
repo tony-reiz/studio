@@ -735,6 +735,9 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
   ];
 
   const formatCurrency = (amount: number) => {
+    if (typeof amount !== 'number' || isNaN(amount)) {
+      return '-- €';
+    }
     const sign = amount > 0 ? '+' : '';
     return `${sign}${amount.toFixed(2).replace('.', ',')} €`;
   }
@@ -943,7 +946,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                         <div className="w-20 text-right">TOTAL</div>
                     </div>
                     <ul className="divide-y divide-slate-200 rounded-lg overflow-hidden">
-                        {items.map((index, item) => (
+                        {items.map((item, index) => (
                             <li key={index} className="flex items-center p-2 bg-white text-sm">
                                 <div className="flex-grow font-medium text-black">{item.description}</div>
                                 <div className="w-12 text-center text-slate-600">{item.quantity}</div>
