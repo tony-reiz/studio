@@ -762,37 +762,39 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       const total = subtotal + expenses;
 
       // ---- PDF Generation ----
-      doc.addFont('helvetica', 'normal', 'normal');
-      doc.setFont('helvetica', 'normal');
+      doc.addFont('/fonts/Poppins-Regular.ttf', 'Poppins', 'normal');
+      doc.addFont('/fonts/Poppins-Bold.ttf', 'Poppins', 'bold');
+      
+      doc.setFont('Poppins', 'normal');
       doc.setTextColor(0, 0, 0);
       doc.setFillColor(255, 255, 255);
       doc.rect(0, 0, 210, 297, 'F');
 
       // Header
       doc.setFontSize(22);
-      doc.setFont('helvetica', 'bold');
+      doc.setFont('Poppins', 'bold');
       doc.text("FACTURE", 22, 25);
-      doc.setFont('helvetica', 'normal');
+      doc.setFont('Poppins', 'normal');
       doc.setFontSize(10);
       doc.setTextColor(128, 128, 128);
       doc.text(`#${invoiceNumber}`, 22, 32);
 
       doc.setFontSize(18);
-      doc.setFont('helvetica', 'bold');
+      doc.setFont('Poppins', 'bold');
       doc.setTextColor(0, 0, 0);
       doc.text("BookLine", 188, 25, { align: 'right' });
 
       // Billing Info
       let y = 60;
       doc.setFontSize(10);
-      doc.setFont('helvetica', 'bold');
+      doc.setFont('Poppins', 'bold');
       doc.setTextColor(128, 128, 128);
       doc.text("FACTURÉ À", 22, y);
       doc.text("DE", 188, y, { align: 'right' });
 
       y += 6;
       doc.setFontSize(12);
-      doc.setFont('helvetica', 'normal');
+      doc.setFont('Poppins', 'normal');
       doc.setTextColor(0, 0, 0);
       doc.text(userProfile.username, 22, y);
       doc.text("BookLine SAS", 188, y, { align: 'right' });
@@ -800,33 +802,33 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       // Dates
       y += 12;
       doc.setFontSize(10);
-      doc.setFont('helvetica', 'bold');
+      doc.setFont('Poppins', 'bold');
       doc.setTextColor(128, 128, 128);
       doc.text("Date de facturation", 22, y);
       doc.text("Date d'échéance", 188, y, { align: 'right' });
       
       y += 6;
       doc.setFontSize(12);
-      doc.setFont('helvetica', 'normal');
+      doc.setFont('Poppins', 'normal');
       doc.setTextColor(0, 0, 0);
       doc.text(issueDate, 22, y);
       doc.text(dueDate, 188, y, { align: 'right' });
 
       // Table Header
-      y += 30;
+      y += 20;
       doc.setFontSize(10);
-      doc.setFont('helvetica', 'bold');
+      doc.setFont('Poppins', 'bold');
       doc.setTextColor(128, 128, 128);
       doc.text("DESCRIPTION", 22, y);
       doc.text("QTÉ", 125, y, { align: 'right' });
       doc.text("PRIX", 155, y, { align: 'right' });
       doc.text("TOTAL", 188, y, { align: 'right' });
       
-      y += 15;
+      y += 10;
 
       // Table Body
       doc.setFontSize(12);
-      doc.setFont('helvetica', 'normal');
+      doc.setFont('Poppins', 'normal');
       items.forEach((item, index) => {
           doc.setFillColor(255, 255, 255);
           doc.rect(20, y - 6, 170, 15, 'F');
@@ -839,7 +841,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
           doc.text(formatCurrency(item.total), 188, y, { align: 'right' });
           
           if (index < items.length - 1) {
-            doc.setDrawColor(224, 224, 224); // Light grey line
+            doc.setDrawColor(224, 224, 224);
             doc.line(22, y + 7, 188, y + 7);
           }
 
@@ -848,31 +850,31 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
       // Totals
       y += 10;
-      doc.setDrawColor(128, 128, 128); // Darker grey
-      doc.line(120, y, 190, y);
+      doc.setDrawColor(64, 64, 64);
+      doc.line(80, y, 188, y);
       y += 7;
 
       doc.setFontSize(12);
-      doc.setFont('helvetica', 'normal');
+      doc.setFont('Poppins', 'normal');
       doc.setTextColor(0, 0, 0);
       doc.text("Sous-total (Revenus)", 155, y, { align: 'right' });
       doc.text(formatCurrency(subtotal), 188, y, { align: 'right' });
       y += 7;
 
-      doc.setTextColor(128, 128, 128);
+      doc.setTextColor(0, 0, 0);
       doc.text("Sous-total (Dépenses)", 155, y, { align: 'right' });
       doc.text(formatCurrency(expenses), 188, y, { align: 'right' });
       y += 7;
       
       doc.setFontSize(14);
-      doc.setFont('helvetica', 'bold');
+      doc.setFont('Poppins', 'bold');
       doc.setTextColor(0, 0, 0);
       doc.text("Solde du mois", 155, y, { align: 'right' });
       doc.text(formatCurrency(total), 188, y, { align: 'right' });
 
       // Footer
       doc.setFontSize(9);
-      doc.setFont('helvetica', 'normal');
+      doc.setFont('Poppins', 'normal');
       doc.setTextColor(128, 128, 128);
       doc.text("Si vous avez des questions, contactez-nous à bookline.businesspro@gmail.com", 105, 280, { align: 'center' });
 
@@ -905,32 +907,32 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
               </div>
             </div>
             <div className="flex-1 overflow-y-auto px-4 py-4 scrollbar-hide">
-                <div data-invoice-root className="bg-background px-4 py-8 rounded-2xl">
+                <div data-invoice-root className="bg-white px-4 py-8 rounded-2xl">
                     <div className="flex justify-between items-start mb-6">
                         <div>
-                            <h2 className="text-xl font-bold">FACTURE</h2>
+                            <h2 className="text-xl font-bold text-black">FACTURE</h2>
                             <p className="text-xs text-slate-500">#{invoiceNumber}</p>
                         </div>
-                        <div className="text-base font-bold">BookLine</div>
+                        <div className="text-base font-bold text-black">BookLine</div>
                     </div>
                     <div className="grid grid-cols-2 gap-4 mb-6">
                         <div>
                             <p className="font-bold text-slate-500 mb-1 text-xs">FACTURÉ À</p>
-                            <p className="font-semibold">{userProfile.username}</p>
+                            <p className="font-semibold text-black">{userProfile.username}</p>
                         </div>
                         <div className="text-right">
                             <p className="font-bold text-slate-500 mb-1 text-xs">DE</p>
-                            <p className="font-semibold">BookLine SAS</p>
+                            <p className="font-semibold text-black">BookLine SAS</p>
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4 mb-8">
                         <div>
                             <p className="font-bold text-slate-500 mb-1 text-xs">Date de facturation</p>
-                            <p className="font-semibold">{issueDate}</p>
+                            <p className="font-semibold text-black">{issueDate}</p>
                         </div>
                         <div className="text-right">
                             <p className="font-bold text-slate-500 mb-1 text-xs">Date d'échéance</p>
-                            <p className="font-semibold">{dueDate}</p>
+                            <p className="font-semibold text-black">{dueDate}</p>
                         </div>
                     </div>
                     
@@ -940,25 +942,31 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                         <div className="w-20 text-right">PRIX</div>
                         <div className="w-20 text-right">TOTAL</div>
                     </div>
-                    <ul className="divide-y divide-border rounded-lg overflow-hidden">
-                        {items.map((item, index) => (
-                            <li key={index} className="flex items-center p-2 bg-secondary text-sm">
-                                <div className="flex-grow font-medium">{item.description}</div>
-                                <div className="w-12 text-center text-muted-foreground">{item.quantity}</div>
-                                <div className="w-20 text-right text-muted-foreground">{formatCurrency(item.price)}</div>
-                                <div className="w-20 text-right font-medium">{formatCurrency(item.total)}</div>
+                    <ul className="divide-y divide-slate-200 rounded-lg overflow-hidden">
+                        {items.map((index, item) => (
+                            <li key={index} className="flex items-center p-2 bg-white text-sm">
+                                <div className="flex-grow font-medium text-black">{item.description}</div>
+                                <div className="w-12 text-center text-slate-600">{item.quantity}</div>
+                                <div className="w-20 text-right text-black">{formatCurrency(item.price)}</div>
+                                <div className="w-20 text-right font-medium text-black">{formatCurrency(item.total)}</div>
                             </li>
                         ))}
                     </ul>
 
-                    <div className="mt-8 pt-4 border-t-2 border-border">
+                    <div className="mt-8 pt-4 border-t-2 border-slate-700">
                         <div className="flex justify-end">
                             <div className="w-56 space-y-2 text-sm">
-                                <div className="flex justify-between"><span>Sous-total (Revenus)</span><span className="font-medium">{formatCurrency(subtotal)}</span></div>
-                                <div className="flex justify-between text-muted-foreground"><span>Sous-total (Dépenses)</span><span className="font-medium">{formatCurrency(expenses)}</span></div>
-                                <div className="flex justify-between items-center text-base font-bold mt-2 pt-2 border-t border-border">
-                                    <span>Solde du mois</span>
-                                    <span>{formatCurrency(total)}</span>
+                                <div className="flex justify-between">
+                                  <span className='text-black'>Sous-total (Revenus)</span>
+                                  <span className="font-medium text-black">{formatCurrency(subtotal)}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className='text-black'>Sous-total (Dépenses)</span>
+                                  <span className="font-medium text-black">{formatCurrency(expenses)}</span>
+                                </div>
+                                <div className="flex justify-between items-center text-base font-bold mt-2 pt-2 border-t border-slate-200">
+                                    <span className='text-black'>Solde du mois</span>
+                                    <span className='text-black'>{formatCurrency(total)}</span>
                                 </div>
                             </div>
                         </div>
