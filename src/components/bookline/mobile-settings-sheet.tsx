@@ -811,7 +811,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       doc.text(dueDate, 190, y, { align: 'right' });
 
       // Table Header
-      y += 20;
+      y += 30;
       doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(128, 128, 128);
