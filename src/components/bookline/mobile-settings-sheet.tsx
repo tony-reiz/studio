@@ -772,8 +772,9 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 const allText = invoiceEl.querySelectorAll('*');
                 allText.forEach(el => {
                     const htmlEl = el as HTMLElement;
-                    htmlEl.style.color = '#000000';
                     htmlEl.style.letterSpacing = 'normal';
+                    htmlEl.style.fontFamily = 'Arial, sans-serif';
+                    htmlEl.style.color = '#000000';
                 });
             }
           }
@@ -851,7 +852,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
                     <ul className="divide-y divide-slate-200 rounded-lg overflow-hidden">
                         {items.map((item, index) => (
-                            <li key={index} className="flex items-center p-2 bg-slate-200">
+                            <li key={index} className="flex items-center p-2 bg-slate-100">
                                 <div className="flex-grow font-medium">{item.description}</div>
                                 <div className="w-12 text-center text-slate-600">{item.quantity}</div>
                                 <div className="w-20 text-right text-slate-600">{formatCurrency(item.price)}</div>
