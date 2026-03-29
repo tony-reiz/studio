@@ -30,6 +30,7 @@ import { currencies, type Currency } from '@/lib/currencies';
 import { GlassEffect } from './glass-effect';
 import { useToast } from '@/hooks/use-toast';
 import { FluidSheet } from './fluid-sheet';
+import jsPDF from 'jspdf';
 
 
 type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notifications' | 'currency' | 'transfer' | 'invoices' | 'monthlyInvoices' | 'invoiceDetail';
@@ -746,7 +747,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     if (!selectedInvoice) return null;
 
     const handleDownloadPdf = async () => {
-      const { default: jsPDF } = await import('jspdf');
       const doc = new jsPDF();
       
       const invoiceNumber = `INV-2026-07`; // Mock
@@ -816,7 +816,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
       // Table Header
       y += 35;
-      doc.setFontSize(9);
+      doc.setFontSize(8);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(128, 128, 128);
       doc.text("DESCRIPTION", 22, y);
@@ -827,7 +827,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       y += 10;
 
       // Table Body
-      doc.setFontSize(11);
+      doc.setFontSize(10);
       doc.setFont('helvetica', 'normal');
       items.forEach((item, index) => {
           doc.setFillColor(255, 255, 255);
@@ -841,7 +841,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
           doc.text(formatCurrency(item.total), 188, y, { align: 'right' });
           
           if (index < items.length - 1) {
-            doc.setDrawColor(224, 224, 224);
+            doc.setDrawColor(0, 0, 0);
             doc.line(22, y + 7, 188, y + 7);
           }
 
@@ -850,11 +850,11 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
       // Totals
       y += 10;
-      doc.setDrawColor(64, 64, 64);
+      doc.setDrawColor(0, 0, 0);
       doc.line(80, y, 188, y);
       y += 7;
 
-      doc.setFontSize(11);
+      doc.setFontSize(10);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(0, 0, 0);
       doc.text("Sous-total (Revenus)", 155, y, { align: 'right' });
@@ -866,7 +866,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       doc.text(formatCurrency(expenses), 188, y, { align: 'right' });
       y += 7;
       
-      doc.setFontSize(13);
+      doc.setFontSize(12);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(0, 0, 0);
       doc.text("Solde du mois", 155, y, { align: 'right' });
