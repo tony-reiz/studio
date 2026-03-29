@@ -773,6 +773,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 allText.forEach(el => {
                     const htmlEl = el as HTMLElement;
                     htmlEl.style.color = '#000000';
+                    htmlEl.style.letterSpacing = 'normal';
                 });
             }
           }
@@ -828,7 +829,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                         </div>
                         <div className="text-right">
                             <p className="font-bold text-slate-500 mb-1">DE</p>
-                            <p className="font-semibold">{'BookLine\u00A0SAS'}</p>
+                            <p className="font-semibold">BookLine SAS</p>
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4 mb-8">
@@ -837,7 +838,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                             <p className="font-semibold">{issueDate}</p>
                         </div>
                         <div className="text-right">
-                            <p className="font-bold text-slate-500 mb-1">{"Date\u00A0d'échéance"}</p>
+                            <p className="font-bold text-slate-500 mb-1">Date d'échéance</p>
                             <p className="font-semibold">{dueDate}</p>
                         </div>
                     </div>
@@ -850,7 +851,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
                     <ul className="divide-y divide-slate-200 rounded-lg overflow-hidden">
                         {items.map((item, index) => (
-                            <li key={index} className="flex items-center p-2 bg-slate-100">
+                            <li key={index} className="flex items-center p-2 bg-slate-200">
                                 <div className="flex-grow font-medium">{item.description}</div>
                                 <div className="w-12 text-center text-slate-600">{item.quantity}</div>
                                 <div className="w-20 text-right text-slate-600">{formatCurrency(item.price)}</div>
@@ -862,10 +863,10 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     <div className="mt-8 pt-4 border-t-2 border-slate-200">
                         <div className="flex justify-end">
                             <div className="w-48 space-y-2">
-                                <div className="flex justify-between"><span>{'Sous-total\u00A0(Revenus)'}</span><span>{formatCurrency(subtotal)}</span></div>
-                                <div className="flex justify-between text-slate-500"><span>{'Sous-total\u00A0(Dépenses)'}</span><span>{formatCurrency(expenses)}</span></div>
+                                <div className="flex justify-between"><span>Sous-total (Revenus)</span><span>{formatCurrency(subtotal)}</span></div>
+                                <div className="flex justify-between text-slate-500"><span>Sous-total (Dépenses)</span><span>{formatCurrency(expenses)}</span></div>
                                 <div className="flex justify-between items-center text-sm font-bold mt-2 pt-2 border-t border-slate-200">
-                                    <span>{'Solde\u00A0du\u00A0mois'}</span>
+                                    <span>Solde du mois</span>
                                     <span>{formatCurrency(total)}</span>
                                 </div>
                             </div>
