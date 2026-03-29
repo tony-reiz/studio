@@ -771,29 +771,29 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       doc.rect(0, 0, 210, 297, 'F');
 
       // Header
-      doc.setFontSize(22);
+      doc.setFontSize(20);
       doc.setFont('helvetica', 'bold');
       doc.text("FACTURE", 22, 25);
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
+      doc.setFontSize(9);
       doc.setTextColor(128, 128, 128);
       doc.text(`#${invoiceNumber}`, 22, 32);
 
-      doc.setFontSize(18);
+      doc.setFontSize(16);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(0, 0, 0);
       doc.text("BookLine", 188, 25, { align: 'right' });
 
       // Billing Info
       let y = 60;
-      doc.setFontSize(10);
+      doc.setFontSize(9);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(128, 128, 128);
       doc.text("FACTURÉ À", 22, y);
       doc.text("DE", 188, y, { align: 'right' });
 
       y += 6;
-      doc.setFontSize(12);
+      doc.setFontSize(11);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(0, 0, 0);
       doc.text(userProfile.username, 22, y);
@@ -801,22 +801,22 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
       // Dates
       y += 12;
-      doc.setFontSize(10);
+      doc.setFontSize(9);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(128, 128, 128);
       doc.text("Date de facturation", 22, y);
       doc.text("Date d'échéance", 188, y, { align: 'right' });
       
       y += 6;
-      doc.setFontSize(12);
+      doc.setFontSize(11);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(0, 0, 0);
       doc.text(issueDate, 22, y);
       doc.text(dueDate, 188, y, { align: 'right' });
 
       // Table Header
-      y += 25;
-      doc.setFontSize(10);
+      y += 35;
+      doc.setFontSize(9);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(128, 128, 128);
       doc.text("DESCRIPTION", 22, y);
@@ -827,7 +827,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       y += 10;
 
       // Table Body
-      doc.setFontSize(12);
+      doc.setFontSize(11);
       doc.setFont('helvetica', 'normal');
       items.forEach((item, index) => {
           doc.setFillColor(255, 255, 255);
@@ -854,7 +854,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       doc.line(80, y, 188, y);
       y += 7;
 
-      doc.setFontSize(12);
+      doc.setFontSize(11);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(0, 0, 0);
       doc.text("Sous-total (Revenus)", 155, y, { align: 'right' });
@@ -866,14 +866,14 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       doc.text(formatCurrency(expenses), 188, y, { align: 'right' });
       y += 7;
       
-      doc.setFontSize(14);
+      doc.setFontSize(13);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(0, 0, 0);
       doc.text("Solde du mois", 155, y, { align: 'right' });
       doc.text(formatCurrency(total), 188, y, { align: 'right' });
 
       // Footer
-      doc.setFontSize(9);
+      doc.setFontSize(8);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(128, 128, 128);
       doc.text("Si vous avez des questions, contactez-nous à bookline.businesspro@gmail.com", 105, 280, { align: 'center' });
@@ -1066,7 +1066,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
               <div className="flex-1 overflow-y-auto px-4 pt-8 scrollbar-hide">
                 <div className="max-w-md mx-auto flex flex-col gap-4">
                     <ul className="space-y-2">
-                        {transactionsData.map(transaction => (
+                        {transactionsData.map((transaction, index) => (
                             <li key={transaction.id}>
                                 <div className="w-full p-2 flex items-center justify-between text-left">
                                     <div className='flex items-center gap-3'>
