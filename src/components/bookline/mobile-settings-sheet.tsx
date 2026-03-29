@@ -765,39 +765,36 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       const total = subtotal + expenses;
 
       // ---- PDF Generation ----
-      doc.addFont('/fonts/Poppins-Regular.ttf', 'Poppins', 'normal');
-      doc.addFont('/fonts/Poppins-Bold.ttf', 'Poppins', 'bold');
-      
-      doc.setFont('Poppins', 'normal');
+      doc.setFont('helvetica', 'normal');
       doc.setTextColor(0, 0, 0);
       doc.setFillColor(255, 255, 255);
       doc.rect(0, 0, 210, 297, 'F');
 
       // Header
       doc.setFontSize(22);
-      doc.setFont('Poppins', 'bold');
+      doc.setFont('helvetica', 'bold');
       doc.text("FACTURE", 22, 25);
-      doc.setFont('Poppins', 'normal');
+      doc.setFont('helvetica', 'normal');
       doc.setFontSize(10);
       doc.setTextColor(128, 128, 128);
       doc.text(`#${invoiceNumber}`, 22, 32);
 
       doc.setFontSize(18);
-      doc.setFont('Poppins', 'bold');
+      doc.setFont('helvetica', 'bold');
       doc.setTextColor(0, 0, 0);
       doc.text("BookLine", 188, 25, { align: 'right' });
 
       // Billing Info
       let y = 60;
       doc.setFontSize(10);
-      doc.setFont('Poppins', 'bold');
+      doc.setFont('helvetica', 'bold');
       doc.setTextColor(128, 128, 128);
       doc.text("FACTURÉ À", 22, y);
       doc.text("DE", 188, y, { align: 'right' });
 
       y += 6;
       doc.setFontSize(12);
-      doc.setFont('Poppins', 'normal');
+      doc.setFont('helvetica', 'normal');
       doc.setTextColor(0, 0, 0);
       doc.text(userProfile.username, 22, y);
       doc.text("BookLine SAS", 188, y, { align: 'right' });
@@ -805,22 +802,22 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       // Dates
       y += 12;
       doc.setFontSize(10);
-      doc.setFont('Poppins', 'bold');
+      doc.setFont('helvetica', 'bold');
       doc.setTextColor(128, 128, 128);
       doc.text("Date de facturation", 22, y);
       doc.text("Date d'échéance", 188, y, { align: 'right' });
       
       y += 6;
       doc.setFontSize(12);
-      doc.setFont('Poppins', 'normal');
+      doc.setFont('helvetica', 'normal');
       doc.setTextColor(0, 0, 0);
       doc.text(issueDate, 22, y);
       doc.text(dueDate, 188, y, { align: 'right' });
 
       // Table Header
-      y += 20;
+      y += 25;
       doc.setFontSize(10);
-      doc.setFont('Poppins', 'bold');
+      doc.setFont('helvetica', 'bold');
       doc.setTextColor(128, 128, 128);
       doc.text("DESCRIPTION", 22, y);
       doc.text("QTÉ", 125, y, { align: 'right' });
@@ -831,7 +828,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
       // Table Body
       doc.setFontSize(12);
-      doc.setFont('Poppins', 'normal');
+      doc.setFont('helvetica', 'normal');
       items.forEach((item, index) => {
           doc.setFillColor(255, 255, 255);
           doc.rect(20, y - 6, 170, 15, 'F');
@@ -858,7 +855,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       y += 7;
 
       doc.setFontSize(12);
-      doc.setFont('Poppins', 'normal');
+      doc.setFont('helvetica', 'normal');
       doc.setTextColor(0, 0, 0);
       doc.text("Sous-total (Revenus)", 155, y, { align: 'right' });
       doc.text(formatCurrency(subtotal), 188, y, { align: 'right' });
@@ -870,14 +867,14 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       y += 7;
       
       doc.setFontSize(14);
-      doc.setFont('Poppins', 'bold');
+      doc.setFont('helvetica', 'bold');
       doc.setTextColor(0, 0, 0);
       doc.text("Solde du mois", 155, y, { align: 'right' });
       doc.text(formatCurrency(total), 188, y, { align: 'right' });
 
       // Footer
       doc.setFontSize(9);
-      doc.setFont('Poppins', 'normal');
+      doc.setFont('helvetica', 'normal');
       doc.setTextColor(128, 128, 128);
       doc.text("Si vous avez des questions, contactez-nous à bookline.businesspro@gmail.com", 105, 280, { align: 'center' });
 
