@@ -30,7 +30,6 @@ import { currencies, type Currency } from '@/lib/currencies';
 import { GlassEffect } from './glass-effect';
 import { useToast } from '@/hooks/use-toast';
 import { FluidSheet } from './fluid-sheet';
-import jsPDF from 'jspdf';
 
 
 type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notifications' | 'currency' | 'transfer' | 'invoices' | 'monthlyInvoices' | 'invoiceDetail';
@@ -743,7 +742,8 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
   const InvoiceDetailView = () => {
     if (!selectedInvoice) return null;
 
-    const handleDownloadPdf = () => {
+    const handleDownloadPdf = async () => {
+      const { default: jsPDF } = await import('jspdf');
       const doc = new jsPDF();
 
       const invoiceNumber = `INV-2026-07`; // Mock
