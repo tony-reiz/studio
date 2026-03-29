@@ -762,8 +762,8 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       const total = subtotal + expenses;
 
       // ---- PDF Generation ----
-      doc.addFont('helvetica', 'normal');
-      doc.setFont('helvetica');
+      doc.addFont('helvetica', 'normal', 'normal');
+      doc.setFont('helvetica', 'normal');
       doc.setTextColor(0, 0, 0);
       doc.setFillColor(255, 255, 255);
       doc.rect(0, 0, 210, 297, 'F');
@@ -783,7 +783,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       doc.text("BookLine", 188, 25, { align: 'right' });
 
       // Billing Info
-      let y = 50;
+      let y = 60;
       doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(128, 128, 128);
@@ -829,7 +829,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       doc.setFont('helvetica', 'normal');
       items.forEach((item, index) => {
           doc.setFillColor(255, 255, 255);
-          doc.rect(20, y - 6, 170, 10, 'F');
+          doc.rect(20, y - 6, 170, 15, 'F');
           doc.setTextColor(0, 0, 0);
           doc.text(item.description, 22, y);
           doc.text(item.quantity.toString(), 125, y, { align: 'right' });
@@ -837,12 +837,18 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
           doc.text(formatCurrency(item.price), 155, y, { align: 'right' });
           doc.setTextColor(0, 0, 0);
           doc.text(formatCurrency(item.total), 188, y, { align: 'right' });
-          y += 10;
+          
+          if (index < items.length - 1) {
+            doc.setDrawColor(224, 224, 224); // Light grey line
+            doc.line(22, y + 7, 188, y + 7);
+          }
+
+          y += 15;
       });
 
       // Totals
       y += 10;
-      doc.setDrawColor(200, 200, 200); // Darker grey
+      doc.setDrawColor(128, 128, 128); // Darker grey
       doc.line(120, y, 190, y);
       y += 7;
 
