@@ -794,7 +794,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const items = [
         { description: "Ventes d'ebooks (Juillet)", quantity: 7, price: 17.50, total: 122.50 },
         { description: "Gains de parrainage", quantity: 2, price: 1.00, total: 2.00 },
-        { description: "Abonnement\u00A0BookLine\u00A0Pro", quantity: 1, price: -10.00, total: -10.00 },
+        { description: "Abonnement BookLine Pro", quantity: 1, price: -10.00, total: -10.00 },
         { description: "Achats d'ebooks", quantity: 3, price: -25.67, total: -77.01 },
     ];
 
@@ -823,7 +823,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
                     <div className="grid grid-cols-2 gap-4 mb-6">
                         <div>
-                            <p className="font-bold text-muted-foreground mb-1">{'FACTURÉ\u00A0À'}</p>
+                            <p className="font-bold text-muted-foreground mb-1">FACTURÉ À</p>
                             <p className="font-semibold text-foreground">{userProfile.username}</p>
                         </div>
                         <div className="text-right">
@@ -850,7 +850,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
                     <ul className="divide-y divide-border rounded-lg overflow-hidden">
                         {items.map((item, index) => (
-                            <li key={index} className="flex items-center p-2 bg-secondary/50">
+                            <li key={index} className="flex items-center p-2 bg-secondary">
                                 <div className="flex-grow font-medium">{item.description}</div>
                                 <div className="w-12 text-center text-muted-foreground">{item.quantity}</div>
                                 <div className="w-20 text-right text-muted-foreground">{formatCurrency(item.price)}</div>
