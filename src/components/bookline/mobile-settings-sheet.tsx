@@ -822,7 +822,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       doc.text("PRIX", 155, y, { align: 'right' });
       doc.text("TOTAL", 188, y, { align: 'right' });
       
-      y += 8;
+      y += 15;
 
       // Table Body
       doc.setFontSize(12);
@@ -833,7 +833,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
           doc.setTextColor(0, 0, 0);
           doc.text(item.description, 22, y);
           doc.text(item.quantity.toString(), 125, y, { align: 'right' });
-          doc.setTextColor(100, 100, 100);
+          doc.setTextColor(0, 0, 0);
           doc.text(formatCurrency(item.price), 155, y, { align: 'right' });
           doc.setTextColor(0, 0, 0);
           doc.text(formatCurrency(item.total), 188, y, { align: 'right' });
