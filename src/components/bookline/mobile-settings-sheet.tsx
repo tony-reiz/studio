@@ -31,7 +31,6 @@ import { GlassEffect } from './glass-effect';
 import { useToast } from '@/hooks/use-toast';
 import { FluidSheet } from './fluid-sheet';
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 
 
 type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notifications' | 'currency' | 'transfer' | 'invoices' | 'monthlyInvoices' | 'invoiceDetail';
@@ -744,50 +743,133 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
   const InvoiceDetailView = () => {
     if (!selectedInvoice) return null;
 
-    const invoiceContentRef = useRef<HTMLDivElement>(null);
-
     const handleDownloadPdf = () => {
-        const invoiceElement = invoiceContentRef.current;
-        if (!invoiceElement) {
-            toast({
-                variant: 'destructive',
-                title: t('error'),
-                description: "Une erreur est survenue lors du téléchargement.",
-            });
-            return;
-        }
-    
-        html2canvas(invoiceElement, {
-          scale: 2,
-          useCORS: true,
-          backgroundColor: '#ffffff',
-          onclone: (document) => {
-            document.documentElement.classList.remove('dark');
-            const invoiceEl = document.querySelector('[data-invoice-root]') as HTMLElement | null;
-            if (invoiceEl) {
-                invoiceEl.style.backgroundColor = '#ffffff';
-                invoiceEl.classList.remove('bg-background');
-                invoiceEl.style.color = '#000000';
-                
-                const allText = invoiceEl.querySelectorAll('*');
-                allText.forEach(el => {
-                    const htmlEl = el as HTMLElement;
-                    htmlEl.style.letterSpacing = 'normal';
-                    htmlEl.style.fontFamily = 'Arial, sans-serif';
-                    htmlEl.style.color = '#000000';
-                });
-            }
-          }
-        }).then((canvas) => {
-          const imgData = canvas.toDataURL('image/png');
-          const pdf = new jsPDF('p', 'mm', 'a4');
-          const pdfWidth = pdf.internal.pageSize.getWidth();
-          const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-    
-          pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-          pdf.save(`facture-${selectedInvoice ? selectedInvoice.replace(/ /g, '-') : 'facture'}.pdf`);
-        });
-      };
+      const doc = new jsPDF();
+
+      const invoiceNumber = `INV-2026-07`; // Mock
+      const issueDate = '01/08/2026';
+      const dueDate = '31/08/2026';
+
+      const items = [
+          { description: "Ventes d'ebooks (Juillet)", quantity: 7, price: 17.50, total: 122.50 },
+          { description: "Gains de parrainage", quantity: 2, price: 1.00, total: 2.00 },
+          { description: "Abonnement BookLine Pro", quantity: 1, price: -10.00, total: -10.00 },
+          { description: "Achats d'ebooks", quantity: 3, price: -25.67, total: -77.01 },
+      ];
+
+      const subtotal = items.filter(i => i.total > 0).reduce((acc, i) => acc + i.total, 0);
+      const expenses = items.filter(i => i.total < 0).reduce((acc, i) => acc + i.total, 0);
+      const total = subtotal + expenses;
+
+      // ---- PDF Generation ----
+      doc.addFont('helvetica', 'normal');
+      doc.setFont('helvetica');
+      doc.setTextColor(0, 0, 0);
+
+      // Header
+      doc.setFontSize(22);
+      doc.setFont('helvetica', 'bold');
+      doc.text("FACTURE", 20, 25);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(128, 128, 128);
+      doc.text(`#${invoiceNumber}`, 20, 32);
+
+      doc.setFontSize(18);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 0, 0);
+      doc.text("BookLine", 190, 25, { align: 'right' });
+
+      // Billing Info
+      let y = 50;
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(128, 128, 128);
+      doc.text("FACTURÉ À", 20, y);
+      doc.text("DE", 190, y, { align: 'right' });
+
+      y += 6;
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(0, 0, 0);
+      doc.text(userProfile.username, 20, y);
+      doc.text("BookLine SAS", 190, y, { align: 'right' });
+
+      // Dates
+      y += 12;
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(128, 128, 128);
+      doc.text("Date de facturation", 20, y);
+      doc.text("Date d'échéance", 190, y, { align: 'right' });
+      
+      y += 6;
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(0, 0, 0);
+      doc.text(issueDate, 20, y);
+      doc.text(dueDate, 190, y, { align: 'right' });
+
+      // Table Header
+      y += 20;
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(128, 128, 128);
+      doc.text("DESCRIPTION", 22, y);
+      doc.text("QTÉ", 125, y, { align: 'right' });
+      doc.text("PRIX", 155, y, { align: 'right' });
+      doc.text("TOTAL", 188, y, { align: 'right' });
+      
+      y += 5;
+
+      // Table Body
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+      items.forEach((item, index) => {
+          doc.setFillColor(248, 248, 248);
+          doc.rect(20, y - 6, 170, 10, 'F');
+          doc.setTextColor(0, 0, 0);
+          doc.text(item.description, 22, y);
+          doc.text(item.quantity.toString(), 125, y, { align: 'right' });
+          doc.setTextColor(100, 100, 100);
+          doc.text(formatCurrency(item.price), 155, y, { align: 'right' });
+          doc.setTextColor(0, 0, 0);
+          doc.text(formatCurrency(item.total), 188, y, { align: 'right' });
+          y += 10;
+      });
+
+      // Totals
+      y += 10;
+      doc.setDrawColor(230, 230, 230);
+      doc.line(120, y, 190, y);
+      y += 7;
+
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(0, 0, 0);
+      doc.text("Sous-total (Revenus)", 155, y, { align: 'right' });
+      doc.text(formatCurrency(subtotal), 188, y, { align: 'right' });
+      y += 7;
+
+      doc.setTextColor(128, 128, 128);
+      doc.text("Sous-total (Dépenses)", 155, y, { align: 'right' });
+      doc.text(formatCurrency(expenses), 188, y, { align: 'right' });
+      y += 7;
+      
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 0, 0);
+      doc.text("Solde du mois", 155, y, { align: 'right' });
+      doc.text(formatCurrency(total), 188, y, { align: 'right' });
+
+      // Footer
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(128, 128, 128);
+      doc.text("Si vous avez des questions, contactez-nous à bookline.businesspro@gmail.com", 105, 280, { align: 'center' });
+
+      doc.save(`facture-${selectedInvoice ? selectedInvoice.replace(/ /g, '-') : 'facture'}.pdf`);
+  };
 
     const invoiceNumber = `INV-2026-07`; // Mock
     const issueDate = '01/08/2026';
@@ -815,7 +897,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
               </div>
             </div>
             <div className="flex-1 overflow-y-auto px-4 py-4 scrollbar-hide">
-                <div ref={invoiceContentRef} data-invoice-root className="bg-white px-12 py-8 rounded-2xl text-black text-[10px]">
+                <div data-invoice-root className="bg-background px-4 py-8 rounded-2xl">
                     <div className="flex justify-between items-start mb-6">
                         <div>
                             <h2 className="text-xl font-bold">FACTURE</h2>
@@ -825,48 +907,48 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
                     <div className="grid grid-cols-2 gap-4 mb-6">
                         <div>
-                            <p className="font-bold text-slate-500 mb-1">FACTURÉ À</p>
+                            <p className="font-bold text-slate-500 mb-1 text-xs">FACTURÉ À</p>
                             <p className="font-semibold">{userProfile.username}</p>
                         </div>
                         <div className="text-right">
-                            <p className="font-bold text-slate-500 mb-1">DE</p>
+                            <p className="font-bold text-slate-500 mb-1 text-xs">DE</p>
                             <p className="font-semibold">BookLine SAS</p>
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4 mb-8">
                         <div>
-                            <p className="font-bold text-slate-500 mb-1">Date de facturation</p>
+                            <p className="font-bold text-slate-500 mb-1 text-xs">Date de facturation</p>
                             <p className="font-semibold">{issueDate}</p>
                         </div>
                         <div className="text-right">
-                            <p className="font-bold text-slate-500 mb-1">Date d'échéance</p>
+                            <p className="font-bold text-slate-500 mb-1 text-xs">Date d'échéance</p>
                             <p className="font-semibold">{dueDate}</p>
                         </div>
                     </div>
                     
-                    <div className="flex font-bold text-slate-500 mb-2 px-2">
+                    <div className="flex font-bold text-slate-500 mb-2 px-2 text-xs">
                         <div className="flex-grow">DESCRIPTION</div>
                         <div className="w-12 text-center">QTÉ</div>
                         <div className="w-20 text-right">PRIX</div>
                         <div className="w-20 text-right">TOTAL</div>
                     </div>
-                    <ul className="divide-y divide-slate-200 rounded-lg overflow-hidden">
+                    <ul className="divide-y divide-border rounded-lg overflow-hidden">
                         {items.map((item, index) => (
-                            <li key={index} className="flex items-center p-2 bg-slate-100">
+                            <li key={index} className="flex items-center p-2 bg-secondary text-sm">
                                 <div className="flex-grow font-medium">{item.description}</div>
-                                <div className="w-12 text-center text-slate-600">{item.quantity}</div>
-                                <div className="w-20 text-right text-slate-600">{formatCurrency(item.price)}</div>
+                                <div className="w-12 text-center text-muted-foreground">{item.quantity}</div>
+                                <div className="w-20 text-right text-muted-foreground">{formatCurrency(item.price)}</div>
                                 <div className="w-20 text-right font-medium">{formatCurrency(item.total)}</div>
                             </li>
                         ))}
                     </ul>
 
-                    <div className="mt-8 pt-4 border-t-2 border-slate-200">
+                    <div className="mt-8 pt-4 border-t-2 border-border">
                         <div className="flex justify-end">
-                            <div className="w-48 space-y-2">
-                                <div className="flex justify-between"><span>Sous-total (Revenus)</span><span>{formatCurrency(subtotal)}</span></div>
-                                <div className="flex justify-between text-slate-500"><span>Sous-total (Dépenses)</span><span>{formatCurrency(expenses)}</span></div>
-                                <div className="flex justify-between items-center text-sm font-bold mt-2 pt-2 border-t border-slate-200">
+                            <div className="w-56 space-y-2 text-sm">
+                                <div className="flex justify-between"><span>Sous-total (Revenus)</span><span className="font-medium">{formatCurrency(subtotal)}</span></div>
+                                <div className="flex justify-between text-muted-foreground"><span>Sous-total (Dépenses)</span><span className="font-medium">{formatCurrency(expenses)}</span></div>
+                                <div className="flex justify-between items-center text-base font-bold mt-2 pt-2 border-t border-border">
                                     <span>Solde du mois</span>
                                     <span>{formatCurrency(total)}</span>
                                 </div>
