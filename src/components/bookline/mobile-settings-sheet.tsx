@@ -822,7 +822,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       doc.text("PRIX", 155, y, { align: 'right' });
       doc.text("TOTAL", 188, y, { align: 'right' });
       
-      y += 5;
+      y += 8;
 
       // Table Body
       doc.setFontSize(12);
