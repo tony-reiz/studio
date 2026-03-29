@@ -10,7 +10,6 @@ import { useEbooks } from '@/context/ebook-provider';
 import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
 import { cn } from '@/lib/utils';
 import { GlassEffect } from '@/components/bookline/glass-effect';
-import { BarChart, Bar, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid } from 'recharts';
 
 export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -32,106 +31,6 @@ export default function HomePage() {
       <GlassEffect />
       <Menu className="h-6 w-6 relative z-20" />
     </Button>
-  );
-
-  const transactionsData = useMemo(() => [
-    { id: '1', date: '01 juil. 2026', amount: 0 },
-    { id: '2', date: '02 juil. 2026', amount: 17.00 },
-    { id: '3', date: '03 juil. 2026', amount: -23.50 },
-    { id: '4', date: '04 juil. 2026', amount: 0 },
-    { id: '5', date: '05 juil. 2026', amount: 22.00 },
-    { id: '6', date: '06 juil. 2026', amount: 0 },
-    { id: '7', date: '07 juil. 2026', amount: -10.00 },
-    { id: '8', date: '08 juil. 2026', amount: 1.00 },
-    { id: '9', date: '09 juil. 2026', amount: 12.00 },
-    { id: '10', date: '10 juil. 2026', amount: 0 },
-    { id: '11', date: '11 juil. 2026', amount: 17.00 },
-    { id: '12', date: '12 juil. 2026', amount: -18.50 },
-    { id: '13', date: '13 juil. 2026', amount: 0 },
-    { id: '14', date: '14 juil. 2026', amount: 0 },
-    { id: '15', date: '15 juil. 2026', amount: 22.00 },
-    { id: '16', date: '18 juil. 2026', amount: 17.00 },
-    { id: '17', date: '20 juil. 2026', amount: -35.00 },
-    { id: '18', date: '22 juil. 2026', amount: 1.00 },
-    { id: '19', date: '25 juil. 2026', amount: 22.00 },
-    { id: '20', date: '28 juil. 2026', amount: 12.00 },
-    { id: '21', date: '30 juil. 2026', amount: -15.50 },
-  ], []);
-
-  const balanceData = useMemo(() => {
-    const dailyNet: { [key: number]: number } = {};
-
-    transactionsData.forEach(t => {
-        const day = parseInt(t.date.split(' ')[0]);
-        if (!dailyNet[day]) {
-            dailyNet[day] = 0;
-        }
-        dailyNet[day] += t.amount;
-    });
-
-    const result = [];
-    let cumulativeBalance = 0;
-    for (let i = 1; i <= 31; i++) {
-        cumulativeBalance += dailyNet[i] || 0;
-        result.push({
-            day: String(i),
-            solde: cumulativeBalance,
-        });
-    }
-    return result;
-  }, [transactionsData]);
-
-  const SimpleBalanceChart = () => (
-    <div className="w-full h-[200px] max-w-[672px] mx-auto md:hidden mt-4">
-        <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={balanceData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--muted-foreground))" strokeOpacity={0.2}/>
-                <XAxis 
-                  dataKey="day" 
-                  stroke="hsl(var(--muted-foreground))"
-                  fontSize={10}
-                  tickLine={false}
-                  axisLine={false}
-                  interval={4}
-                  tick={{ dy: 5 }}
-                />
-                <YAxis 
-                  stroke="hsl(var(--muted-foreground))"
-                  fontSize={10}
-                  tickLine={false}
-                  axisLine={false}
-                  tickFormatter={(value) => `${value}€`}
-                  domain={['dataMin - 20', 'dataMax + 20']}
-                  allowDecimals={false}
-                  width={40}
-                />
-                <Tooltip
-                    content={({ active, payload, label }) => {
-                        if (active && payload && payload.length) {
-                            return (
-                                <div className="rounded-lg border bg-background/95 p-2 shadow-sm">
-                                    <div className="grid grid-cols-1 gap-1">
-                                        <span className="text-[10px] text-muted-foreground">{t('balance_date_label').replace('{day}', label)}</span>
-                                        <div className="flex items-baseline">
-                                            <p className="font-bold text-base">{`${payload[0].value?.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}`}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            );
-                        }
-                        return null;
-                    }}
-                    cursor={{ fill: 'hsl(var(--primary), 0.1)' }}
-                />
-                <Bar 
-                    dataKey="solde" 
-                    fill="hsl(var(--primary))"
-                    name={t('balance')}
-                    radius={[4, 4, 0, 0]}
-                />
-            </BarChart>
-        </ResponsiveContainer>
-    </div>
   );
 
   return (
@@ -177,7 +76,6 @@ export default function HomePage() {
         </header>
 
         <main className="flex flex-col w-full flex-1 pb-28">
-          <SimpleBalanceChart />
           <EbookDisplayArea />
         </main>
       </div>

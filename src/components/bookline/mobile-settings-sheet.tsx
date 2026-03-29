@@ -29,7 +29,6 @@ import { ImageCropper } from './image-cropper';
 import { currencies, type Currency } from '@/lib/currencies';
 import { GlassEffect } from './glass-effect';
 import { useToast } from '@/hooks/use-toast';
-import { LineChart, Line, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { FluidSheet } from './fluid-sheet';
 
 
@@ -796,30 +795,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
             .filter(t => t.amount < 0)
             .reduce((acc, t) => acc + t.amount, 0), []);
         
-        const balanceData = useMemo(() => {
-            const julyTransactions = transactionsData.filter(t => t.date.includes('juil.'));
-            const dailyNet: { [key: number]: number } = {};
-
-            julyTransactions.forEach(t => {
-                const day = parseInt(t.date.split(' ')[0]);
-                if (!dailyNet[day]) {
-                    dailyNet[day] = 0;
-                }
-                dailyNet[day] += t.amount;
-            });
-
-            const result = [];
-            let cumulativeBalance = 0;
-            for (let i = 1; i <= 31; i++) {
-                cumulativeBalance += dailyNet[i] || 0;
-                result.push({
-                    day: String(i),
-                    solde: cumulativeBalance,
-                });
-            }
-            return result;
-        }, []);
-
         return (
           <div className="flex flex-col h-full">
               <div className="px-4 pt-6 shrink-0">
@@ -842,53 +817,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                   </div>
               </div>
               
-              <div className="w-full h-[150px] mt-8 -ml-4">
-                <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={balanceData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--muted-foreground))" strokeOpacity={0.2}/>
-                        <XAxis
-                            dataKey="day"
-                            stroke="hsl(var(--muted-foreground))"
-                            fontSize={10}
-                            tickLine={false}
-                            axisLine={false}
-                            interval={4}
-                            tick={{ dy: 5 }}
-                        />
-                        <YAxis
-                            stroke="hsl(var(--muted-foreground))"
-                            fontSize={10}
-                            tickLine={false}
-                            axisLine={false}
-                            tickFormatter={(value) => `${value}`}
-                            domain={['dataMin - 10', 'dataMax + 10']}
-                            allowDecimals={false}
-                            width={40}
-                        />
-                        <Tooltip
-                            content={({ active, payload, label }) => {
-                                if (active && payload && payload.length) {
-                                    return (
-                                        <div className="rounded-lg border bg-background/95 p-2 shadow-sm">
-                                            <div className="grid grid-cols-1 gap-1">
-                                                <span className="text-[10px] text-muted-foreground">{t('balance_date_label').replace('{day}', label)}</span>
-                                                <div className="flex items-baseline">
-                                                    <p className="font-bold text-base">{`${payload[0].value?.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}`}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    );
-                                }
-                                return null;
-                            }}
-                            cursor={{ stroke: 'hsl(var(--primary))', strokeWidth: 1, strokeDasharray: '3 3' }}
-                        />
-                        <Line type="monotone" dataKey="solde" name={t('balance')} stroke="hsl(var(--primary))" strokeWidth={2} dot={false} activeDot={{ r: 4, fill: 'hsl(var(--background))', stroke: 'hsl(var(--primary))' }}/>
-                    </LineChart>
-                </ResponsiveContainer>
-              </div>
-
-              <div className="flex-1 overflow-y-auto px-4 pt-4 scrollbar-hide">
+              <div className="flex-1 overflow-y-auto px-4 pt-8 scrollbar-hide">
                 <div className="max-w-md mx-auto flex flex-col gap-4">
                     <ul className="space-y-2">
                         {transactionsData.map(transaction => (
