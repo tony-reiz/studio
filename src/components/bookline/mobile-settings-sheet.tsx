@@ -747,28 +747,31 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const invoiceContentRef = useRef<HTMLDivElement>(null);
 
     const handleDownloadPdf = () => {
-        if (!invoiceContentRef.current) {
-          toast({
-            variant: 'destructive',
-            title: t('error'),
-            description: "Une erreur est survenue lors du téléchargement.",
-          });
-          return;
+        const invoiceElement = invoiceContentRef.current;
+        if (!invoiceElement) {
+            toast({
+                variant: 'destructive',
+                title: t('error'),
+                description: "Une erreur est survenue lors du téléchargement.",
+            });
+            return;
         }
     
-        html2canvas(invoiceContentRef.current, {
+        html2canvas(invoiceElement, {
           scale: 2,
           useCORS: true,
-          backgroundColor: null,
+          backgroundColor: '#ffffff',
+          onclone: (document) => {
+            document.documentElement.classList.remove('dark');
+          }
         }).then((canvas) => {
           const imgData = canvas.toDataURL('image/png');
           const pdf = new jsPDF('p', 'mm', 'a4');
           const pdfWidth = pdf.internal.pageSize.getWidth();
-          const imgProps = pdf.getImageProperties(imgData);
-          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+          const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
     
           pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-          pdf.save(`facture-${selectedInvoice.replace(/ /g, '-')}.pdf`);
+          pdf.save(`facture-${selectedInvoice ? selectedInvoice.replace(/ /g, '-') : 'facture'}.pdf`);
         });
       };
 
