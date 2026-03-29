@@ -100,7 +100,7 @@ export default function HomePage() {
                   fontSize={10}
                   tickLine={false}
                   axisLine={false}
-                  tickFormatter={(value) => `${'\'\'\''}${value}€`}
+                  tickFormatter={(value) => `${value}€`}
                   domain={['dataMin - 20', 'dataMax + 20']}
                   allowDecimals={false}
                   width={40}
@@ -113,7 +113,7 @@ export default function HomePage() {
                                     <div className="grid grid-cols-1 gap-1">
                                         <span className="text-[10px] text-muted-foreground">{t('balance_date_label').replace('{day}', label)}</span>
                                         <div className="flex items-baseline">
-                                            <p className="font-bold text-base">{`${'\'\'\''}${payload[0].value?.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}`}</p>
+                                            <p className="font-bold text-base">{`${payload[0].value?.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}`}</p>
                                         </div>
                                     </div>
                                 </div>
