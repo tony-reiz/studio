@@ -745,7 +745,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const handleDownloadPdf = async () => {
       const { default: jsPDF } = await import('jspdf');
       const doc = new jsPDF();
-
+      
       const invoiceNumber = `INV-2026-07`; // Mock
       const issueDate = '01/08/2026';
       const dueDate = '31/08/2026';
@@ -765,50 +765,52 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       doc.addFont('helvetica', 'normal');
       doc.setFont('helvetica');
       doc.setTextColor(0, 0, 0);
+      doc.setFillColor(255, 255, 255);
+      doc.rect(0, 0, 210, 297, 'F');
 
       // Header
       doc.setFontSize(22);
       doc.setFont('helvetica', 'bold');
-      doc.text("FACTURE", 20, 25);
+      doc.text("FACTURE", 22, 25);
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(10);
       doc.setTextColor(128, 128, 128);
-      doc.text(`#${invoiceNumber}`, 20, 32);
+      doc.text(`#${invoiceNumber}`, 22, 32);
 
       doc.setFontSize(18);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(0, 0, 0);
-      doc.text("BookLine", 190, 25, { align: 'right' });
+      doc.text("BookLine", 188, 25, { align: 'right' });
 
       // Billing Info
       let y = 50;
       doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(128, 128, 128);
-      doc.text("FACTURÉ À", 20, y);
-      doc.text("DE", 190, y, { align: 'right' });
+      doc.text("FACTURÉ À", 22, y);
+      doc.text("DE", 188, y, { align: 'right' });
 
       y += 6;
       doc.setFontSize(12);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(0, 0, 0);
-      doc.text(userProfile.username, 20, y);
-      doc.text("BookLine SAS", 190, y, { align: 'right' });
+      doc.text(userProfile.username, 22, y);
+      doc.text("BookLine SAS", 188, y, { align: 'right' });
 
       // Dates
       y += 12;
       doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(128, 128, 128);
-      doc.text("Date de facturation", 20, y);
-      doc.text("Date d'échéance", 190, y, { align: 'right' });
+      doc.text("Date de facturation", 22, y);
+      doc.text("Date d'échéance", 188, y, { align: 'right' });
       
       y += 6;
       doc.setFontSize(12);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(0, 0, 0);
-      doc.text(issueDate, 20, y);
-      doc.text(dueDate, 190, y, { align: 'right' });
+      doc.text(issueDate, 22, y);
+      doc.text(dueDate, 188, y, { align: 'right' });
 
       // Table Header
       y += 30;
@@ -826,7 +828,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       doc.setFontSize(12);
       doc.setFont('helvetica', 'normal');
       items.forEach((item, index) => {
-          doc.setFillColor(248, 248, 248);
+          doc.setFillColor(255, 255, 255);
           doc.rect(20, y - 6, 170, 10, 'F');
           doc.setTextColor(0, 0, 0);
           doc.text(item.description, 22, y);
@@ -840,7 +842,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
 
       // Totals
       y += 10;
-      doc.setDrawColor(230, 230, 230);
+      doc.setDrawColor(200, 200, 200); // Darker grey
       doc.line(120, y, 190, y);
       y += 7;
 
