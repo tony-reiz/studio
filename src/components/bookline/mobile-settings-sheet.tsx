@@ -873,7 +873,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                     </div>
                 </div>
                 <div className="text-xs text-muted-foreground text-center p-4 mt-4">
-                    <p>Si vous avez des questions, contactez-nous à support@bookline.app</p>
+                    <p>Si vous avez des questions, contactez-nous à bookline.businesspro@gmail.com</p>
                 </div>
             </div>
             <div className="p-4 pt-2 pb-6 shrink-0">

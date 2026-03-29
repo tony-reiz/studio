@@ -34,7 +34,7 @@ export function PrivacyContent() {
           <p>Nous mettons en œuvre des mesures de sécurité techniques et organisationnelles pour protéger vos informations personnelles contre l'accès non autorisé, la perte ou la destruction. Cependant, aucune méthode de transmission sur Internet n'est sûre à 100%.</p>
           
           <h2>5. Vos droits</h2>
-          <p>Conformément à la réglementation en vigueur (notamment le RGPD), vous disposez de droits sur vos données personnelles : droit d'accès, de rectification, de suppression, de limitation du traitement et de portabilité. Vous pouvez exercer ces droits en nous contactant à l'adresse [adresse e-mail de contact].</p>
+          <p>Conformément à la réglementation en vigueur (notamment le RGPD), vous disposez de droits sur vos données personnelles : droit d'accès, de rectification, de suppression, de limitation du traitement et de portabilité. Vous pouvez exercer ces droits en nous contactant à l'adresse bookline.businesspro@gmail.com.</p>
   
           <h2>6. Cookies</h2>
           <p>Nous utilisons des cookies pour faire fonctionner notre site et améliorer votre expérience. Un cookie est un petit fichier texte stocké sur votre appareil. Vous pouvez configurer votre navigateur pour refuser les cookies, mais certaines parties de notre site pourraient ne pas fonctionner correctement.</p>
@@ -43,7 +43,7 @@ export function PrivacyContent() {
           <p>Nous pouvons mettre à jour cette politique de confidentialité de temps à autre. Nous vous informerons de tout changement important. Votre utilisation continue de la plateforme après la publication des modifications constitue votre acceptation de la nouvelle politique.</p>
   
           <h2>8. Nous contacter</h2>
-          <p>Si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter à [adresse e-mail de contact].</p>
+          <p>Si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter à bookline.businesspro@gmail.com.</p>
           
           <p className="!mt-8 p-4 bg-secondary rounded-lg !text-sm text-muted-foreground"><strong>Avis de non-responsabilité :</strong> Ce document est un modèle et ne constitue pas un avis juridique. Il est fortement recommandé de consulter un avocat pour rédiger une politique de confidentialité conforme à toutes les lois et réglementations applicables.</p>
       </div>
