@@ -219,6 +219,7 @@ export const translations = {
     'download_would_start_for': 'Le téléchargement de la facture pour {month} commencerait ici.',
     'note': 'Note',
     'simulation_disclaimer': 'Ceci est une simulation. Dans une application réelle, des factures conformes (avec mentions légales, TVA, etc.) seraient générées au format PDF et téléchargeables ici.',
+    'download_pdf': 'Télécharger en PDF',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',
@@ -508,6 +509,7 @@ export const translations = {
     'download_would_start_for': 'The download of the invoice for {month} would start here.',
     'note': 'Note',
     'simulation_disclaimer': 'This is a simulation. In a real application, compliant invoices (with legal notices, VAT, etc.) would be generated in PDF format and downloadable here.',
+    'download_pdf': 'Download as PDF',
     // interests
     'business': 'Business 💼',
     'fiction': 'Fiction 📖',

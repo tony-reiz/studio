@@ -30,6 +30,8 @@ import { currencies, type Currency } from '@/lib/currencies';
 import { GlassEffect } from './glass-effect';
 import { useToast } from '@/hooks/use-toast';
 import { FluidSheet } from './fluid-sheet';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 
 type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notifications' | 'currency' | 'transfer' | 'invoices' | 'monthlyInvoices' | 'invoiceDetail';
@@ -742,6 +744,34 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
   const InvoiceDetailView = () => {
     if (!selectedInvoice) return null;
 
+    const invoiceContentRef = useRef<HTMLDivElement>(null);
+
+    const handleDownloadPdf = () => {
+        if (!invoiceContentRef.current) {
+          toast({
+            variant: 'destructive',
+            title: t('error'),
+            description: "Une erreur est survenue lors du téléchargement.",
+          });
+          return;
+        }
+    
+        html2canvas(invoiceContentRef.current, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: null,
+        }).then((canvas) => {
+          const imgData = canvas.toDataURL('image/png');
+          const pdf = new jsPDF('p', 'mm', 'a4');
+          const pdfWidth = pdf.internal.pageSize.getWidth();
+          const imgProps = pdf.getImageProperties(imgData);
+          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    
+          pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+          pdf.save(`facture-${selectedInvoice.replace(/ /g, '-')}.pdf`);
+        });
+      };
+
     const invoiceNumber = `INV-2026-07`; // Mock
     const issueDate = '01/08/2026';
     const dueDate = '31/08/2026';
@@ -768,7 +798,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
               </div>
             </div>
             <div className="flex-1 overflow-y-auto px-4 py-4 scrollbar-hide text-sm">
-                <div className="bg-secondary p-6 rounded-2xl">
+                <div ref={invoiceContentRef} className="bg-secondary p-6 rounded-2xl">
                     <div className="flex justify-between items-start mb-6">
                         <div>
                             <h2 className="text-2xl font-bold text-foreground">FACTURE</h2>
@@ -797,14 +827,12 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                         </div>
                     </div>
                     
-                    {/* Invoice items table header */}
                     <div className="flex text-xs font-bold text-muted-foreground mb-2 px-2">
                         <div className="flex-grow">DESCRIPTION</div>
                         <div className="w-12 text-center">QTÉ</div>
                         <div className="w-20 text-right">PRIX</div>
                         <div className="w-20 text-right">TOTAL</div>
                     </div>
-                    {/* Invoice items */}
                     <ul className="divide-y divide-border rounded-lg overflow-hidden">
                         {items.map((item, index) => (
                             <li key={index} className="flex items-center text-xs p-2 bg-background/50">
@@ -816,7 +844,6 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                         ))}
                     </ul>
 
-                    {/* Total */}
                     <div className="mt-8 pt-4 border-t-2 border-border text-xs">
                         <div className="flex justify-end">
                             <div className="w-48 space-y-2">
@@ -833,6 +860,12 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 <div className="text-xs text-muted-foreground text-center p-4 mt-4">
                     <p>Si vous avez des questions, contactez-nous à support@bookline.app</p>
                 </div>
+            </div>
+            <div className="p-4 pt-2 pb-6 shrink-0">
+              <Button onClick={handleDownloadPdf} className="rounded-full w-full h-12 text-lg font-semibold bg-foreground text-background hover:bg-foreground/90">
+                  <Download className="mr-2 h-5 w-5" />
+                  {t('download_pdf')}
+              </Button>
             </div>
         </div>
     );
