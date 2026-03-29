@@ -10,7 +10,7 @@ import { useEbooks } from '@/context/ebook-provider';
 import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
 import { cn } from '@/lib/utils';
 import { GlassEffect } from '@/components/bookline/glass-effect';
-import { AreaChart, Area, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { BarChart, Bar, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid } from 'recharts';
 
 export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -84,13 +84,7 @@ export default function HomePage() {
   const SimpleBalanceChart = () => (
     <div className="w-full h-[200px] max-w-[672px] mx-auto md:hidden mt-4">
         <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={balanceData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
-                <defs>
-                    <linearGradient id="balanceGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor={theme === 'dark' ? 'hsl(var(--primary))' : 'hsl(var(--primary))'} stopOpacity={0.4}/>
-                        <stop offset="95%" stopColor={theme === 'dark' ? 'hsl(var(--primary))' : 'hsl(var(--primary))'} stopOpacity={0}/>
-                    </linearGradient>
-                </defs>
+            <BarChart data={balanceData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--muted-foreground))" strokeOpacity={0.2}/>
                 <XAxis 
                   dataKey="day" 
@@ -127,18 +121,15 @@ export default function HomePage() {
                         }
                         return null;
                     }}
-                    cursor={{ stroke: 'hsl(var(--primary))', strokeWidth: 1, strokeDasharray: '3 3' }}
+                    cursor={{ fill: 'hsl(var(--primary), 0.1)' }}
                 />
-                <Area 
-                    type="monotone" 
+                <Bar 
                     dataKey="solde" 
-                    stroke="hsl(var(--primary))"
-                    strokeWidth={2}
-                    fillOpacity={1} 
-                    fill="url(#balanceGradient)" 
+                    fill="hsl(var(--primary))"
                     name={t('balance')}
+                    radius={[4, 4, 0, 0]}
                 />
-            </AreaChart>
+            </BarChart>
         </ResponsiveContainer>
     </div>
   );
