@@ -14,6 +14,7 @@ export function BottomNav() {
   const { handleNavigate } = useTransitionRouter();
   const { t, theme } = useEbooks();
   const [isClient, setIsClient] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const [activeToggle, setActiveToggle] = useState<'acheter' | 'vendre'>(() => {
     if (typeof window !== 'undefined') {
@@ -51,14 +52,12 @@ export function BottomNav() {
         return;
     }
     
-    setActiveToggle(tab);
-    setActiveIcon('none');
     handleNavigate(targetPath);
   };
   
   const isAcheter = activeToggle === 'acheter';
   
-  const isSettingsActive = activeIcon === 'menu';
+  const isSettingsActive = activeIcon === 'menu' || isSettingsOpen;
   const isProfileActive = activeIcon === 'profile';
 
   const menuButton = (
@@ -86,7 +85,7 @@ export function BottomNav() {
     <div className="fixed bottom-8 left-0 right-0 p-4 md:bottom-2 md:mb-4" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
       <div className="flex justify-center items-center gap-4 max-w-sm mx-auto">
         <div className="">
-            {isClient ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : <div className="w-12 h-12" />}
+            {isClient ? <MobileSettingsSheet isOpen={isSettingsOpen} onOpenChange={setIsSettingsOpen}>{menuButton}</MobileSettingsSheet> : <div className="w-12 h-12" />}
         </div>
         <div className="relative rounded-full flex items-center flex-grow shadow-nav bg-white dark:bg-black">
           <div
@@ -117,7 +116,6 @@ export function BottomNav() {
         </div>
         <Button 
           onClick={() => {
-              setActiveIcon('profile');
               handleNavigate('/profile');
           }} 
           variant="ghost" 

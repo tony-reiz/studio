@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, type ReactNode, useRef, useMemo } from 'react';
+import { useEffect, useState, type ReactNode, useRef, useMemo, type MouseEvent } from 'react';
 import { cn } from '@/lib/utils';
 import { SettingsList } from './settings-list';
 import { ChevronLeft, Check, Search, KeyRound, Smartphone, LogOut, Plus, User as UserIcon, Bell, Info, Landmark, Edit3, Download, Receipt, FileText, ChevronRight, TrendingUp, TrendingDown } from 'lucide-react';
@@ -37,10 +37,11 @@ type View = 'main' | 'language' | 'help' | 'security' | 'account' | 'notificatio
 
 interface MobileSettingsSheetProps {
     children: ReactNode;
+    isOpen: boolean;
+    onOpenChange: (open: boolean) => void;
 }
 
-export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
-    const [isOpen, setIsOpen] = useState(false);
+export function MobileSettingsSheet({ children, isOpen, onOpenChange }: MobileSettingsSheetProps) {
     const [view, setView] = useState<View>('main');
     const { locale, setLocale, t, userProfile, updateUserProfile, selectedInterests, updateSelectedInterests, theme, canChangeUsername, notificationSettings, updateNotificationSettings, currency, setCurrency } = useEbooks();
     const [searchQuery, setSearchQuery] = useState('');
@@ -143,7 +144,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const handleLanguageSelect = (code: Locale) => {
         setLocale(code);
         setSearchQuery('');
-        setIsOpen(false);
+        onOpenChange(false);
     };
 
     const filteredLanguages = searchQuery
@@ -253,7 +254,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     const handleCurrencySave = () => {
         if (localSelectedCurrency.code === currency.code) return;
         setCurrency(localSelectedCurrency);
-        setIsOpen(false);
+        onOpenChange(false);
     };
 
     const handleTransferSaveOrEdit = () => {
@@ -1166,9 +1167,9 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
       </div>
     );
     
-    const handleTriggerClick = (e: React.MouseEvent) => {
+    const handleTriggerClick = (e: MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
-        setIsOpen(true);
+        onOpenChange(true);
     };
 
     if (isMobile) {
@@ -1179,7 +1180,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
                 </div>
                 <FluidSheet
                     open={isOpen}
-                    onOpenChange={setIsOpen}
+                    onOpenChange={onOpenChange}
                     className="h-[85vh] rounded-t-[40px] p-0"
                     aria-labelledby="settings-sheet-title"
                 >
@@ -1190,7 +1191,7 @@ export function MobileSettingsSheet({ children }: MobileSettingsSheetProps) {
     }
     
     return (
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <Dialog open={isOpen} onOpenChange={onOpenChange}>
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
