@@ -20,7 +20,7 @@ export default function HomePage() {
         <header className="sticky top-0 z-10 w-full pb-6" style={{ paddingTop: `calc(1.5rem + env(safe-area-inset-top))` }}>
           <div className="flex items-start justify-between w-full">
             <div className="flex flex-col items-start gap-3">
-              <div className="mt-5">
+              <div>
                 <p className="text-[24px] font-bold tracking-widest text-foreground dark:text-[#a3a3a3] pl-1">{t('welcome_to')}</p>
                 <h1 className="text-5xl sm:text-6xl font-extrabold text-foreground dark:text-[#a3a3a3] -mt-1">{t('bookline')}</h1>
               </div>
