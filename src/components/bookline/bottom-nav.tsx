@@ -64,7 +64,7 @@ export function BottomNav() {
       aria-label={t('menu')}
       className={cn(
         "w-12 h-12 rounded-full relative isolate overflow-hidden hover:bg-transparent",
-        isSettingsActive && "dark:bg-[#4d4d4d]",
+        isSettingsActive && "dark:bg-[#a3a3a3]",
         !isSettingsActive && "dark:bg-[#141414]"
       )}
     >
@@ -114,7 +114,7 @@ export function BottomNav() {
           size="icon" 
           className={cn(
             "w-12 h-12 rounded-full relative isolate overflow-hidden hover:bg-transparent",
-            isProfileActive && "dark:bg-[#4d4d4d]",
+            isProfileActive && "dark:bg-[#a3a3a3]",
             !isProfileActive && "dark:bg-[#141414]"
             )} 
           aria-label={t('user_profile')}
