@@ -64,7 +64,7 @@ export function EbookCard({ ebook, className, onCardClick }: EbookCardProps) {
 
   return (
     <div className={cn(ebook && onCardClick ? 'cursor-pointer' : '', className)} onClick={handleCardClick}>
-      <Card className='bg-secondary border-0 rounded-[25px] overflow-hidden'>
+      <Card className='bg-secondary border-0 rounded-[25px] overflow-hidden shadow-lg'>
         <CardContent ref={containerRef} className='aspect-[210/297] p-0 flex items-center justify-center relative'>
           {!ebook ? (
             <div className="w-full h-full bg-secondary" />
