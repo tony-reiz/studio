@@ -7,7 +7,7 @@ import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useEbooks } from '@/context/ebook-provider';
 import { GlassEffect } from './glass-effect';
 import { Button } from '../ui/button';
-import { Menu } from 'lucide-react';
+import { Menu, User } from 'lucide-react';
 import { MobileSettingsSheet } from './mobile-settings-sheet';
 
 export function BottomNav() {
@@ -59,11 +59,11 @@ export function BottomNav() {
 
   return (
     <div className="fixed bottom-8 left-0 right-0 p-4 md:bottom-2 md:mb-4">
-      <div className="relative max-w-[16rem] mx-auto">
-        <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2">
+      <div className="flex justify-center items-center gap-4 max-w-sm mx-auto">
+        <div className="">
             {isClient ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : <div className="w-12 h-12" />}
         </div>
-        <div className="relative isolate overflow-hidden rounded-full flex items-center">
+        <div className="relative isolate overflow-hidden rounded-full flex items-center flex-grow">
           <GlassEffect />
           <div
             className={cn(
@@ -91,6 +91,10 @@ export function BottomNav() {
             {t('sell')}
           </button>
         </div>
+        <Button onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="w-12 h-12 rounded-full relative isolate overflow-hidden hover:bg-transparent" aria-label={t('user_profile')}>
+            <GlassEffect />
+            <User className="h-6 w-6 relative z-20" />
+        </Button>
       </div>
     </div>
   );

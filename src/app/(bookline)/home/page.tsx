@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { User, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookDisplayArea } from '@/components/bookline/ebook-display-area';
 import { SearchOverlay } from '@/components/bookline/search-overlay';
@@ -37,10 +37,6 @@ export default function HomePage() {
                       <span className="truncate relative z-20">{t('search_ebooks')}</span>
                   </button>
               </div>
-              <Button onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="-mt-2 sm:mt-0 w-11 h-11 rounded-full relative isolate overflow-hidden hover:bg-transparent" aria-label={t('user_profile')}>
-                <GlassEffect />
-                <User className="h-6 w-6 relative z-20" />
-              </Button>
             </div>
           </div>
           
