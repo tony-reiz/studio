@@ -154,10 +154,7 @@ export default function SellPage() {
       <form onSubmit={form.handleSubmit(onSubmit)} className={cn("flex flex-col min-h-screen text-foreground bg-background")}>
         <div className="w-full max-w-screen-xl mx-auto flex flex-col flex-1 px-4 sm:px-6 lg:px-8 overflow-y-auto">
           <header className="sticky top-0 z-10 flex items-start justify-end w-full pb-6" style={{ paddingTop: `calc(1.5rem + env(safe-area-inset-top))` }}>
-            <Button type="button" onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="-mt-2 sm:mt-0 w-11 h-11 rounded-full relative isolate overflow-hidden" aria-label={t('user_profile')}>
-              <GlassEffect />
-              <User className="h-6 w-6 relative z-20" />
-            </Button>
+            
           </header>
 
           <main className="flex-1 w-full flex flex-col items-center pt-12 md:pt-20 pb-28 gap-8">
