@@ -275,23 +275,15 @@ export default function EbookViewerPage() {
 
         {isOwner && (
           <footer className="fixed bottom-8 left-0 right-0 z-30 p-4 md:bottom-2 md:mb-4" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
-            <div className="relative w-full max-w-[16rem] h-12 mx-auto isolate overflow-hidden rounded-full">
-                {isClient && (
-                    <>
-                        <GlassEffect />
-                        <div className="absolute inset-0 z-20 flex items-center justify-around px-4">
-                            <Button onClick={() => isMobile ? setIsSheetOpen(true) : setIsDetailsDialogOpen(true)} variant="ghost" size="icon" className="text-foreground hover:bg-transparent" aria-label={t('details')}>
-                                <FileText className="h-6 w-6" />
-                            </Button>
-                            <Button onClick={handleShare} variant="ghost" size="icon" className="text-foreground hover:bg-transparent" aria-label={t('share')}>
-                                <Share2 className="h-6 w-6" />
-                            </Button>
-                            <Button onClick={handleDelete} variant="ghost" size="icon" className="text-destructive hover:bg-transparent hover:text-destructive/80" aria-label={t('delete')}>
-                                <Trash2 className="h-6 w-6" />
-                            </Button>
-                        </div>
-                    </>
-                )}
+            <div className="w-full max-w-[16rem] mx-auto">
+              {isClient && (
+                <Button
+                  onClick={() => isMobile ? setIsSheetOpen(true) : setIsDetailsDialogOpen(true)}
+                  className="rounded-full w-full h-12 text-lg font-bold bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90"
+                >
+                  {t('details')}
+                </Button>
+              )}
             </div>
           </footer>
         )}
