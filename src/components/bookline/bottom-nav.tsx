@@ -51,7 +51,7 @@ export function BottomNav() {
     if (pathname === targetPath) {
         return;
     }
-    
+    setActiveToggle(tab);
     handleNavigate(targetPath);
   };
   
@@ -66,14 +66,14 @@ export function BottomNav() {
       size="icon"
       aria-label={t('menu')}
       className={cn(
-        "w-12 h-12 rounded-full hover:bg-transparent transition-colors duration-300 shadow-nav",
+        "w-12 h-12 rounded-full hover:bg-transparent transition-colors duration-150 shadow-nav",
         isSettingsActive 
           ? 'bg-black dark:bg-[#a3a3a3]' 
           : 'bg-white dark:bg-black'
       )}
     >
       <Menu className={cn(
-          "h-8 w-8 transition-colors duration-300",
+          "h-8 w-8 transition-colors duration-150",
           isSettingsActive 
             ? 'text-white dark:text-black' 
             : 'text-black dark:text-white'
@@ -116,18 +116,20 @@ export function BottomNav() {
         </div>
         <Button 
           onClick={() => {
+              if (pathname === '/profile') return;
+              setActiveIcon('profile');
               handleNavigate('/profile');
           }} 
           variant="ghost" 
           size="icon" 
           className={cn(
-            "w-12 h-12 rounded-full hover:bg-transparent transition-colors duration-300 shadow-nav",
+            "w-12 h-12 rounded-full hover:bg-transparent transition-colors duration-150 shadow-nav",
             isProfileActive ? 'bg-black dark:bg-[#a3a3a3]' : 'bg-white dark:bg-black'
             )} 
           aria-label={t('user_profile')}
         >
             <User className={cn(
-                "h-8 w-8 transition-colors duration-300",
+                "h-8 w-8 transition-colors duration-150",
                 isProfileActive ? 'text-white dark:text-black' : 'text-black dark:text-white'
             )} strokeWidth={3} />
         </Button>
