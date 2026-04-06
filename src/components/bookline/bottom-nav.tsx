@@ -76,8 +76,8 @@ export function BottomNav() {
           <GlassEffect />
           <div
             className={cn(
-              'absolute top-0 h-full w-1/2 rounded-full transition-all duration-500 ease-in-out bg-black dark:bg-[#a3a3a3] z-10',
-              isAcheter ? 'left-0' : 'left-1/2'
+              'absolute top-0 left-0 h-full w-1/2 rounded-full bg-black dark:bg-[#a3a3a3] z-10 transition-transform duration-500 ease-in-out',
+              isAcheter ? 'translate-x-0' : 'translate-x-full'
             )}
           >
           </div>
