@@ -84,7 +84,7 @@ export function BottomNav() {
       )}
     >
       {theme === 'light' && <GlassEffect />}
-      <Menu className={cn("h-6 w-6 relative z-20", isSettingsActive && "dark:text-black")} />
+      <Menu className={cn("h-6 w-6 relative z-20", isSettingsActive && "dark:text-black")} strokeWidth={2.5} />
     </Button>
   );
 
@@ -138,7 +138,7 @@ export function BottomNav() {
           aria-label={t('user_profile')}
         >
             {theme === 'light' && <GlassEffect />}
-            <User className={cn("h-6 w-6 relative z-20", isProfileActive && "dark:text-black")} />
+            <User className={cn("h-6 w-6 relative z-20", isProfileActive && "dark:text-black")} strokeWidth={2.5} />
         </Button>
       </div>
     </div>
