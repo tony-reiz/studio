@@ -16,39 +16,43 @@ export function BottomNav() {
   const { t } = useEbooks();
   const [isClient, setIsClient] = useState(false);
 
+  // This state now persists the last active tab of the toggle.
+  const [activeToggle, setActiveToggle] = useState<'acheter' | 'vendre'>(() => {
+    if (typeof window !== 'undefined') {
+      if (window.location.pathname === '/sell') return 'vendre';
+    }
+    return 'acheter';
+  });
+
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  const getCurrentTab = () => {
-    if (pathname === '/sell') return 'vendre';
-    if (pathname === '/home') return 'acheter';
-    return 'none';
-  };
-
-  const [activeTab, setActiveTab] = useState(getCurrentTab());
-
-  // Update visual state if URL changes by other means (e.g. browser back/forward)
+  // This effect updates the toggle state only when navigating to home or sell.
+  // On other pages, it does nothing, preserving the last state.
   useEffect(() => {
-    setActiveTab(getCurrentTab());
+    if (pathname === '/home') {
+      setActiveToggle('acheter');
+    } else if (pathname === '/sell') {
+      setActiveToggle('vendre');
+    }
   }, [pathname]);
 
   const handleNavigation = (tab: 'acheter' | 'vendre') => {
     const targetPath = tab === 'acheter' ? '/home' : '/sell';
     
-    if (pathname === targetPath || (pathname === '/' && targetPath === '/home')) {
+    if (pathname === targetPath) {
         return;
     }
 
     // Set the visual state instantly to start the slider animation
-    setActiveTab(tab);
+    setActiveToggle(tab);
     
     // Use the transition handler from the layout
     handleNavigate(targetPath);
   };
   
-  const showSlider = activeTab === 'acheter' || activeTab === 'vendre';
-  const isAcheter = activeTab === 'acheter';
+  const isAcheter = activeToggle === 'acheter';
 
   const menuButton = (
     <Button
@@ -70,20 +74,18 @@ export function BottomNav() {
         </div>
         <div className="relative isolate overflow-hidden rounded-full flex items-center flex-grow">
           <GlassEffect />
-          {showSlider && (
-            <div
-              className={cn(
-                'absolute top-0 h-full w-1/2 rounded-full transition-all duration-500 ease-in-out bg-black dark:bg-[#a3a3a3] z-10',
-                isAcheter ? 'left-0' : 'left-1/2'
-              )}
-            >
-            </div>
-          )}
+          <div
+            className={cn(
+              'absolute top-0 h-full w-1/2 rounded-full transition-all duration-500 ease-in-out bg-black dark:bg-[#a3a3a3] z-10',
+              isAcheter ? 'left-0' : 'left-1/2'
+            )}
+          >
+          </div>
           <button
             onClick={() => handleNavigation('acheter')}
             className={cn(
               'relative z-20 w-1/2 py-3 text-center text-base font-bold transition-colors duration-150',
-              activeTab === 'acheter' ? 'text-white dark:text-black' : 'text-foreground'
+              activeToggle === 'acheter' ? 'text-white dark:text-black' : 'text-foreground'
             )}
           >
             {t('buy')}
@@ -92,7 +94,7 @@ export function BottomNav() {
             onClick={() => handleNavigation('vendre')}
             className={cn(
               'relative z-20 w-1/2 py-3 text-center text-base font-bold transition-colors duration-150',
-              activeTab === 'vendre' ? 'text-white dark:text-black' : 'text-foreground'
+              activeToggle === 'vendre' ? 'text-white dark:text-black' : 'text-foreground'
             )}
           >
             {t('sell')}
