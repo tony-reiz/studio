@@ -15,31 +15,26 @@ export function BottomNav() {
   const { t, theme } = useEbooks();
   const [isClient, setIsClient] = useState(false);
 
-  // This state now persists the last active tab of the toggle.
   const [activeToggle, setActiveToggle] = useState<'acheter' | 'vendre'>(() => {
     if (typeof window !== 'undefined') {
       if (window.location.pathname === '/sell') return 'vendre';
     }
     return 'acheter';
   });
-
-  // This new state tracks the active icon for instant UI feedback.
+  
   const [activeIcon, setActiveIcon] = useState<'none' | 'profile' | 'menu'>('none');
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  // This effect syncs both active states with the final URL after navigation.
   useEffect(() => {
-    // Sync aheter/vendre toggle
     if (pathname === '/home') {
       setActiveToggle('acheter');
     } else if (pathname === '/sell') {
       setActiveToggle('vendre');
     }
-
-    // Sync icon buttons
+    
     if (pathname.startsWith('/settings')) {
         setActiveIcon('menu');
     } else if (pathname === '/profile') {
@@ -55,19 +50,14 @@ export function BottomNav() {
     if (pathname === targetPath) {
         return;
     }
-
-    // Set the visual state instantly to start the slider animation
-    setActiveToggle(tab);
-
-    // Reset the icon active state when switching main tabs
-    setActiveIcon('none');
     
-    // Use the transition handler from the layout
+    setActiveToggle(tab);
+    setActiveIcon('none');
     handleNavigate(targetPath);
   };
   
   const isAcheter = activeToggle === 'acheter';
-
+  
   const isSettingsActive = activeIcon === 'menu';
   const isProfileActive = activeIcon === 'profile';
 
@@ -78,15 +68,13 @@ export function BottomNav() {
       aria-label={t('menu')}
       className={cn(
         "w-12 h-12 rounded-full hover:bg-transparent transition-colors duration-300 shadow-nav",
-        // Background
         isSettingsActive 
           ? 'bg-black dark:bg-[#a3a3a3]' 
-          : 'bg-white dark:bg-[#141414]',
+          : 'bg-white dark:bg-[#141414]'
       )}
     >
       <Menu className={cn(
-          "h-7 w-7 transition-colors duration-300",
-          // Icon Color
+          "h-8 w-8 transition-colors duration-300",
           isSettingsActive 
             ? 'text-white dark:text-black' 
             : 'text-black dark:text-white'
@@ -136,14 +124,12 @@ export function BottomNav() {
           size="icon" 
           className={cn(
             "w-12 h-12 rounded-full hover:bg-transparent transition-colors duration-300 shadow-nav",
-            // Background
             isProfileActive ? 'bg-black dark:bg-[#a3a3a3]' : 'bg-white dark:bg-[#141414]'
             )} 
           aria-label={t('user_profile')}
         >
             <User className={cn(
-                "h-7 w-7 transition-colors duration-300",
-                // Icon Color
+                "h-8 w-8 transition-colors duration-300",
                 isProfileActive ? 'text-white dark:text-black' : 'text-black dark:text-white'
             )} strokeWidth={3} />
         </Button>
