@@ -194,7 +194,7 @@ function ProfilePageContent() {
 
             <ProfileTabNav activeTab={activeTab} setActiveTab={handleTabChange} />
             
-            <div className={cn("w-full max-w-sm md:max-w-4xl mt-4 transition-opacity duration-500", isContentVisible ? 'opacity-100' : 'opacity-0')}>
+            <div className={cn("w-full max-w-sm md:max-w-3xl mt-4 transition-opacity duration-500", isContentVisible ? 'opacity-100' : 'opacity-0')}>
               {renderContent()}
             </div>
           </main>
