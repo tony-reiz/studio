@@ -77,7 +77,7 @@ export function BottomNav() {
       size="icon"
       aria-label={t('menu')}
       className={cn(
-        "w-12 h-12 rounded-full hover:bg-transparent transition-colors duration-300 shadow-2xl",
+        "w-12 h-12 rounded-full hover:bg-transparent transition-colors duration-300 shadow-nav",
         // Background
         isSettingsActive 
           ? 'bg-black dark:bg-[#a3a3a3]' 
@@ -85,7 +85,7 @@ export function BottomNav() {
       )}
     >
       <Menu className={cn(
-          "h-7 w-7",
+          "h-7 w-7 transition-colors duration-300",
           // Icon Color
           isSettingsActive 
             ? 'text-white dark:text-black' 
@@ -100,19 +100,19 @@ export function BottomNav() {
         <div className="" onClick={() => setActiveIcon('menu')}>
             {isClient ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : <div className="w-12 h-12" />}
         </div>
-        <div className="relative rounded-full flex items-center flex-grow shadow-2xl bg-white dark:bg-[#141414]">
+        <div className="relative rounded-full flex items-center flex-grow shadow-nav bg-white dark:bg-[#141414]">
           <div
             className={cn(
               'absolute top-0 h-full w-1/2 rounded-full bg-black dark:bg-[#a3a3a3] z-10 transition-transform duration-500 ease-in-out',
-              isAcheter ? 'translate-x-0' : 'translate-x-full'
             )}
+            style={{ transform: `translateX(${isAcheter ? '0%' : '100%'})` }}
           >
           </div>
           <button
             onClick={() => handleNavigation('acheter')}
             className={cn(
               'relative z-20 w-1/2 py-3 text-center text-base font-bold transition-colors duration-150',
-              activeToggle === 'acheter' ? 'text-white dark:text-black' : 'text-foreground'
+              activeToggle === 'acheter' ? 'text-white dark:text-black' : 'text-black dark:text-white'
             )}
           >
             {t('buy')}
@@ -121,7 +121,7 @@ export function BottomNav() {
             onClick={() => handleNavigation('vendre')}
             className={cn(
               'relative z-20 w-1/2 py-3 text-center text-base font-bold transition-colors duration-150',
-              activeToggle === 'vendre' ? 'text-white dark:text-black' : 'text-foreground'
+              activeToggle === 'vendre' ? 'text-white dark:text-black' : 'text-black dark:text-white'
             )}
           >
             {t('sell')}
@@ -135,14 +135,14 @@ export function BottomNav() {
           variant="ghost" 
           size="icon" 
           className={cn(
-            "w-12 h-12 rounded-full hover:bg-transparent transition-colors duration-300 shadow-2xl",
+            "w-12 h-12 rounded-full hover:bg-transparent transition-colors duration-300 shadow-nav",
             // Background
             isProfileActive ? 'bg-black dark:bg-[#a3a3a3]' : 'bg-white dark:bg-[#141414]'
             )} 
           aria-label={t('user_profile')}
         >
             <User className={cn(
-                "h-7 w-7",
+                "h-7 w-7 transition-colors duration-300",
                 // Icon Color
                 isProfileActive ? 'text-white dark:text-black' : 'text-black dark:text-white'
             )} strokeWidth={3} />
