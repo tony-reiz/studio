@@ -32,9 +32,11 @@ export default function EbookViewerPage() {
   const { toast } = useToast();
 
   const [numPages, setNumPages] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [containerWidth, setContainerWidth] = useState(0);
   
   const widthRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLElement>(null);
   const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -51,6 +53,7 @@ export default function EbookViewerPage() {
       const foundEbook = allEbooks.find((e) => e.id === id);
       setEbook(foundEbook);
       setNumPages(null); // Reset pages on ebook change
+      setCurrentPage(1);
     }
   }, [id, allEbooks]);
 
@@ -157,6 +160,34 @@ export default function EbookViewerPage() {
     }
   };
 
+  const handleScroll = () => {
+    if (!mainRef.current || !numPages) return;
+  
+    const pageElements = Array.from(mainRef.current.querySelectorAll('.pdf-page-container')) as HTMLElement[];
+    if (pageElements.length === 0) return;
+  
+    const containerTop = mainRef.current.getBoundingClientRect().top;
+    const containerCenterY = containerTop + (mainRef.current.clientHeight / 2);
+  
+    let closestPageNum = 1;
+    let smallestDistance = Infinity;
+  
+    pageElements.forEach((el) => {
+      const pageRect = el.getBoundingClientRect();
+      const pageCenterY = pageRect.top + (pageRect.height / 2);
+      const distance = Math.abs(containerCenterY - pageCenterY);
+  
+      if (distance < smallestDistance) {
+        smallestDistance = distance;
+        closestPageNum = parseInt(el.dataset.pageNumber || '1', 10);
+      }
+    });
+  
+    if (currentPage !== closestPageNum) {
+      setCurrentPage(closestPageNum);
+    }
+  };
+
   const PdfError = () => (
     <div className="flex flex-col items-center justify-center text-center text-destructive p-8 h-full mt-20">
         <AlertCircle className="w-12 h-12 mb-4" />
@@ -226,11 +257,11 @@ export default function EbookViewerPage() {
         {isPdf && numPages && (
           <div className="fixed left-1/2 -translate-x-1/2 z-20 bg-background/80 backdrop-blur-xl rounded-full flex items-center gap-2 px-3 py-1.5" style={{ top: `calc(env(safe-area-inset-top) + 5rem)`}}>
             <FileText className="h-4 w-4 text-muted-foreground" />
-            <span className="text-sm font-medium text-foreground tabular-nums">{numPages} {t('pages')}</span>
+            <span className="text-sm font-medium text-foreground tabular-nums">{currentPage} / {numPages}</span>
           </div>
         )}
 
-        <main className="flex-1 overflow-y-auto" style={{ paddingTop: `calc(env(safe-area-inset-top) + 4rem)`, paddingBottom: '8rem' }}>
+        <main ref={mainRef} onScroll={handleScroll} className="flex-1 overflow-y-auto" style={{ paddingTop: `calc(env(safe-area-inset-top) + 4rem)`, paddingBottom: '8rem' }}>
             <div ref={widthRef} className="w-full max-w-xl mx-auto">
                 {isPdf ? (
                     <Document
@@ -248,7 +279,8 @@ export default function EbookViewerPage() {
                         {Array.from(new Array(numPages || 0), (el, index) => (
                             <div
                                 key={`page_${index + 1}`}
-                                className="w-full mb-4 flex justify-center"
+                                className="pdf-page-container w-full mb-4 flex justify-center"
+                                data-page-number={index + 1}
                             >
                                 <Page
                                     pageNumber={index + 1}
