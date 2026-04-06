@@ -78,7 +78,7 @@ export function BottomNav() {
       size="icon"
       aria-label={t('menu')}
       className={cn(
-        "w-12 h-12 rounded-full relative isolate overflow-hidden hover:bg-transparent",
+        "w-12 h-12 rounded-full relative isolate overflow-hidden hover:bg-transparent transition-colors duration-300",
         isSettingsActive && "dark:bg-[#a3a3a3]",
         !isSettingsActive && "dark:bg-[#141414]"
       )}
@@ -131,7 +131,7 @@ export function BottomNav() {
           variant="ghost" 
           size="icon" 
           className={cn(
-            "w-12 h-12 rounded-full relative isolate overflow-hidden hover:bg-transparent",
+            "w-12 h-12 rounded-full relative isolate overflow-hidden hover:bg-transparent transition-colors duration-300",
             isProfileActive && "dark:bg-[#a3a3a3]",
             !isProfileActive && "dark:bg-[#141414]"
             )} 
