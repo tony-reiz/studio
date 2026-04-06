@@ -69,7 +69,7 @@ export function BottomNav() {
         "w-12 h-12 rounded-full hover:bg-transparent transition-colors duration-150 shadow-nav",
         isSettingsActive 
           ? 'bg-black dark:bg-[#a3a3a3]' 
-          : 'bg-white dark:bg-black'
+          : 'bg-white dark:bg-[#141414]'
       )}
     >
       <Menu className={cn(
@@ -87,7 +87,7 @@ export function BottomNav() {
         <div className="">
             {isClient ? <MobileSettingsSheet isOpen={isSettingsOpen} onOpenChange={setIsSettingsOpen}>{menuButton}</MobileSettingsSheet> : <div className="w-12 h-12" />}
         </div>
-        <div className="relative rounded-full flex items-center flex-grow shadow-nav bg-white dark:bg-black">
+        <div className="relative rounded-full flex items-center flex-grow shadow-nav bg-white dark:bg-[#141414]">
           <div
             className={cn(
               'absolute top-0 h-full w-1/2 rounded-full bg-black dark:bg-[#a3a3a3] z-10 transition-transform duration-500 ease-in-out',
@@ -124,7 +124,7 @@ export function BottomNav() {
           size="icon" 
           className={cn(
             "w-12 h-12 rounded-full hover:bg-transparent transition-colors duration-150 shadow-nav",
-            isProfileActive ? 'bg-black dark:bg-[#a3a3a3]' : 'bg-white dark:bg-black'
+            isProfileActive ? 'bg-black dark:bg-[#a3a3a3]' : 'bg-white dark:bg-[#141414]'
             )} 
           aria-label={t('user_profile')}
         >
