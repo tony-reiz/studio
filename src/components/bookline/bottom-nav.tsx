@@ -84,12 +84,12 @@ export function BottomNav() {
       )}
     >
       {theme === 'light' && <GlassEffect />}
-      <Menu className={cn("h-6 w-6 relative z-20", isSettingsActive && "dark:text-black")} strokeWidth={2.5} />
+      <Menu className={cn("h-6 w-6 relative z-20", isSettingsActive && "dark:text-black")} strokeWidth={3} />
     </Button>
   );
 
   return (
-    <div className="fixed bottom-8 left-0 right-0 p-4 md:bottom-2 md:mb-4">
+    <div className="fixed bottom-8 left-0 right-0 p-4 md:bottom-2 md:mb-4" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
       <div className="flex justify-center items-center gap-4 max-w-sm mx-auto">
         <div className="" onClick={() => setActiveIcon('menu')}>
             {isClient ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : <div className="w-12 h-12" />}
@@ -99,7 +99,7 @@ export function BottomNav() {
            <div className="absolute inset-0 bg-transparent dark:bg-[#141414] -z-10"></div>
           <div
             className={cn(
-              'absolute top-0 left-0 h-full w-1/2 rounded-full bg-black dark:bg-[#a3a3a3] z-10 transition-transform duration-500 ease-in-out',
+              'absolute top-0 h-full w-1/2 rounded-full bg-black dark:bg-[#a3a3a3] z-10 transition-transform duration-500 ease-in-out',
               isAcheter ? 'translate-x-0' : 'translate-x-full'
             )}
           >
@@ -138,7 +138,7 @@ export function BottomNav() {
           aria-label={t('user_profile')}
         >
             {theme === 'light' && <GlassEffect />}
-            <User className={cn("h-6 w-6 relative z-20", isProfileActive && "dark:text-black")} strokeWidth={2.5} />
+            <User className={cn("h-6 w-6 relative z-20", isProfileActive && "dark:text-black")} strokeWidth={3} />
         </Button>
       </div>
     </div>
