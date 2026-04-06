@@ -78,13 +78,20 @@ export function BottomNav() {
       size="icon"
       aria-label={t('menu')}
       className={cn(
-        "w-12 h-12 rounded-full relative isolate overflow-hidden hover:bg-transparent transition-colors duration-300",
-        isSettingsActive && "dark:bg-[#a3a3a3]",
-        !isSettingsActive && "dark:bg-[#141414]"
+        "w-12 h-12 rounded-full hover:bg-transparent transition-colors duration-300 shadow-lg",
+        // Background
+        isSettingsActive 
+          ? 'bg-black dark:bg-[#a3a3a3]' 
+          : 'bg-white dark:bg-[#141414]',
       )}
     >
-      {theme === 'light' && <GlassEffect />}
-      <Menu className={cn("h-6 w-6 relative z-20", isSettingsActive && "dark:text-black")} strokeWidth={3} />
+      <Menu className={cn(
+          "h-7 w-7",
+          // Icon Color
+          isSettingsActive 
+            ? 'text-white dark:text-black' 
+            : 'text-black dark:text-white'
+      )} strokeWidth={3} />
     </Button>
   );
 
@@ -94,9 +101,7 @@ export function BottomNav() {
         <div className="" onClick={() => setActiveIcon('menu')}>
             {isClient ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : <div className="w-12 h-12" />}
         </div>
-        <div className="relative isolate overflow-hidden rounded-full flex items-center flex-grow">
-          {theme === 'light' && <GlassEffect />}
-           <div className="absolute inset-0 bg-transparent dark:bg-[#141414] -z-10"></div>
+        <div className="relative rounded-full flex items-center flex-grow shadow-lg bg-white dark:bg-[#141414]">
           <div
             className={cn(
               'absolute top-0 h-full w-1/2 rounded-full bg-black dark:bg-[#a3a3a3] z-10 transition-transform duration-500 ease-in-out',
@@ -131,14 +136,17 @@ export function BottomNav() {
           variant="ghost" 
           size="icon" 
           className={cn(
-            "w-12 h-12 rounded-full relative isolate overflow-hidden hover:bg-transparent transition-colors duration-300",
-            isProfileActive && "dark:bg-[#a3a3a3]",
-            !isProfileActive && "dark:bg-[#141414]"
+            "w-12 h-12 rounded-full hover:bg-transparent transition-colors duration-300 shadow-lg",
+            // Background
+            isProfileActive ? 'bg-black dark:bg-[#a3a3a3]' : 'bg-white dark:bg-[#141414]'
             )} 
           aria-label={t('user_profile')}
         >
-            {theme === 'light' && <GlassEffect />}
-            <User className={cn("h-6 w-6 relative z-20", isProfileActive && "dark:text-black")} strokeWidth={3} />
+            <User className={cn(
+                "h-7 w-7",
+                // Icon Color
+                isProfileActive ? 'text-white dark:text-black' : 'text-black dark:text-white'
+            )} strokeWidth={3} />
         </Button>
       </div>
     </div>
