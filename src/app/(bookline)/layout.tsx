@@ -34,7 +34,7 @@ export default function BooklineLayout({
   const router = useRouter();
 
   const [isPageVisible, setIsPageVisible] = useState(false);
-  const showBottomNav = pathname === '/home' || pathname === '/sell';
+  const showBottomNav = pathname === '/home' || pathname === '/sell' || pathname === '/profile' || pathname.startsWith('/settings');
 
   // Fade in on route change
   useEffect(() => {

@@ -20,7 +20,11 @@ export function BottomNav() {
     setIsClient(true);
   }, []);
 
-  const getCurrentTab = () => (pathname === '/sell' ? 'vendre' : 'acheter');
+  const getCurrentTab = () => {
+    if (pathname === '/sell') return 'vendre';
+    if (pathname === '/home') return 'acheter';
+    return 'none';
+  };
 
   const [activeTab, setActiveTab] = useState(getCurrentTab());
 
@@ -43,6 +47,7 @@ export function BottomNav() {
     handleNavigate(targetPath);
   };
   
+  const showSlider = activeTab === 'acheter' || activeTab === 'vendre';
   const isAcheter = activeTab === 'acheter';
 
   const menuButton = (
@@ -65,18 +70,20 @@ export function BottomNav() {
         </div>
         <div className="relative isolate overflow-hidden rounded-full flex items-center flex-grow">
           <GlassEffect />
-          <div
-            className={cn(
-              'absolute top-0 h-full w-1/2 rounded-full transition-all duration-500 ease-in-out bg-black dark:bg-[#a3a3a3] z-10',
-              isAcheter ? 'left-0' : 'left-1/2'
-            )}
-          >
-          </div>
+          {showSlider && (
+            <div
+              className={cn(
+                'absolute top-0 h-full w-1/2 rounded-full transition-all duration-500 ease-in-out bg-black dark:bg-[#a3a3a3] z-10',
+                isAcheter ? 'left-0' : 'left-1/2'
+              )}
+            >
+            </div>
+          )}
           <button
             onClick={() => handleNavigation('acheter')}
             className={cn(
               'relative z-20 w-1/2 py-3 text-center text-base font-bold transition-colors duration-150',
-              isAcheter ? 'text-white dark:text-black' : 'text-foreground'
+              activeTab === 'acheter' ? 'text-white dark:text-black' : 'text-foreground'
             )}
           >
             {t('buy')}
@@ -85,13 +92,13 @@ export function BottomNav() {
             onClick={() => handleNavigation('vendre')}
             className={cn(
               'relative z-20 w-1/2 py-3 text-center text-base font-bold transition-colors duration-150',
-              !isAcheter ? 'text-white dark:text-black' : 'text-foreground'
+              activeTab === 'vendre' ? 'text-white dark:text-black' : 'text-foreground'
             )}
           >
             {t('sell')}
           </button>
         </div>
-        <Button onClick={() => handleNavigate('/profile?tab=achats')} variant="ghost" size="icon" className="w-12 h-12 rounded-full relative isolate overflow-hidden hover:bg-transparent" aria-label={t('user_profile')}>
+        <Button onClick={() => handleNavigate('/profile')} variant="ghost" size="icon" className="w-12 h-12 rounded-full relative isolate overflow-hidden hover:bg-transparent" aria-label={t('user_profile')}>
             <GlassEffect />
             <User className="h-6 w-6 relative z-20" />
         </Button>
