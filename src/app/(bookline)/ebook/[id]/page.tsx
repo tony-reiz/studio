@@ -279,7 +279,7 @@ export default function EbookViewerPage() {
               {isClient && (
                 <Button
                   onClick={() => isMobile ? setIsSheetOpen(true) : setIsDetailsDialogOpen(true)}
-                  className="rounded-full w-full h-12 text-lg font-bold bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90"
+                  className="rounded-full w-full h-12 text-lg font-bold bg-white text-black shadow-nav hover:bg-white/90 dark:bg-white dark:text-black dark:hover:bg-white/90"
                 >
                   {t('details')}
                 </Button>
