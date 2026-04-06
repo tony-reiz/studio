@@ -24,17 +24,29 @@ export function BottomNav() {
     return 'acheter';
   });
 
+  // This new state tracks the active icon for instant UI feedback.
+  const [activeIcon, setActiveIcon] = useState<'none' | 'profile' | 'menu'>('none');
+
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  // This effect updates the toggle state only when navigating to home or sell.
-  // On other pages, it does nothing, preserving the last state.
+  // This effect syncs both active states with the final URL after navigation.
   useEffect(() => {
+    // Sync aheter/vendre toggle
     if (pathname === '/home') {
       setActiveToggle('acheter');
     } else if (pathname === '/sell') {
       setActiveToggle('vendre');
+    }
+
+    // Sync icon buttons
+    if (pathname.startsWith('/settings')) {
+        setActiveIcon('menu');
+    } else if (pathname === '/profile') {
+        setActiveIcon('profile');
+    } else {
+        setActiveIcon('none');
     }
   }, [pathname]);
 
@@ -47,6 +59,9 @@ export function BottomNav() {
 
     // Set the visual state instantly to start the slider animation
     setActiveToggle(tab);
+
+    // Reset the icon active state when switching main tabs
+    setActiveIcon('none');
     
     // Use the transition handler from the layout
     handleNavigate(targetPath);
@@ -54,8 +69,8 @@ export function BottomNav() {
   
   const isAcheter = activeToggle === 'acheter';
 
-  const isSettingsActive = pathname.startsWith('/settings');
-  const isProfileActive = pathname === '/profile';
+  const isSettingsActive = activeIcon === 'menu';
+  const isProfileActive = activeIcon === 'profile';
 
   const menuButton = (
     <Button
@@ -69,14 +84,14 @@ export function BottomNav() {
       )}
     >
       {theme === 'light' && <GlassEffect />}
-      <Menu className="h-6 w-6 relative z-20" />
+      <Menu className={cn("h-6 w-6 relative z-20", isSettingsActive && "dark:text-black")} />
     </Button>
   );
 
   return (
     <div className="fixed bottom-8 left-0 right-0 p-4 md:bottom-2 md:mb-4">
       <div className="flex justify-center items-center gap-4 max-w-sm mx-auto">
-        <div className="">
+        <div className="" onClick={() => setActiveIcon('menu')}>
             {isClient ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : <div className="w-12 h-12" />}
         </div>
         <div className="relative isolate overflow-hidden rounded-full flex items-center flex-grow">
@@ -109,7 +124,10 @@ export function BottomNav() {
           </button>
         </div>
         <Button 
-          onClick={() => handleNavigate('/profile')} 
+          onClick={() => {
+              setActiveIcon('profile');
+              handleNavigate('/profile');
+          }} 
           variant="ghost" 
           size="icon" 
           className={cn(
@@ -120,7 +138,7 @@ export function BottomNav() {
           aria-label={t('user_profile')}
         >
             {theme === 'light' && <GlassEffect />}
-            <User className="h-6 w-6 relative z-20" />
+            <User className={cn("h-6 w-6 relative z-20", isProfileActive && "dark:text-black")} />
         </Button>
       </div>
     </div>
