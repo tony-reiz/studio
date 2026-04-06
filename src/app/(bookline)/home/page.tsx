@@ -1,37 +1,19 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
-import { Menu, User, Search } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { User, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EbookDisplayArea } from '@/components/bookline/ebook-display-area';
 import { SearchOverlay } from '@/components/bookline/search-overlay';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useEbooks } from '@/context/ebook-provider';
-import { MobileSettingsSheet } from '@/components/bookline/mobile-settings-sheet';
 import { cn } from '@/lib/utils';
 import { GlassEffect } from '@/components/bookline/glass-effect';
 
 export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { handleNavigate } = useTransitionRouter();
-  const { allEbooks, theme, t } = useEbooks();
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  const menuButton = (
-    <Button
-      variant="ghost"
-      size="icon"
-      aria-label={t('menu')}
-      className="w-11 h-11 rounded-full relative isolate overflow-hidden -mt-2 sm:mt-0 hover:bg-transparent"
-    >
-      <GlassEffect />
-      <Menu className="h-6 w-6 relative z-20" />
-    </Button>
-  );
+  const { allEbooks, t } = useEbooks();
 
   return (
     <div className={cn("flex flex-col h-screen text-foreground bg-background")}>
@@ -39,8 +21,7 @@ export default function HomePage() {
         <header className="sticky top-0 z-10 w-full pb-6" style={{ paddingTop: `calc(1.5rem + env(safe-area-inset-top))` }}>
           <div className="flex items-start justify-between w-full">
             <div className="flex flex-col items-start gap-3">
-              {isClient ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : menuButton}
-              <div className="-mt-1">
+              <div className="mt-5">
                 <p className="text-[24px] font-bold tracking-widest text-foreground dark:text-[#a3a3a3] pl-1">{t('welcome_to')}</p>
                 <h1 className="text-5xl sm:text-6xl font-extrabold text-foreground dark:text-[#a3a3a3] -mt-1">{t('bookline')}</h1>
               </div>
