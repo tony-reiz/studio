@@ -8,7 +8,6 @@ import { SearchOverlay } from '@/components/bookline/search-overlay';
 import { useTransitionRouter } from '@/app/(bookline)/layout';
 import { useEbooks } from '@/context/ebook-provider';
 import { cn } from '@/lib/utils';
-import { GlassEffect } from '@/components/bookline/glass-effect';
 
 export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -30,11 +29,10 @@ export default function HomePage() {
               <div className="relative hidden sm:block">
                   <button
                       onClick={() => setIsSearchOpen(true)}
-                      className="relative flex items-center pl-11 pr-4 h-11 w-40 sm:w-64 text-sm rounded-full text-left focus:outline-none isolate overflow-hidden"
+                      className="relative flex items-center pl-11 pr-4 h-11 w-40 sm:w-64 text-sm rounded-full text-left focus:outline-none bg-secondary dark:bg-[#141414]"
                   >
-                      <GlassEffect />
-                      <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 z-20" />
-                      <span className="truncate relative z-20">{t('search_ebooks')}</span>
+                      <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                      <span className="truncate">{t('search_ebooks')}</span>
                   </button>
               </div>
             </div>
@@ -43,11 +41,10 @@ export default function HomePage() {
           <div className="relative w-full mt-2 sm:hidden">
               <button
                   onClick={() => setIsSearchOpen(true)}
-                  className="relative flex items-center pl-11 pr-4 h-11 w-full text-sm rounded-full text-left focus:outline-none isolate overflow-hidden"
+                  className="relative flex items-center pl-11 pr-4 h-11 w-full text-sm rounded-full text-left focus:outline-none bg-secondary dark:bg-[#141414]"
               >
-                  <GlassEffect />
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 z-20" />
-                  <span className="truncate relative z-20">{t('search_ebooks')}</span>
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                  <span className="truncate">{t('search_ebooks')}</span>
               </button>
           </div>
         </header>
