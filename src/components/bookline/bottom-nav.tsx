@@ -8,7 +8,6 @@ import { useEbooks } from '@/context/ebook-provider';
 import { Button } from '../ui/button';
 import { Menu, User } from 'lucide-react';
 import { MobileSettingsSheet } from './mobile-settings-sheet';
-import { GlassEffect } from './glass-effect';
 
 export function BottomNav() {
   const pathname = usePathname();
@@ -78,7 +77,7 @@ export function BottomNav() {
       size="icon"
       aria-label={t('menu')}
       className={cn(
-        "w-12 h-12 rounded-full hover:bg-transparent transition-colors duration-300 shadow-lg",
+        "w-12 h-12 rounded-full hover:bg-transparent transition-colors duration-300 shadow-2xl",
         // Background
         isSettingsActive 
           ? 'bg-black dark:bg-[#a3a3a3]' 
@@ -101,7 +100,7 @@ export function BottomNav() {
         <div className="" onClick={() => setActiveIcon('menu')}>
             {isClient ? <MobileSettingsSheet>{menuButton}</MobileSettingsSheet> : <div className="w-12 h-12" />}
         </div>
-        <div className="relative rounded-full flex items-center flex-grow shadow-lg bg-white dark:bg-[#141414]">
+        <div className="relative rounded-full flex items-center flex-grow shadow-2xl bg-white dark:bg-[#141414]">
           <div
             className={cn(
               'absolute top-0 h-full w-1/2 rounded-full bg-black dark:bg-[#a3a3a3] z-10 transition-transform duration-500 ease-in-out',
@@ -136,7 +135,7 @@ export function BottomNav() {
           variant="ghost" 
           size="icon" 
           className={cn(
-            "w-12 h-12 rounded-full hover:bg-transparent transition-colors duration-300 shadow-lg",
+            "w-12 h-12 rounded-full hover:bg-transparent transition-colors duration-300 shadow-2xl",
             // Background
             isProfileActive ? 'bg-black dark:bg-[#a3a3a3]' : 'bg-white dark:bg-[#141414]'
             )} 
